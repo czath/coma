@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Contract Review Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+
+        /* Custom scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f7f9fb;
+        }
+
+        /* Visual Highlights */
+        .highlight-span {
+            background-color: #eff6ff;
+            /* blue-50 */
+            border-bottom: 2px solid #93c5fd;
+            /* blue-300 */
+            cursor: pointer;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            transition: background-color 0.2s;
+        }
+
+        .highlight-span:hover {
+            background-color: #bfdbfe;
+        }
+
+        .highlight-span.active {
+            background-color: #bfdbfe;
+            /* blue-200 */
+            border-bottom: 3px solid #1d4ed8;
+            /* blue-700 */
+            font-weight: 500;
+        }
+
+        /* Pills & Markers */
+        .start-pill {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: white;
+            background-color: #3b82f6;
+            padding: 1px 6px;
+            border-radius: 4px 0 0 4px;
+            margin-right: 1px;
+            cursor: pointer;
+            user-select: none;
+            vertical-align: middle;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
+
+        .tag-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #4b5563;
+            background-color: #e5e7eb;
+            border: 1px solid #d1d5db;
+            padding: 0px 4px;
+            margin-right: 2px;
+            vertical-align: middle;
+            border-radius: 3px;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .start-pill.incomplete {
+            background-color: #f59e0b;
+            /* Amber-500 */
+            border-radius: 4px;
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 4px rgba(245, 158, 11, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+            }
+        }
+
+        .end-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: white;
+            background-color: #ef4444;
+            padding: 1px 4px;
+            border-radius: 0 4px 4px 0;
+            margin-left: 0px;
+            cursor: pointer;
+            user-select: none;
+            vertical-align: middle;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Context Menu */
+        #custom-context-menu {
+            position: absolute;
+            z-index: 50;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            display: none;
+            font-size: 0.875rem;
+        }
+
+        .menu-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            color: #374151;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        .menu-item.delete:hover {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .menu-header {
+            padding: 6px 16px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #9ca3af;
+            background-color: #f9fafb;
+            border-bottom: 1px solid #f3f4f6;
+            text-transform: uppercase;
+        }
+
+        .menu-separator {
+            border-top: 1px solid #e5e7eb;
+            margin: 4px 0;
+        }
+
+        .editor-line-container {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            position: relative;
+            padding: 0 8px;
+        }
+
+        .editor-line-container:hover {
+            background-color: #fcfcfc;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col text-gray-800">
+
+    <header class="bg-white shadow-sm border-b border-gray-200 z-10">
+        <div class="max-w-7xl mx-auto py-4 px-6 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800 flex items-center tracking-tight">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-indigo-600" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Legal Contract Assistant
+            </h1>
+            <nav id="navigation-bar" class="flex space-x-2"></nav>
+        </div>
+    </header>
+
+    <main id="app-container" class="flex-grow flex flex-col overflow-hidden max-w-7xl w-full mx-auto"></main>
+
+    <div id="custom-context-menu"></div>
+    <div id="toast-container" class="fixed top-5 right-5 z-50 pointer-events-none"></div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            // --- Configuration & State ---
+            const RAW_CONTRACT_LINES = [
+                '# Master Services Agreement',
+                '',
+                '1. Definitions',
+                'The term "Agreement Date" shall mean the date of last signature below. The term "Services" shall mean those professional services described in Appendix A.',
+                '',
+                '2. Scope of Services',
+                'Vendor agrees to perform the Services described in the Statement of Work attached hereto as Appendix A. Any changes to the Scope must be mutually agreed in writing.',
+                '',
+                '3. Term and Termination',
+                'This Agreement shall commence on the Effective Date and continue for a period of two (2) years. Either party may terminate this Agreement for convenience with thirty (30) days prior written notice.',
+                'Upon termination, Client shall pay Vendor for all Services performed through the date of termination.',
+                '',
+                'Appendix A: Deliverables'
+            ];
+
+            let appState = {
+                stage: 'upload',
+                clauses: [
+                    {
+                        id: 'c1', type: 'Clause', header: '1. Definitions',
+                        start: { line: 2, ch: 0 }, end: { line: 3, ch: 70 }, tags: ['Definitions']
+                    },
+                    {
+                        id: 'c2', type: 'Clause', header: '2. Scope of Services',
+                        start: { line: 5, ch: 0 }, end: { line: 6, ch: 103 }, tags: ['Scope']
+                    }
+                ],
+                activeClauseId: null
+            };
+
+            function init() {
+                renderApp();
+                document.addEventListener('click', () => {
+                    const menu = document.getElementById('custom-context-menu');
+                    if (menu) menu.style.display = 'none';
+                });
+                document.addEventListener('contextmenu', (e) => {
+                    if (!e.target.closest('#editor-canvas')) return;
+                    e.preventDefault();
+                });
+            }
+
+            // --- Navigation ---
+            function renderApp() {
+                renderNavigation();
+                const container = document.getElementById('app-container');
+                if (appState.stage === 'upload') container.innerHTML = renderUploadScreen();
+                else if (appState.stage === 'annotate') renderAnnotateScreen();
+                else if (appState.stage === 'report') container.innerHTML = renderReportScreen();
+            }
+
+            function renderNavigation() {
+                const nav = document.getElementById('navigation-bar');
+                if (!nav) return;
+                const stages = ['Upload', 'Annotate', 'Report'];
+                nav.innerHTML = stages.map(s => {
+                    const k = s.toLowerCase();
+                    const active = k === appState.stage;
+                    return `<button onclick="window.setStage('${k}')" class="px-3 py-1 rounded-full text-xs font-semibold transition-colors ${active ? 'bg-indigo-100 text-indigo-700' : 'text-gray-400 hover:text-gray-600'}">${s}</button>`;
+                }).join('');
+            }
+
+            // --- 1. Upload Screen (Restored) ---
+            function renderUploadScreen() {
+                return `
+                    <div class="flex flex-col items-center justify-center h-full bg-white rounded-xl shadow-sm m-6 p-10 overflow-y-auto">
+                        <div class="max-w-md w-full text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <h2 class="mt-4 text-2xl font-semibold text-gray-900">Upload Contract Document</h2>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Upload a PDF or DOCX file to begin the review process.
+                            </p>
+
+                            <!-- Raw File Upload -->
+                            <div class="mt-6">
+                                <label for="file-upload-raw" class="block text-sm font-medium text-gray-700 text-left mb-1">Upload Source File (.pdf, .docx)</label>
+                                <input id="file-upload-raw" type="file" accept=".pdf,.docx" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer p-2 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition duration-150" onchange="window.handleRawFileUpload(this)">
+                            </div>
+
+                            <button id="start-conversion" onclick="window.startConversion()" class="mt-6 w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150" disabled>
+                                Convert & Start Tagging (R1)
+                            </button>
+
+                            <div class="relative mt-8">
+                                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                                    <div class="w-full border-t border-gray-300"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-2 bg-white text-gray-500">OR</span>
+                                </div>
+                            </div>
+
+                            <!-- JSON Upload -->
+                            <div class="mt-8">
+                                <label for="file-upload-sanitized" class="block text-sm font-medium text-gray-700 text-left mb-1">Load Previously Sanitized JSON (.json)</label>
+                                <input id="file-upload-sanitized" type="file" accept=".json" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer p-2 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 transition duration-150" onchange="window.handleSanitizedFileLoad(this)">
+                                <p class="mt-2 text-xs text-gray-500 text-left">Resume work by uploading a saved tags file.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // --- 2. Report Screen (Restored Vertical Layout) ---
+            function renderReportScreen() {
+                const mockExecutiveSummary = "The review of the Master Services Agreement indicates general compliance with the internal playbook, with one critical deviation found in Section 3 (Term and Termination). The agreement permits termination with 30 days notice, whereas the playbook mandates 60 days. This deviation presents a High Risk and requires immediate negotiation or approval.";
+                const playbookInput = `Termination: Must require 60 days prior written notice.`;
+
+                return `
+                    <div class="flex flex-col h-full bg-white rounded-xl shadow-sm m-6 p-8 overflow-hidden">
+                        <div class="flex-grow overflow-y-auto custom-scroll pr-2">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Executive Summary & Compliance Report</h2>
+                            
+                            <!-- Playbook Input Area -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Legal Playbook / Guidelines Used for Comparison</label>
+                                <textarea readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 text-sm h-20 resize-none">${playbookInput}</textarea>
+                            </div>
+
+                            <!-- Executive Summary -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-indigo-700 mb-2">Executive Summary (R5)</h3>
+                                <div class="p-4 border border-indigo-300 bg-indigo-50 rounded-lg shadow-inner text-sm text-gray-700 leading-relaxed">
+                                    ${mockExecutiveSummary}
+                                </div>
+                            </div>
+
+                            <!-- Compliance Table -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-indigo-700 mb-2">Clause-by-Clause Compliance Report (R4)</h3>
+                                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Clause</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Compliant?</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Risk Level</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deviation Summary</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            ${appState.clauses.filter(c => c.end).map(item => `
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.header}</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                            Yes
+                                                        </span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-900">Low</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs">N/A</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="mt-4 pt-4 border-t flex justify-end space-x-3 shrink-0">
+                            <button onclick="window.downloadReport('executive_summary.md')" class="py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
+                                Export Summary (.md)
+                            </button>
+                            <button onclick="window.downloadReport('compliance_report.json')" class="py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150">
+                                Export Full Report (.json)
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // --- 3. Annotate Screen (Latest Logic) ---
+            function renderAnnotateScreen() {
+                const container = document.getElementById('app-container');
+                if (!container) return;
+
+                const lineRenders = RAW_CONTRACT_LINES.map((text, lineIdx) => renderLine(text, lineIdx));
+                const activeClause = appState.clauses.find(c => c.id === appState.activeClauseId);
+
+                container.innerHTML = `
+                    <div class="flex-grow flex overflow-hidden p-6 gap-6 h-full">
+                        <div class="flex-grow flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                            <div class="bg-gray-50 border-b border-gray-200 px-4 py-3 flex justify-between items-center">
+                                <h2 class="text-sm font-bold text-gray-700 uppercase">Document Editor</h2>
+                                <span class="text-xs text-indigo-600 font-medium bg-indigo-50 px-2 py-1 rounded">Right-click text to Tag</span>
+                            </div>
+                            <div class="flex-grow overflow-y-auto custom-scroll p-8 cursor-text" id="editor-canvas">${lineRenders.join('')}</div>
+                        </div>
+                        <div class="w-80 flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden shrink-0">
+                            <div class="bg-gray-50 border-b border-gray-200 px-4 py-3"><h2 class="text-sm font-bold text-gray-700 uppercase">Action Panel</h2></div>
+                            <div class="p-4 flex-grow overflow-y-auto custom-scroll">${activeClause ? renderPropertiesForm(activeClause) : renderEmptyState()}</div>
+                            <div class="p-4 border-t border-gray-100 bg-gray-50">
+                                <button onclick="window.exportData()" class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors">Export JSON</button>
+                            </div>
+                        </div>
+                    </div>`;
+
+                if (activeClause) {
+                    setTimeout(() => {
+                        const selector = activeClause.end ? '.highlight-span.active' : '.start-pill.incomplete';
+                        const el = document.querySelector(selector);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 50);
+                }
+            }
+
+            function renderLine(text, lineIdx) {
+                let points = [{ idx: 0, type: 'virtual' }, { idx: text.length, type: 'virtual' }];
+                appState.clauses.forEach(c => {
+                    if (c.start.line === lineIdx) points.push({ idx: c.start.ch, type: 'start', clause: c });
+                    if (c.end && c.end.line === lineIdx) points.push({ idx: c.end.ch, type: 'end', clause: c });
+                });
+                points.sort((a, b) => a.idx - b.idx);
+
+                let uniquePoints = [];
+                points.forEach(p => { if (!uniquePoints.find(up => up.idx === p.idx)) uniquePoints.push(p); });
+
+                let html = '';
+                for (let i = 0; i < uniquePoints.length - 1; i++) {
+                    const currentIdx = uniquePoints[i].idx;
+                    const nextIdx = uniquePoints[i + 1].idx;
+
+                    const startsHere = appState.clauses.filter(c => c.start.line === lineIdx && c.start.ch === currentIdx);
+                    const endsHere = appState.clauses.filter(c => c.end && c.end.line === lineIdx && c.end.ch === currentIdx);
+
+                    endsHere.forEach(c => html += `<span class="end-pill" onclick="window.selectClause('${c.id}', event)" title="End">]</span>`);
+                    startsHere.forEach(c => {
+                        const isIncomplete = !c.end;
+                        const classes = isIncomplete ? "start-pill incomplete" : "start-pill";
+                        const title = isIncomplete ? "Set End to close" : `${c.type}: ${c.header}`;
+                        html += `<span class="${classes}" onclick="window.selectClause('${c.id}', event)" title="${title}">${c.type}: ${c.header}</span>`;
+                        if (c.tags) c.tags.forEach(tag => html += `<span class="tag-badge">${tag}</span>`);
+                    });
+
+                    const segmentText = text.substring(currentIdx, nextIdx);
+                    if (!segmentText) continue;
+
+                    const coveringClause = appState.clauses.find(c => {
+                        if (!c.end) return false;
+                        const startsBefore = (c.start.line < lineIdx) || (c.start.line === lineIdx && c.start.ch <= currentIdx);
+                        const endsAfter = (c.end.line > lineIdx) || (c.end.line === lineIdx && c.end.ch >= nextIdx);
+                        return startsBefore && endsAfter;
+                    });
+
+                    let spanClass = coveringClause ? 'highlight-span' : '';
+                    if (coveringClause && coveringClause.id === appState.activeClauseId) spanClass += ' active';
+
+                    if (!spanClass) html += `<span>${segmentText}</span>`;
+                    else html += `<span class="${spanClass}" onclick="window.selectClause('${coveringClause.id}', event)">${segmentText}</span>`;
+                }
+
+                const lastIdx = text.length;
+                const lineEndsHere = appState.clauses.filter(c => c.end && c.end.line === lineIdx && c.end.ch === lastIdx);
+                lineEndsHere.forEach(c => html += `<span class="end-pill" onclick="window.selectClause('${c.id}', event)" title="End">]</span>`);
+
+                return `<div class="editor-line-container" data-line="${lineIdx}" oncontextmenu="window.handleContextMenu(event, ${lineIdx})">${html || '&nbsp;'}</div>`;
+            }
+
+            function renderPropertiesForm(clause) {
+                const statusAlert = !clause.end
+                    ? `<div class="bg-amber-50 border border-amber-200 rounded p-2 mb-4 text-xs text-amber-800 font-bold">⚠ SECTION STARTED<br><span class="font-normal">Right-click a word end to close this section.</span></div>` : '';
+                return `
+                    <div class="space-y-5 animate-fade-in">
+                        ${statusAlert}
+                        <div class="bg-blue-50 border border-blue-200 rounded p-3 mb-4"><p class="text-xs text-blue-800 font-semibold mb-1">SELECTED</p><p class="text-sm text-blue-900 font-bold">${clause.header}</p></div>
+                        <div><label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Header</label><input type="text" value="${clause.header}" onchange="window.updateClause('${clause.id}', 'header', this.value)" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border"></div>
+                        <div><label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Type</label><select onchange="window.updateClause('${clause.id}', 'type', this.value)" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border bg-white"><option value="Clause" ${clause.type === 'Clause' ? 'selected' : ''}>Clause</option><option value="Appendix" ${clause.type === 'Appendix' ? 'selected' : ''}>Appendix</option></select></div>
+                        <div><label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Tags</label><input type="text" value="${clause.tags.join(', ')}" onchange="window.updateClauseTags('${clause.id}', this.value)" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border"></div>
+                        <div class="pt-4"><button onclick="window.deleteClause('${clause.id}')" class="w-full py-2 border border-red-200 text-red-600 bg-red-50 hover:bg-red-100 rounded-md text-xs font-bold">DELETE SECTION</button></div>
+                    </div>`;
+            }
+
+            function renderEmptyState() {
+                return `<div class="text-center py-10 opacity-60"><p class="text-gray-500 text-sm font-medium">Select a section to edit.</p></div>`;
+            }
+
+            // --- Logic ---
+            function getCharIndexFromEvent(event, lineIdx) {
+                const range = document.caretRangeFromPoint(event.clientX, event.clientY);
+                if (!range || !range.startContainer) return 0;
+                let container = range.startContainer;
+                if (container.nodeType === 3) container = container.parentNode;
+                const lineDiv = document.querySelector(`.editor-line-container[data-line="${lineIdx}"]`);
+                if (!lineDiv) return 0;
+                let charCount = 0;
+                const walker = document.createTreeWalker(lineDiv, NodeFilter.SHOW_TEXT, null, false);
+                let node; let found = false;
+                while (node = walker.nextNode()) {
+                    if (node.parentNode.classList.contains('start-pill') || node.parentNode.classList.contains('end-pill') || node.parentNode.classList.contains('tag-badge')) continue;
+                    if (node === range.startContainer) { charCount += range.startOffset; found = true; break; }
+                    charCount += node.length;
+                }
+                return found ? charCount : RAW_CONTRACT_LINES[lineIdx].length;
+            }
+
+            function snapToWordBoundary(lineIdx, chIdx, type) {
+                const text = RAW_CONTRACT_LINES[lineIdx];
+                if (!text || chIdx < 0 || chIdx > text.length) return chIdx;
+                if (/\s/.test(text[chIdx] || ' ')) return chIdx;
+                if (type === 'start') {
+                    let i = chIdx;
+                    while (i > 0 && /\S/.test(text[i - 1])) i--;
+                    return i;
+                } else {
+                    let i = chIdx;
+                    while (i < text.length && /\S/.test(text[i])) i++;
+                    return i;
+                }
+            }
+
+            function comparePositions(posA, posB) {
+                if (posA.line !== posB.line) return posA.line - posB.line;
+                return posA.ch - posB.ch;
+            }
+
+            window.handleContextMenu = function (event, lineIdx) {
+                event.preventDefault(); event.stopPropagation();
+                const rawChIdx = getCharIndexFromEvent(event, lineIdx);
+                let lastTagEvent = null;
+                const sortedClauses = [...appState.clauses].sort((a, b) => comparePositions(a.start, b.start));
+
+                for (let c of sortedClauses) {
+                    if (comparePositions(c.start, { line: lineIdx, ch: rawChIdx }) <= 0) {
+                        if (!lastTagEvent || comparePositions(c.start, lastTagEvent.pos) > 0) lastTagEvent = { type: 'start', clause: c, pos: c.start };
+                    }
+                    if (c.end && comparePositions(c.end, { line: lineIdx, ch: rawChIdx }) <= 0) {
+                        if (!lastTagEvent || comparePositions(c.end, lastTagEvent.pos) > 0) lastTagEvent = { type: 'end', clause: c, pos: c.end };
+                    }
+                }
+
+                const insideClause = appState.clauses.find(c => {
+                    if (!c.end) return false;
+                    return comparePositions(c.start, { line: lineIdx, ch: rawChIdx }) <= 0 && comparePositions(c.end, { line: lineIdx, ch: rawChIdx }) >= 0;
+                });
+
+                const menu = document.getElementById('custom-context-menu');
+                let html = '';
+
+                if (insideClause) {
+                    window.selectClause(insideClause.id);
+                    html = `<div class="menu-header">Selected: ${insideClause.header}</div><div class="menu-item delete" onclick="window.deleteClause('${insideClause.id}')">Delete Section</div>`;
+                } else {
+                    if (lastTagEvent && lastTagEvent.type === 'start' && !lastTagEvent.clause.end) {
+                        const snappedCh = snapToWordBoundary(lineIdx, rawChIdx, 'end');
+                        html = `<div class="menu-header">Section In Progress</div><div class="menu-item" onclick="window.setClauseEnd('${lastTagEvent.clause.id}', ${lineIdx}, ${snappedCh})">Set End Tag Here</div>`;
+                    } else {
+                        const snappedCh = snapToWordBoundary(lineIdx, rawChIdx, 'start');
+                        html = `<div class="menu-header">New Section</div><div class="menu-item" onclick="window.createClauseStartAt(${lineIdx}, ${snappedCh})">Set Session Start Tag</div>`;
+                    }
+                }
+                menu.innerHTML = html; menu.style.left = `${event.pageX}px`; menu.style.top = `${event.pageY}px`; menu.style.display = 'block';
+            };
+
+            // Global handlers
+            window.setStage = function (s) { appState.stage = s; renderApp(); };
+            window.handleRawFileUpload = function (input) {
+                const btn = document.getElementById('start-conversion');
+                if (input.files && input.files[0]) {
+                    btn.disabled = false;
+                } else {
+                    btn.disabled = true;
+                }
+            };
+
+            window.startConversion = function () {
+                showToast("Converting...", "success");
+                setTimeout(() => window.setStage('annotate'), 1000);
+            };
+
+            window.handleSanitizedFileLoad = function (input) {
+                if (input.files && input.files[0]) {
+                    showToast("Loading JSON...", "success");
+                    setTimeout(() => window.setStage('annotate'), 1000);
+                }
+            };
+
+            window.createClauseStartAt = function (l, ch) {
+                const newId = 'c' + Date.now();
+                appState.clauses.push({ id: newId, type: 'Clause', header: 'New Section', start: { line: l, ch }, end: null, tags: [] });
+                window.selectClause(newId); showToast("Start Tag Set.", "success");
+            };
+            window.setClauseEnd = function (id, l, ch) {
+                const c = appState.clauses.find(x => x.id === id);
+                if (c) {
+                    if (comparePositions(c.start, { line: l, ch }) >= 0) return showToast("End must be after Start.", "error");
+                    // Overlap check
+                    const overlap = appState.clauses.some(other => {
+                        if (other.id === id || !other.end) return false;
+                        const sIn = comparePositions(other.start, c.start) > 0 && comparePositions(other.start, { line: l, ch }) < 0;
+                        const eIn = comparePositions(other.end, c.start) > 0 && comparePositions(other.end, { line: l, ch }) < 0;
+                        return sIn || eIn;
+                    });
+                    if (overlap) return showToast("Overlap detected.", "error");
+                    c.end = { line: l, ch }; renderAnnotateScreen(); showToast("Section closed.", "success");
+                }
+            };
+            window.selectClause = function (id, e) { if (e) e.stopPropagation(); appState.activeClauseId = id; renderAnnotateScreen(); };
+            window.deleteClause = function (id) { appState.clauses = appState.clauses.filter(x => x.id !== id); appState.activeClauseId = null; renderAnnotateScreen(); };
+            window.updateClause = function (id, f, v) { const c = appState.clauses.find(x => x.id === id); if (c) { c[f] = v; renderAnnotateScreen(); } };
+            window.updateClauseTags = function (id, v) { const c = appState.clauses.find(x => x.id === id); if (c) { c.tags = v.split(',').map(s => s.trim()).filter(Boolean); renderAnnotateScreen(); } };
+
+            // Restored Download Logic
+            window.downloadReport = function (filename) {
+                const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent("Mock Report Content");
+                const node = document.createElement('a'); node.href = dataStr; node.download = filename; document.body.appendChild(node); node.click(); node.remove();
+                showToast(`Downloaded ${filename}`, "success");
+            };
+
+            window.exportData = function () {
+                const data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState.clauses.filter(c => c.end)));
+                const node = document.createElement('a'); node.href = data; node.download = "tags.json"; document.body.appendChild(node); node.click(); node.remove();
+            };
+
+            function showToast(msg, type) {
+                const el = document.createElement('div');
+                el.className = `px-4 py-2 rounded text-white shadow-lg mb-2 text-sm ${type === 'error' ? 'bg-red-500' : 'bg-green-600'}`;
+                el.innerText = msg;
+                document.getElementById('toast-container').appendChild(el);
+                setTimeout(() => el.remove(), 3000);
+            }
+
+            document.addEventListener('DOMContentLoaded', init);
+        })();
+    </script>
+</body>
+
+</html>
