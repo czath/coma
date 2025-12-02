@@ -131,8 +131,8 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
         }
 
         setContextMenu({
-            x: e.pageX,
-            y: e.pageY,
+            x: e.clientX,
+            y: e.clientY,
             lineIdx,
             rawCh,
             unterminated,
@@ -305,6 +305,28 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
         setContextMenu(null);
     };
 
+    // Calculate position to avoid overflow
+    let menuStyle = {};
+    if (contextMenu) {
+        const MENU_WIDTH = 224; // w-56 is 14rem = 224px
+        const MENU_HEIGHT = 200; // Approximate max height
+
+        let left = contextMenu.x;
+        let top = contextMenu.y;
+
+        // Flip left if too close to right edge
+        if (left + MENU_WIDTH > window.innerWidth) {
+            left = left - MENU_WIDTH;
+        }
+
+        // Flip up if too close to bottom edge
+        if (top + MENU_HEIGHT > window.innerHeight) {
+            top = top - MENU_HEIGHT;
+        }
+
+        menuStyle = { top, left };
+    }
+
     return (
         <div className="flex-grow flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden relative">
             <div className="bg-gray-50 border-b border-gray-200 px-4 py-3 flex justify-between items-center">
@@ -328,8 +350,8 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
 
             {contextMenu && (
                 <div
-                    className="absolute bg-white border border-gray-200 shadow-lg rounded-md py-1 z-50 w-56"
-                    style={{ top: contextMenu.y, left: contextMenu.x }}
+                    className="fixed bg-white border border-gray-200 shadow-lg rounded-md py-1 z-[100] w-56"
+                    style={menuStyle}
                 >
                     <div className="px-4 py-2 text-xs font-bold text-gray-400 uppercase bg-gray-50 border-b">Actions</div>
 
