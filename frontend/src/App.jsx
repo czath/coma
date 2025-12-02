@@ -56,10 +56,85 @@ function App() {
     };
 
     const handleExport = () => {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(clauses));
+        // 1. Sort clauses by position
+        const sortedClauses = [...clauses].filter(c => c.end).sort((a, b) => {
+            if (a.start.line !== b.start.line) return a.start.line - b.start.line;
+            return a.start.ch - b.start.ch;
+        });
+
+        const exportList = [];
+        let currentPos = { line: 0, ch: 0 };
+
+        // Helper to compare positions
+        const comparePos = (p1, p2) => {
+            if (p1.line < p2.line) return -1;
+            if (p1.line > p2.line) return 1;
+            if (p1.ch < p2.ch) return -1;
+            if (p1.ch > p2.ch) return 1;
+            return 0;
+        };
+
+        // Helper to extract text
+        const extractText = (start, end) => {
+            let text = "";
+            if (start.line === end.line) {
+                text = content[start.line].text.substring(start.ch, end.ch);
+            } else {
+                text += content[start.line].text.substring(start.ch) + "\n";
+                for (let i = start.line + 1; i < end.line; i++) {
+                    text += content[i].text + "\n";
+                }
+                text += content[end.line].text.substring(0, end.ch);
+            }
+            return text;
+        };
+
+        sortedClauses.forEach(clause => {
+            // Check for gap before this clause
+            if (comparePos(currentPos, clause.start) < 0) {
+                const gapText = extractText(currentPos, clause.start);
+                if (gapText.trim()) { // Only add if there is actual content (optional, but good for clean data)
+                    exportList.push({
+                        id: `skip_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+                        type: 'SKIP',
+                        header: 'Untagged Content',
+                        start: currentPos,
+                        end: clause.start,
+                        text: gapText,
+                        tags: []
+                    });
+                }
+            }
+
+            // Add the clause itself
+            const clauseText = extractText(clause.start, clause.end);
+            exportList.push({ ...clause, text: clauseText });
+
+            // Update currentPos to end of this clause
+            currentPos = clause.end;
+        });
+
+        // Check for remaining text after last clause
+        const lastPos = { line: content.length - 1, ch: content[content.length - 1].text.length };
+        if (comparePos(currentPos, lastPos) < 0) {
+            const remainingText = extractText(currentPos, lastPos);
+            if (remainingText.trim()) {
+                exportList.push({
+                    id: `skip_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+                    type: 'SKIP',
+                    header: 'Untagged Content',
+                    start: currentPos,
+                    end: lastPos,
+                    text: remainingText,
+                    tags: []
+                });
+            }
+        }
+
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportList, null, 2));
         const node = document.createElement('a');
         node.href = dataStr;
-        node.download = "contract_annotations.json";
+        node.download = "contract_annotations_full.json";
         document.body.appendChild(node);
         node.click();
         node.remove();
