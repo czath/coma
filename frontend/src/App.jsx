@@ -8,7 +8,7 @@ function App() {
     const [stage, setStage] = useState('upload'); // upload, annotate, report
     const [content, setContent] = useState([]);
     const [clauses, setClauses] = useState([]);
-    const [activeClauseId, setActiveClauseId] = useState(null);
+    const [selectedClauseIds, setSelectedClauseIds] = useState([]);
 
     const handleUploadComplete = (data) => {
         setContent(data.content);
@@ -49,9 +49,10 @@ function App() {
         setClauses(clauses.map(c => c.id === id ? { ...c, [field]: value } : c));
     };
 
-    const handleDeleteClause = (id) => {
-        setClauses(clauses.filter(c => c.id !== id));
-        setActiveClauseId(null);
+    const handleDeleteClause = (ids) => {
+        const idsToDelete = Array.isArray(ids) ? ids : [ids];
+        setClauses(clauses.filter(c => !idsToDelete.includes(c.id)));
+        setSelectedClauseIds([]);
     };
 
     const handleExport = () => {
@@ -96,11 +97,11 @@ function App() {
                             content={content}
                             clauses={clauses}
                             onUpdateClauses={handleUpdateClauses}
-                            activeClauseId={activeClauseId}
-                            onSelectClause={setActiveClauseId}
+                            selectedClauseIds={selectedClauseIds}
+                            onSelectClause={setSelectedClauseIds}
                         />
                         <Sidebar
-                            activeClause={clauses.find(c => c.id === activeClauseId)}
+                            activeClause={selectedClauseIds.length === 1 ? clauses.find(c => c.id === selectedClauseIds[0]) : null}
                             onUpdateClause={handleUpdateClause}
                             onDeleteClause={handleDeleteClause}
                             onExport={handleExport}

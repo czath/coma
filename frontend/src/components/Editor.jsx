@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function Editor({ content, clauses, onUpdateClauses, activeClauseId, onSelectClause }) {
+export default function Editor({ content, clauses, onUpdateClauses, selectedClauseIds, onSelectClause }) {
     const [contextMenu, setContextMenu] = useState(null);
     const editorRef = useRef(null);
 
@@ -10,6 +10,20 @@ export default function Editor({ content, clauses, onUpdateClauses, activeClause
         document.addEventListener('click', handleClick);
         return () => document.removeEventListener('click', handleClick);
     }, []);
+
+    const handleClauseClick = (id, e) => {
+        if (e.ctrlKey || e.metaKey) {
+            // Toggle selection
+            if (selectedClauseIds.includes(id)) {
+                onSelectClause(selectedClauseIds.filter(cid => cid !== id));
+            } else {
+                onSelectClause([...selectedClauseIds, id]);
+            }
+        } else {
+            // Single selection
+            onSelectClause([id]);
+        }
+    };
 
     // --- Helper: Get Char Index ---
     const getCharIndexFromEvent = (e, lineElement) => {
@@ -106,6 +120,16 @@ export default function Editor({ content, clauses, onUpdateClauses, activeClause
         // Check for unterminated clause
         const unterminated = clauses.find(c => !c.end);
 
+        // If clicked on a clause that is NOT selected, select it (single)
+        // If clicked on a clause that IS selected, keep selection (to allow context menu on multi-selection)
+        if (existingClause) {
+            if (!selectedClauseIds.includes(existingClause.id)) {
+                onSelectClause([existingClause.id]);
+            }
+        } else {
+            onSelectClause([]);
+        }
+
         setContextMenu({
             x: e.pageX,
             y: e.pageY,
@@ -120,12 +144,76 @@ export default function Editor({ content, clauses, onUpdateClauses, activeClause
         if (!contextMenu && action !== 'delete') return;
 
         if (action === 'delete') {
-            const clauseId = payload || (contextMenu && contextMenu.existingClause ? contextMenu.existingClause.id : null);
-            if (clauseId) {
-                const newClauses = clauses.filter(c => c.id !== clauseId);
-                onUpdateClauses(newClauses);
-                if (activeClauseId === clauseId) onSelectClause(null);
+            // If payload is provided (from sidebar maybe?), use it.
+            // Otherwise use selectedClauseIds if available, or contextMenu target.
+            let idsToDelete = [];
+            if (payload) {
+                idsToDelete = [payload];
+            } else if (selectedClauseIds.length > 0) {
+                idsToDelete = selectedClauseIds;
+            } else if (contextMenu && contextMenu.existingClause) {
+                idsToDelete = [contextMenu.existingClause.id];
             }
+
+            if (idsToDelete.length > 0) {
+                const newClauses = clauses.filter(c => !idsToDelete.includes(c.id));
+                onUpdateClauses(newClauses);
+                onSelectClause([]);
+            }
+            setContextMenu(null);
+            return;
+        }
+
+        if (action === 'merge') {
+            if (selectedClauseIds.length < 2) {
+                alert("Select at least 2 sections to merge.");
+                return;
+            }
+
+            const selectedClauses = clauses.filter(c => selectedClauseIds.includes(c.id));
+            // Find min start and max end
+            // We need a robust compare
+            const comparePos = (p1, p2) => {
+                if (p1.line < p2.line) return -1;
+                if (p1.line > p2.line) return 1;
+                if (p1.ch < p2.ch) return -1;
+                if (p1.ch > p2.ch) return 1;
+                return 0;
+            };
+
+            let minStart = selectedClauses[0].start;
+            let maxEnd = selectedClauses[0].end;
+
+            selectedClauses.forEach(c => {
+                if (comparePos(c.start, minStart) < 0) minStart = c.start;
+                if (c.end && comparePos(c.end, maxEnd) > 0) maxEnd = c.end;
+            });
+
+            // Find ALL clauses that are within this range (to absorb them)
+            // A clause is "inside" if its start >= minStart AND its end <= maxEnd
+            const clausesToAbsorb = clauses.filter(c => {
+                if (!c.end) return false;
+                return comparePos(c.start, minStart) >= 0 && comparePos(c.end, maxEnd) <= 0;
+            });
+
+            const idsToAbsorb = clausesToAbsorb.map(c => c.id);
+
+            const newId = 'c' + Date.now();
+            const newClause = {
+                id: newId,
+                type: 'CLAUSE',
+                header: 'Merged Section',
+                start: minStart,
+                end: maxEnd,
+                tags: []
+            };
+
+            // Remove absorbed clauses, add new merged clause
+            const newClauses = clauses.filter(c => !idsToAbsorb.includes(c.id));
+            newClauses.push(newClause);
+
+            onUpdateClauses(newClauses);
+            onSelectClause([newId]);
             setContextMenu(null);
             return;
         }
@@ -231,9 +319,9 @@ export default function Editor({ content, clauses, onUpdateClauses, activeClause
                         block={block}
                         lineIdx={idx}
                         clauses={clauses}
-                        activeClauseId={activeClauseId}
+                        selectedClauseIds={selectedClauseIds}
                         onContextMenu={handleContextMenu}
-                        onSelectClause={onSelectClause}
+                        onSelectClause={handleClauseClick}
                     />
                 ))}
             </div>
@@ -245,7 +333,22 @@ export default function Editor({ content, clauses, onUpdateClauses, activeClause
                 >
                     <div className="px-4 py-2 text-xs font-bold text-gray-400 uppercase bg-gray-50 border-b">Actions</div>
 
-                    {contextMenu.existingClause ? (
+                    {selectedClauseIds.length > 1 ? (
+                        <>
+                            <button
+                                className="w-full text-left px-4 py-2 hover:bg-indigo-50 text-sm text-gray-700 font-medium"
+                                onClick={() => handleAction('merge')}
+                            >
+                                Merge to One
+                            </button>
+                            <button
+                                className="w-full text-left px-4 py-2 hover:bg-red-50 text-sm text-red-600 font-medium"
+                                onClick={() => handleAction('delete')}
+                            >
+                                Delete All ({selectedClauseIds.length})
+                            </button>
+                        </>
+                    ) : contextMenu.existingClause ? (
                         <button
                             className="w-full text-left px-4 py-2 hover:bg-red-50 text-sm text-red-600 font-medium"
                             onClick={() => handleAction('delete')}
@@ -278,7 +381,7 @@ export default function Editor({ content, clauses, onUpdateClauses, activeClause
     );
 }
 
-function Line({ block, lineIdx, clauses, activeClauseId, onContextMenu, onSelectClause }) {
+function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSelectClause }) {
     const text = block.text;
 
     // 1. Collect all interesting points (start/end of clauses) on this line
@@ -311,7 +414,7 @@ function Line({ block, lineIdx, clauses, activeClauseId, onContextMenu, onSelect
         // Render pills for events at this position
         eventsAtP1.forEach(p => {
             if (p.type === 'start') {
-                const isActive = p.clause.id === activeClauseId;
+                const isActive = selectedClauseIds.includes(p.clause.id);
                 const isUnterminated = !p.clause.end;
                 const colorClass = isUnterminated ? 'bg-amber-500 animate-pulse' : 'bg-blue-500';
 
@@ -323,7 +426,7 @@ function Line({ block, lineIdx, clauses, activeClauseId, onContextMenu, onSelect
                         key={`${p.clause.id}-start`}
                         data-index={p.idx}
                         className={`inline-flex items-center px-1 rounded-l text-white text-xs font-bold mr-[1px] cursor-pointer select-none ${colorClass} ${isActive ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id); }}
+                        onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
                         title={isUnterminated ? "Section In Progress (Unterminated)" : p.clause.header}
                     >
                         {label}
@@ -351,7 +454,7 @@ function Line({ block, lineIdx, clauses, activeClauseId, onContextMenu, onSelect
                         key={`${p.clause.id}-end`}
                         data-index={p.idx}
                         className="inline-flex items-center px-1 rounded-r text-white text-xs font-bold ml-[1px] bg-red-500 cursor-pointer select-none"
-                        onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id); }}
+                        onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
                     >
                         END
                     </span>
@@ -370,7 +473,7 @@ function Line({ block, lineIdx, clauses, activeClauseId, onContextMenu, onSelect
                 return startsBefore && endsAfter;
             });
 
-            const isActive = coveringClause && coveringClause.id === activeClauseId;
+            const isActive = coveringClause && selectedClauseIds.includes(coveringClause.id);
 
             segments.push(
                 <span
@@ -380,7 +483,7 @@ function Line({ block, lineIdx, clauses, activeClauseId, onContextMenu, onSelect
                     onClick={(e) => {
                         if (coveringClause) {
                             e.stopPropagation();
-                            onSelectClause(coveringClause.id);
+                            onSelectClause(coveringClause.id, e);
                         }
                     }}
                 >
@@ -403,7 +506,7 @@ function Line({ block, lineIdx, clauses, activeClauseId, onContextMenu, onSelect
                     key={`${p.clause.id}-end-line`}
                     data-index={lastIdx}
                     className="inline-flex items-center px-1 rounded-r text-white text-xs font-bold ml-[1px] bg-red-500 cursor-pointer select-none"
-                    onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id); }}
+                    onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
                 >
                     END
                 </span>
