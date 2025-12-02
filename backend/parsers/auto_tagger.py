@@ -4,47 +4,44 @@ class AutoTagger:
     def tag(self, content: list):
         """
         Analyzes the content and adds 'type' and 'id' fields.
-        Identifies 'CLAUSE' vs 'HEADER' based on heuristics.
+        Uses 'ilvl' from DocxParser to identify Level 1 Clauses (Headers).
         """
         tagged_content = []
         clause_counter = 1
         
-        # Regex for common legal numbering (e.g., "1.", "1.1", "Article 1", "Section 2")
-        # Also include Appendix, Schedule, Exhibit
-        header_pattern = re.compile(r"^((Article|Section|Appendix|Schedule|Exhibit|Annex)\s+\w+|(\d+(\.\d+)*\.?))", re.IGNORECASE)
-        
         for block in content:
             text = block.get("text", "").strip()
+            ilvl = block.get("ilvl")
             
-            # Heuristic 1: Regex match for numbering/titles
-            # We want to be careful not to match "1. The term..." as a header if it's a list item.
-            # Usually headers are short.
-            match = header_pattern.match(text)
-            is_numbered = bool(match)
+            # Default to CLAUSE (Body Content)
+            block["type"] = "CLAUSE"
             
-            # Heuristic 2: Formatting (Bold or All Caps)
-            # If it's short and numbered, it's likely a header.
-            # If it's short and ALL CAPS, it's likely a header.
-            # If it contains "Appendix" or "Schedule", it's definitely a header/appendix start.
-            
-            is_all_caps = text.isupper() and len(text) > 3
-            is_short = len(text.split()) < 15 # Increased word count tolerance
-            
-            # Specific check for Appendix/Schedule types
-            is_appendix = bool(re.match(r"^(Appendix|Schedule|Exhibit|Annex)", text, re.IGNORECASE))
-
-            if (is_numbered or is_all_caps or is_appendix) and is_short:
-                if is_appendix:
-                    block["type"] = "APPENDIX"
-                else:
-                    block["type"] = "HEADER"
+            # 1. Level 1 Numbering -> HEADER (Starts a new section)
+            if ilvl == 0:
+                block["type"] = "HEADER"
                 block["id"] = f"h_{clause_counter}"
-            else:
-                block["type"] = "CLAUSE"
-                block["id"] = f"c_{clause_counter}"
-            
-            clause_counter += 1
+                clause_counter += 1
                 
+            # 2. Appendix/Schedule -> APPENDIX (Starts a new section)
+            # Only if it's not already numbered (ilvl is None)
+            elif ilvl is None and self._is_appendix_header(text):
+                block["type"] = "APPENDIX"
+                block["id"] = f"a_{clause_counter}"
+                clause_counter += 1
+            
+            # 3. Everything else (Subclauses, Text, Tables) -> CLAUSE
+            else:
+                # Keep existing ID if present, or generate one
+                if "id" not in block:
+                    block["id"] = f"c_{clause_counter}_{len(tagged_content)}"
+            
             tagged_content.append(block)
             
         return tagged_content
+
+    def _is_appendix_header(self, text):
+        # Matches "Appendix A", "Schedule 1", "Exhibit B", etc.
+        # Also matches just "APPENDICES" if it's a standalone header
+        if len(text.split()) > 10: # Avoid false positives in long text
+            return False
+        return bool(re.match(r"^(Appendix|Schedule|Exhibit|Annex)\s+\w+|^(APPENDICES|SCHEDULES|EXHIBITS)$", text, re.IGNORECASE))

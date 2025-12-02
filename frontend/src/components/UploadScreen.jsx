@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 
-export default function UploadScreen({ onUploadComplete }) {
+export default function UploadScreen({ onUploadComplete, onJsonImport }) {
     const [isUploading, setIsUploading] = useState(false);
 
-    const handleFileUpload = async (e) => {
+    const handleFileSelection = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
+        if (file.name.endsWith('.json')) {
+            onJsonImport(file);
+            return;
+        }
+
+        // Proceed with backend upload for PDF/DOCX
         setIsUploading(true);
         const formData = new FormData();
         formData.append('file', file);
@@ -34,17 +40,17 @@ export default function UploadScreen({ onUploadComplete }) {
             <div className="max-w-md w-full text-center">
                 <h2 className="mt-4 text-2xl font-semibold text-gray-900">Upload Contract Document</h2>
                 <p className="mt-1 text-sm text-gray-500">
-                    Upload a PDF or DOCX file to begin the review process.
+                    Upload a PDF, DOCX, or previously exported JSON file to begin.
                 </p>
 
                 <div className="mt-6">
                     <label className="block text-sm font-medium text-gray-700 text-left mb-1">
-                        Upload Source File (.pdf, .docx)
+                        Select File
                     </label>
                     <input
                         type="file"
-                        accept=".pdf,.docx"
-                        onChange={handleFileUpload}
+                        accept=".pdf,.docx,.json"
+                        onChange={handleFileSelection}
                         disabled={isUploading}
                         className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer p-2"
                     />

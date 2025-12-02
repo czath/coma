@@ -140,6 +140,103 @@ function App() {
         node.remove();
     };
 
+    const handleJsonImport = (file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const importedData = JSON.parse(e.target.result);
+                if (!Array.isArray(importedData)) throw new Error("Invalid JSON format");
+
+                // Reconstruct content and clauses
+                let fullText = "";
+                const newClauses = [];
+                const newContent = [];
+                let currentLineIdx = 0;
+
+                importedData.forEach(item => {
+                    if (!item.text) return;
+
+                    // Calculate new start position based on current accumulated text
+                    const startLine = currentLineIdx;
+                    const startCh = 0; // Simplified: each block starts on a new line for now, or we need more complex logic if we want to preserve exact layout. 
+                    // However, since we are reconstructing from a list of text blocks, simply appending them as paragraphs is the safest approach.
+
+                    // Split text into lines to update content array
+                    const lines = item.text.split('\n');
+                    lines.forEach((line, idx) => {
+                        // Don't add empty lines at the end if they are artifacts of split
+                        if (idx === lines.length - 1 && line === "") return;
+                        newContent.push({ id: `line_${newContent.length}`, text: line });
+                    });
+
+                    currentLineIdx += lines.length - (item.text.endsWith('\n') ? 1 : 0); // Adjust if split created an empty string at end
+                    if (lines.length > 0 && lines[lines.length - 1] === "") currentLineIdx--; // Correction for trailing newline split
+
+                    const endLine = newContent.length - 1;
+                    const endCh = newContent[endLine].text.length;
+
+                    if (item.type !== 'SKIP') {
+                        newClauses.push({
+                            ...item,
+                            start: { line: startLine, ch: 0 },
+                            end: { line: endLine, ch: endCh }
+                        });
+                    }
+                });
+
+                // Better Reconstruction Strategy:
+                // 1. Concatenate all text to form the full document body.
+                // 2. Re-split by newline to get the canonical "lines" array.
+                // 3. Map the original clauses to this new line structure.
+
+                // Let's try a simpler approach first: Just trust the text blocks are sequential.
+                // We need to rebuild the `content` array (lines) and `clauses` (indices).
+
+                const reconstructedContent = [];
+                const reconstructedClauses = [];
+                let lineOffset = 0;
+
+                importedData.forEach(item => {
+                    if (!item.text) return;
+
+                    // Split the block's text into lines
+                    // We use a regex to split but keep delimiters or just handle standard newlines
+                    const blockLines = item.text.split(/\r\n|\n|\r/);
+
+                    const startLine = lineOffset;
+                    const startCh = 0;
+
+                    blockLines.forEach((lineText) => {
+                        reconstructedContent.push({
+                            id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+                            text: lineText
+                        });
+                    });
+
+                    lineOffset += blockLines.length;
+
+                    // If it's a clause, add it with the new coordinates
+                    if (item.type !== 'SKIP') {
+                        reconstructedClauses.push({
+                            ...item,
+                            start: { line: startLine, ch: 0 },
+                            end: { line: lineOffset - 1, ch: blockLines[blockLines.length - 1].length }
+                        });
+                    }
+                });
+
+                setContent(reconstructedContent);
+                setClauses(reconstructedClauses);
+                setStage('annotate');
+
+            } catch (error) {
+                console.error(error);
+                alert("Failed to import JSON: " + error.message);
+            }
+        };
+        reader.readAsText(file);
+    };
+
     return (
         <div className="min-h-screen flex flex-col text-gray-800 bg-gray-50 font-sans">
             <header className="bg-white shadow-sm border-b border-gray-200 z-10">
@@ -164,7 +261,7 @@ function App() {
             </header>
 
             <main className="flex-grow flex flex-col overflow-hidden max-w-7xl w-full mx-auto h-[calc(100vh-64px)]">
-                {stage === 'upload' && <UploadScreen onUploadComplete={handleUploadComplete} />}
+                {stage === 'upload' && <UploadScreen onUploadComplete={handleUploadComplete} onJsonImport={handleJsonImport} />}
 
                 {stage === 'annotate' && (
                     <div className="flex-grow flex overflow-hidden p-6 gap-6 h-full">
