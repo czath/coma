@@ -198,7 +198,7 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
 
             const idsToAbsorb = clausesToAbsorb.map(c => c.id);
 
-            const newId = 'c' + Date.now();
+            const newId = 'c_' + Math.random().toString(36).substr(2, 9);
             const newClause = {
                 id: newId,
                 type: 'CLAUSE',
@@ -251,7 +251,7 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
                 return;
             }
 
-            const newId = 'c' + Date.now();
+            const newId = 'c_' + Math.random().toString(36).substr(2, 9);
             const newClause = {
                 id: newId,
                 type: 'CLAUSE',

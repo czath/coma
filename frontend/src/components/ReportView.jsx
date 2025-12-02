@@ -34,14 +34,32 @@ export default function ReportView({ clauses }) {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {clauses.filter(c => c.end).map((item, idx) => (
-                                    <tr key={idx}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.header}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Yes</span>
+                                {[...clauses].sort((a, b) => {
+                                    if (a.start.line !== b.start.line) return a.start.line - b.start.line;
+                                    return a.start.ch - b.start.ch;
+                                }).map((item, idx) => (
+                                    <tr key={item.id || idx}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {item.header}
+                                            {!item.end && <span className="ml-2 text-xs text-amber-600 font-bold">(In Progress)</span>}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-900">Low</span>
+                                            {item.compliance ? (
+                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.compliance === 'Yes' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                                    {item.compliance}
+                                                </span>
+                                            ) : (
+                                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-500">Not Assessed</span>
+                                            )}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {item.risk ? (
+                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.risk === 'High' ? 'bg-red-100 text-red-800' : 'bg-gray-200 text-gray-800'}`}>
+                                                    {item.risk}
+                                                </span>
+                                            ) : (
+                                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-500">Not Assessed</span>
+                                            )}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">N/A</td>
                                     </tr>
