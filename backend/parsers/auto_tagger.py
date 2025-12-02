@@ -21,15 +21,29 @@ class AutoTagger:
                 block["type"] = "HEADER"
                 block["id"] = f"h_{clause_counter}"
                 clause_counter += 1
-                
-            # 2. Appendix/Schedule -> APPENDIX (Starts a new section)
-            # Only if it's not already numbered (ilvl is None)
-            elif ilvl is None and self._is_appendix_header(text):
-                block["type"] = "APPENDIX"
-                block["id"] = f"a_{clause_counter}"
-                clause_counter += 1
             
-            # 3. Everything else (Subclauses, Text, Tables) -> CLAUSE
+            # 2. PDF Fallback: If ilvl is None, use Regex to detect Headers
+            elif ilvl is None:
+                if self._is_appendix_header(text):
+                    block["type"] = "APPENDIX"
+                    block["id"] = f"a_{clause_counter}"
+                    clause_counter += 1
+                elif self._is_clause_header(text):
+                    block["type"] = "HEADER"
+                    block["id"] = f"h_{clause_counter}"
+                    clause_counter += 1
+                else:
+                    # Default to CLAUSE
+                    if "id" not in block:
+                        block["id"] = f"c_{clause_counter}_{len(tagged_content)}"
+
+            # 3. Appendix/Schedule -> APPENDIX (Already handled in fallback, but kept for safety if ilvl exists but is weird)
+            elif self._is_appendix_header(text):
+                 block["type"] = "APPENDIX"
+                 block["id"] = f"a_{clause_counter}"
+                 clause_counter += 1
+            
+            # 4. Everything else (Subclauses, Text, Tables) -> CLAUSE
             else:
                 # Keep existing ID if present, or generate one
                 if "id" not in block:
@@ -38,6 +52,34 @@ class AutoTagger:
             tagged_content.append(block)
             
         return tagged_content
+
+    def _is_clause_header(self, text):
+        """
+        Heuristics to identify Level 1 headers in plain text (PDF).
+        Matches:
+        - "1. DEFINITIONS" (Number + Uppercase)
+        - "ARTICLE 1" / "SECTION 1"
+        - "1.1" is usually NOT a Level 1 header (unless it's the top level style, but standard is 1.)
+        """
+        # 1. Common Legal Headers: "ARTICLE I", "SECTION 2"
+        if re.match(r"^(ARTICLE|SECTION)\s+(\w+|\d+)", text, re.IGNORECASE):
+            return True
+            
+        # 2. Numbered Headers: "1. TITLE" or "1 TITLE"
+        # Strict check: Must be short (< 10 words) and usually Uppercase or Title Case
+        # Pattern: Start with number, dot (optional), whitespace, then text
+        match = re.match(r"^(\d+)\.?\s+([A-Z].*)", text)
+        if match:
+            # Check length to avoid matching long numbered paragraphs
+            if len(text.split()) < 12:
+                # Check for sub-clauses like "1.1" - usually we only want "1." for Level 1
+                # If the number part contains a dot inside (e.g. "1.1"), it's likely Level 2
+                number_part = match.group(1)
+                if "." in number_part: 
+                     return False # 1.1 is usually subclause
+                return True
+                
+        return False
 
     def _is_appendix_header(self, text):
         # Matches "Appendix A", "Schedule 1", "Exhibit B", etc.
