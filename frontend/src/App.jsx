@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import UploadScreen from './components/UploadScreen';
 import Editor from './components/Editor';
 import Sidebar from './components/Sidebar';
@@ -10,6 +10,11 @@ function App() {
     const [clauses, setClauses] = useState([]);
     const [selectedClauseIds, setSelectedClauseIds] = useState([]);
 
+    // New Document Level Metadata
+    const [documentType, setDocumentType] = useState('master'); // master, subordinate, reference
+    const [documentTags, setDocumentTags] = useState([]);
+    const [newTagInput, setNewTagInput] = useState('');
+
     const handleUploadComplete = (data) => {
         setContent(data.content);
         // Convert backend auto-tags to frontend clause format
@@ -17,6 +22,9 @@ function App() {
         let currentClause = null;
 
         data.content.forEach((block, idx) => {
+            // Map old HEADER type to new INFO type if necessary, or just handle it
+            const type = block.type === 'HEADER' ? 'INFO' : (block.type === 'APPENDIX' ? 'APPENDIX' : 'CLAUSE');
+
             if (block.type === 'HEADER' || block.type === 'APPENDIX') {
                 if (currentClause) {
                     currentClause.end = { line: idx - 1, ch: 9999 };
@@ -24,7 +32,7 @@ function App() {
                 }
                 currentClause = {
                     id: block.id || `c_${Date.now()}_${idx}`,
-                    type: block.type === 'APPENDIX' ? 'APPENDIX' : 'CLAUSE',
+                    type: type,
                     header: block.text,
                     start: { line: idx, ch: 0 },
                     end: null,
@@ -55,7 +63,36 @@ function App() {
         setSelectedClauseIds([]);
     };
 
+    const handleAddTag = (e) => {
+        if (e.key === 'Enter' && newTagInput.trim()) {
+            if (!documentTags.includes(newTagInput.trim())) {
+                setDocumentTags([...documentTags, newTagInput.trim()]);
+            }
+            setNewTagInput('');
+        }
+    };
+
+    const removeTag = (tagToRemove) => {
+        setDocumentTags(documentTags.filter(tag => tag !== tagToRemove));
+    };
+
     const handleExport = () => {
+        // Validation: Check for incompatible sections
+        const invalidClauses = clauses.filter(c => {
+            if (documentType === 'reference') {
+                return c.type !== 'GUIDELINE';
+            } else {
+                // master or subordinate
+                return c.type === 'GUIDELINE';
+            }
+        });
+
+        if (invalidClauses.length > 0) {
+            const invalidTypes = [...new Set(invalidClauses.map(c => c.type))].join(', ');
+            alert(`Cannot export! \n\nDocument type '${documentType}' is incompatible with sections of type: ${invalidTypes}.\n\nPlease delete these sections or change the document type.`);
+            return;
+        }
+
         // 1. Sort clauses by position
         const sortedClauses = [...clauses].filter(c => c.end).sort((a, b) => {
             if (a.start.line !== b.start.line) return a.start.line - b.start.line;
@@ -63,6 +100,27 @@ function App() {
         });
 
         const exportList = [];
+
+        // Handle pending tag input
+        const finalTags = [...documentTags];
+        if (newTagInput.trim() && !finalTags.includes(newTagInput.trim())) {
+            finalTags.push(newTagInput.trim());
+            // Optional: Update state so UI reflects it too, though export is the priority
+            setDocumentTags(finalTags);
+            setNewTagInput('');
+        }
+
+        // Add Document Header
+        exportList.push({
+            type: 'HEADER', // Document Level Header
+            metadata: {
+                documentType: documentType,
+                documentTags: finalTags,
+                exportDate: new Date().toISOString(),
+                sectionCount: sortedClauses.length
+            }
+        });
+
         let currentPos = { line: 0, ch: 0 };
 
         // Helper to compare positions
@@ -93,7 +151,7 @@ function App() {
             // Check for gap before this clause
             if (comparePos(currentPos, clause.start) < 0) {
                 const gapText = extractText(currentPos, clause.start);
-                if (gapText.trim()) { // Only add if there is actual content (optional, but good for clean data)
+                if (gapText.trim()) {
                     exportList.push({
                         id: `skip_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
                         type: 'SKIP',
@@ -147,64 +205,24 @@ function App() {
                 const importedData = JSON.parse(e.target.result);
                 if (!Array.isArray(importedData)) throw new Error("Invalid JSON format");
 
-                // Reconstruct content and clauses
-                let fullText = "";
-                const newClauses = [];
-                const newContent = [];
-                let currentLineIdx = 0;
+                // Extract Header if present
+                const headerItem = importedData.find(item => item.type === 'HEADER' && item.metadata);
+                if (headerItem) {
+                    setDocumentType(headerItem.metadata.documentType || 'master');
+                    setDocumentTags(headerItem.metadata.documentTags || []);
+                }
 
-                importedData.forEach(item => {
-                    if (!item.text) return;
-
-                    // Calculate new start position based on current accumulated text
-                    const startLine = currentLineIdx;
-                    const startCh = 0; // Simplified: each block starts on a new line for now, or we need more complex logic if we want to preserve exact layout. 
-                    // However, since we are reconstructing from a list of text blocks, simply appending them as paragraphs is the safest approach.
-
-                    // Split text into lines to update content array
-                    const lines = item.text.split('\n');
-                    lines.forEach((line, idx) => {
-                        // Don't add empty lines at the end if they are artifacts of split
-                        if (idx === lines.length - 1 && line === "") return;
-                        newContent.push({ id: `line_${newContent.length}`, text: line });
-                    });
-
-                    currentLineIdx += lines.length - (item.text.endsWith('\n') ? 1 : 0); // Adjust if split created an empty string at end
-                    if (lines.length > 0 && lines[lines.length - 1] === "") currentLineIdx--; // Correction for trailing newline split
-
-                    const endLine = newContent.length - 1;
-                    const endCh = newContent[endLine].text.length;
-
-                    if (item.type !== 'SKIP') {
-                        newClauses.push({
-                            ...item,
-                            start: { line: startLine, ch: 0 },
-                            end: { line: endLine, ch: endCh }
-                        });
-                    }
-                });
-
-                // Better Reconstruction Strategy:
-                // 1. Concatenate all text to form the full document body.
-                // 2. Re-split by newline to get the canonical "lines" array.
-                // 3. Map the original clauses to this new line structure.
-
-                // Let's try a simpler approach first: Just trust the text blocks are sequential.
-                // We need to rebuild the `content` array (lines) and `clauses` (indices).
+                const contentItems = importedData.filter(item => item.type !== 'HEADER');
 
                 const reconstructedContent = [];
                 const reconstructedClauses = [];
                 let lineOffset = 0;
 
-                importedData.forEach(item => {
+                contentItems.forEach(item => {
                     if (!item.text) return;
 
-                    // Split the block's text into lines
-                    // We use a regex to split but keep delimiters or just handle standard newlines
                     const blockLines = item.text.split(/\r\n|\n|\r/);
-
                     const startLine = lineOffset;
-                    const startCh = 0;
 
                     blockLines.forEach((lineText) => {
                         reconstructedContent.push({
@@ -215,7 +233,6 @@ function App() {
 
                     lineOffset += blockLines.length;
 
-                    // If it's a clause, add it with the new coordinates
                     if (item.type !== 'SKIP') {
                         reconstructedClauses.push({
                             ...item,
@@ -236,6 +253,71 @@ function App() {
         };
         reader.readAsText(file);
     };
+
+    // Calculate Statistics
+    const stats = useMemo(() => {
+        const totalSections = clauses.length;
+        const typeBreakdown = {};
+        clauses.forEach(c => {
+            const label = c.type.charAt(0) + c.type.slice(1).toLowerCase();
+            typeBreakdown[label] = (typeBreakdown[label] || 0) + 1;
+        });
+
+        // Calculate skipped sections
+        let skippedCount = 0;
+
+        if (content.length > 0) {
+            const sortedClauses = [...clauses].filter(c => c.end).sort((a, b) => {
+                if (a.start.line !== b.start.line) return a.start.line - b.start.line;
+                return a.start.ch - b.start.ch;
+            });
+
+            let currentPos = { line: 0, ch: 0 };
+
+            const comparePos = (p1, p2) => {
+                if (p1.line < p2.line) return -1;
+                if (p1.line > p2.line) return 1;
+                if (p1.ch < p2.ch) return -1;
+                if (p1.ch > p2.ch) return 1;
+                return 0;
+            };
+
+            const extractText = (start, end) => {
+                let text = "";
+                if (start.line === end.line) {
+                    text = content[start.line].text.substring(start.ch, end.ch);
+                } else {
+                    text += content[start.line].text.substring(start.ch) + "\n";
+                    for (let i = start.line + 1; i < end.line; i++) {
+                        text += content[i].text + "\n";
+                    }
+                    text += content[end.line].text.substring(0, end.ch);
+                }
+                return text;
+            };
+
+            sortedClauses.forEach(clause => {
+                if (comparePos(currentPos, clause.start) < 0) {
+                    const gapText = extractText(currentPos, clause.start);
+                    // Only count if gap is substantial (e.g., > 100 chars)
+                    if (gapText.trim().length > 100) {
+                        skippedCount++;
+                    }
+                }
+                currentPos = clause.end;
+            });
+
+            const lastPos = { line: content.length - 1, ch: content[content.length - 1].text.length };
+            if (comparePos(currentPos, lastPos) < 0) {
+                const remainingText = extractText(currentPos, lastPos);
+                if (remainingText.trim().length > 100) {
+                    skippedCount++;
+                }
+            }
+        }
+
+        return { totalSections, typeBreakdown, skippedCount };
+    }, [clauses, content]);
 
     return (
         <div className="min-h-screen flex flex-col text-gray-800 bg-gray-50 font-sans">
@@ -264,20 +346,60 @@ function App() {
                 {stage === 'upload' && <UploadScreen onUploadComplete={handleUploadComplete} onJsonImport={handleJsonImport} />}
 
                 {stage === 'annotate' && (
-                    <div className="flex-grow flex overflow-hidden p-6 gap-6 h-full">
-                        <Editor
-                            content={content}
-                            clauses={clauses}
-                            onUpdateClauses={handleUpdateClauses}
-                            selectedClauseIds={selectedClauseIds}
-                            onSelectClause={setSelectedClauseIds}
-                        />
-                        <Sidebar
-                            activeClause={selectedClauseIds.length === 1 ? clauses.find(c => c.id === selectedClauseIds[0]) : null}
-                            onUpdateClause={handleUpdateClause}
-                            onDeleteClause={handleDeleteClause}
-                            onExport={handleExport}
-                        />
+                    <div className="flex-grow flex flex-col overflow-hidden h-full">
+                        {/* Document Metadata Bar */}
+                        <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center gap-6 shrink-0 z-20 shadow-sm">
+                            <div className="flex items-center gap-2">
+                                <label className="text-xs font-bold text-gray-500 uppercase">Doc Type:</label>
+                                <select
+                                    value={documentType}
+                                    onChange={(e) => setDocumentType(e.target.value)}
+                                    className="text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                >
+                                    <option value="master">Master</option>
+                                    <option value="subordinate">Subordinate</option>
+                                    <option value="reference">Reference</option>
+                                </select>
+                            </div>
+                            <div className="flex items-center gap-2 flex-grow">
+                                <label className="text-xs font-bold text-gray-500 uppercase">Tags:</label>
+                                <div className="flex flex-wrap gap-2 items-center p-1 border border-gray-200 rounded-md bg-gray-50 flex-grow">
+                                    {documentTags.map(tag => (
+                                        <span key={tag} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">
+                                            {tag}
+                                            <button onClick={() => removeTag(tag)} className="ml-1 text-indigo-600 hover:text-indigo-800">×</button>
+                                        </span>
+                                    ))}
+                                    <input
+                                        type="text"
+                                        value={newTagInput}
+                                        onChange={(e) => setNewTagInput(e.target.value)}
+                                        onKeyDown={handleAddTag}
+                                        placeholder="Add tag..."
+                                        className="text-sm bg-transparent border-none focus:ring-0 p-0 min-w-[80px]"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex-grow flex overflow-hidden p-6 gap-6">
+                            <Editor
+                                content={content}
+                                clauses={clauses}
+                                onUpdateClauses={handleUpdateClauses}
+                                selectedClauseIds={selectedClauseIds}
+                                onSelectClause={setSelectedClauseIds}
+                                documentType={documentType}
+                            />
+                            <Sidebar
+                                activeClause={selectedClauseIds.length === 1 ? clauses.find(c => c.id === selectedClauseIds[0]) : null}
+                                onUpdateClause={handleUpdateClause}
+                                onDeleteClause={handleDeleteClause}
+                                onExport={handleExport}
+                                documentType={documentType}
+                                stats={stats}
+                            />
+                        </div>
                     </div>
                 )}
 

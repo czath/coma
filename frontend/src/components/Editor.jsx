@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function Editor({ content, clauses, onUpdateClauses, selectedClauseIds, onSelectClause }) {
+export default function Editor({ content, clauses, onUpdateClauses, selectedClauseIds, onSelectClause, documentType }) {
     const [contextMenu, setContextMenu] = useState(null);
     const editorRef = useRef(null);
 
@@ -64,10 +64,6 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
 
         return 0;
     };
-
-    // ... (rest of file)
-
-
 
     const snapToWordBoundary = (text, chIdx, type) => {
         if (!text) return 0;
@@ -251,11 +247,12 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
                 return;
             }
 
+            const type = payload || 'CLAUSE'; // Default to CLAUSE if not specified
             const newId = 'c_' + Math.random().toString(36).substr(2, 9);
             const newClause = {
                 id: newId,
-                type: 'CLAUSE',
-                header: 'New Section',
+                type: type,
+                header: `New ${type.charAt(0) + type.slice(1).toLowerCase()}`,
                 start: startPoint,
                 end: null,
                 tags: []
@@ -309,7 +306,7 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
     let menuStyle = {};
     if (contextMenu) {
         const MENU_WIDTH = 224; // w-56 is 14rem = 224px
-        const MENU_HEIGHT = 200; // Approximate max height
+        const MENU_HEIGHT = 300; // Increased height for more options
 
         let left = contextMenu.x;
         let top = contextMenu.y;
@@ -326,6 +323,17 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
 
         menuStyle = { top, left };
     }
+
+    // Determine available section types based on documentType
+    const getAvailableSectionTypes = () => {
+        if (documentType === 'reference') {
+            return ['GUIDELINE'];
+        }
+        // master or subordinate
+        return ['INFO', 'CLAUSE', 'APPENDIX', 'ANNEX', 'EXHIBIT'];
+    };
+
+    const availableTypes = getAvailableSectionTypes();
 
     return (
         <div className="flex-grow flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden relative">
@@ -390,12 +398,18 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
                             </button>
                         </>
                     ) : (
-                        <button
-                            className="w-full text-left px-4 py-2 hover:bg-indigo-50 text-sm text-gray-700 font-medium"
-                            onClick={() => handleAction('start')}
-                        >
-                            Start New Section Here
-                        </button>
+                        <>
+                            <div className="px-4 py-1 text-[10px] font-semibold text-gray-400 uppercase">Start New:</div>
+                            {availableTypes.map(type => (
+                                <button
+                                    key={type}
+                                    className="w-full text-left px-4 py-2 hover:bg-indigo-50 text-sm text-gray-700 font-medium"
+                                    onClick={() => handleAction('start', type)}
+                                >
+                                    {type.charAt(0) + type.slice(1).toLowerCase()}
+                                </button>
+                            ))}
+                        </>
                     )}
                 </div>
             )}
