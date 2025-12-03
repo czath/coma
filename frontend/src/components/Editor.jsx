@@ -1,15 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function Editor({ content, clauses, onUpdateClauses, selectedClauseIds, onSelectClause, documentType }) {
     const [contextMenu, setContextMenu] = useState(null);
+    const [isJumpMenuOpen, setIsJumpMenuOpen] = useState(false);
+    const [jumpSearchTerm, setJumpSearchTerm] = useState('');
     const editorRef = useRef(null);
+    const jumpMenuRef = useRef(null);
+    const searchInputRef = useRef(null);
 
     // Close context menu on click elsewhere
     useEffect(() => {
-        const handleClick = () => setContextMenu(null);
+        const handleClick = (e) => {
+            // console.log("Global click", e.target);
+            setContextMenu(null);
+            if (jumpMenuRef.current && !jumpMenuRef.current.contains(e.target)) {
+                setIsJumpMenuOpen(false);
+            }
+        };
         document.addEventListener('click', handleClick);
         return () => document.removeEventListener('click', handleClick);
     }, []);
+
+    // Focus search input when jump menu opens
+    useEffect(() => {
+        if (isJumpMenuOpen && searchInputRef.current) {
+            searchInputRef.current.focus();
+        } else if (!isJumpMenuOpen) {
+            // Clear search when closed
+            setJumpSearchTerm('');
+        }
+    }, [isJumpMenuOpen]);
 
     const handleClauseClick = (id, e) => {
         if (e.ctrlKey || e.metaKey) {
@@ -106,12 +127,22 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
             return 0;
         };
 
-        // Check if point is inside an existing clause
-        const point = { line: lineIdx, ch: rawCh };
-        const existingClause = clauses.find(c => {
-            if (!c.end) return false;
-            return comparePos(c.start, point) <= 0 && comparePos(point, c.end) < 0;
-        });
+        // Check if we clicked directly on a tag
+        let existingClause = null;
+        const target = e.target.closest ? e.target.closest('[data-clause-id]') : null;
+        if (target) {
+            const clauseId = target.getAttribute('data-clause-id');
+            existingClause = clauses.find(c => c.id === clauseId);
+        }
+
+        // If not on a tag, check if point is inside an existing clause
+        if (!existingClause) {
+            const point = { line: lineIdx, ch: rawCh };
+            existingClause = clauses.find(c => {
+                if (!c.end) return false;
+                return comparePos(c.start, point) <= 0 && comparePos(point, c.end) < 0;
+            });
+        }
 
         // Check for unterminated clause
         const unterminated = clauses.find(c => !c.end);
@@ -335,10 +366,78 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
 
     const availableTypes = getAvailableSectionTypes();
 
+    const handleJumpTo = (clause) => {
+        const lineIdx = clause.start.line;
+        const lineElement = editorRef.current.children[lineIdx];
+        if (lineElement) {
+            lineElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            onSelectClause([clause.id]);
+        }
+        setIsJumpMenuOpen(false);
+    };
+
+    // Filter clauses for jump menu
+    const filteredClauses = clauses.filter(c => {
+        if (!jumpSearchTerm) return true;
+        const term = jumpSearchTerm.toLowerCase();
+        return (c.header && c.header.toLowerCase().includes(term)) ||
+            (c.type && c.type.toLowerCase().includes(term));
+    });
+
     return (
         <div className="flex-grow flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden relative">
-            <div className="bg-gray-50 border-b border-gray-200 px-4 py-3 flex justify-between items-center">
-                <h2 className="text-sm font-bold text-gray-700 uppercase">Document Editor</h2>
+            <div className="bg-gray-50 border-b border-gray-200 px-4 py-3 flex justify-between items-center relative z-20">
+                <div className="flex items-center gap-4">
+                    <h2 className="text-sm font-bold text-gray-700 uppercase">Document Editor</h2>
+
+                    {/* Jump To Menu */}
+                    <div className="relative" ref={jumpMenuRef}>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setIsJumpMenuOpen(!isJumpMenuOpen); }}
+                            className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 rounded-md text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors shadow-sm"
+                        >
+                            <span>Jump to Section</span>
+                            <span className="text-[10px] text-gray-400">▼</span>
+                        </button>
+
+                        {isJumpMenuOpen && (
+                            <div className="absolute top-full left-0 mt-1 w-64 max-h-80 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-1 flex flex-col">
+                                {/* Search Input */}
+                                <div className="p-2 border-b border-gray-100 sticky top-0 bg-white z-10">
+                                    <input
+                                        ref={searchInputRef}
+                                        type="text"
+                                        placeholder="Search sections..."
+                                        value={jumpSearchTerm}
+                                        onChange={(e) => setJumpSearchTerm(e.target.value)}
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:border-indigo-500"
+                                    />
+                                </div>
+
+                                {filteredClauses.length === 0 ? (
+                                    <div className="px-4 py-3 text-xs text-gray-500 text-center italic">
+                                        {clauses.length === 0 ? "No sections defined yet." : "No matching sections."}
+                                    </div>
+                                ) : (
+                                    filteredClauses
+                                        .sort((a, b) => (a.start.line - b.start.line) || (a.start.ch - b.start.ch))
+                                        .map(clause => (
+                                            <button
+                                                key={clause.id}
+                                                onClick={() => handleJumpTo(clause)}
+                                                className="w-full text-left px-4 py-2 hover:bg-indigo-50 text-xs text-gray-700 border-b border-gray-50 last:border-0 flex flex-col gap-0.5"
+                                            >
+                                                <span className="font-bold text-indigo-700">{clause.header || 'Untitled Section'}</span>
+                                                <span className="text-[10px] text-gray-500 uppercase">{clause.type}</span>
+                                            </button>
+                                        ))
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
                 <span className="text-xs text-indigo-600 font-medium bg-indigo-50 px-2 py-1 rounded">Right-click text to Tag</span>
             </div>
 
@@ -356,10 +455,11 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
                 ))}
             </div>
 
-            {contextMenu && (
+            {contextMenu && createPortal(
                 <div
-                    className="fixed bg-white border border-gray-200 shadow-lg rounded-md py-1 z-[100] w-56"
+                    className="fixed bg-white border border-gray-200 shadow-lg rounded-md py-1 z-[9999] w-56"
                     style={menuStyle}
+                    onClick={(e) => e.stopPropagation()}
                 >
                     <div className="px-4 py-2 text-xs font-bold text-gray-400 uppercase bg-gray-50 border-b">Actions</div>
 
@@ -411,7 +511,8 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
                             ))}
                         </>
                     )}
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
@@ -461,6 +562,7 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
                     <span
                         key={`${p.clause.id}-start`}
                         data-index={p.idx}
+                        data-clause-id={p.clause.id}
                         className={`inline-flex items-center px-1 rounded-l text-white text-xs font-bold mr-[1px] cursor-pointer select-none ${colorClass} ${isActive ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
                         onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
                         title={isUnterminated ? "Section In Progress (Unterminated)" : p.clause.header}
@@ -489,6 +591,7 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
                     <span
                         key={`${p.clause.id}-end`}
                         data-index={p.idx}
+                        data-clause-id={p.clause.id}
                         className="inline-flex items-center px-1 rounded-r text-white text-xs font-bold ml-[1px] bg-red-500 cursor-pointer select-none"
                         onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
                     >
@@ -541,6 +644,7 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
                 <span
                     key={`${p.clause.id}-end-line`}
                     data-index={lastIdx}
+                    data-clause-id={p.clause.id}
                     className="inline-flex items-center px-1 rounded-r text-white text-xs font-bold ml-[1px] bg-red-500 cursor-pointer select-none"
                     onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
                 >

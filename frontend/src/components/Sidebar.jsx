@@ -96,6 +96,10 @@ export default function Sidebar({ activeClause, onUpdateClause, onDeleteClause, 
                                 <span className={`text-2xl font-bold ${stats.skippedCount > 0 ? 'text-amber-700' : 'text-green-700'}`}>{stats.skippedCount}</span>
                                 <span className={`text-xs font-semibold uppercase tracking-wide ${stats.skippedCount > 0 ? 'text-amber-900' : 'text-green-900'}`}>Skipped</span>
                             </div>
+                            <div className="col-span-2 bg-gray-50 rounded-lg p-3 flex flex-col items-center justify-center text-center">
+                                <span className="text-xl font-bold text-gray-700">{stats.wordCount}</span>
+                                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Word Count</span>
+                            </div>
                         </div>
 
                         {Object.keys(stats.typeBreakdown).length > 0 && (

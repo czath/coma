@@ -316,7 +316,17 @@ function App() {
             }
         }
 
-        return { totalSections, typeBreakdown, skippedCount };
+        // Calculate word count
+        let wordCount = 0;
+        content.forEach(block => {
+            if (block.text) {
+                const words = block.text.trim().split(/\s+/);
+                if (words.length === 1 && words[0] === '') return; // Handle empty strings
+                wordCount += words.length;
+            }
+        });
+
+        return { totalSections, typeBreakdown, skippedCount, wordCount };
     }, [clauses, content]);
 
     return (
