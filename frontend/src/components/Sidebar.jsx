@@ -45,7 +45,10 @@ export default function Sidebar({ activeClause, onUpdateClause, onDeleteClause, 
                                 className="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border bg-white"
                             >
                                 {documentType === 'reference' ? (
-                                    <option value="GUIDELINE">Guideline</option>
+                                    <>
+                                        <option value="INFO">Info</option>
+                                        <option value="GUIDELINE">Guideline</option>
+                                    </>
                                 ) : (
                                     <>
                                         <option value="INFO">Info</option>

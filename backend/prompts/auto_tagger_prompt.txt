@@ -43,6 +43,25 @@ If Document Type is **MASTER** or **SUBORDINATE**:
     -   Body text, sub-clauses (1.1, 1.1.1), list items, and content following a header.
     -   This content will be grouped under the preceding `_START` tag.
 
+If Document Type is **REFERENCE**:
+**Goal:** Identify Guidelines.
+
+**Allowed Tags:**
+
+1.  `INFO_START`: Use this for the **START** of a non-guideline section.
+    -   Examples: Title, Introduction, Scope.
+    -   Rule: Tag ONLY the header.
+
+2.  `GUIDELINE_START`: Use this for the **START** of a Guideline section.
+    -   Examples: "Guideline 1", "Policy A", "Standard 1.2".
+    -   Rule: Tag ONLY the header.
+
+3.  `CONTENT`: Use this for **EVERYTHING ELSE**.
+    -   Body text, list items, and content following a header.
+
+**Prohibited Tags for REFERENCE:**
+-   Do NOT use `CLAUSE_START`, `APPENDIX_START`, `ANNEX_START`, or `EXHIBIT_START`.
+
 **Critical Instructions:**
 1.  **Preserve Indices**: Return a classification for EVERY block.
 2.  **No IDs**: Do NOT generate `id` fields.

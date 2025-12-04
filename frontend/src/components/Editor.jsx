@@ -358,7 +358,7 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
     // Determine available section types based on documentType
     const getAvailableSectionTypes = () => {
         if (documentType === 'reference') {
-            return ['GUIDELINE'];
+            return ['INFO', 'GUIDELINE'];
         }
         // master or subordinate
         return ['INFO', 'CLAUSE', 'APPENDIX', 'ANNEX', 'EXHIBIT'];

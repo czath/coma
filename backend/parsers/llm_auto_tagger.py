@@ -3,7 +3,7 @@ import json
 import time
 import google.generativeai as genai
 from dotenv import load_dotenv
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 
 # Load environment variables
 load_dotenv()
@@ -22,19 +22,17 @@ class LLMAutoTagger:
         with open(prompt_path, "r") as f:
             self.base_prompt = f.read()
 
-    def tag(self, content: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def tag(self, content: List[Dict[str, Any]], document_type: str) -> Tuple[List[Dict[str, Any]], str]:
         """
         Main entry point.
-        1. Detect Document Type.
+        1. Use provided Document Type.
         2. Chunk content and classify via LLM.
         3. Merge results and assign IDs.
         """
         if not content:
-            return []
+            return [], document_type
 
-        # Step 1: Detect Document Type
-        document_type = self._detect_document_type(content)
-        print(f"Detected Document Type: {document_type}")
+        print(f"Using Document Type: {document_type}")
 
         # Step 2: Process Chunks
         classified_map = {} # Map index -> type
@@ -79,7 +77,7 @@ class LLMAutoTagger:
         tagged_content = []
         counters = {
             "INFO": 0, "CLAUSE": 0, "APPENDIX": 0, "ANNEX": 0, "EXHIBIT": 0, "GUIDELINE": 0,
-            "INFO_START": 0, "CLAUSE_START": 0, "APPENDIX_START": 0, "ANNEX_START": 0, "EXHIBIT_START": 0, "CONTENT": 0
+            "INFO_START": 0, "CLAUSE_START": 0, "APPENDIX_START": 0, "ANNEX_START": 0, "EXHIBIT_START": 0, "GUIDELINE_START": 0, "CONTENT": 0
         }
         
         for i, block in enumerate(content):
@@ -106,6 +104,7 @@ class LLMAutoTagger:
                 "APPENDIX_START": "a",
                 "ANNEX_START": "ax",
                 "EXHIBIT_START": "ex",
+                "GUIDELINE_START": "g",
                 "CONTENT": "txt"
             }
             prefix = prefix_map.get(tag_type, "c")
@@ -116,7 +115,7 @@ class LLMAutoTagger:
             block["id"] = new_id
             tagged_content.append(block)
             
-        return tagged_content
+        return tagged_content, document_type
 
     def _detect_document_type(self, content: List[Dict]) -> str:
         """

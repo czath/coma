@@ -29,7 +29,8 @@ async def health_check():
 @app.post("/upload")
 async def upload_file(
     file: UploadFile = File(...),
-    use_ai_tagger: bool = Form(False)
+    use_ai_tagger: bool = Form(False),
+    document_type: str = Form("master")
 ):
     filename = file.filename
     ext = filename.split(".")[-1].lower()
@@ -50,20 +51,23 @@ async def upload_file(
             raise HTTPException(status_code=400, detail="Unsupported file type")
             
         # Auto-Tagging
+        # Ensure document_type is normalized
+        document_type = document_type.upper()
+        
         if use_ai_tagger:
             try:
                 tagger = LLMAutoTagger()
-                tagged_content = tagger.tag(content)
+                tagged_content, _ = tagger.tag(content, document_type)
             except Exception as e:
                 print(f"LLM Tagging failed: {e}. Falling back to Rule-Based.")
                 # Fallback
                 tagger = AutoTagger()
-                tagged_content = tagger.tag(content)
+                tagged_content, _ = tagger.tag(content, document_type)
         else:
             tagger = AutoTagger()
-            tagged_content = tagger.tag(content)
+            tagged_content, _ = tagger.tag(content, document_type)
             
-        return {"filename": filename, "content": tagged_content}
+        return {"filename": filename, "content": tagged_content, "documentType": document_type}
     finally:
         if os.path.exists(temp_path):
             os.remove(temp_path)

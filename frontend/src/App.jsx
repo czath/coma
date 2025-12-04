@@ -17,6 +17,9 @@ function App() {
 
     const handleUploadComplete = (data) => {
         setContent(data.content);
+        if (data.documentType) {
+            setDocumentType(data.documentType.toLowerCase());
+        }
         // Convert backend auto-tags to frontend clause format
         const initialClauses = [];
         let currentClause = null;
@@ -42,6 +45,9 @@ function App() {
             } else if (block.type === 'EXHIBIT_START') {
                 startNewSection = true;
                 type = 'EXHIBIT';
+            } else if (block.type === 'GUIDELINE_START') {
+                startNewSection = true;
+                type = 'GUIDELINE';
             }
             // Fallback for legacy/other tags
             else if (['HEADER', 'INFO'].includes(block.type)) {
@@ -56,6 +62,9 @@ function App() {
             } else if (block.type === 'EXHIBIT') {
                 startNewSection = true;
                 type = 'EXHIBIT';
+            } else if (block.type === 'GUIDELINE') {
+                startNewSection = true;
+                type = 'GUIDELINE';
             }
 
             if (startNewSection) {
@@ -113,7 +122,7 @@ function App() {
         // Validation: Check for incompatible sections
         const invalidClauses = clauses.filter(c => {
             if (documentType === 'reference') {
-                return c.type !== 'GUIDELINE';
+                return c.type !== 'GUIDELINE' && c.type !== 'INFO';
             } else {
                 // master or subordinate
                 return c.type === 'GUIDELINE';
@@ -394,15 +403,9 @@ function App() {
                         <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center gap-6 shrink-0 z-20 shadow-sm">
                             <div className="flex items-center gap-2">
                                 <label className="text-xs font-bold text-gray-500 uppercase">Doc Type:</label>
-                                <select
-                                    value={documentType}
-                                    onChange={(e) => setDocumentType(e.target.value)}
-                                    className="text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                >
-                                    <option value="master">Master</option>
-                                    <option value="subordinate">Subordinate</option>
-                                    <option value="reference">Reference</option>
-                                </select>
+                                <span className="text-sm font-semibold text-gray-800 bg-gray-100 px-2 py-1 rounded border border-gray-200 capitalize">
+                                    {documentType}
+                                </span>
                             </div>
                             <div className="flex items-center gap-2 flex-grow">
                                 <label className="text-xs font-bold text-gray-500 uppercase">Tags:</label>

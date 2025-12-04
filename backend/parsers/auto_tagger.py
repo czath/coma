@@ -1,7 +1,7 @@
 import re
 
 class AutoTagger:
-    def tag(self, content: list):
+    def tag(self, content: list, document_type: str = "MASTER"):
         """
         Analyzes the content and adds 'type' and 'id' fields.
         Uses 'ilvl' from DocxParser to identify Level 1 Clauses (Headers).
@@ -28,6 +28,10 @@ class AutoTagger:
                     block["type"] = "APPENDIX"
                     block["id"] = f"a_{clause_counter}"
                     clause_counter += 1
+                elif document_type == "REFERENCE" and self._is_guideline_header(text):
+                     block["type"] = "GUIDELINE"
+                     block["id"] = f"g_{clause_counter}"
+                     clause_counter += 1
                 elif self._is_clause_header(text):
                     block["type"] = "HEADER"
                     block["id"] = f"h_{clause_counter}"
@@ -51,7 +55,7 @@ class AutoTagger:
             
             tagged_content.append(block)
             
-        return tagged_content
+        return tagged_content, document_type
 
     def _is_clause_header(self, text):
         """
@@ -87,3 +91,9 @@ class AutoTagger:
         if len(text.split()) > 10: # Avoid false positives in long text
             return False
         return bool(re.match(r"^(Appendix|Schedule|Exhibit|Annex)\s+\w+|^(APPENDICES|SCHEDULES|EXHIBITS)$", text, re.IGNORECASE))
+
+    def _is_guideline_header(self, text):
+        # Matches "Guideline 1", "Policy A", "Standard 1.2"
+        if len(text.split()) > 10:
+            return False
+        return bool(re.match(r"^(Guideline|Policy|Standard)\s+\w+", text, re.IGNORECASE))
