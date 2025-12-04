@@ -15,14 +15,14 @@ class LLMAutoTagger:
             raise ValueError("GEMINI_API_KEY is missing or invalid in .env file.")
         
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.0-flash')
+        self.model = genai.GenerativeModel('gemini-2.0-flash', generation_config={"temperature": 0.0})
         
         # Load System Prompt
         prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "auto_tagger_prompt.txt")
         with open(prompt_path, "r") as f:
             self.base_prompt = f.read()
 
-    def tag(self, content: List[Dict[str, Any]], document_type: str) -> Tuple[List[Dict[str, Any]], str]:
+    def tag(self, content: List[Dict[str, Any]], document_type: str, progress_callback=None) -> Tuple[List[Dict[str, Any]], str]:
         """
         Main entry point.
         1. Use provided Document Type.
@@ -42,15 +42,59 @@ class LLMAutoTagger:
         
         total_blocks = len(content)
         
+        last_section_type = "None"
+        last_header_text = None
+        
         for i in range(0, total_blocks, CHUNK_SIZE - OVERLAP):
             chunk_end = min(i + CHUNK_SIZE, total_blocks)
             chunk_blocks = content[i:chunk_end]
             
             # Prepare input for LLM
-            llm_input = [{"index": i + idx, "text": b.get("text", "")[:500]} for idx, b in enumerate(chunk_blocks)]
+            llm_input = []
+            for idx, b in enumerate(chunk_blocks):
+                item = {
+                    "index": i + idx, 
+                    "text": b.get("text", "")
+                }
+                if "style" in b:
+                    item["style"] = b["style"]
+                llm_input.append(item)
             
+            # Prepare Context
+            context_str = ""
+            if i > 0:
+                context_str = f"PREVIOUS CONTEXT: The previous chunk ended inside a '{last_section_type}' section."
+                if last_header_text:
+                    context_str += f" The active header was '{last_header_text}'."
+                context_str += " Continue tagging accordingly."
+
             # Get classifications with retry
-            response_json = self._classify_chunk_with_retry(llm_input, document_type)
+            response_json = self._classify_chunk_with_retry(llm_input, document_type, context_str=context_str)
+            
+            # Update Context for next chunk
+            if response_json:
+                # Find the last classified item in this chunk
+                last_item = response_json[-1]
+                last_type = last_item.get("type", "CONTENT")
+                
+                # If it's a start tag, update the active header
+                if "_START" in last_type:
+                    # Find the text for this item
+                    idx = last_item.get("index")
+                    # Find block with this index
+                    block_text = next((b.get("text", "") for b in chunk_blocks if (i + chunk_blocks.index(b)) == idx), "Unknown Header")
+                    last_header_text = block_text
+                    last_section_type = last_type
+                elif last_type == "CONTENT":
+                    # Keep previous header, but update section type if we want to track "CONTENT of X"
+                    # For now, just keeping the last_section_type as the START tag is more useful 
+                    # OR we can say we are in CONTENT of X.
+                    # Let's stick to: "ended inside a [last_section_type] section"
+                    pass
+                else:
+                    # Some other tag? Reset
+                    last_section_type = last_type
+                    last_header_text = None
             
             # Merge results
             for item in response_json:
@@ -69,6 +113,10 @@ class LLMAutoTagger:
                 break
             
             # Rate Limit Protection: Sleep between chunks
+            # Rate Limit Protection: Sleep between chunks
+            if progress_callback:
+                progress_callback(chunk_end, total_blocks)
+                
             time.sleep(5)
 
         # Step 3: Post-Processing (Assign IDs)
@@ -143,12 +191,14 @@ class LLMAutoTagger:
             print(f"Error detecting doc type: {e}")
             return "MASTER"
 
-    def _classify_chunk_with_retry(self, llm_input: List[Dict], document_type: str, max_retries=5) -> List[Dict]:
+    def _classify_chunk_with_retry(self, llm_input: List[Dict], document_type: str, context_str: str = "", max_retries=5) -> List[Dict]:
         """
         Calls LLM to classify a chunk of blocks. Retries if validation fails.
         """
         prompt = f"{self.base_prompt}\n\n"
         prompt += f"CURRENT DOCUMENT TYPE: {document_type}\n"
+        if context_str:
+            prompt += f"{context_str}\n"
         prompt += f"INPUT DATA:\n{json.dumps(llm_input)}"
         
         backoff = 10 # Start with 10 seconds for 429s
