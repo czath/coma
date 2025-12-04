@@ -37,13 +37,19 @@ class LLMAutoTagger:
         # Step 2: Process Chunks
         classified_map = {} # Map index -> type
         
+        # DEBUG: Clear log file
+        try:
+            with open("debug_llm_input.txt", "w", encoding="utf-8") as f:
+                f.write("DEBUG LOG STARTED\n")
+        except Exception as e:
+            print(f"Failed to clear debug log: {e}")
+        
         CHUNK_SIZE = 50
         OVERLAP = 5
         
         total_blocks = len(content)
         
-        last_section_type = "None"
-        last_header_text = None
+
         
         for i in range(0, total_blocks, CHUNK_SIZE - OVERLAP):
             chunk_end = min(i + CHUNK_SIZE, total_blocks)
@@ -60,41 +66,12 @@ class LLMAutoTagger:
                     item["style"] = b["style"]
                 llm_input.append(item)
             
-            # Prepare Context
-            context_str = ""
-            if i > 0:
-                context_str = f"PREVIOUS CONTEXT: The previous chunk ended inside a '{last_section_type}' section."
-                if last_header_text:
-                    context_str += f" The active header was '{last_header_text}'."
-                context_str += " Continue tagging accordingly."
+
 
             # Get classifications with retry
-            response_json = self._classify_chunk_with_retry(llm_input, document_type, context_str=context_str)
+            response_json = self._classify_chunk_with_retry(llm_input, document_type)
             
-            # Update Context for next chunk
-            if response_json:
-                # Find the last classified item in this chunk
-                last_item = response_json[-1]
-                last_type = last_item.get("type", "CONTENT")
-                
-                # If it's a start tag, update the active header
-                if "_START" in last_type:
-                    # Find the text for this item
-                    idx = last_item.get("index")
-                    # Find block with this index
-                    block_text = next((b.get("text", "") for b in chunk_blocks if (i + chunk_blocks.index(b)) == idx), "Unknown Header")
-                    last_header_text = block_text
-                    last_section_type = last_type
-                elif last_type == "CONTENT":
-                    # Keep previous header, but update section type if we want to track "CONTENT of X"
-                    # For now, just keeping the last_section_type as the START tag is more useful 
-                    # OR we can say we are in CONTENT of X.
-                    # Let's stick to: "ended inside a [last_section_type] section"
-                    pass
-                else:
-                    # Some other tag? Reset
-                    last_section_type = last_type
-                    last_header_text = None
+
             
             # Merge results
             for item in response_json:
@@ -102,11 +79,11 @@ class LLMAutoTagger:
                 tag_type = item.get("type")
                 
                 if idx is not None and tag_type:
-                    # If overlap, prefer the classification from the chunk where this block is more central
-                    # For simplicity, we just overwrite for now, or we could check if it's already set.
-                    # Given the overlap is small (5), the next chunk's beginning (which is the overlap) 
-                    # might have better context for itself than the previous chunk's end.
-                    classified_map[idx] = tag_type
+                    # STRICT MERGE RULE: Never overwrite an existing classification.
+                    # The first time an index is seen (from the previous chunk), it had more preceding context.
+                    # The second time it is seen (as the start of the current chunk), it has less preceding context.
+                    if idx not in classified_map:
+                        classified_map[idx] = tag_type
             
             # Break if we reached the end
             if chunk_end == total_blocks:
@@ -191,15 +168,20 @@ class LLMAutoTagger:
             print(f"Error detecting doc type: {e}")
             return "MASTER"
 
-    def _classify_chunk_with_retry(self, llm_input: List[Dict], document_type: str, context_str: str = "", max_retries=5) -> List[Dict]:
+    def _classify_chunk_with_retry(self, llm_input: List[Dict], document_type: str, max_retries=5) -> List[Dict]:
         """
         Calls LLM to classify a chunk of blocks. Retries if validation fails.
         """
         prompt = f"{self.base_prompt}\n\n"
         prompt += f"CURRENT DOCUMENT TYPE: {document_type}\n"
-        if context_str:
-            prompt += f"{context_str}\n"
         prompt += f"INPUT DATA:\n{json.dumps(llm_input)}"
+        
+        # DEBUG: Save raw input to file
+        try:
+            with open("debug_llm_input.txt", "a", encoding="utf-8") as f:
+                f.write(f"\n\n--- CHUNK START ---\n{prompt}\n--- CHUNK END ---\n")
+        except Exception as e:
+            print(f"Failed to write debug log: {e}")
         
         backoff = 10 # Start with 10 seconds for 429s
         
@@ -221,6 +203,13 @@ class LLMAutoTagger:
                     text_response = text_response[7:]
                 if text_response.endswith("```"):
                     text_response = text_response[:-3]
+                
+                # DEBUG: Log Response
+                try:
+                    with open("debug_llm_input.txt", "a", encoding="utf-8") as f:
+                        f.write(f"\n--- LLM RESPONSE ---\n{text_response}\n--- END RESPONSE ---\n")
+                except Exception as e:
+                    print(f"Failed to write debug log: {e}")
                 
                 data = json.loads(text_response)
                 

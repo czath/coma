@@ -69,7 +69,10 @@ function App() {
 
             if (startNewSection) {
                 if (currentClause) {
-                    currentClause.end = { line: idx - 1, ch: 9999 };
+                    // Use actual length of the previous line
+                    const prevLineIdx = idx - 1;
+                    const prevLineLen = data.content[prevLineIdx] ? data.content[prevLineIdx].text.length : 0;
+                    currentClause.end = { line: prevLineIdx, ch: prevLineLen };
                     initialClauses.push(currentClause);
                 }
                 currentClause = {
@@ -83,7 +86,9 @@ function App() {
             }
         });
         if (currentClause) {
-            currentClause.end = { line: data.content.length - 1, ch: 9999 };
+            const lastLineIdx = data.content.length - 1;
+            const lastLineLen = data.content[lastLineIdx] ? data.content[lastLineIdx].text.length : 0;
+            currentClause.end = { line: lastLineIdx, ch: lastLineLen };
             initialClauses.push(currentClause);
         }
 
