@@ -1,8 +1,9 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from parsers.pdf_parser import PDFParser
 from parsers.docx_parser import DocxParser
 from parsers.auto_tagger import AutoTagger
+from parsers.llm_auto_tagger import LLMAutoTagger
 import shutil
 import os
 
@@ -26,7 +27,10 @@ async def health_check():
     return {"status": "ok"}
 
 @app.post("/upload")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(
+    file: UploadFile = File(...),
+    use_ai_tagger: bool = Form(False)
+):
     filename = file.filename
     ext = filename.split(".")[-1].lower()
     
@@ -46,8 +50,18 @@ async def upload_file(file: UploadFile = File(...)):
             raise HTTPException(status_code=400, detail="Unsupported file type")
             
         # Auto-Tagging
-        tagger = AutoTagger()
-        tagged_content = tagger.tag(content)
+        if use_ai_tagger:
+            try:
+                tagger = LLMAutoTagger()
+                tagged_content = tagger.tag(content)
+            except Exception as e:
+                print(f"LLM Tagging failed: {e}. Falling back to Rule-Based.")
+                # Fallback
+                tagger = AutoTagger()
+                tagged_content = tagger.tag(content)
+        else:
+            tagger = AutoTagger()
+            tagged_content = tagger.tag(content)
             
         return {"filename": filename, "content": tagged_content}
     finally:

@@ -22,10 +22,43 @@ function App() {
         let currentClause = null;
 
         data.content.forEach((block, idx) => {
-            // Map old HEADER type to new INFO type if necessary, or just handle it
-            const type = block.type === 'HEADER' ? 'INFO' : (block.type === 'APPENDIX' ? 'APPENDIX' : 'CLAUSE');
+            // New Logic: _START tags trigger a new section. CONTENT appends to current.
 
-            if (block.type === 'HEADER' || block.type === 'APPENDIX') {
+            let startNewSection = false;
+            let type = 'CLAUSE'; // Default type for the new section
+
+            if (block.type === 'INFO_START') {
+                startNewSection = true;
+                type = 'INFO';
+            } else if (block.type === 'CLAUSE_START') {
+                startNewSection = true;
+                type = 'CLAUSE';
+            } else if (block.type === 'APPENDIX_START') {
+                startNewSection = true;
+                type = 'APPENDIX';
+            } else if (block.type === 'ANNEX_START') {
+                startNewSection = true;
+                type = 'ANNEX';
+            } else if (block.type === 'EXHIBIT_START') {
+                startNewSection = true;
+                type = 'EXHIBIT';
+            }
+            // Fallback for legacy/other tags
+            else if (['HEADER', 'INFO'].includes(block.type)) {
+                startNewSection = true;
+                type = 'INFO';
+            } else if (block.type === 'APPENDIX') {
+                startNewSection = true;
+                type = 'APPENDIX';
+            } else if (block.type === 'ANNEX') {
+                startNewSection = true;
+                type = 'ANNEX';
+            } else if (block.type === 'EXHIBIT') {
+                startNewSection = true;
+                type = 'EXHIBIT';
+            }
+
+            if (startNewSection) {
                 if (currentClause) {
                     currentClause.end = { line: idx - 1, ch: 9999 };
                     initialClauses.push(currentClause);
