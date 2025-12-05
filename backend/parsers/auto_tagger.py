@@ -16,9 +16,9 @@ class AutoTagger:
             # Default to CLAUSE (Body Content)
             block["type"] = "CLAUSE"
             
-            # 1. Level 1 Numbering -> HEADER (Starts a new section)
+            # 1. Level 1 Numbering -> CLAUSE_START (Starts a new section)
             if ilvl == 0:
-                block["type"] = "HEADER"
+                block["type"] = "CLAUSE_START"
                 block["id"] = f"h_{clause_counter}"
                 clause_counter += 1
             
@@ -33,7 +33,7 @@ class AutoTagger:
                      block["id"] = f"g_{clause_counter}"
                      clause_counter += 1
                 elif self._is_clause_header(text):
-                    block["type"] = "HEADER"
+                    block["type"] = "CLAUSE_START"
                     block["id"] = f"h_{clause_counter}"
                     clause_counter += 1
                 else:

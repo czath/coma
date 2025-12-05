@@ -288,8 +288,13 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
                 end: null,
                 tags: []
             };
-            onUpdateClauses([...clauses, newClause]);
-            onSelectClause(newId);
+            console.log("Starting new section:", newClause);
+            try {
+                onUpdateClauses([...clauses, newClause]);
+                onSelectClause([newId]);
+            } catch (err) {
+                console.error("Error updating clauses:", err);
+            }
         } else if (action === 'end') {
             if (!unterminated) return;
 

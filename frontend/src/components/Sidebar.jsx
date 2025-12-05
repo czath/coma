@@ -122,12 +122,7 @@ export default function Sidebar({ activeClause, onUpdateClause, onDeleteClause, 
                 </div>
             )}
 
-            {/* Export Button - Fixed at bottom */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 shrink-0">
-                <button onClick={onExport} className="w-full py-3 px-4 bg-gray-900 hover:bg-black text-white text-sm font-bold rounded-lg shadow-md transition-all transform hover:-translate-y-0.5">
-                    Export JSON
-                </button>
-            </div>
+
         </div>
     );
 }

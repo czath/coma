@@ -17,16 +17,23 @@ export default function UploadScreen({ onUploadComplete, onJsonImport }) {
         setSelectedFile(file);
     };
 
+    const [progressMessage, setProgressMessage] = useState('');
+    const [progressPercent, setProgressPercent] = useState(0);
+
     const handleProceed = async () => {
         if (!selectedFile) return;
 
         setIsUploading(true);
+        setProgressMessage('Starting upload...');
+        setProgressPercent(0);
+
         const formData = new FormData();
         formData.append('file', selectedFile);
         formData.append('use_ai_tagger', useAiTagger);
         formData.append('document_type', documentType);
 
         try {
+            // 1. Initiate Upload
             const response = await fetch('http://localhost:8000/upload', {
                 method: 'POST',
                 body: formData,
@@ -34,12 +41,36 @@ export default function UploadScreen({ onUploadComplete, onJsonImport }) {
 
             if (!response.ok) throw new Error('Upload failed');
 
-            const data = await response.json();
-            onUploadComplete(data);
+            const { job_id } = await response.json();
+
+            // 2. Poll for Status
+            const pollInterval = setInterval(async () => {
+                try {
+                    const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
+                    if (!statusRes.ok) return; // Skip this poll if error
+
+                    const statusData = await statusRes.json();
+
+                    if (statusData.status === 'processing') {
+                        setProgressMessage(statusData.message || 'Processing...');
+                        setProgressPercent(statusData.progress || 0);
+                    } else if (statusData.status === 'completed') {
+                        clearInterval(pollInterval);
+                        setIsUploading(false);
+                        onUploadComplete(statusData.result);
+                    } else if (statusData.status === 'failed') {
+                        clearInterval(pollInterval);
+                        setIsUploading(false);
+                        alert(`Processing failed: ${statusData.error}`);
+                    }
+                } catch (e) {
+                    console.error("Polling error", e);
+                }
+            }, 1000);
+
         } catch (error) {
             console.error(error);
             alert('Error uploading file');
-        } finally {
             setIsUploading(false);
         }
     };
@@ -125,10 +156,16 @@ export default function UploadScreen({ onUploadComplete, onJsonImport }) {
                     </div>
                 </div>
 
-                {selectedFile && (
-                    <p className="mt-4 text-sm text-gray-500">
-                        Selected: <span className="font-medium text-gray-900">{selectedFile.name}</span>
-                    </p>
+                {isUploading && (
+                    <div className="mt-6 w-full max-w-xl mx-auto">
+                        <div className="flex justify-between text-xs font-semibold text-gray-500 mb-1">
+                            <span>{progressMessage}</span>
+                            <span>100%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                            <div className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out" style={{ width: `${progressPercent}%` }}></div>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>
