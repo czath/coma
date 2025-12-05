@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useWorkspace } from '../../hooks/useWorkspace';
-import { Upload, Plus, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus } from 'lucide-react';
+import { Upload, Plus, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function FileManager() {
@@ -45,20 +45,76 @@ export default function FileManager() {
 
         const docId = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-        const newFile = {
+        let newFile = {
             header: {
                 id: docId,
                 filename: file.name,
                 uploadDate: new Date().toISOString(),
                 status: 'uploaded', // Initial state
                 documentType: 'master', // Default
-                annotationMethod: 'rule', // Default: 'rule' or 'ai'
+                annotationMethod: 'ai', // Default: 'ai'
                 version: '1.0'
             },
             content: [],
+            clauses: [],
             progress: 0,
             fileHandle: file // Store the actual File object for later upload
         };
+
+        // Check if JSON and try to parse metadata
+        if (file.name.toLowerCase().endsWith('.json')) {
+            try {
+                const text = await file.text();
+                const jsonContent = JSON.parse(text);
+
+                // Check if it's our export format (Array with HEADER as first item)
+                if (Array.isArray(jsonContent) && jsonContent.length > 0 && jsonContent[0].type === 'HEADER' && jsonContent[0].metadata) {
+                    const metadata = jsonContent[0].metadata;
+
+                    newFile.header = {
+                        ...newFile.header,
+                        status: metadata.status || 'uploaded',
+                        documentType: metadata.documentType || 'master',
+                        annotationMethod: metadata.annotationMethod || 'ai',
+                        documentTags: metadata.documentTags || [],
+                        lastModified: metadata.lastModified || new Date().toISOString(),
+                    };
+
+                    // Reconstruct content and clauses
+                    let lineIndex = 0;
+                    jsonContent.forEach(item => {
+                        if (item.type === 'HEADER') return;
+
+                        const itemLines = (item.text || '').split('\n');
+                        const startLine = lineIndex;
+
+                        itemLines.forEach(lineText => {
+                            newFile.content.push({ text: lineText, id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}` });
+                            lineIndex++;
+                        });
+
+                        const endLine = lineIndex - 1;
+                        const endCh = itemLines[itemLines.length - 1].length;
+
+                        if (item.type !== 'SKIP') {
+                            newFile.clauses.push({
+                                id: item.id || `c_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                                type: item.type,
+                                header: item.header || (item.text ? item.text.substring(0, 50) : 'Section'),
+                                start: { line: startLine, ch: 0 },
+                                end: { line: endLine, ch: endCh },
+                                tags: item.tags || []
+                            });
+                        }
+                    });
+
+                    newFile.progress = 100;
+                }
+            } catch (e) {
+                console.error("Failed to parse JSON upload", e);
+                // Fallback to normal upload if parsing fails
+            }
+        }
 
         await addFile(newFile);
     };
@@ -253,6 +309,15 @@ export default function FileManager() {
             ingesting: 'bg-yellow-100 text-yellow-700',
             analyzing: 'bg-purple-100 text-purple-700',
         };
+        const icons = {
+            uploaded: <Upload size={12} />,
+            draft: <Edit size={12} />,
+            annotated: <CheckCircle size={12} />,
+            analyzed: <FileSearch size={12} />,
+            ingesting: <Loader size={12} className="animate-spin" />,
+            analyzing: <Loader size={12} className="animate-spin" />,
+        };
+
         const isProcessing = status === 'ingesting' || status === 'analyzing';
 
         // Use local progress if available, otherwise fallback to DB progress
@@ -262,7 +327,8 @@ export default function FileManager() {
         if (status === 'ingesting') displayStatus = 'Annotating';
 
         return (
-            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || styles.uploaded}`}>
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || styles.uploaded}`}>
+                {icons[status] || <FileText size={12} />}
                 {displayStatus}
                 {isProcessing && <span className="ml-1 font-bold">{currentProgress}%</span>}
             </span>
@@ -285,6 +351,18 @@ export default function FileManager() {
             case 'reference': return 'bg-teal-100 text-teal-600 hover:bg-teal-200';
             default: return 'bg-gray-100 text-gray-600';
         }
+    };
+
+    const getAnnotationMethodStyles = (method) => {
+        return method === 'ai'
+            ? 'bg-purple-100 text-purple-700 hover:bg-purple-200 border-purple-200'
+            : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200';
+    };
+
+    const cycleAnnotationMethod = async (file) => {
+        if (file.header.status !== 'uploaded') return;
+        const nextMethod = (file.header.annotationMethod || 'ai') === 'ai' ? 'rule' : 'ai';
+        await handleConfigChange(file, 'annotationMethod', nextMethod);
     };
 
     if (loading) return <div className="flex items-center justify-center h-screen"><Loader className="animate-spin text-indigo-600" /></div>;
@@ -344,8 +422,8 @@ export default function FileManager() {
                                     <tr key={file.header.id} className="hover:bg-gray-50 transition-colors group">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <div className="ml-4">
-                                                    <div className="text-sm font-medium text-gray-900">{file.header.filename}</div>
+                                                <div className="ml-4 min-w-0 max-w-[300px]">
+                                                    <div className="text-sm font-medium text-gray-900 truncate" title={file.header.filename}>{file.header.filename}</div>
                                                     <div className="text-xs text-gray-500">ID: {file.header.id.slice(0, 8)}...</div>
                                                 </div>
                                             </div>
@@ -365,7 +443,7 @@ export default function FileManager() {
                                             {getStatusBadge(file.header.status, file.progress, file.header.id)}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {new Date(file.header.lastModified || file.header.uploadDate).toLocaleDateString()}
+                                            {new Date(file.header.lastModified || file.header.uploadDate).toLocaleString()}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div className="flex items-center justify-end gap-3 opacity-100">
@@ -373,20 +451,20 @@ export default function FileManager() {
 
                                                 {file.header.status === 'uploaded' && (
                                                     <>
-                                                        <select
-                                                            value={file.header.annotationMethod || 'rule'}
-                                                            onChange={(e) => handleConfigChange(file, 'annotationMethod', e.target.value)}
-                                                            className="text-xs border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500 py-1"
+                                                        <button
+                                                            onClick={() => cycleAnnotationMethod(file)}
+                                                            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors border ${getAnnotationMethodStyles(file.header.annotationMethod || 'ai')}`}
+                                                            title="Toggle Annotation Method"
                                                         >
-                                                            <option value="rule">Rule-Based</option>
-                                                            <option value="ai">AI-Assisted</option>
-                                                        </select>
+                                                            {(file.header.annotationMethod || 'ai') === 'ai' ? <Wand2 size={14} /> : <Wrench size={14} />}
+                                                            <span>{(file.header.annotationMethod || 'ai') === 'ai' ? 'AI Assisted' : 'Rule Based'}</span>
+                                                        </button>
                                                         <button
                                                             onClick={() => handleRunAnnotation(file)}
-                                                            className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 text-white rounded text-xs hover:bg-indigo-700 shadow-sm"
+                                                            className="text-indigo-600 hover:text-indigo-900 p-1"
                                                             title="Run Auto-Annotation"
                                                         >
-                                                            <Play size={14} /> Annotate
+                                                            <Braces size={18} />
                                                         </button>
                                                     </>
                                                 )}

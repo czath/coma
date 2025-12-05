@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useWorkspace } from '../../hooks/useWorkspace';
 import Editor from '../Editor';
 import Sidebar from '../Sidebar';
-import { ArrowLeft, Save, Loader, CheckCircle, Download, FileText, BookOpen, FilePlus } from 'lucide-react';
+import { ArrowLeft, Save, Loader, CheckCircle, Download, FileText, BookOpen, FilePlus, Wand2, Wrench, Upload, Edit, FileSearch, FileJson } from 'lucide-react';
 
 export default function AnnotateWrapper() {
     const { id } = useParams();
@@ -98,7 +98,8 @@ export default function AnnotateWrapper() {
                 header: {
                     ...file.header,
                     documentType,
-                    documentTags
+                    documentTags,
+                    lastModified: new Date().toISOString()
                 },
                 clauses: clauses,
             };
@@ -121,12 +122,12 @@ export default function AnnotateWrapper() {
     };
 
     const handleSaveDraft = async () => {
-        const success = await saveToDB(); // Keep current status
+        const success = await saveToDB('draft'); // Force status to draft
         if (success) alert("Draft saved successfully!");
     };
 
-    const handleComplete = async () => {
-        if (window.confirm("Are you sure you want to mark annotation as complete?")) {
+    const handleFinalize = async () => {
+        if (window.confirm("Are you sure you want to finalize the annotation?")) {
             const success = await saveToDB('annotated');
             if (success) {
                 navigate('/workspace');
@@ -134,7 +135,7 @@ export default function AnnotateWrapper() {
         }
     };
 
-    const handleExport = () => {
+    const handleExport = async () => {
         // Validation: Check for incompatible sections
         const invalidClauses = clauses.filter(c => {
             if (documentType === 'reference') {
@@ -151,21 +152,41 @@ export default function AnnotateWrapper() {
             return;
         }
 
+        let exportClauses = clauses;
+        let exportContent = content;
+        let exportTags = documentTags;
+        let exportStatus = file.header.status;
+        let exportLastModified = file.header.lastModified;
+
+        if (file.header.status === 'annotated') {
+            alert("Exporting Finalized Version from database. Any unsaved changes in the editor will NOT be included.");
+            // Use DB version
+            exportClauses = file.clauses || [];
+            exportContent = file.content || [];
+            exportTags = file.header.documentTags || [];
+            // Status and LastModified are already from file.header
+        } else {
+            // Auto-save to ensure DB consistency
+            alert("Auto-saving draft before export...");
+            const saved = await saveToDB();
+            if (!saved) return;
+
+            // After save, local state is synced and persisted
+            exportClauses = clauses;
+            exportContent = content;
+            exportTags = documentTags;
+            // Update status/modified to reflect the save we just did
+            exportStatus = file.header.status;
+            exportLastModified = new Date().toISOString(); // Approximate, or fetch from updated file state if saveToDB updated it
+        }
+
         // 1. Sort clauses by position
-        const sortedClauses = [...clauses].filter(c => c.end).sort((a, b) => {
+        const sortedClauses = [...exportClauses].filter(c => c.end).sort((a, b) => {
             if (a.start.line !== b.start.line) return a.start.line - b.start.line;
             return a.start.ch - b.start.ch;
         });
 
         const exportList = [];
-
-        // Handle pending tag input
-        const finalTags = [...documentTags];
-        if (newTagInput.trim() && !finalTags.includes(newTagInput.trim())) {
-            finalTags.push(newTagInput.trim());
-            setDocumentTags(finalTags);
-            setNewTagInput('');
-        }
 
         // Add Document Header
         exportList.push({
@@ -173,12 +194,21 @@ export default function AnnotateWrapper() {
             metadata: {
                 id: file.header.id,
                 filename: file.header.filename,
-                documentType: documentType,
-                documentTags: finalTags,
+                documentType: documentType, // Use current docType or file.header.documentType? Logic above implies we should use consistent source.
+                // If finalized, we should use file.header.documentType.
+                // Let's fix this in the object below.
+                documentTags: exportTags,
+                status: exportStatus,
+                annotationMethod: file.header.annotationMethod,
+                lastModified: exportLastModified,
                 exportDate: new Date().toISOString(),
                 sectionCount: sortedClauses.length
             }
         });
+
+        // Fix documentType in metadata
+        exportList[0].metadata.documentType = file.header.status === 'annotated' ? file.header.documentType : documentType;
+
 
         let currentPos = { line: 0, ch: 0 };
 
@@ -195,13 +225,13 @@ export default function AnnotateWrapper() {
         const extractText = (start, end) => {
             let text = "";
             if (start.line === end.line) {
-                text = content[start.line].text.substring(start.ch, end.ch);
+                text = exportContent[start.line].text.substring(start.ch, end.ch);
             } else {
-                text += content[start.line].text.substring(start.ch) + "\n";
+                text += exportContent[start.line].text.substring(start.ch) + "\n";
                 for (let i = start.line + 1; i < end.line; i++) {
-                    text += content[i].text + "\n";
+                    text += exportContent[i].text + "\n";
                 }
-                text += content[end.line].text.substring(0, end.ch);
+                text += exportContent[end.line].text.substring(0, end.ch);
             }
             return text;
         };
@@ -267,11 +297,26 @@ export default function AnnotateWrapper() {
         setClauses(clauses.map(c => c.id === id ? { ...c, [field]: value } : c));
     };
 
-    const handleDeleteClause = (ids) => {
+    const handleDeleteClause = useCallback((ids) => {
         const idsToDelete = Array.isArray(ids) ? ids : [ids];
-        setClauses(clauses.filter(c => !idsToDelete.includes(c.id)));
+        setClauses(prev => prev.filter(c => !idsToDelete.includes(c.id)));
         setSelectedClauseIds([]);
-    };
+    }, []);
+
+    // Keyboard shortcut for deletion
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Delete' && selectedClauseIds.length > 0) {
+                // Prevent deletion if user is typing in an input field
+                const activeTag = document.activeElement.tagName;
+                if (['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag)) return;
+
+                handleDeleteClause(selectedClauseIds);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectedClauseIds, handleDeleteClause]);
 
     const handleAddTag = (e) => {
         if (e.key === 'Enter' && newTagInput.trim()) {
@@ -371,10 +416,38 @@ export default function AnnotateWrapper() {
     const getTypeStyles = (type) => {
         switch (type) {
             case 'master': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
-            case 'subordinate': return 'bg-orange-100 text-orange-700 border-orange-200';
             case 'reference': return 'bg-teal-100 text-teal-700 border-teal-200';
             default: return 'bg-gray-100 text-gray-700 border-gray-200';
         }
+    };
+
+    const getStatusBadge = (status) => {
+        const styles = {
+            uploaded: 'bg-gray-100 text-gray-600',
+            draft: 'bg-orange-100 text-orange-700',
+            annotated: 'bg-blue-100 text-blue-700',
+            analyzed: 'bg-green-100 text-green-700',
+            ingesting: 'bg-yellow-100 text-yellow-700',
+            analyzing: 'bg-purple-100 text-purple-700',
+        };
+        const icons = {
+            uploaded: <Upload size={14} />,
+            draft: <Edit size={14} />,
+            annotated: <CheckCircle size={14} />,
+            analyzed: <FileSearch size={14} />,
+            ingesting: <Loader size={14} className="animate-spin" />,
+            analyzing: <Loader size={14} className="animate-spin" />,
+        };
+
+        let displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        if (status === 'ingesting') displayStatus = 'Annotating';
+
+        return (
+            <span className={`shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border whitespace-nowrap ${styles[status] || styles.uploaded} border-transparent`}>
+                {icons[status] || <FileText size={14} />}
+                {displayStatus}
+            </span>
+        );
     };
 
     if (loading) return <div className="flex items-center justify-center h-screen"><Loader className="animate-spin" /></div>;
@@ -391,7 +464,13 @@ export default function AnnotateWrapper() {
                         <h1 className="text-lg font-bold text-gray-800 truncate" title={file?.header?.filename}>
                             {file?.header?.filename}
                         </h1>
-                        <span className="shrink-0 px-2 py-0.5 rounded-full text-xs font-normal bg-gray-100 text-gray-600 border border-gray-200 whitespace-nowrap">
+                        <div className={`shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-medium capitalize whitespace-nowrap ${getTypeStyles(documentType)}`}>
+                            {getTypeIcon(documentType)}
+                            {documentType}
+                        </div>
+                        {getStatusBadge(file?.header?.status || 'uploaded')}
+                        <span className={`shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border whitespace-nowrap ${file?.header?.annotationMethod === 'ai' ? 'bg-purple-100 text-purple-700 border-purple-200' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+                            {file?.header?.annotationMethod === 'ai' ? <Wand2 size={14} /> : <Wrench size={14} />}
                             {file?.header?.annotationMethod === 'ai' ? 'AI Assisted' : 'Rule Based'}
                         </span>
                     </div>
@@ -400,9 +479,9 @@ export default function AnnotateWrapper() {
                     <button
                         onClick={handleExport}
                         className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-                        title="Export"
+                        title="Export JSON"
                     >
-                        <Download size={18} />
+                        <FileJson size={18} />
                     </button>
                     <div className="h-6 w-px bg-gray-300 mx-1"></div>
                     <button
@@ -412,23 +491,16 @@ export default function AnnotateWrapper() {
                         <Save size={16} /> Save Draft
                     </button>
                     <button
-                        onClick={handleComplete}
+                        onClick={handleFinalize}
                         className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium text-sm transition-colors shadow-sm"
                     >
-                        <CheckCircle size={16} /> Complete
+                        <CheckCircle size={16} /> Finalize
                     </button>
                 </div>
             </header>
 
             {/* Metadata Bar */}
             <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center gap-6 shrink-0 z-20 shadow-sm">
-                <div className="flex items-center gap-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase">Doc Type:</label>
-                    <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-semibold capitalize ${getTypeStyles(documentType)}`}>
-                        {getTypeIcon(documentType)}
-                        {documentType}
-                    </div>
-                </div>
                 <div className="flex items-center gap-2 flex-grow min-w-0">
                     <label className="text-xs font-bold text-gray-500 uppercase shrink-0">Tags:</label>
                     <div className="flex flex-wrap gap-2 items-center p-1.5 border border-gray-200 rounded-md bg-white flex-grow min-h-[34px]">
