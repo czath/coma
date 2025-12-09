@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search, X } from 'lucide-react';
+import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search, X, Check, Book } from 'lucide-react';
 import { dbAPI } from '../../utils/db'; // Adjust path if needed
 
 export default function AnalyzeWrapper() {
@@ -185,6 +185,32 @@ export default function AnalyzeWrapper() {
         }
     };
 
+    // Style Helpers
+    const getSeverityStyle = (s) => {
+        switch (s?.toUpperCase()) {
+            case 'HIGH': return 'bg-red-50 text-red-700 border-red-200 ring-red-500';
+            case 'MEDIUM': return 'bg-orange-50 text-orange-700 border-orange-200 ring-orange-500';
+            case 'LOW': return 'bg-green-50 text-green-700 border-green-200 ring-green-500';
+            default: return 'bg-gray-100 text-gray-600 border-gray-200 ring-gray-400';
+        }
+    };
+
+    const getTypeStyle = (t) => {
+        if (t?.includes('RESTRICTION')) return 'bg-amber-50 text-amber-700 border-amber-200 ring-amber-500';
+        if (t?.includes('OBLIGATION')) return 'bg-blue-50 text-blue-700 border-blue-200 ring-blue-500';
+        if (t?.includes('PERMISSION')) return 'bg-emerald-50 text-emerald-700 border-emerald-200 ring-emerald-500';
+        if (t?.includes('DEFINITION')) return 'bg-purple-50 text-purple-700 border-purple-200 ring-purple-500';
+        return 'bg-gray-100 text-gray-600 border-gray-200 ring-gray-400';
+    };
+
+    const getTypeIcon = (t) => {
+        if (t?.includes('RESTRICTION')) return <AlertTriangle size={14} />;
+        if (t?.includes('OBLIGATION')) return <CheckCircle size={14} />;
+        if (t?.includes('PERMISSION')) return <Check size={14} />;
+        if (t?.includes('DEFINITION')) return <Book size={14} />;
+        return <Scale size={14} />;
+    };
+
     // Filter Options
     const severities = ['HIGH', 'MEDIUM', 'LOW'];
     const types = ['RESTRICTION', 'OBLIGATION', 'DEFINITION', 'PERMISSION'];
@@ -295,7 +321,7 @@ export default function AnalyzeWrapper() {
 
                 {/* Right: Rules List */}
                 <div className="flex-1 bg-gray-50 flex flex-col">
-                    <div className="p-4 border-b border-gray-200 bg-white shadow-sm z-10 space-y-3">
+                    <div className="p-4 border-b border-gray-200 bg-gray-100 shadow-sm z-10 space-y-3">
                         <div className="flex justify-between items-center">
                             <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide flex items-center gap-2">
                                 <Scale size={16} /> Generated Rules
@@ -339,18 +365,22 @@ export default function AnalyzeWrapper() {
                             <div className="flex items-center gap-2">
                                 <span className="text-xs font-bold text-gray-500 uppercase">Severity:</span>
                                 <div className="flex gap-1">
-                                    {severities.map(severity => (
-                                        <button
-                                            key={severity}
-                                            onClick={() => toggleSeverity(severity)}
-                                            className={`px-2 py-0.5 text-xs rounded-full border transition-all ${selectedSeverities.includes(severity)
-                                                ? 'bg-gray-800 text-white border-gray-800'
-                                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
-                                                }`}
-                                        >
-                                            {severity}
-                                        </button>
-                                    ))}
+                                    {severities.map(severity => {
+                                        const isSelected = selectedSeverities.includes(severity);
+                                        const style = getSeverityStyle(severity);
+                                        return (
+                                            <button
+                                                key={severity}
+                                                onClick={() => toggleSeverity(severity)}
+                                                className={`px-2 py-0.5 text-xs rounded-full border transition-all ${isSelected
+                                                        ? `${style} ring-1`
+                                                        : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+                                                    }`}
+                                            >
+                                                {severity}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
@@ -358,18 +388,22 @@ export default function AnalyzeWrapper() {
                             <div className="flex items-center gap-2">
                                 <span className="text-xs font-bold text-gray-500 uppercase w-14">Type:</span>
                                 <div className="flex gap-1 flex-wrap">
-                                    {types.map(type => (
-                                        <button
-                                            key={type}
-                                            onClick={() => toggleType(type)}
-                                            className={`px-2 py-0.5 text-xs rounded-full border transition-all ${selectedTypes.includes(type)
-                                                ? 'bg-indigo-600 text-white border-indigo-600'
-                                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
-                                                }`}
-                                        >
-                                            {type}
-                                        </button>
-                                    ))}
+                                    {types.map(type => {
+                                        const isSelected = selectedTypes.includes(type);
+                                        const style = getTypeStyle(type);
+                                        return (
+                                            <button
+                                                key={type}
+                                                onClick={() => toggleType(type)}
+                                                className={`px-2 py-0.5 text-xs rounded-full border transition-all ${isSelected
+                                                        ? `${style} ring-1`
+                                                        : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+                                                    }`}
+                                            >
+                                                {type}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -382,7 +416,13 @@ export default function AnalyzeWrapper() {
                             </div>
                         ) : (
                             filteredRules.map((rule, idx) => (
-                                <RuleCard key={idx} rule={rule} />
+                                <RuleCard
+                                    key={idx}
+                                    rule={rule}
+                                    getSeverityStyle={getSeverityStyle}
+                                    getTypeStyle={getTypeStyle}
+                                    getTypeIcon={getTypeIcon}
+                                />
                             ))
                         )}
                     </div>
@@ -392,30 +432,15 @@ export default function AnalyzeWrapper() {
     );
 }
 
-function RuleCard({ rule }) {
-    const getSeverityColor = (s) => {
-        switch (s?.toUpperCase()) {
-            case 'HIGH': return 'bg-red-50 text-red-700 border-red-200';
-            case 'MEDIUM': return 'bg-orange-50 text-orange-700 border-orange-200';
-            case 'LOW': return 'bg-green-50 text-green-700 border-green-200';
-            default: return 'bg-gray-100 text-gray-600 border-gray-200';
-        }
-    };
-
-    const getTypeIcon = (t) => {
-        if (t?.includes('RESTRICTION')) return <AlertTriangle size={14} />;
-        if (t?.includes('OBLIGATION')) return <CheckCircle size={14} />;
-        return <Scale size={14} />;
-    };
-
+function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon }) {
     return (
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2">
-                    <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getSeverityColor(rule.severity)}`}>
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getSeverityStyle(rule.severity)}`}>
                         {rule.severity || 'UNKNOWN'}
                     </span>
-                    <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium border border-gray-200 flex items-center gap-1">
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getTypeStyle(rule.rule_type)}`}>
                         {getTypeIcon(rule.rule_type)}
                         {rule.rule_type || 'RULE'}
                     </span>
