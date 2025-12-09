@@ -13,6 +13,8 @@ export default function AnalyzeWrapper() {
     const [selectedTerm, setSelectedTerm] = useState(null);
     const [selectedSeverities, setSelectedSeverities] = useState([]);
     const [selectedTypes, setSelectedTypes] = useState([]);
+    const [contextModalOpen, setContextModalOpen] = useState(false);
+    const [contextData, setContextData] = useState(null);
 
     useEffect(() => {
         const loadFile = async () => {
@@ -183,6 +185,40 @@ export default function AnalyzeWrapper() {
         } else {
             setSelectedTypes([...selectedTypes, type]);
         }
+    };
+
+    const handleViewContext = (rule) => {
+        if (!file || !rule.source_id) return;
+
+        // Find the section and its content
+        const content = file.content || [];
+        const startIndex = content.findIndex(b => b.id === rule.source_id);
+
+        if (startIndex === -1) return;
+
+        // Gather blocks until the next header
+        let sectionText = "";
+        let headerText = content[startIndex].text;
+
+        // Start from the block AFTER the header (or include header? usually header is separate)
+        // Let's include header for context
+        // sectionText += headerText + "\n\n";
+
+        for (let i = startIndex; i < content.length; i++) {
+            const block = content[i];
+            // If we hit a NEW header (and it's not the start block), stop
+            if (i > startIndex && (block.type === 'CLAUSE_START' || block.type === 'GUIDELINE' || block.type === 'APPENDIX' || block.id.startsWith('h_') || block.id.startsWith('a_'))) {
+                break;
+            }
+            sectionText += block.text + "\n";
+        }
+
+        setContextData({
+            title: rule.source_header || headerText,
+            text: sectionText,
+            highlight: rule.verification_quote
+        });
+        setContextModalOpen(true);
     };
 
     // Style Helpers
@@ -423,28 +459,111 @@ export default function AnalyzeWrapper() {
                                     getSeverityStyle={getSeverityStyle}
                                     getTypeStyle={getTypeStyle}
                                     getTypeIcon={getTypeIcon}
+                                    onViewContext={handleViewContext}
                                 />
                             ))
                         )}
                     </div>
                 </div>
             </div>
+
+            {/* Context Modal */}
+            {contextModalOpen && contextData && (
+                <ContextModal
+                    data={contextData}
+                    onClose={() => setContextModalOpen(false)}
+                />
+            )}
         </div>
     );
 }
 
-function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon }) {
+function ContextModal({ data, onClose }) {
+    const highlightRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (highlightRef.current) {
+            highlightRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [data]);
+
     return (
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+                <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                    <h3 className="font-bold text-gray-800 flex items-center gap-2">
+                        <BookOpen size={18} className="text-purple-600" />
+                        Context: {data.title}
+                    </h3>
+                    <button
+                        onClick={onClose}
+                        className="text-gray-400 hover:text-gray-600 p-1 hover:bg-gray-200 rounded-full transition-colors"
+                    >
+                        <X size={20} />
+                    </button>
+                </div>
+                <div className="p-6 overflow-y-auto bg-white font-serif text-lg leading-relaxed text-gray-800 whitespace-pre-wrap">
+                    {/* Highlight Logic */}
+                    {(() => {
+                        if (!data.highlight) return data.text;
+                        const parts = data.text.split(data.highlight);
+                        if (parts.length === 1) return data.text; // Not found exact match
+
+                        return (
+                            <>
+                                {parts.map((part, i) => (
+                                    <React.Fragment key={i}>
+                                        {part}
+                                        {i < parts.length - 1 && (
+                                            <span
+                                                ref={i === 0 ? highlightRef : null}
+                                                className="bg-yellow-100 border-b-2 border-yellow-300 text-gray-900 font-medium px-0.5 rounded"
+                                            >
+                                                {data.highlight}
+                                            </span>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </>
+                        )
+                    })()}
+                </div>
+                <div className="p-4 border-t border-gray-100 bg-gray-50 text-right">
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-black transition-colors"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon, onViewContext }) {
+    return (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow group">
             <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-2">
-                    <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getSeverityStyle(rule.severity)}`}>
-                        {rule.severity || 'UNKNOWN'}
-                    </span>
-                    <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getTypeStyle(rule.rule_type)}`}>
-                        {getTypeIcon(rule.rule_type)}
-                        {rule.rule_type || 'RULE'}
-                    </span>
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getSeverityStyle(rule.severity)}`}>
+                            {rule.severity || 'UNKNOWN'}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getTypeStyle(rule.rule_type)}`}>
+                            {getTypeIcon(rule.rule_type)}
+                            {rule.rule_type || 'RULE'}
+                        </span>
+                    </div>
+                    {/* Header Display */}
+                    {rule.source_header && rule.source_header !== "Unknown Section" && (
+                        <div className="text-xs text-gray-400 font-medium flex items-center gap-1 pl-1">
+                            <span className="uppercase tracking-wider">in</span>
+                            <span className="text-gray-600 bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 truncate max-w-[250px]" title={rule.source_header}>
+                                {rule.source_header}
+                            </span>
+                        </div>
+                    )}
                 </div>
                 <div className="flex gap-1">
                     {rule.related_tags && rule.related_tags.map(t => (
@@ -459,8 +578,15 @@ function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon }) {
                 {rule.logic_instruction}
             </p>
 
-            <div className="bg-slate-50 border-l-4 border-slate-300 p-3 text-sm text-slate-600 italic">
+            <div
+                onClick={() => onViewContext(rule)}
+                className="bg-slate-50 border-l-4 border-slate-300 p-3 text-sm text-slate-600 italic cursor-pointer group-hover:bg-slate-100 group-hover:border-slate-400 transition-colors relative"
+                title="Click to view full context"
+            >
                 "{rule.verification_quote}"
+                <span className="absolute right-2 bottom-2 opacity-0 group-hover:opacity-100 transition-opacity text-xs bg-white border border-gray-200 px-2 py-1 rounded shadow-sm flex items-center gap-1 text-slate-500">
+                    <BookOpen size={12} /> View Context
+                </span>
             </div>
         </div>
     );

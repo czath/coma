@@ -37,21 +37,17 @@ class RuleExtractor:
         Iterates through content chunks and extracts Taxonomy + Rules.
         """
         
-        # 1. Prepare Chunks
-        # Unlike tagging (where we need strict order), for analysis we can group by sections.
-        # However, for simplicity and context, we'll chunk by block count similar to tagging, 
-        # but with larger context windows if possible.
+        # 1. Pre-process: Map every block key to its Parent Header
+        # This allows us to link a Rule -> Quote -> Block -> Parent Section ID/Title
+        block_header_map = self._build_header_map(content)
         
-        CHUNK_SIZE = 20 # Smaller chunks for rule extraction focus? Or larger for context?
-                        # Let's stick to ~20-30 blocks to give the LLM enough text to find rules 
-                        # but not overfill the window.
-        
+        # 2. Prepare Chunks
+        CHUNK_SIZE = 20
         total_blocks = len(content)
-        aggregated_taxonomy = {} # Map ID -> Object (to deduplicate)
+        aggregated_taxonomy = {} 
         aggregated_rules = []
         
         chunk_indices = range(0, total_blocks, CHUNK_SIZE)
-        total_chunks = len(chunk_indices)
         
         for i, start_idx in enumerate(chunk_indices):
             end_idx = min(start_idx + CHUNK_SIZE, total_blocks)
@@ -60,14 +56,8 @@ class RuleExtractor:
             # Format text for LLM
             chunk_text = ""
             for block in chunk_blocks:
-                # Include ID to help LLM cite source? 
-                # Ideally we want the LLM to just cite the text.
-                # But for 'source_chunk_id', we might need to map back.
-                # For now, let's just pass text. We can match quotes later or just link to the first block of the chunk.
-                # Actually, our prompt asks for "verification_quote".
                 chunk_text += f"{block.get('text', '')}\n"
                 
-            # Skip empty chunks
             if not chunk_text.strip():
                 continue
 
@@ -77,38 +67,81 @@ class RuleExtractor:
                 
                 # Merge Taxonomy
                 for tax in response_json.get("taxonomy", []):
-                    # Dedup by tag_id
                     t_id = tax.get("tag_id")
                     if t_id and t_id not in aggregated_taxonomy:
                         aggregated_taxonomy[t_id] = tax
                         
                 # Merge Rules
                 for rule in response_json.get("rules", []):
-                    # Add source metadata
-                    # We link the rule to the ID of the first block in this chunk as an approximation,
-                    # or leave source_chunk_id generic. 
-                    # Better: try to find which specific block contained the quote? 
-                    # For now, let's link to the chunk start.
-                    if chunk_blocks:
-                         rule["source_chunk_id"] = chunk_blocks[0].get("id")
+                    # Smart Attribution: Find which block contains the quote
+                    quote = rule.get("verification_quote", "").strip()
+                    matched_header = None
                     
+                    if quote:
+                        # Search in current chunk blocks
+                        for b_idx, block in enumerate(chunk_blocks):
+                            if quote in block.get("text", ""):
+                                # Found the source block!
+                                global_idx = start_idx + b_idx
+                                matched_header = block_header_map.get(global_idx)
+                                break
+                    
+                    # Fallback: Use the header of the first block in chunk
+                    if not matched_header and chunk_blocks:
+                         global_idx = start_idx
+                         matched_header = block_header_map.get(global_idx)
+
+                    # Assign Source Metadata
+                    if matched_header:
+                        rule["source_id"] = matched_header["id"]
+                        rule["source_header"] = matched_header["text"]
+                    else:
+                        rule["source_id"] = "unknown"
+                        rule["source_header"] = "Unknown Section"
+
                     aggregated_rules.append(rule)
                     
             except Exception as e:
                 print(f"Error analyzing chunk {start_idx}-{end_idx}: {e}")
-                # Don't fail the whole process, just log
             
-            # Progress
             if progress_callback:
                 progress_callback(end_idx, total_blocks)
-                
-            # Rate Limit Sleep
             time.sleep(2) 
             
         return {
             "taxonomy": list(aggregated_taxonomy.values()),
             "rules": aggregated_rules
         }
+
+    def _build_header_map(self, content: List[Dict]) -> Dict[int, Dict]:
+        """
+        Scans content to determine the active "Parent Header" for every block index.
+        Returns: { block_index: { "id": "h_1", "text": "1. Definitions" } }
+        """
+        header_map = {}
+        current_header = {"id": "root", "text": "Document Start"}
+        
+        for idx, block in enumerate(content):
+            # Check if this block IS a header
+            # Types: CLAUSE_START, GUIDELINE, APPENDIX, or if ID starts with h_, g_, a_
+            b_type = block.get("type", "CLAUSE")
+            b_id = block.get("id", "")
+            
+            is_header = False
+            if b_type in ["CLAUSE_START", "GUIDELINE", "APPENDIX", "ANNEX", "EXHIBIT"]:
+                is_header = True
+            elif b_id.startswith(("h_", "g_", "a_")):
+                is_header = True
+                
+            if is_header:
+                # Update current header context (using 50 chars max for title)
+                title = block.get("text", "").strip()
+                if len(title) > 60: title = title[:57] + "..."
+                current_header = {"id": b_id, "text": title}
+            
+            header_map[idx] = current_header
+            
+        return header_map
 
     def _analyze_chunk_with_retry(self, text: str, max_retries=3) -> Dict:
         """
