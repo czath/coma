@@ -372,9 +372,9 @@ export default function AnalyzeWrapper() {
                                             <button
                                                 key={severity}
                                                 onClick={() => toggleSeverity(severity)}
-                                                className={`px-2 py-0.5 text-xs rounded-full border transition-all ${isSelected
-                                                        ? `${style} ring-1`
-                                                        : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+                                                className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 transition-all ${isSelected
+                                                    ? `${style} ring-1`
+                                                    : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
                                                     }`}
                                             >
                                                 {severity}
@@ -395,11 +395,12 @@ export default function AnalyzeWrapper() {
                                             <button
                                                 key={type}
                                                 onClick={() => toggleType(type)}
-                                                className={`px-2 py-0.5 text-xs rounded-full border transition-all ${isSelected
-                                                        ? `${style} ring-1`
-                                                        : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+                                                className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 transition-all ${isSelected
+                                                    ? `${style} ring-1`
+                                                    : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
                                                     }`}
                                             >
+                                                {getTypeIcon(type)}
                                                 {type}
                                             </button>
                                         );
