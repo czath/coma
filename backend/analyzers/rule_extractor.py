@@ -78,14 +78,33 @@ class RuleExtractor:
                     matched_header = None
                     
                     if quote:
-                        # Search in current chunk blocks
-                        for b_idx, block in enumerate(chunk_blocks):
-                            if quote in block.get("text", ""):
-                                # Found the source block!
-                                global_idx = start_idx + b_idx
+                        # Fuzzy Match Strategy: Best Word Overlap
+                        # 1. Tokenize quote
+                        quote_tokens = set(quote.lower().split())
+                        best_score = 0
+                        best_block_idx = -1
+                        
+                        if not quote_tokens:
+                            # Empty quote? Fallback.
+                            pass
+                        else:
+                            for b_idx, block in enumerate(chunk_blocks):
+                                b_text = block.get("text", "").lower()
+                                b_tokens = set(b_text.split())
+                                
+                                # Calculate intersection (overlap)
+                                overlap = len(quote_tokens.intersection(b_tokens))
+                                
+                                # Take the best score
+                                if overlap > best_score:
+                                    best_score = overlap
+                                    best_block_idx = b_idx
+                            
+                            # Threshold: Match must have at least some overlap (e.g. 2 words)
+                            if best_score >= 2: 
+                                global_idx = start_idx + best_block_idx
                                 matched_header = block_header_map.get(global_idx)
-                                break
-                    
+
                     # Fallback: Use the header of the first block in chunk
                     if not matched_header and chunk_blocks:
                          global_idx = start_idx

@@ -506,24 +506,34 @@ function ContextModal({ data, onClose }) {
                     {/* Highlight Logic */}
                     {(() => {
                         if (!data.highlight) return data.text;
-                        const parts = data.text.split(data.highlight);
-                        if (parts.length === 1) return data.text; // Not found exact match
+
+                        // Fuzzy Highlight: Create a regex that allows flexible whitespace
+                        // Escape regex chars
+                        const escapedQuote = data.highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        // Allow multiple whitespaces/newlines for every space in quote
+                        const fuzzyRegexPattern = escapedQuote.replace(/\s+/g, '[\\s\\n]+');
+                        const fuzzyRegex = new RegExp(`(${fuzzyRegexPattern})`, 'gi');
+
+                        const parts = data.text.split(fuzzyRegex);
+                        if (parts.length === 1) return data.text; // Not found even with fuzzy
 
                         return (
                             <>
-                                {parts.map((part, i) => (
-                                    <React.Fragment key={i}>
-                                        {part}
-                                        {i < parts.length - 1 && (
+                                {parts.map((part, i) => {
+                                    // With capturing group, odd matches are the split delimiter (the match)
+                                    if (i % 2 === 1) {
+                                        return (
                                             <span
-                                                ref={i === 0 ? highlightRef : null}
+                                                key={i}
+                                                ref={i === 1 ? highlightRef : null}
                                                 className="bg-yellow-100 border-b-2 border-yellow-300 text-gray-900 font-medium px-0.5 rounded"
                                             >
-                                                {data.highlight}
+                                                {part}
                                             </span>
-                                        )}
-                                    </React.Fragment>
-                                ))}
+                                        );
+                                    }
+                                    return <React.Fragment key={i}>{part}</React.Fragment>;
+                                })}
                             </>
                         )
                     })()}
