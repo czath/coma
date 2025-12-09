@@ -17,7 +17,10 @@ LLM_CONFIG = {
     "ANALYSIS": {
         "model_name": "gemini-2.0-flash",
         "temperature": 0.0,
-        "max_output_tokens": 8192
+        "max_output_tokens": 8192,
+        "top_k": 1, 
+        "top_p": 0.95
+        # "response_mime_type": "application/json"  <-- DISABLED: Causing Hangs
     },
     
     # Task: Clause Review / Risk Assessment (Comparison against rules)

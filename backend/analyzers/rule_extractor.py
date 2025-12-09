@@ -19,8 +19,11 @@ class RuleExtractor:
         self.model = genai.GenerativeModel(
             self.config["model_name"],
             generation_config={
-                "temperature": self.config["temperature"],
-                "max_output_tokens": self.config.get("max_output_tokens", 8192)
+                "temperature": self.config.get("temperature", 0.0),
+                "max_output_tokens": self.config.get("max_output_tokens", 8192),
+                "top_k": self.config.get("top_k", 40),
+                "top_p": self.config.get("top_p", 0.95),
+                "response_mime_type": self.config.get("response_mime_type", "text/plain")
             }
         )
         
@@ -173,7 +176,7 @@ class RuleExtractor:
                 response = self.model.generate_content(prompt)
                 raw_text = response.text.strip()
                 
-                # Clean Markdown
+                # Clean Markdown (Still useful if JSON mode isn't perfectly respected or for backwards compat)
                 if raw_text.startswith("```json"):
                     raw_text = raw_text[7:]
                 if raw_text.endswith("```"):

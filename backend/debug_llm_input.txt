@@ -102,7 +102,7 @@ INPUT DATA:
 
 [
   {"index": 0, "type": "INFO_START"},
-  {"index": 1, "type": "INFO_START"},
+  {"index": 1, "type": "GUIDELINE_START"},
   {"index": 2, "type": "CONTENT"},
   {"index": 3, "type": "CONTENT"},
   {"index": 4, "type": "CONTENT"},
