@@ -1,20 +1,180 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson } from 'lucide-react';
+import { dbAPI } from '../../utils/db'; // Adjust path if needed
 
 export default function AnalyzeWrapper() {
     const navigate = useNavigate();
     const { id } = useParams();
+    const [file, setFile] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadFile = async () => {
+            try {
+                const doc = await dbAPI.getFile(id);
+                if (doc) {
+                    setFile(doc);
+                }
+            } catch (e) {
+                console.error("Error loading file", e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadFile();
+    }, [id]);
+
+    const handleExport = () => {
+        if (!file) return;
+
+        // Export relevant analysis data
+        const exportData = {
+            header: {
+                ...file.header,
+                exportDate: new Date().toISOString()
+            },
+            taxonomy: file.taxonomy || [],
+            rules: file.rules || []
+        };
+
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${file.header.filename.replace(/\.[^/.]+$/, "")}_analysis.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    if (loading) return <div className="p-8">Loading analysis...</div>;
+    if (!file) return <div className="p-8">Document not found.</div>;
+
+    const taxonomy = file.taxonomy || [];
+    const rules = file.rules || [];
 
     return (
-        <div className="p-8">
-            <button onClick={() => navigate('/workspace')} className="flex items-center gap-2 text-gray-500 mb-4">
-                <ArrowLeft size={20} /> Back to Workspace
-            </button>
-            <h1 className="text-2xl font-bold">Analysis View (Mock)</h1>
-            <p>Analyzing document ID: {id}</p>
-            <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
-                This feature is currently mocked.
+        <div className="flex flex-col h-screen bg-gray-50 overflow-hidden font-sans">
+            {/* Header */}
+            <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shrink-0 h-16">
+                <div className="flex items-center gap-4">
+                    <button onClick={() => navigate('/workspace')} className="text-gray-500 hover:text-gray-700">
+                        <ArrowLeft size={20} />
+                    </button>
+                    <div>
+                        <h1 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <BookOpen size={20} className="text-purple-600" />
+                            Reference Analysis: <span className="text-gray-600 font-normal">{file.header.filename}</span>
+                        </h1>
+                    </div>
+                </div>
+                <div>
+                    <button
+                        onClick={handleExport}
+                        className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                        title="Export Analysis JSON"
+                    >
+                        <FileJson size={18} />
+                    </button>
+                </div>
+            </header>
+
+            {/* Main Content */}
+            <div className="flex flex-1 overflow-hidden">
+                {/* Left: Taxonomy Sidebar */}
+                <div className="w-1/3 bg-white border-r border-gray-200 flex flex-col">
+                    <div className="p-4 border-b border-gray-200 bg-purple-50">
+                        <h2 className="text-sm font-bold text-purple-900 uppercase tracking-wide flex items-center gap-2">
+                            <Tag size={16} /> Taxonomy (Concepts)
+                        </h2>
+                    </div>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                        {taxonomy.length === 0 ? (
+                            <p className="text-gray-400 text-sm">No taxonomy concepts extracted.</p>
+                        ) : (
+                            taxonomy.map((tag, idx) => (
+                                <div key={idx} className="p-3 bg-gray-50 border border-gray-100 rounded-lg hover:border-purple-200 transition-colors">
+                                    <div className="flex items-center justify-between mb-1">
+                                        <span className="font-bold text-gray-800 text-sm">{tag.display_name}</span>
+                                        <span className="text-xs font-mono text-gray-400 bg-gray-100 px-1 rounded">{tag.tag_id}</span>
+                                    </div>
+                                    <p className="text-xs text-gray-500 leading-relaxed">{tag.description}</p>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+
+                {/* Right: Rules List */}
+                <div className="flex-1 bg-gray-50 flex flex-col">
+                    <div className="p-4 border-b border-gray-200 bg-white shadow-sm z-10">
+                        <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide flex items-center gap-2">
+                            <Scale size={16} /> Extracted Rules (Logic)
+                        </h2>
+                    </div>
+                    <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                        {rules.length === 0 ? (
+                            <div className="text-center text-gray-400 mt-10">
+                                <Gavel size={48} className="mx-auto mb-2 opacity-50" />
+                                <p>No rules extracted from this document.</p>
+                            </div>
+                        ) : (
+                            rules.map((rule, idx) => (
+                                <RuleCard key={idx} rule={rule} />
+                            ))
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function RuleCard({ rule }) {
+    const getSeverityColor = (s) => {
+        switch (s?.toUpperCase()) {
+            case 'HIGH': return 'bg-red-50 text-red-700 border-red-200';
+            case 'MEDIUM': return 'bg-orange-50 text-orange-700 border-orange-200';
+            case 'LOW': return 'bg-green-50 text-green-700 border-green-200';
+            default: return 'bg-gray-100 text-gray-600 border-gray-200';
+        }
+    };
+
+    const getTypeIcon = (t) => {
+        if (t?.includes('RESTRICTION')) return <AlertTriangle size={14} />;
+        if (t?.includes('OBLIGATION')) return <CheckCircle size={14} />;
+        return <Scale size={14} />;
+    };
+
+    return (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow">
+            <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-2">
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getSeverityColor(rule.severity)}`}>
+                        {rule.severity || 'UNKNOWN'}
+                    </span>
+                    <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium border border-gray-200 flex items-center gap-1">
+                        {getTypeIcon(rule.rule_type)}
+                        {rule.rule_type || 'RULE'}
+                    </span>
+                </div>
+                <div className="flex gap-1">
+                    {rule.related_tags && rule.related_tags.map(t => (
+                        <span key={t} className="text-xs bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-medium">
+                            {t}
+                        </span>
+                    ))}
+                </div>
+            </div>
+
+            <p className="text-gray-900 font-medium text-lg mb-4">
+                {rule.logic_instruction}
+            </p>
+
+            <div className="bg-slate-50 border-l-4 border-slate-300 p-3 text-sm text-slate-600 italic">
+                "{rule.verification_quote}"
             </div>
         </div>
     );

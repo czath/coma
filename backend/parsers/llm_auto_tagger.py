@@ -14,7 +14,7 @@ class LLMAutoTagger:
         if not api_key or api_key == "PLACEHOLDER":
             raise ValueError("GEMINI_API_KEY is missing or invalid in .env file.")
         
-        genai.configure(api_key=api_key)
+        genai.configure(api_key=api_key, transport='rest')
         self.model = genai.GenerativeModel('gemini-2.0-flash', generation_config={"temperature": 0.0})
         
         # Load System Prompt

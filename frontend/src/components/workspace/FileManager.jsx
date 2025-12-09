@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useWorkspace } from '../../hooks/useWorkspace';
 import { Upload, Plus, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,29 @@ export default function FileManager() {
     const navigate = useNavigate();
     const [isDragging, setIsDragging] = useState(false);
     const [uploadProgress, setUploadProgress] = useState({}); // Local state for progress to avoid re-renders
+    const cleanupDone = useRef(false);
+
+    // Clean up stuck states on mount (ONCE only)
+    useEffect(() => {
+        if (loading || !files || files.length === 0) return;
+        if (cleanupDone.current) return;
+
+        cleanupDone.current = true;
+        console.log("Running one-time cleanup check...");
+
+        files.forEach(file => {
+            const status = file.header.status;
+            // Only reset if NO upload progress is found locally (meaning it's likely from a reload)
+            if (['ingesting', 'analyzing'].includes(status) && !uploadProgress[file.header.id]) {
+                const newStatus = status === 'ingesting' ? 'uploaded' : 'annotated';
+                console.log(`Resetting stuck file ${file.header.filename} from ${status} to ${newStatus}`);
+                updateFile(file.header.id, {
+                    header: { ...file.header, status: newStatus },
+                    progress: 0
+                });
+            }
+        });
+    }, [files, loading, updateFile]);
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -120,6 +143,7 @@ export default function FileManager() {
     };
 
     const handleRunAnnotation = async (file) => {
+        console.log("handleRunAnnotation started for", file.header.id);
         if (!file.fileHandle) {
             alert("Error: Original file not found. Cannot process.");
             return;
@@ -129,6 +153,7 @@ export default function FileManager() {
             header: { ...file.header, status: 'ingesting' },
             progress: 0
         });
+        console.log("Updated file status to ingesting");
 
         runRealIngestion(file);
     };
@@ -192,6 +217,22 @@ export default function FileManager() {
             const pollInterval = setInterval(async () => {
                 try {
                     const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
+
+                    if (statusRes.status === 404) {
+                        clearInterval(pollInterval);
+                        console.warn("Job not found (404). Backend likely restarted.");
+                        setUploadProgress(prev => {
+                            const newState = { ...prev };
+                            delete newState[dbFile.header.id];
+                            return newState;
+                        });
+                        await updateFile(dbFile.header.id, {
+                            header: { ...dbFile.header, status: 'uploaded' },
+                            progress: 0
+                        });
+                        return;
+                    }
+
                     if (!statusRes.ok) return;
 
                     const statusData = await statusRes.json();
@@ -254,23 +295,101 @@ export default function FileManager() {
         }
     };
 
-    const handleAction = (action, file) => {
+    const handleAction = async (action, file) => {
         switch (action) {
             case 'annotate':
                 navigate(`/annotate/${file.header.id}`);
                 break;
             case 'analyze':
-                alert("Analysis Mock: Started...");
+                // 1. Set status to analyzing
                 updateFile(file.header.id, { header: { ...file.header, status: 'analyzing' }, progress: 0 });
-                setTimeout(() => {
-                    updateFile(file.header.id, { header: { ...file.header, status: 'analyzed' }, progress: 100 });
-                }, 2000);
+
+                try {
+                    // 2. Send to Backend
+                    const response = await fetch('http://localhost:8000/analyze_document', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ document_content: file }) // Send full file object
+                    });
+
+                    if (!response.ok) throw new Error('Analysis request failed');
+                    const { job_id } = await response.json();
+
+                    // 3. Poll for Status
+                    const pollInterval = setInterval(async () => {
+                        try {
+                            const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
+
+                            if (statusRes.status === 404) {
+                                clearInterval(pollInterval);
+                                console.warn("Job not found (404). Backend likely restarted.");
+                                setUploadProgress(prev => {
+                                    const newState = { ...prev };
+                                    delete newState[file.header.id];
+                                    return newState;
+                                });
+                                await updateFile(file.header.id, {
+                                    header: { ...file.header, status: 'annotated' },
+                                    progress: 100
+                                });
+                                return;
+                            }
+
+                            if (!statusRes.ok) return;
+                            const statusData = await statusRes.json();
+
+                            if (statusData.status === 'processing') {
+                                setUploadProgress(prev => ({
+                                    ...prev,
+                                    [file.header.id]: statusData.progress || 0
+                                }));
+                            } else if (statusData.status === 'completed') {
+                                clearInterval(pollInterval);
+                                setUploadProgress(prev => {
+                                    const newState = { ...prev };
+                                    delete newState[file.header.id];
+                                    return newState;
+                                });
+
+                                // 4. Update File with Results
+                                const result = statusData.result; // { taxonomy, rules, original_content? }
+
+                                await updateFile(file.header.id, {
+                                    header: { ...file.header, status: 'analyzed' },
+                                    progress: 100,
+                                    // Merge new fields
+                                    taxonomy: result.taxonomy || [],
+                                    rules: result.rules || []
+                                    // We keep existing 'content' and 'clauses' unless the backend modified them?
+                                    // Plan said we "augment", so we just add these fields.
+                                });
+
+                            } else if (statusData.status === 'failed') {
+                                clearInterval(pollInterval);
+                                alert(`Analysis failed: ${statusData.error}`);
+                                setUploadProgress(prev => {
+                                    const newState = { ...prev };
+                                    delete newState[file.header.id];
+                                    return newState;
+                                });
+                                updateFile(file.header.id, { header: { ...file.header, status: 'annotated' }, progress: 100 });
+                            }
+                        } catch (e) {
+                            console.error("Polling error", e);
+                        }
+                    }, 1000);
+
+                } catch (e) {
+                    console.error(e);
+                    alert("Failed to start analysis.");
+                    updateFile(file.header.id, { header: { ...file.header, status: 'annotated' }, progress: 100 });
+                }
                 break;
             case 'review':
                 alert("Review Mock: Select Reference...");
                 break;
             case 'view-analysis':
-                alert("View Analysis (Not Implemented)");
+                navigate(`/analyze/${file.header.id}`);
                 break;
             default:
                 break;

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import UploadScreen from './components/UploadScreen';
 import Editor from './components/Editor';
 import Sidebar from './components/Sidebar';
@@ -385,11 +386,14 @@ function App() {
                         Legal Contract Assistant
                     </h1>
                     <div className="flex items-center gap-4">
-                        <a href="/workspace" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
-                            Switch to Workspace (New)
-                        </a>
                         <nav className="flex space-x-2">
-                            {['Upload', 'Annotate', 'Report'].map((s) => (
+                            <Link
+                                to="/workspace"
+                                className="px-3 py-1 rounded-full text-xs font-semibold text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                Workspace
+                            </Link>
+                            {['Annotate', 'Report'].map((s) => (
                                 <button
                                     key={s}
                                     onClick={() => setStage(s.toLowerCase())}
