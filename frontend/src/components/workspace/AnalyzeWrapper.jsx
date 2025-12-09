@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search } from 'lucide-react';
+import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search, X } from 'lucide-react';
 import { dbAPI } from '../../utils/db'; // Adjust path if needed
 
 export default function AnalyzeWrapper() {
@@ -9,6 +9,7 @@ export default function AnalyzeWrapper() {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedTerm, setSelectedTerm] = useState(null);
 
     useEffect(() => {
         const loadFile = async () => {
@@ -144,6 +145,10 @@ export default function AnalyzeWrapper() {
         )
         .sort((a, b) => a.display_name.localeCompare(b.display_name));
 
+    const filteredRules = selectedTerm
+        ? rules.filter(r => r.related_tags && (r.related_tags.includes(selectedTerm.tag_id) || r.related_tags.includes(selectedTerm.display_name)))
+        : rules;
+
     return (
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden font-sans">
             {/* Header */}
@@ -199,10 +204,18 @@ export default function AnalyzeWrapper() {
                             <input
                                 type="text"
                                 placeholder="Find / Jump to..."
-                                className="w-full pl-8 pr-3 py-1.5 text-sm bg-white border border-purple-200 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                className="w-full pl-8 pr-8 py-1.5 text-sm bg-white border border-purple-200 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
+                            {searchTerm && (
+                                <button
+                                    onClick={() => setSearchTerm('')}
+                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                >
+                                    <X size={14} />
+                                </button>
+                            )}
                         </div>
                     </div>
                     <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -211,34 +224,58 @@ export default function AnalyzeWrapper() {
                                 {searchTerm ? "No matching terms found." : "No terms in dictionary."}
                             </p>
                         ) : (
-                            filteredTaxonomy.map((tag, idx) => (
-                                <div key={idx} className="p-3 bg-gray-50 border border-gray-100 rounded-lg hover:border-purple-200 transition-colors">
-                                    <div className="flex items-center justify-between mb-1">
-                                        <span className="font-bold text-gray-800 text-sm">{tag.display_name}</span>
-                                        <span className="text-xs font-mono text-gray-400 bg-gray-100 px-1 rounded">{tag.tag_id}</span>
+                            filteredTaxonomy.map((tag, idx) => {
+                                const isSelected = selectedTerm && selectedTerm.tag_id === tag.tag_id;
+                                return (
+                                    <div
+                                        key={idx}
+                                        onClick={() => setSelectedTerm(isSelected ? null : tag)}
+                                        className={`p-3 border rounded-lg transition-colors cursor-pointer ${isSelected
+                                            ? 'bg-purple-50 border-purple-500 ring-1 ring-purple-500'
+                                            : 'bg-white border-gray-100 hover:border-purple-200 hover:bg-gray-50'
+                                            }`}
+                                    >
+                                        <div className="flex items-center justify-between mb-1">
+                                            <span className={`font-bold text-sm ${isSelected ? 'text-purple-900' : 'text-gray-800'}`}>
+                                                {tag.display_name}
+                                            </span>
+                                            <span className={`text-xs font-mono px-1 rounded ${isSelected ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-400'}`}>
+                                                {tag.tag_id}
+                                            </span>
+                                        </div>
+                                        <p className={`text-xs leading-relaxed ${isSelected ? 'text-purple-800' : 'text-gray-500'}`}>
+                                            {tag.description}
+                                        </p>
                                     </div>
-                                    <p className="text-xs text-gray-500 leading-relaxed">{tag.description}</p>
-                                </div>
-                            ))
+                                );
+                            })
                         )}
                     </div>
                 </div>
 
                 {/* Right: Rules List */}
                 <div className="flex-1 bg-gray-50 flex flex-col">
-                    <div className="p-4 border-b border-gray-200 bg-white shadow-sm z-10">
+                    <div className="p-4 border-b border-gray-200 bg-white shadow-sm z-10 flex justify-between items-center">
                         <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide flex items-center gap-2">
-                            <Scale size={16} /> Extracted Rules (Logic)
+                            <Scale size={16} /> Extracted Rules ({filteredRules.length})
                         </h2>
+                        {selectedTerm && (
+                            <button
+                                onClick={() => setSelectedTerm(null)}
+                                className="text-xs text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1"
+                            >
+                                Clear Filter
+                            </button>
+                        )}
                     </div>
                     <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                        {rules.length === 0 ? (
+                        {filteredRules.length === 0 ? (
                             <div className="text-center text-gray-400 mt-10">
                                 <Gavel size={48} className="mx-auto mb-2 opacity-50" />
-                                <p>No rules extracted from this document.</p>
+                                <p>{selectedTerm ? "No rules found for this term." : "No rules extracted from this document."}</p>
                             </div>
                         ) : (
-                            rules.map((rule, idx) => (
+                            filteredRules.map((rule, idx) => (
                                 <RuleCard key={idx} rule={rule} />
                             ))
                         )}
