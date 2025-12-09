@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson } from 'lucide-react';
+import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search } from 'lucide-react';
 import { dbAPI } from '../../utils/db'; // Adjust path if needed
 
 export default function AnalyzeWrapper() {
@@ -8,6 +8,7 @@ export default function AnalyzeWrapper() {
     const { id } = useParams();
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const loadFile = async () => {
@@ -136,6 +137,13 @@ export default function AnalyzeWrapper() {
     const taxonomy = file.taxonomy || [];
     const rules = file.rules || [];
 
+    const filteredTaxonomy = taxonomy
+        .filter(t =>
+            t.display_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            t.tag_id.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => a.display_name.localeCompare(b.display_name));
+
     return (
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden font-sans">
             {/* Header */}
@@ -176,16 +184,34 @@ export default function AnalyzeWrapper() {
             <div className="flex flex-1 overflow-hidden">
                 {/* Left: Taxonomy Sidebar */}
                 <div className="w-1/3 bg-white border-r border-gray-200 flex flex-col">
-                    <div className="p-4 border-b border-gray-200 bg-purple-50">
-                        <h2 className="text-sm font-bold text-purple-900 uppercase tracking-wide flex items-center gap-2">
-                            <Tag size={16} /> Taxonomy (Concepts)
-                        </h2>
+                    <div className="p-4 border-b border-gray-200 bg-purple-50 space-y-3">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-bold text-purple-900 uppercase tracking-wide flex items-center gap-2">
+                                <Tag size={16} /> Reference Term Dictionary
+                            </h2>
+                            <span className="bg-purple-200 text-purple-800 text-xs font-bold px-2 py-0.5 rounded-full">
+                                {taxonomy.length}
+                            </span>
+                        </div>
+                        {/* Search Input */}
+                        <div className="relative">
+                            <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+                            <input
+                                type="text"
+                                placeholder="Find / Jump to..."
+                                className="w-full pl-8 pr-3 py-1.5 text-sm bg-white border border-purple-200 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
                     </div>
                     <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                        {taxonomy.length === 0 ? (
-                            <p className="text-gray-400 text-sm">No taxonomy concepts extracted.</p>
+                        {filteredTaxonomy.length === 0 ? (
+                            <p className="text-gray-400 text-sm italic text-center mt-4">
+                                {searchTerm ? "No matching terms found." : "No terms in dictionary."}
+                            </p>
                         ) : (
-                            taxonomy.map((tag, idx) => (
+                            filteredTaxonomy.map((tag, idx) => (
                                 <div key={idx} className="p-3 bg-gray-50 border border-gray-100 rounded-lg hover:border-purple-200 transition-colors">
                                     <div className="flex items-center justify-between mb-1">
                                         <span className="font-bold text-gray-800 text-sm">{tag.display_name}</span>
