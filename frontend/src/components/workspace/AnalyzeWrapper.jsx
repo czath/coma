@@ -25,24 +25,105 @@ export default function AnalyzeWrapper() {
         loadFile();
     }, [id]);
 
-    const handleExport = () => {
+    const handleExport = (type) => {
         if (!file) return;
 
-        // Export relevant analysis data
-        const exportData = {
-            header: {
-                ...file.header,
-                exportDate: new Date().toISOString()
-            },
-            taxonomy: file.taxonomy || [],
-            rules: file.rules || []
-        };
+        const exportList = [];
 
-        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        // 1. Header (Always included, with Taxonomy/Rules in metadata)
+        exportList.push({
+            type: 'HEADER',
+            metadata: {
+                id: file.header.id,
+                filename: file.header.filename,
+                documentType: 'reference',
+                status: 'analyzed', // Always analyzed
+                annotationMethod: file.header.annotationMethod,
+                lastModified: new Date().toISOString(),
+                exportDate: new Date().toISOString(),
+                documentTags: file.header.documentTags || [],
+                // The Intelligence
+                taxonomy: file.taxonomy || [],
+                rules: file.rules || []
+            }
+        });
+
+        // 2. Full Content (Optional)
+        if (type === 'full' && file.content && file.clauses) {
+            const content = file.content;
+            const clauses = file.clauses;
+
+            // Helper to sort clauses
+            const sortedClauses = [...clauses].filter(c => c.end).sort((a, b) => {
+                if (a.start.line !== b.start.line) return a.start.line - b.start.line;
+                return a.start.ch - b.start.ch;
+            });
+
+            let currentPos = { line: 0, ch: 0 };
+
+            const comparePos = (p1, p2) => {
+                if (p1.line < p2.line) return -1;
+                if (p1.line > p2.line) return 1;
+                if (p1.ch < p2.ch) return -1;
+                if (p1.ch > p2.ch) return 1;
+                return 0;
+            };
+
+            const extractText = (start, end) => {
+                let text = "";
+                if (start.line === end.line) {
+                    text = content[start.line].text.substring(start.ch, end.ch);
+                } else {
+                    text += content[start.line].text.substring(start.ch) + "\n";
+                    for (let i = start.line + 1; i < end.line; i++) {
+                        text += content[i].text + "\n";
+                    }
+                    text += content[end.line].text.substring(0, end.ch);
+                }
+                return text;
+            };
+
+            sortedClauses.forEach(clause => {
+                if (comparePos(currentPos, clause.start) < 0) {
+                    const gapText = extractText(currentPos, clause.start);
+                    if (gapText.trim()) {
+                        exportList.push({
+                            type: 'SKIP',
+                            header: 'Untagged Content',
+                            start: currentPos,
+                            end: clause.start,
+                            text: gapText,
+                            tags: []
+                        });
+                    }
+                }
+                const clauseText = extractText(clause.start, clause.end);
+                exportList.push({ ...clause, text: clauseText });
+                currentPos = clause.end;
+            });
+
+            // Remaining text
+            const lastPos = { line: content.length - 1, ch: content[content.length - 1].text.length };
+            if (comparePos(currentPos, lastPos) < 0) {
+                const remainingText = extractText(currentPos, lastPos);
+                if (remainingText.trim()) {
+                    exportList.push({
+                        type: 'SKIP',
+                        header: 'Untagged Content',
+                        start: currentPos,
+                        end: lastPos,
+                        text: remainingText,
+                        tags: []
+                    });
+                }
+            }
+        }
+
+        const blob = new Blob([JSON.stringify(exportList, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${file.header.filename.replace(/\.[^/.]+$/, "")}_analysis.json`;
+        a.download = `${file.header.filename.replace(/\.[^/.]+$/, "")}_${type}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -70,13 +151,23 @@ export default function AnalyzeWrapper() {
                         </h1>
                     </div>
                 </div>
-                <div>
+                <div className="flex items-center gap-2">
                     <button
-                        onClick={handleExport}
-                        className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-                        title="Export Analysis JSON"
+                        onClick={() => handleExport('rules')}
+                        className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors border border-transparent hover:border-gray-200"
+                        title="Export Rules Only (Small)"
                     >
                         <FileJson size={18} />
+                        <span className="text-xs font-medium">Rules</span>
+                    </button>
+                    <div className="h-5 w-px bg-gray-300 mx-1"></div>
+                    <button
+                        onClick={() => handleExport('full')}
+                        className="flex items-center gap-2 px-3 py-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-lg transition-colors border border-transparent hover:border-indigo-100"
+                        title="Export Full Analysis (Content + Rules)"
+                    >
+                        <FileJson size={18} />
+                        <span className="text-xs font-medium">Full</span>
                     </button>
                 </div>
             </header>

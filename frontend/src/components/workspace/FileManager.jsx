@@ -80,6 +80,8 @@ export default function FileManager() {
             },
             content: [],
             clauses: [],
+            taxonomy: [],
+            rules: [],
             progress: 0,
             fileHandle: file // Store the actual File object for later upload
         };
@@ -102,6 +104,10 @@ export default function FileManager() {
                         documentTags: metadata.documentTags || [],
                         lastModified: metadata.lastModified || new Date().toISOString(),
                     };
+
+                    // Import Analysis Data if present
+                    newFile.taxonomy = metadata.taxonomy || [];
+                    newFile.rules = metadata.rules || [];
 
                     // Reconstruct content and clauses
                     let lineIndex = 0;
