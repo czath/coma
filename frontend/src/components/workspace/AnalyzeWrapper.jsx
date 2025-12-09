@@ -9,7 +9,10 @@ export default function AnalyzeWrapper() {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [ruleSearchTerm, setRuleSearchTerm] = useState('');
     const [selectedTerm, setSelectedTerm] = useState(null);
+    const [selectedSeverities, setSelectedSeverities] = useState([]);
+    const [selectedTypes, setSelectedTypes] = useState([]);
 
     useEffect(() => {
         const loadFile = async () => {
@@ -145,9 +148,46 @@ export default function AnalyzeWrapper() {
         )
         .sort((a, b) => a.display_name.localeCompare(b.display_name));
 
-    const filteredRules = selectedTerm
-        ? rules.filter(r => r.related_tags && (r.related_tags.includes(selectedTerm.tag_id) || r.related_tags.includes(selectedTerm.display_name)))
-        : rules;
+    const filteredRules = rules.filter(r => {
+        const matchesTerm = selectedTerm
+            ? r.related_tags && (r.related_tags.includes(selectedTerm.tag_id) || r.related_tags.includes(selectedTerm.display_name))
+            : true;
+
+        const matchesSearch = ruleSearchTerm
+            ? (r.logic_instruction?.toLowerCase().includes(ruleSearchTerm.toLowerCase()) ||
+                r.verification_quote?.toLowerCase().includes(ruleSearchTerm.toLowerCase()))
+            : true;
+
+        const matchesSeverity = selectedSeverities.length > 0
+            ? selectedSeverities.includes(r.severity)
+            : true;
+
+        const matchesType = selectedTypes.length > 0
+            ? selectedTypes.includes(r.rule_type)
+            : true;
+
+        return matchesTerm && matchesSearch && matchesSeverity && matchesType;
+    });
+
+    const toggleSeverity = (severity) => {
+        if (selectedSeverities.includes(severity)) {
+            setSelectedSeverities(selectedSeverities.filter(s => s !== severity));
+        } else {
+            setSelectedSeverities([...selectedSeverities, severity]);
+        }
+    };
+
+    const toggleType = (type) => {
+        if (selectedTypes.includes(type)) {
+            setSelectedTypes(selectedTypes.filter(t => t !== type));
+        } else {
+            setSelectedTypes([...selectedTypes, type]);
+        }
+    };
+
+    // Filter Options
+    const severities = ['HIGH', 'MEDIUM', 'LOW'];
+    const types = ['RESTRICTION', 'OBLIGATION', 'DEFINITION', 'PERMISSION'];
 
     return (
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden font-sans">
@@ -255,24 +295,90 @@ export default function AnalyzeWrapper() {
 
                 {/* Right: Rules List */}
                 <div className="flex-1 bg-gray-50 flex flex-col">
-                    <div className="p-4 border-b border-gray-200 bg-white shadow-sm z-10 flex justify-between items-center">
-                        <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide flex items-center gap-2">
-                            <Scale size={16} /> Extracted Rules ({filteredRules.length})
-                        </h2>
-                        {selectedTerm && (
-                            <button
-                                onClick={() => setSelectedTerm(null)}
-                                className="text-xs text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1"
-                            >
-                                Clear Filter
-                            </button>
-                        )}
+                    <div className="p-4 border-b border-gray-200 bg-white shadow-sm z-10 space-y-3">
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide flex items-center gap-2">
+                                <Scale size={16} /> Generated Rules
+                            </h2>
+                            <span className="bg-gray-200 text-gray-700 text-xs font-bold px-2 py-0.5 rounded-full">
+                                {filteredRules.length}
+                            </span>
+                            {selectedTerm && (
+                                <button
+                                    onClick={() => setSelectedTerm(null)}
+                                    className="text-xs text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1 ml-auto mr-4"
+                                >
+                                    Term: {selectedTerm.display_name} (X)
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Rule Search Input */}
+                        <div className="relative">
+                            <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+                            <input
+                                type="text"
+                                placeholder="Search rules..."
+                                className="w-full pl-8 pr-8 py-1.5 text-sm bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
+                                value={ruleSearchTerm}
+                                onChange={(e) => setRuleSearchTerm(e.target.value)}
+                            />
+                            {ruleSearchTerm && (
+                                <button
+                                    onClick={() => setRuleSearchTerm('')}
+                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                >
+                                    <X size={14} />
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Filters */}
+                        <div className="flex flex-col gap-2 pt-1">
+                            {/* Severity Filters */}
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-gray-500 uppercase">Severity:</span>
+                                <div className="flex gap-1">
+                                    {severities.map(severity => (
+                                        <button
+                                            key={severity}
+                                            onClick={() => toggleSeverity(severity)}
+                                            className={`px-2 py-0.5 text-xs rounded-full border transition-all ${selectedSeverities.includes(severity)
+                                                ? 'bg-gray-800 text-white border-gray-800'
+                                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                                                }`}
+                                        >
+                                            {severity}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Type Filters */}
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-gray-500 uppercase w-14">Type:</span>
+                                <div className="flex gap-1 flex-wrap">
+                                    {types.map(type => (
+                                        <button
+                                            key={type}
+                                            onClick={() => toggleType(type)}
+                                            className={`px-2 py-0.5 text-xs rounded-full border transition-all ${selectedTypes.includes(type)
+                                                ? 'bg-indigo-600 text-white border-indigo-600'
+                                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                                                }`}
+                                        >
+                                            {type}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="flex-1 overflow-y-auto p-6 space-y-4">
                         {filteredRules.length === 0 ? (
                             <div className="text-center text-gray-400 mt-10">
                                 <Gavel size={48} className="mx-auto mb-2 opacity-50" />
-                                <p>{selectedTerm ? "No rules found for this term." : "No rules extracted from this document."}</p>
+                                <p>No rules found matching criteria.</p>
                             </div>
                         ) : (
                             filteredRules.map((rule, idx) => (

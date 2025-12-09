@@ -36,6 +36,7 @@ You must output a single JSON object with the following structure:
 2. **Rules**:
    - **Restriction**: Something the vendor/party MUST NOT do or is limited in doing (e.g., "Liability caps must not be less than 2x").
    - **Obligation**: Something the vendor/party MUST do (e.g., "Must notify within 24 hours").
+   - **Permission**: Something the party MAY do or has a RIGHT to do (e.g., "Vendor may subcontract", "Customer has right to audit").
    - **Definition**: A crucial definition that alters interpretations (e.g., "Data includes metadata").
    - **Severity**:
      - HIGH: Financial risk, Data Security, Termination rights, Indemnity.
