@@ -159,7 +159,7 @@ from pydantic import BaseModel
 class AnalysisPayload(BaseModel):
     document_content: Dict[str, Any] # Full document object
 
-def run_analysis(job_id: str, content: List[Dict], document_id: str):
+async def run_analysis(job_id: str, content: List[Dict], document_id: str):
     try:
         jobs[job_id]["status"] = "processing"
         jobs[job_id]["progress"] = 0
@@ -174,7 +174,7 @@ def run_analysis(job_id: str, content: List[Dict], document_id: str):
                 jobs[job_id]["message"] = f"Analyzing sections: {percent}% ({current}/{total})"
 
         # Run extraction
-        result = extractor.extract(content, progress_callback=update_progress)
+        result = await extractor.extract(content, progress_callback=update_progress)
         
         jobs[job_id]["status"] = "completed"
         jobs[job_id]["progress"] = 100

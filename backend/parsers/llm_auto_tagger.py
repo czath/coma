@@ -71,12 +71,16 @@ class LLMAutoTagger:
             
             # Merge results
             for item in response_items:
-                idx = item.index
-                tag_type = item.type.value
-                
+                id = item.index
+                tag_type = item.type.value if item.type else None
+
+                # Fallback for empty type from LLM
+                if not tag_type:
+                    tag_type = "CLAUSE"
+
                 # STRICT MERGE RULE: Never overwrite
-                if idx not in classified_map:
-                    classified_map[idx] = tag_type
+                if id not in classified_map:
+                    classified_map[id] = tag_type
             
             if chunk_end == total_blocks:
                 break

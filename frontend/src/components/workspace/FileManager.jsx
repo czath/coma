@@ -117,8 +117,14 @@ export default function FileManager() {
                         const itemLines = (item.text || '').split('\n');
                         const startLine = lineIndex;
 
-                        itemLines.forEach(lineText => {
-                            newFile.content.push({ text: lineText, id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}` });
+                        itemLines.forEach((lineText, idx) => {
+                            // Assign Header Type to first line, CONTENT to others to preserve logical grouping
+                            const lineType = idx === 0 ? item.type : 'CONTENT';
+                            newFile.content.push({
+                                text: lineText,
+                                id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                                type: lineType
+                            });
                             lineIndex++;
                         });
 
@@ -171,7 +177,7 @@ export default function FileManager() {
             let startNewSection = false;
             let type = 'CLAUSE';
 
-            if (block.type.endsWith('_START') || ['HEADER', 'INFO', 'APPENDIX', 'ANNEX', 'EXHIBIT', 'GUIDELINE'].includes(block.type)) {
+            if (block.type.endsWith('_START') || ['HEADER', 'INFO', 'APPENDIX', 'ANNEX', 'EXHIBIT', 'GUIDELINE', 'CLAUSE'].includes(block.type)) {
                 startNewSection = true;
                 type = block.type.replace('_START', '');
             }

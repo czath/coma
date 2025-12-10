@@ -11,9 +11,9 @@ class RuleType(str, Enum):
     DEFINITION = "DEFINITION"
 
 class Severity(str, Enum):
-    SAFE = "SAFE"
-    RISKY = "RISKY"
-    CRITICAL = "CRITICAL"
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+    LOW = "LOW"
 
 class TagType(str, Enum):
     # Primary "Start" tags as requested by Prompt
@@ -47,9 +47,14 @@ class Rule(BaseModel):
     description: str = Field(description="Concise summary of the rule")
     type: RuleType = Field(description="Type of the rule")
     severity: Severity = Field(description="Risk severity of the rule")
+
     verification_quote: str = Field(description="Exact quote from the text verifying this rule")
+    source_id: Optional[str] = Field(description="The ID of the source block", default=None)
+    source_header: Optional[str] = Field(description="The header of the source section", default=None)
+    related_tags: List[str] = Field(description="List of related tags (e.g. TAG_AFFILIATES)", default=[])
 
 class Term(BaseModel):
+    tag_id: str = Field(description="The unique tag identifier (e.g. TAG_AFFILIATES)")
     term: str = Field(description="The defined term")
     definition: str = Field(description="The definition of the term")
 

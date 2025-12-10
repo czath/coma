@@ -145,19 +145,20 @@ export default function AnalyzeWrapper() {
 
     const filteredTaxonomy = taxonomy
         .filter(t =>
-            t.display_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            t.tag_id.toLowerCase().includes(searchTerm.toLowerCase())
+            (t.term || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (t.definition || "").toLowerCase().includes(searchTerm.toLowerCase())
         )
-        .sort((a, b) => a.display_name.localeCompare(b.display_name));
+        .sort((a, b) => (a.term || "").localeCompare(b.term || ""));
 
     const filteredRules = rules.filter(r => {
+        // Strict mapping check for related tags if they exist
         const matchesTerm = selectedTerm
-            ? r.related_tags && (r.related_tags.includes(selectedTerm.tag_id) || r.related_tags.includes(selectedTerm.display_name))
+            ? r.related_tags && (r.related_tags.includes(selectedTerm.tag_id) || r.related_tags.includes(selectedTerm.term))
             : true;
 
         const matchesSearch = ruleSearchTerm
-            ? (r.logic_instruction?.toLowerCase().includes(ruleSearchTerm.toLowerCase()) ||
-                r.verification_quote?.toLowerCase().includes(ruleSearchTerm.toLowerCase()))
+            ? ((r.description || "").toLowerCase().includes(ruleSearchTerm.toLowerCase()) ||
+                (r.verification_quote || "").toLowerCase().includes(ruleSearchTerm.toLowerCase()))
             : true;
 
         const matchesSeverity = selectedSeverities.length > 0
@@ -165,7 +166,7 @@ export default function AnalyzeWrapper() {
             : true;
 
         const matchesType = selectedTypes.length > 0
-            ? selectedTypes.includes(r.rule_type)
+            ? selectedTypes.includes(r.type)
             : true;
 
         return matchesTerm && matchesSearch && matchesSeverity && matchesType;
@@ -188,33 +189,67 @@ export default function AnalyzeWrapper() {
     };
 
     const handleViewContext = (rule) => {
-        if (!file || !rule.source_id) return;
+        if (!file) return;
 
-        // Find the section and its content
+        // If source_id is missing (legacy/new backend), try fuzzy search or header match
+        // For now, if no source_id, we can't deep-link easily unless we fuzzy match the quote.
+        if (!rule.verification_quote) return;
+
+        // Simple Quote Context Logic (if source_id missing)
+        // Find block containing the quote
         const content = file.content || [];
-        const startIndex = content.findIndex(b => b.id === rule.source_id);
 
-        if (startIndex === -1) return;
+        let foundBlockId = rule.source_id;
+        let contextBlockIndex = -1;
 
-        // Gather blocks until the next header
+        if (foundBlockId) {
+            contextBlockIndex = content.findIndex(b => b.id === foundBlockId);
+        } else {
+            // Search for text
+            contextBlockIndex = content.findIndex(b => b.text && b.text.includes(rule.verification_quote.substring(0, 50)));
+        }
+
+        if (contextBlockIndex === -1) {
+            // Fallback: Display quote only? Or show error?
+            // Let's just search the whole text for the quote.
+            // For now, minimal fallback
+            setContextData({
+                title: "Context Match",
+                text: "... " + rule.verification_quote + " ...",
+                highlight: rule.verification_quote
+            });
+            setContextModalOpen(true);
+            return;
+        }
+
+        // Logic to get section context around the block
+        // Work backwards to find header
+        let startIndex = contextBlockIndex;
+        let headerText = "Unknown Section";
+
+        for (let i = contextBlockIndex; i >= 0; i--) {
+            const b = content[i];
+            if (b.type === 'CLAUSE_START' || b.type === 'GUIDELINE' || b.type === 'APPENDIX' || b.id.startsWith('h_') || b.type === 'CLAUSE') {
+                headerText = b.text;
+                // Maybe start here?
+                startIndex = i; // Include header
+                break;
+            }
+        }
+
+        // Work forwards to find end
         let sectionText = "";
-        let headerText = content[startIndex].text;
-
-        // Start from the block AFTER the header (or include header? usually header is separate)
-        // Let's include header for context
-        // sectionText += headerText + "\n\n";
-
         for (let i = startIndex; i < content.length; i++) {
             const block = content[i];
             // If we hit a NEW header (and it's not the start block), stop
-            if (i > startIndex && (block.type === 'CLAUSE_START' || block.type === 'GUIDELINE' || block.type === 'APPENDIX' || block.id.startsWith('h_') || block.id.startsWith('a_'))) {
+            if (i > startIndex && (block.type === 'CLAUSE_START' || block.type === 'GUIDELINE' || block.type === 'APPENDIX' || block.id.startsWith('h_') || block.type === 'CLAUSE')) {
                 break;
             }
             sectionText += block.text + "\n";
         }
 
         setContextData({
-            title: rule.source_header || headerText,
+            title: headerText,
             text: sectionText,
             highlight: rule.verification_quote
         });
@@ -223,7 +258,9 @@ export default function AnalyzeWrapper() {
 
     // Style Helpers
     const getSeverityStyle = (s) => {
-        switch (s?.toUpperCase()) {
+        // Handle varying case or missing
+        const sev = (s || "UNKNOWN").toUpperCase();
+        switch (sev) {
             case 'HIGH': return 'bg-red-50 text-red-700 border-red-200 ring-red-500';
             case 'MEDIUM': return 'bg-orange-50 text-orange-700 border-orange-200 ring-orange-500';
             case 'LOW': return 'bg-green-50 text-green-700 border-green-200 ring-green-500';
@@ -232,24 +269,26 @@ export default function AnalyzeWrapper() {
     };
 
     const getTypeStyle = (t) => {
-        if (t?.includes('RESTRICTION')) return 'bg-amber-50 text-amber-700 border-amber-200 ring-amber-500';
-        if (t?.includes('OBLIGATION')) return 'bg-blue-50 text-blue-700 border-blue-200 ring-blue-500';
-        if (t?.includes('PERMISSION')) return 'bg-emerald-50 text-emerald-700 border-emerald-200 ring-emerald-500';
-        if (t?.includes('DEFINITION')) return 'bg-purple-50 text-purple-700 border-purple-200 ring-purple-500';
+        const typeStr = (t || "").toUpperCase();
+        if (typeStr.includes('RESTRICTION')) return 'bg-amber-50 text-amber-700 border-amber-200 ring-amber-500';
+        if (typeStr.includes('OBLIGATION')) return 'bg-blue-50 text-blue-700 border-blue-200 ring-blue-500';
+        if (typeStr.includes('PERMISSION')) return 'bg-emerald-50 text-emerald-700 border-emerald-200 ring-emerald-500';
+        if (typeStr.includes('DEFINITION')) return 'bg-purple-50 text-purple-700 border-purple-200 ring-purple-500';
         return 'bg-gray-100 text-gray-600 border-gray-200 ring-gray-400';
     };
 
     const getTypeIcon = (t) => {
-        if (t?.includes('RESTRICTION')) return <AlertTriangle size={14} />;
-        if (t?.includes('OBLIGATION')) return <CheckCircle size={14} />;
-        if (t?.includes('PERMISSION')) return <Check size={14} />;
-        if (t?.includes('DEFINITION')) return <Book size={14} />;
+        const typeStr = (t || "").toUpperCase();
+        if (typeStr.includes('RESTRICTION')) return <AlertTriangle size={14} />;
+        if (typeStr.includes('OBLIGATION')) return <CheckCircle size={14} />;
+        if (typeStr.includes('PERMISSION')) return <Check size={14} />;
+        if (typeStr.includes('DEFINITION')) return <Book size={14} />;
         return <Scale size={14} />;
     };
 
     // Filter Options
     const severities = ['HIGH', 'MEDIUM', 'LOW'];
-    const types = ['RESTRICTION', 'OBLIGATION', 'DEFINITION', 'PERMISSION'];
+    const types_list = ['RESTRICTION', 'OBLIGATION', 'DEFINITION', 'PERMISSION'];
 
     return (
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden font-sans">
@@ -279,7 +318,7 @@ export default function AnalyzeWrapper() {
                     <button
                         onClick={() => handleExport('full')}
                         className="flex items-center gap-2 px-3 py-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-lg transition-colors border border-transparent hover:border-indigo-100"
-                        title="Export Full Analysis (Content + Rules)"
+                        title="Export Full Content"
                     >
                         <FileJson size={18} />
                         <span className="text-xs font-medium">Full</span>
@@ -327,7 +366,8 @@ export default function AnalyzeWrapper() {
                             </p>
                         ) : (
                             filteredTaxonomy.map((tag, idx) => {
-                                const isSelected = selectedTerm && selectedTerm.tag_id === tag.tag_id;
+                                // Match by term name
+                                const isSelected = selectedTerm && selectedTerm.term === tag.term;
                                 return (
                                     <div
                                         key={idx}
@@ -339,14 +379,14 @@ export default function AnalyzeWrapper() {
                                     >
                                         <div className="flex items-center justify-between mb-1">
                                             <span className={`font-bold text-sm ${isSelected ? 'text-purple-900' : 'text-gray-800'}`}>
-                                                {tag.display_name}
+                                                {tag.term}
                                             </span>
                                             <span className={`text-xs font-mono px-1 rounded ${isSelected ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-400'}`}>
                                                 {tag.tag_id}
                                             </span>
                                         </div>
                                         <p className={`text-xs leading-relaxed ${isSelected ? 'text-purple-800' : 'text-gray-500'}`}>
-                                            {tag.description}
+                                            {tag.definition}
                                         </p>
                                     </div>
                                 );
@@ -369,8 +409,9 @@ export default function AnalyzeWrapper() {
                                 <button
                                     onClick={() => setSelectedTerm(null)}
                                     className="text-xs text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1 ml-auto mr-4"
+                                    title="Clear term filter"
                                 >
-                                    Term: {selectedTerm.display_name} (X)
+                                    Term: {selectedTerm.term} (X)
                                 </button>
                             )}
                         </div>
@@ -424,7 +465,7 @@ export default function AnalyzeWrapper() {
                             <div className="flex items-center gap-2">
                                 <span className="text-xs font-bold text-gray-500 uppercase w-14">Type:</span>
                                 <div className="flex gap-1 flex-wrap">
-                                    {types.map(type => {
+                                    {types_list.map(type => {
                                         const isSelected = selectedTypes.includes(type);
                                         const style = getTypeStyle(type);
                                         return (
@@ -560,9 +601,9 @@ function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon, onViewCon
                         <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getSeverityStyle(rule.severity)}`}>
                             {rule.severity || 'UNKNOWN'}
                         </span>
-                        <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getTypeStyle(rule.rule_type)}`}>
-                            {getTypeIcon(rule.rule_type)}
-                            {rule.rule_type || 'RULE'}
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getTypeStyle(rule.type)}`}>
+                            {getTypeIcon(rule.type)}
+                            {rule.type || 'RULE'}
                         </span>
                     </div>
                     {/* Header Display */}
@@ -575,9 +616,9 @@ function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon, onViewCon
                         </div>
                     )}
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 flex-wrap justify-end">
                     {rule.related_tags && rule.related_tags.map(t => (
-                        <span key={t} className="text-xs bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-medium">
+                        <span key={t} className="text-xs bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-medium border border-purple-100">
                             {t}
                         </span>
                     ))}
@@ -585,7 +626,7 @@ function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon, onViewCon
             </div>
 
             <p className="text-gray-900 font-medium text-lg mb-4">
-                {rule.logic_instruction}
+                {rule.description}
             </p>
 
             <div
