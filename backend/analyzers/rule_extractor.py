@@ -166,12 +166,12 @@ class RuleExtractor:
             try:
                 # Call the Async Client
                 response = await self.client.aio.models.generate_content(
-                    model=self.model_name,
+                    model='gemini-2.5-flash', # Upgrade to 2.5 for better reasoning & stability
                     contents=[self.base_prompt, section_text],
                     config=types.GenerateContentConfig(
-                        temperature=self.config.get("temperature", 0.0),
-                        top_p=self.config.get("top_p", 0.95),
-                        top_k=self.config.get("top_k", 1),
+                        temperature=0.0,
+                        top_p=1.0, # Deterministic: Consider all tokens with probability mass 1.0 (but used with k=1)
+                        top_k=1,   # Deterministic: Only pick the single most likely token
                         response_mime_type="application/json",
                         response_schema=AnalysisResponse
                     )
