@@ -1,7 +1,8 @@
 fastapi
 uvicorn
 python-multipart
-google-generativeai
+google-genai
+pydantic
 python-dotenv
 python-docx
 certifi

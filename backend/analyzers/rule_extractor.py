@@ -1,191 +1,149 @@
 import os
-import json
-import time
-import google.generativeai as genai
-from typing import List, Dict, Any, Tuple
+import asyncio
+import logging
+import httpx
+from typing import List, Dict, Any, Optional
+from google import genai
+from google.genai import types
+from dotenv import load_dotenv
+
+# Import Pydantic models
+from data_models import AnalysisResponse, Rule, Term
 from config_llm import get_config
+
+load_dotenv()
+logger = logging.getLogger(__name__)
 
 class RuleExtractor:
     def __init__(self):
-        # Load Config for Analysis
-        self.config = get_config("ANALYSIS")
-        
-        # Initialize Gemini
-        api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY is missing.")
-        
-        genai.configure(api_key=api_key, transport='rest')
-        self.model = genai.GenerativeModel(
-            self.config["model_name"],
-            generation_config={
-                "temperature": self.config.get("temperature", 0.0),
-                "max_output_tokens": self.config.get("max_output_tokens", 8192),
-                "top_k": self.config.get("top_k", 40),
-                "top_p": self.config.get("top_p", 0.95),
-                "response_mime_type": self.config.get("response_mime_type", "text/plain")
+        self.api_key = os.getenv("GEMINI_API_KEY")
+        if not self.api_key:
+            raise ValueError("GEMINI_API_KEY not found in environment variables")
+
+        self.client = genai.Client(
+            api_key=self.api_key,
+            http_options={
+                'api_version': 'v1beta',
+                'httpx_client': httpx.Client(verify=False),
+                'httpx_async_client': httpx.AsyncClient(verify=False)
             }
         )
         
-        # Load Phrase Prompt
+        # Load Config
+        self.config = get_config("ANALYSIS")
+        self.model_name = self.config["model_name"]
+        
+        # Load System Prompt
         prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "analysis_prompt.txt")
-        try:
-            with open(prompt_path, "r", encoding="utf-8") as f:
-                self.base_prompt = f.read()
-        except FileNotFoundError:
-             raise FileNotFoundError(f"Analysis prompt not found at {prompt_path}")
+        with open(prompt_path, "r") as f:
+            self.base_prompt = f.read()
 
-    def extract(self, content: List[Dict[str, Any]], progress_callback=None) -> Dict[str, Any]:
+    async def extract(self, content_blocks: List[Dict[str, Any]], progress_callback=None) -> Dict[str, Any]:
         """
-        Iterates through content chunks and extracts Taxonomy + Rules.
+        Main extraction method using Section-Based Analysis concurrently.
         """
+        # 1. Group content by "logical sections"
+        sections = self._group_by_section(content_blocks)
+        total_sections = len(sections)
         
-        # 1. Pre-process: Map every block key to its Parent Header
-        # This allows us to link a Rule -> Quote -> Block -> Parent Section ID/Title
-        block_header_map = self._build_header_map(content)
+        all_rules = []
+        all_taxonomy = []
         
-        # 2. Prepare Chunks
-        CHUNK_SIZE = 20
-        total_blocks = len(content)
-        aggregated_taxonomy = {} 
-        aggregated_rules = []
+        # Semaphore to limit concurrent LLM calls
+        sem = asyncio.Semaphore(5)
         
-        chunk_indices = range(0, total_blocks, CHUNK_SIZE)
-        
-        for i, start_idx in enumerate(chunk_indices):
-            end_idx = min(start_idx + CHUNK_SIZE, total_blocks)
-            chunk_blocks = content[start_idx:end_idx]
-            
-            # Format text for LLM
-            chunk_text = ""
-            for block in chunk_blocks:
-                chunk_text += f"{block.get('text', '')}\n"
-                
-            if not chunk_text.strip():
-                continue
-
-            # Call LLM
-            try:
-                response_json = self._analyze_chunk_with_retry(chunk_text)
-                
-                # Merge Taxonomy
-                for tax in response_json.get("taxonomy", []):
-                    t_id = tax.get("tag_id")
-                    if t_id and t_id not in aggregated_taxonomy:
-                        aggregated_taxonomy[t_id] = tax
-                        
-                # Merge Rules
-                for rule in response_json.get("rules", []):
-                    # Smart Attribution: Find which block contains the quote
-                    quote = rule.get("verification_quote", "").strip()
-                    matched_header = None
+        async def process_section(section):
+            async with sem:
+                section_text = "\n".join([b.get("text", "") for b in section])
+                # Skip empty sections
+                if not section_text.strip():
+                    return None
                     
-                    if quote:
-                        # Fuzzy Match Strategy: Best Word Overlap
-                        # 1. Tokenize quote
-                        quote_tokens = set(quote.lower().split())
-                        best_score = 0
-                        best_block_idx = -1
-                        
-                        if not quote_tokens:
-                            # Empty quote? Fallback.
-                            pass
-                        else:
-                            for b_idx, block in enumerate(chunk_blocks):
-                                b_text = block.get("text", "").lower()
-                                b_tokens = set(b_text.split())
-                                
-                                # Calculate intersection (overlap)
-                                overlap = len(quote_tokens.intersection(b_tokens))
-                                
-                                # Take the best score
-                                if overlap > best_score:
-                                    best_score = overlap
-                                    best_block_idx = b_idx
-                            
-                            # Threshold: Match must have at least some overlap (e.g. 2 words)
-                            if best_score >= 2: 
-                                global_idx = start_idx + best_block_idx
-                                matched_header = block_header_map.get(global_idx)
+                return await self._analyze_section_with_retry(section_text)
 
-                    # Fallback: Use the header of the first block in chunk
-                    if not matched_header and chunk_blocks:
-                         global_idx = start_idx
-                         matched_header = block_header_map.get(global_idx)
-
-                    # Assign Source Metadata
-                    if matched_header:
-                        rule["source_id"] = matched_header["id"]
-                        rule["source_header"] = matched_header["text"]
-                    else:
-                        rule["source_id"] = "unknown"
-                        rule["source_header"] = "Unknown Section"
-
-                    aggregated_rules.append(rule)
-                    
-            except Exception as e:
-                print(f"Error analyzing chunk {start_idx}-{end_idx}: {e}")
-            
+        # Create tasks
+        tasks = [process_section(section) for section in sections]
+        
+        # Run tasks and update progress
+        completed_count = 0
+        for future in asyncio.as_completed(tasks):
+            result = await future
+            completed_count += 1
             if progress_callback:
-                progress_callback(end_idx, total_blocks)
-            time.sleep(2) 
+                progress_callback(completed_count, total_sections)
             
+            if result:
+                # result is an AnalysisResponse pydantic object
+                all_rules.extend(result.rules)
+                all_taxonomy.extend(result.taxonomy)
+
+        # Deduplicate Taxonomy
+        unique_taxonomy = {t.term: t for t in all_taxonomy}.values()
+
         return {
-            "taxonomy": list(aggregated_taxonomy.values()),
-            "rules": aggregated_rules
+            "taxonomy": [t.model_dump() for t in unique_taxonomy],
+            "rules": [r.model_dump() for r in all_rules]
         }
 
-    def _build_header_map(self, content: List[Dict]) -> Dict[int, Dict]:
+    async def _analyze_section_with_retry(self, section_text: str, max_retries: int = 3) -> Optional[AnalysisResponse]:
         """
-        Scans content to determine the active "Parent Header" for every block index.
-        Returns: { block_index: { "id": "h_1", "text": "1. Definitions" } }
+        Analyzes a single section using the new SDK's Structured Output capability.
         """
-        header_map = {}
-        current_header = {"id": "root", "text": "Document Start"}
-        
-        for idx, block in enumerate(content):
-            # Check if this block IS a header
-            # Types: CLAUSE_START, GUIDELINE, APPENDIX, or if ID starts with h_, g_, a_
-            b_type = block.get("type", "CLAUSE")
-            b_id = block.get("id", "")
-            
-            is_header = False
-            if b_type in ["CLAUSE_START", "GUIDELINE", "APPENDIX", "ANNEX", "EXHIBIT"]:
-                is_header = True
-            elif b_id.startswith(("h_", "g_", "a_")):
-                is_header = True
-                
-            if is_header:
-                # Update current header context (using 50 chars max for title)
-                title = block.get("text", "").strip()
-                if len(title) > 60: title = title[:57] + "..."
-                current_header = {"id": b_id, "text": title}
-            
-            header_map[idx] = current_header
-            
-        return header_map
-
-    def _analyze_chunk_with_retry(self, text: str, max_retries=3) -> Dict:
-        """
-        Standard LLM call with retry and JSON parsing.
-        """
-        prompt = f"{self.base_prompt}\n\n### TARGET TEXT\n{text}"
+        backoff = 2
         
         for attempt in range(max_retries):
             try:
-                response = self.model.generate_content(prompt)
-                raw_text = response.text.strip()
-                
-                # Clean Markdown (Still useful if JSON mode isn't perfectly respected or for backwards compat)
-                if raw_text.startswith("```json"):
-                    raw_text = raw_text[7:]
-                if raw_text.endswith("```"):
-                    raw_text = raw_text[:-3]
-                    
-                return json.loads(raw_text)
-                
+                # Call the Async Client
+                response = await self.client.aio.models.generate_content(
+                    model=self.model_name,
+                    contents=[self.base_prompt, section_text],
+                    config=types.GenerateContentConfig(
+                        temperature=self.config.get("temperature", 0.0),
+                        top_p=self.config.get("top_p", 0.95),
+                        top_k=self.config.get("top_k", 1),
+                        response_mime_type="application/json",
+                        response_schema=AnalysisResponse
+                    )
+                )
+
+                if response.parsed:
+                    return response.parsed
+                else:
+                    logger.warning(f"Empty parsed response from LLM for section: {section_text[:50]}...")
+                    return None
+
             except Exception as e:
-                print(f"LLM Attempt {attempt+1} failed: {e}")
-                time.sleep(2 * (attempt + 1))
+                logger.error(f"Attempt {attempt+1} failed: {e}")
+                if "429" in str(e):
+                    await asyncio.sleep(backoff)
+                    backoff *= 2
+                else:
+                    await asyncio.sleep(1)
         
-        return {"taxonomy": [], "rules": []} # Fallback
+        logger.error(f"Failed to analyze section after {max_retries} attempts.")
+        return None
+
+    def _group_by_section(self, content_blocks: List[Dict[str, Any]]) -> List[List[Dict[str, Any]]]:
+        """
+        Groups blocks into logical sections based on 'type'.
+        Starts a new section whenever a Header-like type is encountered.
+        """
+        sections = []
+        current_section = []
+        
+        header_types = {"CLAUSE", "APPENDIX", "ANNEX", "EXHIBIT", "GUIDELINE"}
+        
+        for block in content_blocks:
+            b_type = block.get("type", "CONTENT").upper()
+            
+            if b_type in header_types:
+                if current_section:
+                    sections.append(current_section)
+                current_section = [block]
+            else:
+                current_section.append(block)
+                
+        if current_section:
+            sections.append(current_section)
+            
+        return sections
