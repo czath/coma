@@ -70,3 +70,6 @@ class ClassificationItem(BaseModel):
 
 class ClassificationResponse(BaseModel):
     items: List[ClassificationItem] = Field(description="List of classified items")
+
+class ConsolidationResponse(BaseModel):
+    terms: List[Term] = Field(description="List of consolidated and normalized terms")

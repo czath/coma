@@ -167,11 +167,14 @@ async def run_analysis(job_id: str, content: List[Dict], document_id: str):
         
         extractor = RuleExtractor()
         
-        def update_progress(current, total):
+        def update_progress(current, total, message=None):
             if total > 0:
-                percent = int((current / total) * 100)
+                percent = int((current / total) * 100) if total > 0 else 0
                 jobs[job_id]["progress"] = percent
-                jobs[job_id]["message"] = f"Analyzing sections: {percent}% ({current}/{total})"
+                if message:
+                    jobs[job_id]["message"] = message
+                else:
+                    jobs[job_id]["message"] = f"Analyzing sections: {percent}% ({current}/{total})"
 
         # Run extraction
         result = await extractor.extract(content, progress_callback=update_progress)

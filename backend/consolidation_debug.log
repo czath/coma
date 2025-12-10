@@ -1,0 +1,537 @@
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 207
+Generated 161 clusters.
+Cluster 0: ['Acceptance', 'Acceptance Criteria']
+Cluster 4: ['Affiliate', 'Affiliates']
+Cluster 5: ['Arbitration', 'Arbitration Clause']
+Cluster 11: ['Background IPRs', 'Foreground IPRs']
+Cluster 12: ['Bank Guarantee', 'Guarantee']
+Cluster 16: ['Breach of Confidentiality', 'Confidentiality']
+Cluster 19: ['CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight']
+Cluster 20: ['Change in Control/Ownership', 'Change of Control']
+Cluster 22: ['CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To']
+Cluster 27: ['Company Confidential', 'Confidential Information']
+Cluster 28: ['Compliance', 'Environmental Compliance', 'Legal & Compliance']
+Cluster 29: ['Component/Materials Liability', 'Product Liability']
+Cluster 33: ['Contract', 'Contract Value', 'Customer Contract']
+Cluster 37: ['Contractual Obligation', 'Obligations']
+Cluster 39: ['Copyleft License', 'Copyright']
+Cluster 43: ['Damages', 'Direct Damages', 'Incidental Damages']
+Cluster 64: ['Express Warranty', 'Warranty']
+Cluster 75: ['Gross Negligence', 'Negligence']
+Cluster 77: ['Hardware Warranty', 'Product Warranties', 'Product Warranty']
+Cluster 80: ['Indemnification', 'Indemnity']
+Cluster 81: ['Indirect and Consequential Damages', 'Indirect Damages']
+Cluster 83: ['Intellectual Property', 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights (IPRs)', 'Pre-existing Intellectual Property Rights']
+Cluster 90: ['Liability', 'Liability Limitation']
+Cluster 92: ['Liability Cap', 'Liability Caps', 'Limitation of Liability']
+Cluster 93: ['License', 'License Agreements', 'License Duration', 'License Fees', 'License Grant', 'License Restrictions']
+Cluster 107: ['Open Source Software (OSS)', 'OSS License']
+Cluster 112: ['Payment', 'Payment Terms']
+Cluster 116: ['Prices', 'Pricing']
+Cluster 121: ['Product Recall', 'Product Safety']
+Cluster 129: ['Remedies', 'Remedy']
+Cluster 137: ['Settlement', 'Settlement Agreement']
+Cluster 145: ['Sub-licensing', 'Sublicense']
+Cluster 146: ['Subcontracting', 'Subcontractor']
+Cluster 149: ['Termination', 'Termination for Convenience']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "Agreement to the terms of an offer that creates a binding contract.",
+    "Acceptance Criteria": "The standards and requirements that must be met for a deliverable to be accepted."
+  },
+  "Group 2": {
+    "Affiliate": "A related entity within the same corporate group.",
+    "Affiliates": "Entities related to Zebracorp."
+  },
+  "Group 3": {
+    "Arbitration": "A method of dispute resolution outside of court, using an impartial third party or panel.",
+    "Arbit...
+Resolution Map from LLM:
+{'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Affiliate': 'Affiliate', 'Affiliates': 'Affiliate', 'Arbitration': 'Arbitration', 'Arbitration Clause': 'Arbitration Clause', 'Background IPRs': 'Background IPRs', 'Foreground IPRs': 'Foreground IPRs', 'Bank Guarantee': 'Bank Guarantee', 'Guarantee': 'Guarantee', 'Breach of Confidentiality': 'Breach of Confidentiality', 'Confidentiality': 'Confidentiality', 'CFR – Cost and Freight': 'CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight': 'CIF – Cost, Insurance and Freight', 'Change in Control/Ownership': 'Change of Control', 'Change of Control': 'Change of Control', 'CIP – Carriage and Insurance Paid to': 'CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To': 'CPT – Carriage Paid To', 'Company Confidential': 'Company Confidential', 'Confidential Information': 'Confidential Information', 'Compliance': 'Compliance', 'Environmental Compliance': 'Environmental Compliance', 'Legal & Compliance': 'Legal & Compliance', 'Component/Materials Liability': 'Component/Materials Liability', 'Product Liability': 'Product Liability', 'Contract': 'Contract', 'Contract Value': 'Contract Value', 'Customer Contract': 'Customer Contract', 'Contractual Obligation': 'Contractual Obligation', 'Obligations': 'Obligations', 'Copyleft License': 'Copyleft License', 'Copyright': 'Copyright', 'Damages': 'Damages', 'Direct Damages': 'Direct Damages', 'Incidental Damages': 'Incidental Damages', 'Express Warranty': 'Express Warranty', 'Warranty': 'Warranty', 'Gross Negligence': 'Gross Negligence', 'Negligence': 'Negligence', 'Hardware Warranty': 'Hardware Warranty', 'Product Warranties': 'Product Warranty', 'Product Warranty': 'Product Warranty', 'Indemnification': 'Indemnification', 'Indemnity': 'Indemnity', 'Indirect Damages': 'Indirect Damages', 'Indirect and Consequential Damages': 'Indirect and Consequential Damages', 'Intellectual Property': 'Intellectual Property', 'Intellectual Property Rights': 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)': 'Intellectual Property Rights', 'Intellectual Property Rights (IPRs)': 'Intellectual Property Rights', 'Pre-existing Intellectual Property Rights': 'Pre-existing Intellectual Property Rights', 'Liability': 'Liability', 'Liability Limitation': 'Liability Limitation', 'Liability Cap': 'Liability Cap', 'Liability Caps': 'Liability Cap', 'Limitation of Liability': 'Limitation of Liability', 'License': 'License', 'License Agreements': 'License Agreement', 'License Duration': 'License Duration', 'License Fees': 'License Fees', 'License Grant': 'License Grant', 'License Restrictions': 'License Restrictions', 'OSS License': 'OSS License', 'Open Source Software (OSS)': 'Open Source Software (OSS)', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Prices': 'Pricing', 'Pricing': 'Pricing', 'Product Recall': 'Product Recall', 'Product Safety': 'Product Safety', 'Remedies': 'Remedies', 'Remedy': 'Remedy', 'Settlement': 'Settlement', 'Settlement Agreement': 'Settlement Agreement', 'Sub-licensing': 'Sub-licensing', 'Sublicense': 'Sublicense', 'Subcontracting': 'Subcontracting', 'Subcontractor': 'Subcontractor', 'Termination': 'Termination', 'Termination for Convenience': 'Termination for Convenience', 'License Agreement': 'License Agreement'}
+=== END CONSOLIDATION: 200 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 204
+Generated 156 clusters.
+Cluster 0: ['Acceptance', 'Acceptance Criteria']
+Cluster 4: ['Affiliate', 'Affiliates']
+Cluster 5: ['Arbitration', 'Arbitration Clause']
+Cluster 9: ['Background IPRs', 'Foreground IPRs']
+Cluster 10: ['Bank Guarantee', 'Guarantee']
+Cluster 13: ['Breach of Confidentiality', 'Confidentiality']
+Cluster 17: ['CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight']
+Cluster 18: ['Change in Control/Ownership', 'Change of Control']
+Cluster 20: ['CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To']
+Cluster 25: ['Company Confidential', 'Confidential Information']
+Cluster 26: ['Compliance', 'Environmental Compliance', 'Legal & Compliance']
+Cluster 27: ['Component/Materials Liability', 'Product Liability']
+Cluster 31: ['Contract', 'Contract Value', 'Customer Contract']
+Cluster 34: ['Contractual Obligation', 'Obligation', 'Obligations']
+Cluster 36: ['Copyleft License', 'Copyright']
+Cluster 40: ['Damages', 'Direct damages', 'Incidental Damages']
+Cluster 54: ['End User License Terms', 'License Terms']
+Cluster 61: ['Express Warranty', 'Warranty']
+Cluster 72: ['Gross Negligence', 'Negligence']
+Cluster 75: ['Hardware Warranty', 'Product Warranties', 'Product Warranty']
+Cluster 78: ['Indemnification', 'Indemnity']
+Cluster 79: ['Indirect and consequential damages', 'Indirect Damages']
+Cluster 80: ['Infringement', 'IPR Infringement']
+Cluster 83: ['Intellectual Property', 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights (IPRs)', 'Pre-existing Intellectual Property Rights']
+Cluster 90: ['Liability Cap', 'Liability Caps', 'Limitation of Liability']
+Cluster 91: ['License', 'License Agreements', 'License Grant', 'License Restrictions', 'License Type', 'Software License']
+Cluster 104: ['Open Source Software (OSS)', 'OSS License']
+Cluster 109: ['Payment', 'Payment Terms']
+Cluster 117: ['Product Recall', 'Product Safety']
+Cluster 125: ['Remedies', 'Remedy']
+Cluster 131: ['Sales Taxes', 'Taxes']
+Cluster 134: ['Settlement', 'Settlement Agreement']
+Cluster 141: ['Sub-licensing', 'Sublicense']
+Cluster 142: ['Subcontracting', 'Subcontractor']
+Cluster 144: ['Termination', 'Termination for Convenience']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "Agreement to the terms of an offer that creates a binding contract.",
+    "Acceptance Criteria": "The standards and requirements that must be met for a deliverable to be accepted."
+  },
+  "Group 2": {
+    "Affiliate": "A related entity within the same corporate group.",
+    "Affiliates": "Subsidiary companies."
+  },
+  "Group 3": {
+    "Arbitration": "A method of dispute resolution outside of court, using an impartial third party or panel.",
+    "Arbitration Cl...
+Resolution Map from LLM:
+{'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Affiliate': 'Affiliate', 'Affiliates': 'Affiliate', 'Arbitration': 'Arbitration', 'Arbitration Clause': 'Arbitration Clause', 'Background IPRs': 'Background IPRs', 'Foreground IPRs': 'Foreground IPRs', 'Bank Guarantee': 'Bank Guarantee', 'Guarantee': 'Guarantee', 'Breach of Confidentiality': 'Breach of Confidentiality', 'Confidentiality': 'Confidentiality', 'CFR – Cost and Freight': 'CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight': 'CIF – Cost, Insurance and Freight', 'Change in Control/Ownership': 'Change in Control/Ownership', 'Change of Control': 'Change of Control', 'CIP – Carriage and Insurance Paid to': 'CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To': 'CPT – Carriage Paid To', 'Company Confidential': 'Company Confidential', 'Confidential Information': 'Confidential Information', 'Compliance': 'Compliance', 'Environmental Compliance': 'Environmental Compliance', 'Legal & Compliance': 'Legal & Compliance', 'Component/Materials Liability': 'Component/Materials Liability', 'Product Liability': 'Product Liability', 'Contract': 'Contract', 'Contract Value': 'Contract Value', 'Customer Contract': 'Customer Contract', 'Contractual Obligation': 'Contractual Obligation', 'Obligation': 'Obligation', 'Obligations': 'Obligation', 'Copyleft License': 'Copyleft License', 'Copyright': 'Copyright', 'Damages': 'Damages', 'Direct damages': 'Direct damages', 'Incidental Damages': 'Incidental Damages', 'End User License Terms': 'End User License Terms', 'License Terms': 'License Terms', 'Express Warranty': 'Express Warranty', 'Warranty': 'Warranty', 'Gross Negligence': 'Gross Negligence', 'Negligence': 'Negligence', 'Hardware Warranty': 'Hardware Warranty', 'Product Warranties': 'Product Warranty', 'Product Warranty': 'Product Warranty', 'Indemnification': 'Indemnification', 'Indemnity': 'Indemnity', 'Indirect Damages': 'Indirect Damages', 'Indirect and consequential damages': 'Indirect and consequential damages', 'IPR Infringement': 'IPR Infringement', 'Infringement': 'Infringement', 'Intellectual Property': 'Intellectual Property', 'Intellectual Property Rights': 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)': 'Intellectual Property Rights', 'Intellectual Property Rights (IPRs)': 'Intellectual Property Rights', 'Pre-existing Intellectual Property Rights': 'Pre-existing Intellectual Property Rights', 'Liability Cap': 'Liability Cap', 'Liability Caps': 'Liability Cap', 'Limitation of Liability': 'Limitation of Liability', 'License': 'License', 'License Agreements': 'License Agreements', 'License Grant': 'License Grant', 'License Restrictions': 'License Restrictions', 'License Type': 'License Type', 'Software License': 'Software License', 'OSS License': 'OSS License', 'Open Source Software (OSS)': 'Open Source Software (OSS)', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Product Recall': 'Product Recall', 'Product Safety': 'Product Safety', 'Remedies': 'Remedies', 'Remedy': 'Remedy', 'Sales Taxes': 'Sales Taxes', 'Taxes': 'Taxes', 'Settlement': 'Settlement', 'Settlement Agreement': 'Settlement Agreement', 'Sub-licensing': 'Sub-licensing', 'Sublicense': 'Sublicense', 'Subcontracting': 'Subcontracting', 'Subcontractor': 'Subcontractor', 'Termination': 'Termination', 'Termination for Convenience': 'Termination for Convenience'}
+=== END CONSOLIDATION: 198 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 177
+Generated 177 clusters.
+Resolution Map from LLM:
+{}
+=== END CONSOLIDATION: 177 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 187
+Generated 148 clusters.
+Cluster 0: ['Acceptance', 'Acceptance Criteria']
+Cluster 3: ['Affiliate', 'Affiliates']
+Cluster 4: ['Arbitration', 'Arbitration Clause']
+Cluster 8: ['Background IPRs', 'Foreground IPRs']
+Cluster 9: ['Bank Guarantee', 'Guarantee']
+Cluster 15: ['CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight']
+Cluster 16: ['Change in Control/Ownership', 'Change of Control']
+Cluster 17: ['Choice of Law', 'Conflict/Choice of Law Principles']
+Cluster 18: ['CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To']
+Cluster 21: ['Company Confidential', 'Confidential Information', 'Confidentiality']
+Cluster 22: ['Component/Materials Liability', 'Product Liability']
+Cluster 24: ['Contract', 'Customer Contract']
+Cluster 26: ['Contractual Obligation', 'Obligation', 'Obligations']
+Cluster 27: ['Copyleft License', 'Copyright']
+Cluster 31: ['Damages', 'Direct Damages', 'Incidental Damages']
+Cluster 47: ['Environmental Compliance', 'Environmental Requirements']
+Cluster 51: ['Express Warranty', 'Warranty']
+Cluster 62: ['Gross Negligence', 'Negligence']
+Cluster 63: ['Hardware Warranty', 'Product Warranties', 'Product Warranty']
+Cluster 66: ['Indemnification', 'Indemnity']
+Cluster 67: ['Indirect and Consequential Damages', 'Indirect Damages']
+Cluster 68: ['Infringement', 'IPR Infringement']
+Cluster 70: ['Intellectual Property', 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights (IPRs)']
+Cluster 77: ['Liability', 'Liability Limitation']
+Cluster 79: ['License Agreements', 'License Terms']
+Cluster 82: ['Limitation of Liability', 'Limitation of Liability (LoL)', 'Limitation Period']
+Cluster 93: ['Open Source Software (OSS)', 'OSS License']
+Cluster 99: ['Payment', 'Payment Terms']
+Cluster 106: ['Product Recall', 'Product Safety']
+Cluster 111: ['Quality Requirements', 'Quality Standards']
+Cluster 115: ['Remedies', 'Remedy']
+Cluster 130: ['Subcontracting', 'Subcontractor']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "Process by which a buyer verifies that deliverables meet agreed requirements.",
+    "Acceptance Criteria": "The standards and requirements that must be met for a deliverable to be accepted."
+  },
+  "Group 2": {
+    "Affiliate": "A related entity within a corporate group.",
+    "Affiliates": "Entities related to Zebracorp."
+  },
+  "Group 3": {
+    "Arbitration": "A method of dispute resolution where a neutral third party hears the dispute and makes a binding de...
+Resolution Map from LLM:
+{'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Affiliate': 'Affiliate', 'Affiliates': 'Affiliate', 'Arbitration': 'Arbitration', 'Arbitration Clause': 'Arbitration Clause', 'Background IPRs': 'Background IPRs', 'Foreground IPRs': 'Foreground IPRs', 'Bank Guarantee': 'Bank Guarantee', 'Guarantee': 'Guarantee', 'CFR – Cost and Freight': 'CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight': 'CIF – Cost, Insurance and Freight', 'Change in Control/Ownership': 'Change of Control', 'Change of Control': 'Change of Control', 'Choice of Law': 'Choice of Law', 'Conflict/Choice of Law Principles': 'Conflict/Choice of Law Principles', 'CIP – Carriage and Insurance Paid to': 'CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To': 'CPT – Carriage Paid To', 'Company Confidential': 'Company Confidential', 'Confidential Information': 'Confidential Information', 'Confidentiality': 'Confidentiality', 'Component/Materials Liability': 'Component/Materials Liability', 'Product Liability': 'Product Liability', 'Contract': 'Contract', 'Customer Contract': 'Customer Contract', 'Contractual Obligation': 'Contractual Obligation', 'Obligation': 'Obligation', 'Obligations': 'Obligation', 'Copyleft License': 'Copyleft License', 'Copyright': 'Copyright', 'Damages': 'Damages', 'Direct Damages': 'Direct Damages', 'Incidental Damages': 'Incidental Damages', 'Environmental Compliance': 'Environmental Compliance', 'Environmental Requirements': 'Environmental Requirements', 'Express Warranty': 'Express Warranty', 'Warranty': 'Warranty', 'Gross Negligence': 'Gross Negligence', 'Negligence': 'Negligence', 'Hardware Warranty': 'Hardware Warranty', 'Product Warranties': 'Product Warranty', 'Product Warranty': 'Product Warranty', 'Indemnification': 'Indemnification', 'Indemnity': 'Indemnity', 'Indirect Damages': 'Indirect Damages', 'Indirect and Consequential Damages': 'Indirect Damages', 'IPR Infringement': 'IPR Infringement', 'Infringement': 'Infringement', 'Intellectual Property': 'Intellectual Property', 'Intellectual Property Rights': 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)': 'Intellectual Property Rights', 'Intellectual Property Rights (IPRs)': 'Intellectual Property Rights', 'Liability': 'Liability', 'Liability Limitation': 'Liability Limitation', 'License Agreements': 'License Agreements', 'License Terms': 'License Terms', 'Limitation Period': 'Limitation Period', 'Limitation of Liability': 'Limitation of Liability', 'Limitation of Liability (LoL)': 'Limitation of Liability', 'OSS License': 'OSS License', 'Open Source Software (OSS)': 'Open Source Software (OSS)', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Product Recall': 'Product Recall', 'Product Safety': 'Product Safety', 'Quality Requirements': 'Quality Requirements', 'Quality Standards': 'Quality Standards', 'Remedies': 'Remedies', 'Remedy': 'Remedy', 'Subcontracting': 'Subcontracting', 'Subcontractor': 'Subcontractor'}
+=== END CONSOLIDATION: 179 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 174
+Generated 139 clusters.
+Cluster 0: ['Acceptance', 'Acceptance Criteria']
+Cluster 3: ['Affiliate', 'Affiliates']
+Cluster 4: ['Arbitration', 'Arbitration Clause']
+Cluster 7: ['Background IPRs', 'Foreground IPRs', 'IPR']
+Cluster 8: ['Bank Guarantee', 'Guarantee']
+Cluster 14: ['CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight']
+Cluster 15: ['Change in Control/Ownership', 'Change of Control']
+Cluster 16: ['Choice of Law', 'Conflict/Choice of Law Principles']
+Cluster 17: ['CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To']
+Cluster 19: ['Company Confidential', 'Confidential Information', 'Confidentiality']
+Cluster 20: ['Component/Materials Liability', 'Product Liability']
+Cluster 22: ['Contract', 'Contract Terms']
+Cluster 24: ['Copyleft License', 'Copyright']
+Cluster 28: ['Damages', 'Direct Damages', 'Incidental Damages']
+Cluster 43: ['Environmental Compliance', 'Environmental Requirements']
+Cluster 46: ['Express Warranty', 'Warranty']
+Cluster 57: ['Gross Negligence', 'Negligence']
+Cluster 58: ['Hardware Warranty', 'Product Warranty']
+Cluster 61: ['Indemnification', 'Indemnity']
+Cluster 62: ['Indirect and Consequential Damages', 'Indirect Damages']
+Cluster 65: ['Intellectual Property', 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)']
+Cluster 66: ['Invoices', 'Invoicing']
+Cluster 70: ['Liability', 'Liability Limitation']
+Cluster 75: ['Limitation of Liability', 'Limitation of Liability (LoL)', 'Limitation Period']
+Cluster 86: ['Obligation', 'Obligations']
+Cluster 87: ['Open Source Software (OSS)', 'OSS License']
+Cluster 93: ['Payment', 'Payment Terms']
+Cluster 104: ['Quality Requirements', 'Quality Standards']
+Cluster 108: ['Remedies', 'Remedy']
+Cluster 122: ['Subcontracting', 'Subcontractor']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "Process by which a buyer verifies that deliverables meet agreed requirements.",
+    "Acceptance Criteria": "Specific requirements that must be met for deliverables to be accepted."
+  },
+  "Group 2": {
+    "Affiliate": "A related entity within the same corporate group.",
+    "Affiliates": "Subsidiary companies."
+  },
+  "Group 3": {
+    "Arbitration": "A method of dispute resolution outside of court, where parties select an impartial third party (arbitrator) to ...
+Resolution Map from LLM:
+{'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Affiliate': 'Affiliate', 'Affiliates': 'Affiliate', 'Arbitration': 'Arbitration', 'Arbitration Clause': 'Arbitration Clause', 'Background IPRs': 'Background IPRs', 'Foreground IPRs': 'Foreground IPRs', 'IPR': 'Intellectual Property Rights', 'Bank Guarantee': 'Bank Guarantee', 'Guarantee': 'Guarantee', 'CFR – Cost and Freight': 'CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight': 'CIF – Cost, Insurance and Freight', 'Change in Control/Ownership': 'Change of Control', 'Change of Control': 'Change of Control', 'Choice of Law': 'Choice of Law', 'Conflict/Choice of Law Principles': 'Conflict/Choice of Law Principles', 'CIP – Carriage and Insurance Paid to': 'CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To': 'CPT – Carriage Paid To', 'Company Confidential': 'Company Confidential', 'Confidential Information': 'Confidential Information', 'Confidentiality': 'Confidentiality', 'Component/Materials Liability': 'Component/Materials Liability', 'Product Liability': 'Product Liability', 'Contract': 'Contract', 'Contract Terms': 'Contract Terms', 'Copyleft License': 'Copyleft License', 'Copyright': 'Copyright', 'Damages': 'Damages', 'Direct Damages': 'Direct Damages', 'Incidental Damages': 'Incidental Damages', 'Environmental Compliance': 'Environmental Compliance', 'Environmental Requirements': 'Environmental Requirements', 'Express Warranty': 'Express Warranty', 'Warranty': 'Warranty', 'Gross Negligence': 'Gross Negligence', 'Negligence': 'Negligence', 'Hardware Warranty': 'Hardware Warranty', 'Product Warranty': 'Product Warranty', 'Indemnification': 'Indemnification', 'Indemnity': 'Indemnity', 'Indirect Damages': 'Indirect Damages', 'Indirect and Consequential Damages': 'Indirect and Consequential Damages', 'Intellectual Property': 'Intellectual Property', 'Intellectual Property Rights': 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)': 'Intellectual Property Rights', 'Invoices': 'Invoice', 'Invoicing': 'Invoicing', 'Liability': 'Liability', 'Liability Limitation': 'Liability Limitation', 'Limitation Period': 'Limitation Period', 'Limitation of Liability': 'Limitation of Liability', 'Limitation of Liability (LoL)': 'Limitation of Liability', 'Obligation': 'Obligation', 'Obligations': 'Obligation', 'OSS License': 'OSS License', 'Open Source Software (OSS)': 'Open Source Software (OSS)', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Quality Requirements': 'Quality Requirement', 'Quality Standards': 'Quality Requirement', 'Remedies': 'Remedy', 'Remedy': 'Remedy', 'Subcontracting': 'Subcontracting', 'Subcontractor': 'Subcontractor'}
+=== END CONSOLIDATION: 166 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 181
+Generated 144 clusters.
+Cluster 0: ['Acceptance', 'Acceptance Criteria']
+Cluster 3: ['Affiliate', 'Affiliates']
+Cluster 4: ['Arbitration', 'Arbitration Clause']
+Cluster 10: ['Background IPRs', 'Foreground IPRs', 'IPR']
+Cluster 11: ['Bank Guarantee', 'Guarantee']
+Cluster 16: ['CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight']
+Cluster 17: ['Change in Control/Ownership', 'Change of Control']
+Cluster 19: ['CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To']
+Cluster 23: ['Company Confidential', 'Confidential Information', 'Confidentiality']
+Cluster 24: ['Component/Materials Liability', 'Product Liability']
+Cluster 26: ['Contract', 'Contract Terms', 'Customer Contract']
+Cluster 28: ['Contractual Obligation', 'Obligation', 'Obligations']
+Cluster 29: ['Copyleft License', 'Copyright']
+Cluster 32: ['Damages', 'Direct Damages', 'Incidental Damages']
+Cluster 42: ['Effects of Termination', 'Termination']
+Cluster 45: ['Environmental Compliance', 'Environmental Requirements']
+Cluster 49: ['Express Warranty', 'Warranty']
+Cluster 60: ['Gross Negligence', 'Negligence']
+Cluster 61: ['Hardware Warranty', 'Product Warranty']
+Cluster 64: ['Indemnification', 'Indemnity']
+Cluster 65: ['Indirect and Consequential Damages', 'Indirect Damages']
+Cluster 68: ['Intellectual Property', 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights (IPRs)']
+Cluster 69: ['Invoices', 'Invoicing']
+Cluster 78: ['Limitation of Liability', 'Limitation of Liability (LoL)', 'Limitation Period']
+Cluster 89: ['Open Source Software (OSS)', 'OSS License']
+Cluster 95: ['Payment', 'Payment Terms']
+Cluster 107: ['Quality Requirements', 'Quality Standards']
+Cluster 110: ['Remedies', 'Remedy']
+Cluster 125: ['Subcontracting', 'Subcontractor']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "Process by which a buyer verifies that deliverables meet agreed requirements.",
+    "Acceptance Criteria": "The standards and requirements that must be met for a deliverable to be accepted."
+  },
+  "Group 2": {
+    "Affiliate": "A related entity within a corporate group.",
+    "Affiliates": "Subsidiary companies."
+  },
+  "Group 3": {
+    "Arbitration": "A method of dispute resolution where a neutral third party hears the dispute and makes a binding decision.",...
+Resolution Map from LLM:
+{'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Affiliate': 'Affiliate', 'Affiliates': 'Affiliate', 'Arbitration': 'Arbitration', 'Arbitration Clause': 'Arbitration Clause', 'Background IPRs': 'Background IPR', 'Foreground IPRs': 'Foreground IPR', 'IPR': 'Intellectual Property Rights', 'Bank Guarantee': 'Bank Guarantee', 'Guarantee': 'Guarantee', 'CFR – Cost and Freight': 'CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight': 'CIF – Cost, Insurance and Freight', 'Change in Control/Ownership': 'Change of Control', 'Change of Control': 'Change of Control', 'CIP – Carriage and Insurance Paid to': 'CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To': 'CPT – Carriage Paid To', 'Company Confidential': 'Company Confidential', 'Confidential Information': 'Confidential Information', 'Confidentiality': 'Confidentiality', 'Component/Materials Liability': 'Component/Materials Liability', 'Product Liability': 'Product Liability', 'Contract': 'Contract', 'Contract Terms': 'Contract Terms', 'Customer Contract': 'Customer Contract', 'Contractual Obligation': 'Contractual Obligation', 'Obligation': 'Obligation', 'Obligations': 'Obligation', 'Copyleft License': 'Copyleft License', 'Copyright': 'Copyright', 'Damages': 'Damages', 'Direct Damages': 'Direct Damages', 'Incidental Damages': 'Incidental Damages', 'Effects of Termination': 'Effects of Termination', 'Termination': 'Termination', 'Environmental Compliance': 'Environmental Compliance', 'Environmental Requirements': 'Environmental Requirements', 'Express Warranty': 'Express Warranty', 'Warranty': 'Warranty', 'Gross Negligence': 'Gross Negligence', 'Negligence': 'Negligence', 'Hardware Warranty': 'Hardware Warranty', 'Product Warranties': 'Product Warranty', 'Product Warranty': 'Product Warranty', 'Indemnification': 'Indemnification', 'Indemnity': 'Indemnity', 'Indirect Damages': 'Indirect Damages', 'Indirect and Consequential Damages': 'Indirect and Consequential Damages', 'Intellectual Property': 'Intellectual Property', 'Intellectual Property Rights': 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)': 'Intellectual Property Rights', 'Intellectual Property Rights (IPRs)': 'Intellectual Property Rights', 'Invoices': 'Invoices', 'Invoicing': 'Invoicing', 'Limitation Period': 'Limitation Period', 'Limitation of Liability': 'Limitation of Liability', 'Limitation of Liability (LoL)': 'Limitation of Liability', 'OSS License': 'OSS License', 'Open Source Software (OSS)': 'Open Source Software (OSS)', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Quality Requirements': 'Quality Requirements', 'Quality Standards': 'Quality Standards', 'Remedies': 'Remedies', 'Remedy': 'Remedy', 'Subcontracting': 'Subcontracting', 'Subcontractor': 'Subcontractor', 'Background IPR': 'Background IPR', 'Foreground IPR': 'Foreground IPR'}
+=== END CONSOLIDATION: 174 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 181
+Generated 143 clusters.
+Cluster 0: ['Acceptance', 'Acceptance Criteria']
+Cluster 3: ['Affiliate', 'Affiliates']
+Cluster 4: ['Arbitration', 'Arbitration Clause']
+Cluster 7: ['Background IPRs', 'Foreground IPRs']
+Cluster 8: ['Bank Guarantee', 'Guarantee']
+Cluster 14: ['CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight']
+Cluster 15: ['Change in Control/Ownership', 'Change of Control']
+Cluster 16: ['Choice of Law', 'Conflict/Choice of Law Principles']
+Cluster 17: ['CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To']
+Cluster 19: ['Company Confidential', 'Confidential Information', 'Confidentiality']
+Cluster 20: ['Component/Materials Liability', 'Product Liability']
+Cluster 22: ['Contract', 'Customer Contract']
+Cluster 24: ['Contractual Obligation', 'Obligation', 'Obligations']
+Cluster 25: ['Copyleft License', 'Copyright']
+Cluster 29: ['Damages', 'Direct Damages', 'Incidental Damages']
+Cluster 46: ['Environmental Compliance', 'Environmental Requirements']
+Cluster 49: ['Express Warranty', 'Warranty']
+Cluster 60: ['Gross Negligence', 'Negligence']
+Cluster 61: ['Hardware Warranty', 'Product Warranties', 'Product Warranty']
+Cluster 64: ['Indemnification', 'Indemnity']
+Cluster 65: ['Indirect and Consequential Damages', 'Indirect Damages']
+Cluster 66: ['Infringement', 'IPR Infringement']
+Cluster 69: ['Intellectual Property', 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights (IPRs)']
+Cluster 77: ['License Agreements', 'License Terms']
+Cluster 80: ['Limitation of Liability', 'Limitation of Liability (LoL)', 'Limitation Period']
+Cluster 91: ['Open Source Software (OSS)', 'OSS License']
+Cluster 97: ['Payment', 'Payment Terms']
+Cluster 104: ['Product Recall', 'Product Safety']
+Cluster 109: ['Quality Requirements', 'Quality Standards']
+Cluster 113: ['Remedies', 'Remedy']
+Cluster 126: ['Subcontracting', 'Subcontractor']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "Process by which a buyer verifies that deliverables meet agreed requirements.",
+    "Acceptance Criteria": "Specific requirements that must be met for deliverables to be accepted."
+  },
+  "Group 2": {
+    "Affiliate": "A related entity within the same corporate group.",
+    "Affiliates": "Extending license rights to the Zebracorp Group as a whole."
+  },
+  "Group 3": {
+    "Arbitration": "A method of dispute resolution outside of court, where parties select an ...
+Resolution Map from LLM:
+{'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Affiliate': 'Affiliate', 'Affiliates': 'Affiliate', 'Arbitration': 'Arbitration', 'Arbitration Clause': 'Arbitration Clause', 'Background IPRs': 'Background IPRs', 'Foreground IPRs': 'Foreground IPRs', 'Bank Guarantee': 'Bank Guarantee', 'Guarantee': 'Guarantee', 'CFR – Cost and Freight': 'CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight': 'CIF – Cost, Insurance and Freight', 'Change in Control/Ownership': 'Change of Control', 'Change of Control': 'Change of Control', 'Choice of Law': 'Choice of Law', 'Conflict/Choice of Law Principles': 'Conflict/Choice of Law Principles', 'CIP – Carriage and Insurance Paid to': 'CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To': 'CPT – Carriage Paid To', 'Company Confidential': 'Company Confidential', 'Confidential Information': 'Confidential Information', 'Confidentiality': 'Confidentiality', 'Component/Materials Liability': 'Component/Materials Liability', 'Product Liability': 'Product Liability', 'Contract': 'Contract', 'Customer Contract': 'Customer Contract', 'Contractual Obligation': 'Contractual Obligation', 'Obligation': 'Obligation', 'Obligations': 'Obligation', 'Copyleft License': 'Copyleft License', 'Copyright': 'Copyright', 'Damages': 'Damages', 'Direct Damages': 'Direct Damages', 'Incidental Damages': 'Incidental Damages', 'Environmental Compliance': 'Environmental Compliance', 'Environmental Requirements': 'Environmental Requirements', 'Express Warranty': 'Express Warranty', 'Warranty': 'Warranty', 'Gross Negligence': 'Gross Negligence', 'Negligence': 'Negligence', 'Hardware Warranty': 'Hardware Warranty', 'Product Warranties': 'Product Warranty', 'Product Warranty': 'Product Warranty', 'Indemnification': 'Indemnification', 'Indemnity': 'Indemnity', 'Indirect Damages': 'Indirect Damages', 'Indirect and Consequential Damages': 'Indirect and Consequential Damages', 'IPR Infringement': 'IPR Infringement', 'Infringement': 'Infringement', 'Intellectual Property': 'Intellectual Property', 'Intellectual Property Rights': 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)': 'Intellectual Property Rights', 'Intellectual Property Rights (IPRs)': 'Intellectual Property Rights', 'License Agreements': 'License Agreements', 'License Terms': 'License Terms', 'Limitation Period': 'Limitation Period', 'Limitation of Liability': 'Limitation of Liability', 'Limitation of Liability (LoL)': 'Limitation of Liability', 'OSS License': 'OSS License', 'Open Source Software (OSS)': 'Open Source Software (OSS)', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Product Recall': 'Product Recall', 'Product Safety': 'Product Safety', 'Quality Requirements': 'Quality Requirements', 'Quality Standards': 'Quality Standards', 'Remedies': 'Remedies', 'Remedy': 'Remedy', 'Subcontracting': 'Subcontracting', 'Subcontractor': 'Subcontractor'}
+=== END CONSOLIDATION: 174 final terms ===
+Rule Dedup LLM Payload Snippet:
+[
+  {
+    "cluster_id": 0,
+    "rules": [
+      {
+        "id": "OBLIG_001",
+        "category": "OBLIGATION",
+        "description": "Contracts should allow assignment to succeeding entity to Zebracorp in case of reorganization.",
+        "quote": "It is for these reasons important to make sure that each contract we conclude gives us the maximum flexibility to assign without the supplier\u2019s consent to any succeeding entity to Zebracorp (in case of a reorganization)"
+      },
+      {
+       ...
+LLM returned no decision for cluster {'RESTR_008', 'RESTR_005', 'RESTR_004', 'OBLIG_005', 'PERM_004', 'RESTR_010', 'OBLIG_002', 'PERM_003', 'RESTR_003', 'OBLIG_001', 'RESTR_009', 'OBLIG_003', 'OBLI_004', 'RESTR_001', 'PERM_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_001', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'RESTR_002'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_012', 'OBLI_001', 'DEFI_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_002', 'OBLI_010'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_014', 'OBLI_006', 'RESTR_002', 'OBLI_011', 'OBLI_013', 'OBLI_007', 'RESTR_003', 'PERM_002', 'OBLI_005', 'OBLI_004', 'RESTR_017', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003', 'RESTR_004'}. Keeping all.
+LLM returned no decision for cluster {'PERMI_001', 'RESTR_004'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_008', 'DEFIN_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_001', 'DEFN_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_007', 'OBLIG_002'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'OBLI_003', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'DEFI_001', 'DEFN_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'RESTR_006', 'RESTR_002', 'OBLIG_002', 'RESTR_003', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'OBLI_003', 'RESTR_006', 'RESTR_004', 'OBLIG_002', 'OBLIG_001', 'OBLIG_006', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_008', 'RESTR_002', 'RESTR_010', 'RESTR_005'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003', 'OBLI_003'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_006', 'RESTR_004', 'OBLI_006', 'OBLIG_005', 'OBLIG_002', 'RESTR_012', 'OBLI_005', 'OBLIG_009'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_001', 'RESTR_002', 'DEFI_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_002', 'OBLI_010', 'OBLI_006', 'OBLI_011', 'OBLI_008', 'OBLI_007', 'OBLI_005', 'OBLI_004'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_009', 'OBLI_003'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_001', 'PERM_001'}. Keeping all.
+LLM returned no decision for cluster {'DEFN_002', 'OBLIG_002'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_001', 'DEFN_001'}. Keeping all.
+LLM returned no decision for cluster {'DEFN_002', 'OBLIG_001', 'DEFI_001', 'DEFN_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'OBLIG_005', 'OBLIG_002', 'PERM_001', 'RESTR_011', 'OBLIG_001', 'OBLIG_003', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'PERMI_002', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003'}. Keeping all.
+LLM returned no decision for cluster {'PERMI_001', 'RESTR_004'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'RESTR_006'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_004', 'PERM_004', 'OBLIG_002'}. Keeping all.
+LLM returned no decision for cluster {'DEFI_003', 'DEFN_002', 'DEFI_001', 'DEFN_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'RESTR_002', 'RESTR_005'}. Keeping all.
+LLM returned no decision for cluster {'PERM_002', 'PERM_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003', 'RESTR_012', 'OBLI_005'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_010', 'RESTR_004'}. Keeping all.
+LLM returned no decision for cluster {'DEFN_002', 'RESTR_002', 'RESTR_001', 'DEFN_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_007', 'RESTR_011', 'OBLIG_001', 'PERM_002', 'OBLI_004', 'OBLI_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_002', 'DEFI_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_002', 'OBLI_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_001', 'OBLIG_005', 'OBLIG_001', 'OBLIG_002'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_008', 'RESTR_013', 'RESTR_002', 'RESTR_007', 'OBLIG_001', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_013', 'RESTR_007', 'PERM_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_002', 'RESTR_005'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'DEFN_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_002', 'RESTR_004'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_005', 'OBLIG_002'}. Keeping all.
+LLM returned no decision for cluster {'DEFI_004', 'DEFN_003'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_002', 'RESTR_002', 'OBLIG_001', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_011', 'RESTR_010'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_008', 'RESTR_002', 'RESTR_001', 'RESTR_005'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003', 'PERM_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003', 'RESTR_021'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_007', 'RESTR_006', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_011', 'RESTR_010', 'RESTR_009'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_007', 'OBLIG_008'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_011', 'OBLIG_009'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_012', 'RESTR_013', 'RESTR_014'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_012', 'PERM_003'}. Keeping all.
+LLM returned no decision for cluster {'PERM_004', 'RESTR_020'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'OBLIG_001'}. Keeping all.
+LLM returned no decision for cluster {'DEFI_002', 'PERM_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_001', 'RESTR_009'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_007', 'RESTR_006'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_001', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003', 'RESTR_002'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_007', 'RESTR_006', 'RESTR_005'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_001', 'DEFI_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_001', 'RESTR_005'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_004', 'RESTR_004', 'OBLIG_001', 'OBLIG_003', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_003', 'RESTR_002'}. Keeping all.
+LLM returned no decision for cluster {'RECOM_001', 'RESTR_013'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'RESTR_011'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_012', 'RESTR_004'}. Keeping all.
+LLM returned no decision for cluster {'PERM_002', 'PERM_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_008', 'OBLIG_004'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_010', 'RESTR_009'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_002', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'DEFI_001', 'PERM_002', 'OBLI_001', 'DEFI_002', 'RESTR_001'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_006', 'OBLI_002', 'RESTR_007'}. Keeping all.
+LLM returned no decision for cluster {'PERM_003', 'PERM_001'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_004', 'PERM_006', 'OBLI_005', 'RESTR_009', 'RESTR_005', 'OBLI_004'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_008', 'RESTR_010'}. Keeping all.
+LLM returned no decision for cluster {'PERM_007', 'PERM_008'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_002', 'RESTR_009'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_006', 'OBLIG_002', 'OBLIG_003'}. Keeping all.
+LLM returned no decision for cluster {'PERM_001', 'RESTR_004'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_007', 'RESTR_005'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_008', 'RESTR_012', 'PERM_006'}. Keeping all.
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 179
+Generated 144 clusters.
+Cluster 0: ['Acceptance', 'Acceptance Criteria']
+Cluster 3: ['Affiliate', 'Affiliates']
+Cluster 4: ['Arbitration', 'Arbitration Clause']
+Cluster 9: ['Background IPRs', 'Foreground IPRs']
+Cluster 10: ['Bank Guarantee', 'Guarantee']
+Cluster 15: ['CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight']
+Cluster 16: ['Change in Control/Ownership', 'Change of Control']
+Cluster 17: ['Choice of Law', 'Conflict/Choice of Law Principles']
+Cluster 18: ['CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To']
+Cluster 21: ['Company Confidential', 'Confidential Information', 'Confidentiality']
+Cluster 22: ['Component/Materials Liability', 'Product Liability']
+Cluster 26: ['Copyleft License', 'Copyright']
+Cluster 30: ['Damages', 'Direct Damages', 'Incidental Damages']
+Cluster 41: ['Effects of Termination', 'Termination']
+Cluster 44: ['Environmental Compliance', 'Environmental Requirements']
+Cluster 47: ['Express Warranty', 'Warranty']
+Cluster 58: ['Gross Negligence', 'Negligence']
+Cluster 59: ['Hardware Warranty', 'Product Warranties', 'Product Warranty']
+Cluster 62: ['Indemnification', 'Indemnity']
+Cluster 63: ['Indirect and Consequential Damages', 'Indirect Damages']
+Cluster 64: ['Infringement', 'IPR Infringement']
+Cluster 66: ['Intellectual Property', 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights (IPRs)']
+Cluster 78: ['Limitation of Liability', 'Limitation of Liability (LoL)', 'Limitation Period']
+Cluster 91: ['Open Source Software (OSS)', 'OSS License']
+Cluster 97: ['Payment', 'Payment Terms']
+Cluster 102: ['Product Recall', 'Product Safety']
+Cluster 108: ['Quality Requirements', 'Quality Standards']
+Cluster 111: ['Remedies', 'Remedy']
+Cluster 125: ['Subcontracting', 'Subcontractor']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "Process by which a buyer verifies that deliverables meet agreed requirements.",
+    "Acceptance Criteria": "The standards and requirements that must be met for a deliverable to be accepted."
+  },
+  "Group 2": {
+    "Affiliate": "A related entity within a corporate group.",
+    "Affiliates": "Subsidiary companies."
+  },
+  "Group 3": {
+    "Arbitration": "A method of dispute resolution outside of court, where parties select an impartial third party (arbitrator) ...
+Resolution Map from LLM:
+{'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Affiliate': 'Affiliate', 'Affiliates': 'Affiliate', 'Arbitration': 'Arbitration', 'Arbitration Clause': 'Arbitration Clause', 'Background IPRs': 'Background IPRs', 'Foreground IPRs': 'Foreground IPRs', 'Bank Guarantee': 'Bank Guarantee', 'Guarantee': 'Guarantee', 'CFR – Cost and Freight': 'CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight': 'CIF – Cost, Insurance and Freight', 'Change in Control/Ownership': 'Change of Control', 'Change of Control': 'Change of Control', 'Choice of Law': 'Choice of Law', 'Conflict/Choice of Law Principles': 'Conflict/Choice of Law Principles', 'CIP – Carriage and Insurance Paid to': 'CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To': 'CPT – Carriage Paid To', 'Company Confidential': 'Company Confidential', 'Confidential Information': 'Confidential Information', 'Confidentiality': 'Confidentiality', 'Component/Materials Liability': 'Component/Materials Liability', 'Product Liability': 'Product Liability', 'Copyleft License': 'Copyleft License', 'Copyright': 'Copyright', 'Damages': 'Damages', 'Direct Damages': 'Direct Damages', 'Incidental Damages': 'Incidental Damages', 'Effects of Termination': 'Effects of Termination', 'Termination': 'Termination', 'Environmental Compliance': 'Environmental Compliance', 'Environmental Requirements': 'Environmental Requirements', 'Express Warranty': 'Express Warranty', 'Warranty': 'Warranty', 'Gross Negligence': 'Gross Negligence', 'Negligence': 'Negligence', 'Hardware Warranty': 'Hardware Warranty', 'Product Warranties': 'Product Warranty', 'Product Warranty': 'Product Warranty', 'Indemnification': 'Indemnification', 'Indemnity': 'Indemnity', 'Indirect Damages': 'Indirect Damages', 'Indirect and Consequential Damages': 'Indirect and Consequential Damages', 'IPR Infringement': 'IPR Infringement', 'Infringement': 'Infringement', 'Intellectual Property': 'Intellectual Property', 'Intellectual Property Rights': 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)': 'Intellectual Property Rights', 'Intellectual Property Rights (IPRs)': 'Intellectual Property Rights', 'Limitation Period': 'Limitation Period', 'Limitation of Liability': 'Limitation of Liability', 'Limitation of Liability (LoL)': 'Limitation of Liability', 'OSS License': 'OSS License', 'Open Source Software (OSS)': 'Open Source Software (OSS)', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Product Recall': 'Product Recall', 'Product Safety': 'Product Safety', 'Quality Requirements': 'Quality Requirements', 'Quality Standards': 'Quality Standards', 'Remedies': 'Remedies', 'Remedy': 'Remedy', 'Subcontracting': 'Subcontracting', 'Subcontractor': 'Subcontractor'}
+=== END CONSOLIDATION: 173 final terms ===
+Rule Dedup LLM Payload Snippet:
+[
+  {
+    "cluster_id": 0,
+    "rules": [
+      {
+        "id": "OBLIG_001",
+        "category": "OBLIGATION",
+        "description": "Contracts should allow assignment to succeeding entities or affiliates without supplier consent.",
+        "quote": "It is for these reasons important to make sure that each contract we conclude gives us the maximum flexibility to assign without the supplier\u2019s consent to any succeeding entity to Zebracorp (in case of a reorganization), or at the minimum allo...
+LLM returned no decision for cluster {'RESTR_007', 'RESTR_006'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_010', 'RESTR_009'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_007', 'OBLIG_006'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_007', 'OBLIG_008'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_012', 'PERM_003'}. Keeping all.
+LLM returned no decision for cluster {'PERM_004', 'RESTR_020'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_002', 'OBLI_010', 'OBLI_006', 'OBLI_011', 'OBLI_008', 'OBLI_007', 'OBLI_005', 'OBLI_004'}. Keeping all.
+LLM returned no decision for cluster {'OBLI_009', 'OBLI_003'}. Keeping all.
+LLM returned no decision for cluster {'RECOM_001', 'RESTR_017'}. Keeping all.
+LLM returned no decision for cluster {'PERM_005', 'PERM_006', 'PERM_004'}. Keeping all.
+LLM returned no decision for cluster {'RECOM_002', 'RESTR_010'}. Keeping all.
+LLM returned no decision for cluster {'RECOM_003', 'OBLIG_005'}. Keeping all.
+LLM returned no decision for cluster {'RECOM_005', 'RESTR_011'}. Keeping all.
+LLM returned no decision for cluster {'OBLIG_008', 'OBLIG_009'}. Keeping all.
+LLM returned no decision for cluster {'RESTR_007', 'RESTR_005'}. Keeping all.
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 178
+Generated 140 clusters.
+Cluster 0: ['Acceptance', 'Acceptance Criteria']
+Cluster 3: ['Affiliate', 'Affiliates']
+Cluster 4: ['Arbitration', 'Arbitration Clause']
+Cluster 7: ['Background IPRs', 'Foreground IPRs']
+Cluster 8: ['Bank Guarantee', 'Guarantee']
+Cluster 14: ['CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight']
+Cluster 15: ['Change in Control/Ownership', 'Change of Control']
+Cluster 17: ['CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To']
+Cluster 21: ['Company Confidential', 'Confidential Information', 'Confidentiality']
+Cluster 22: ['Component/Materials Liability', 'Product Liability']
+Cluster 24: ['Contract', 'Customer Contract']
+Cluster 26: ['Contractual Obligation', 'Obligation', 'Obligations']
+Cluster 27: ['Copyleft License', 'Copyright']
+Cluster 30: ['Damages', 'Direct Damages', 'Incidental Damages']
+Cluster 40: ['Effects of Termination', 'Termination']
+Cluster 43: ['Environmental Compliance', 'Environmental Requirements']
+Cluster 46: ['Express Warranty', 'Warranty']
+Cluster 57: ['Gross Negligence', 'Negligence']
+Cluster 58: ['Hardware Warranty', 'Product Warranties', 'Product Warranty']
+Cluster 61: ['Indemnification', 'Indemnity']
+Cluster 62: ['Indirect and Consequential Damages', 'Indirect Damages']
+Cluster 63: ['Infringement', 'IPR Infringement']
+Cluster 64: ['Intellectual Property', 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights (IPRs)']
+Cluster 71: ['Liability', 'Liability Limitation']
+Cluster 73: ['License Agreements', 'License Terms']
+Cluster 76: ['Limitation of Liability', 'Limitation of Liability (LoL)', 'Limitation Period']
+Cluster 88: ['Open Source Software (OSS)', 'OSS License']
+Cluster 94: ['Payment', 'Payment Terms']
+Cluster 100: ['Product Recall', 'Product Safety']
+Cluster 108: ['Remedies', 'Remedy']
+Cluster 122: ['Subcontracting', 'Subcontractor']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "Process by which a buyer verifies that deliverables meet agreed requirements.",
+    "Acceptance Criteria": "The standards and requirements that must be met for a deliverable to be accepted."
+  },
+  "Group 2": {
+    "Affiliate": "A related entity within the same corporate group.",
+    "Affiliates": "Subsidiary companies."
+  },
+  "Group 3": {
+    "Arbitration": "A method of dispute resolution involving a neutral third party.",
+    "Arbitration Clause": "A contra...
+Resolution Map from LLM:
+{'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Affiliate': 'Affiliate', 'Affiliates': 'Affiliate', 'Arbitration': 'Arbitration', 'Arbitration Clause': 'Arbitration Clause', 'Background IPRs': 'Background IPRs', 'Foreground IPRs': 'Foreground IPRs', 'Bank Guarantee': 'Bank Guarantee', 'Guarantee': 'Guarantee', 'CFR – Cost and Freight': 'CFR – Cost and Freight', 'CIF – Cost, Insurance and Freight': 'CIF – Cost, Insurance and Freight', 'Change in Control/Ownership': 'Change of Control', 'Change of Control': 'Change of Control', 'CIP – Carriage and Insurance Paid to': 'CIP – Carriage and Insurance Paid to', 'CPT – Carriage Paid To': 'CPT – Carriage Paid To', 'Company Confidential': 'Company Confidential', 'Confidential Information': 'Confidential Information', 'Confidentiality': 'Confidentiality', 'Component/Materials Liability': 'Component/Materials Liability', 'Product Liability': 'Product Liability', 'Contract': 'Contract', 'Customer Contract': 'Customer Contract', 'Contractual Obligation': 'Contractual Obligation', 'Obligation': 'Obligation', 'Obligations': 'Obligation', 'Copyleft License': 'Copyleft License', 'Copyright': 'Copyright', 'Damages': 'Damages', 'Direct Damages': 'Direct Damages', 'Incidental Damages': 'Incidental Damages', 'Effects of Termination': 'Effects of Termination', 'Termination': 'Termination', 'Environmental Compliance': 'Environmental Compliance', 'Environmental Requirements': 'Environmental Requirements', 'Express Warranty': 'Express Warranty', 'Warranty': 'Warranty', 'Gross Negligence': 'Gross Negligence', 'Negligence': 'Negligence', 'Hardware Warranty': 'Hardware Warranty', 'Product Warranties': 'Product Warranty', 'Product Warranty': 'Product Warranty', 'Indemnification': 'Indemnification', 'Indemnity': 'Indemnity', 'Indirect Damages': 'Indirect Damages', 'Indirect and Consequential Damages': 'Indirect and Consequential Damages', 'IPR Infringement': 'IPR Infringement', 'Infringement': 'Infringement', 'Intellectual Property': 'Intellectual Property', 'Intellectual Property Rights': 'Intellectual Property Rights', 'Intellectual Property Rights (IPR)': 'Intellectual Property Rights', 'Intellectual Property Rights (IPRs)': 'Intellectual Property Rights', 'Liability': 'Liability', 'Liability Limitation': 'Liability Limitation', 'License Agreements': 'License Agreements', 'License Terms': 'License Terms', 'Limitation Period': 'Limitation Period', 'Limitation of Liability': 'Limitation of Liability', 'Limitation of Liability (LoL)': 'Limitation of Liability', 'OSS License': 'OSS License', 'Open Source Software (OSS)': 'Open Source Software (OSS)', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Product Recall': 'Product Recall', 'Product Safety': 'Product Safety', 'Remedies': 'Remedies', 'Remedy': 'Remedy', 'Subcontracting': 'Subcontracting', 'Subcontractor': 'Subcontractor'}
+=== END CONSOLIDATION: 171 final terms ===

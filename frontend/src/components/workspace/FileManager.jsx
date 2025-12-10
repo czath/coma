@@ -7,7 +7,17 @@ export default function FileManager() {
     const { files, loading, error, addFile, updateFile, deleteFile } = useWorkspace();
     const navigate = useNavigate();
     const [isDragging, setIsDragging] = useState(false);
-    const [uploadProgress, setUploadProgress] = useState({}); // Local state for progress to avoid re-renders
+    const [uploadProgress, setUploadProgress] = useState({}); // { id: { percent: number, message: string } }
+    const intervalsRef = useRef({}); // Store intervals to clear on unmount
+
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            // Cleanup intervals on unmount
+            Object.values(intervalsRef.current).forEach(clearInterval);
+        };
+    }, []);
+
     const cleanupDone = useRef(false);
 
     // Clean up stuck states on mount (ONCE only)
@@ -226,13 +236,18 @@ export default function FileManager() {
             const { job_id } = await response.json();
 
             // 2. Poll for Status
+            // Clear any existing interval for this file just in case
+            if (intervalsRef.current[dbFile.header.id]) clearInterval(intervalsRef.current[dbFile.header.id]);
+
             const pollInterval = setInterval(async () => {
                 try {
                     const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
 
                     if (statusRes.status === 404) {
                         clearInterval(pollInterval);
+                        delete intervalsRef.current[dbFile.header.id];
                         console.warn("Job not found (404). Backend likely restarted.");
+
                         setUploadProgress(prev => {
                             const newState = { ...prev };
                             delete newState[dbFile.header.id];
@@ -250,13 +265,17 @@ export default function FileManager() {
                     const statusData = await statusRes.json();
 
                     if (statusData.status === 'processing') {
-                        // Update LOCAL state only to prevent flickering
+                        // Update LOCAL state including message
                         setUploadProgress(prev => ({
                             ...prev,
-                            [dbFile.header.id]: statusData.progress || 0
+                            [dbFile.header.id]: {
+                                percent: statusData.progress || 0,
+                                message: statusData.message || "Processing..."
+                            }
                         }));
                     } else if (statusData.status === 'completed') {
                         clearInterval(pollInterval);
+                        delete intervalsRef.current[dbFile.header.id];
 
                         // Clear local progress
                         setUploadProgress(prev => {
@@ -279,7 +298,9 @@ export default function FileManager() {
                         });
                     } else if (statusData.status === 'failed') {
                         clearInterval(pollInterval);
+                        delete intervalsRef.current[dbFile.header.id];
                         alert(`Processing failed: ${statusData.error}`);
+
 
                         setUploadProgress(prev => {
                             const newState = { ...prev };
@@ -296,6 +317,8 @@ export default function FileManager() {
                     console.error("Polling error", e);
                 }
             }, 1000);
+
+            intervalsRef.current[dbFile.header.id] = pollInterval;
 
         } catch (error) {
             console.error(error);
@@ -328,13 +351,18 @@ export default function FileManager() {
                     const { job_id } = await response.json();
 
                     // 3. Poll for Status
+                    if (intervalsRef.current[file.header.id]) clearInterval(intervalsRef.current[file.header.id]);
+
                     const pollInterval = setInterval(async () => {
                         try {
+
                             const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
 
                             if (statusRes.status === 404) {
                                 clearInterval(pollInterval);
+                                delete intervalsRef.current[file.header.id];
                                 console.warn("Job not found (404). Backend likely restarted.");
+
                                 setUploadProgress(prev => {
                                     const newState = { ...prev };
                                     delete newState[file.header.id];
@@ -353,11 +381,16 @@ export default function FileManager() {
                             if (statusData.status === 'processing') {
                                 setUploadProgress(prev => ({
                                     ...prev,
-                                    [file.header.id]: statusData.progress || 0
+                                    [file.header.id]: {
+                                        percent: statusData.progress || 0,
+                                        message: statusData.message || "Processing..."
+                                    }
                                 }));
                             } else if (statusData.status === 'completed') {
                                 clearInterval(pollInterval);
+                                delete intervalsRef.current[file.header.id];
                                 setUploadProgress(prev => {
+
                                     const newState = { ...prev };
                                     delete newState[file.header.id];
                                     return newState;
@@ -378,6 +411,7 @@ export default function FileManager() {
 
                             } else if (statusData.status === 'failed') {
                                 clearInterval(pollInterval);
+                                delete intervalsRef.current[file.header.id];
                                 alert(`Analysis failed: ${statusData.error}`);
                                 setUploadProgress(prev => {
                                     const newState = { ...prev };
@@ -390,6 +424,8 @@ export default function FileManager() {
                             console.error("Polling error", e);
                         }
                     }, 1000);
+
+                    intervalsRef.current[file.header.id] = pollInterval;
 
                 } catch (e) {
                     console.error(e);
@@ -427,6 +463,11 @@ export default function FileManager() {
     const handleDelete = async (e, file) => {
         e.stopPropagation();
         if (window.confirm(`Are you sure you want to delete ${file.header.filename}?`)) {
+            // Clear interval if running
+            if (intervalsRef.current[file.header.id]) {
+                clearInterval(intervalsRef.current[file.header.id]);
+                delete intervalsRef.current[file.header.id];
+            }
             await deleteFile(file.header.id);
         }
     };
@@ -451,18 +492,50 @@ export default function FileManager() {
 
         const isProcessing = status === 'ingesting' || status === 'analyzing';
 
-        // Use local progress if available, otherwise fallback to DB progress
-        const currentProgress = uploadProgress[fileId] !== undefined ? uploadProgress[fileId] : progress;
+        // Use local progress if available, checking for object structure
+        const progressData = uploadProgress[fileId];
+        let currentProgress = progress;
+        let currentMessage = "";
+
+        if (progressData) {
+            if (typeof progressData === 'object') {
+                currentProgress = progressData.percent;
+                currentMessage = progressData.message;
+            } else {
+                currentProgress = progressData; // Backward compatibility
+            }
+        }
 
         let displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
         if (status === 'ingesting') displayStatus = 'Annotating';
 
+        // Show detailed status if analyzing
+        if (status === 'analyzing' && currentMessage && currentMessage !== "Processing...") {
+            // Extract simple status if possible?
+            // e.g. "Analyzing sections: 50%" -> "Analyzing"
+            // But user wants "Extracting", "Vectorizing" etc.
+            // We can just show the message or a truncated version.
+            // Let's replace "Analyzing" with the specific verb from message if detected
+            if (currentMessage.startsWith("Extract")) displayStatus = "Extracting";
+            else if (currentMessage.startsWith("Vectoriz")) displayStatus = "Vectorizing";
+            else if (currentMessage.startsWith("Evaluat")) displayStatus = "Evaluating";
+            else if (currentMessage.startsWith("Consolidat")) displayStatus = "Consolidating";
+        }
+
         return (
-            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || styles.uploaded}`}>
-                {icons[status] || <FileText size={12} />}
-                {displayStatus}
-                {isProcessing && <span className="ml-1 font-bold">{currentProgress}%</span>}
-            </span>
+            <div className="flex flex-col items-start gap-1">
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || styles.uploaded}`}>
+                    {icons[status] || <FileText size={12} />}
+                    {displayStatus}
+                    {isProcessing && <span className="ml-1 font-bold">{currentProgress}%</span>}
+                </span>
+                {/* Granular Message Display */}
+                {isProcessing && currentMessage && (
+                    <span className="text-[10px] text-gray-500 max-w-[150px] truncate" title={currentMessage}>
+                        {currentMessage}
+                    </span>
+                )}
+            </div>
         );
     };
 

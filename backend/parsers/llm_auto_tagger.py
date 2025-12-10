@@ -42,6 +42,7 @@ class LLMAutoTagger:
             return [], document_type
 
         print(f"Using Document Type: {document_type}")
+        logger.info(f"Starting Tagging using LLM Model: {self.model_name}")
 
         # Step 2: Process Chunks
         classified_map = {} # Map index -> type
@@ -168,6 +169,7 @@ class LLMAutoTagger:
         """
         Analyzes the first 20 blocks to determine document type.
         """
+        logger.info(f"Detecting Document Type using LLM Model: {self.model_name}")
         sample_text = "\n".join([b.get("text", "") for b in content[:20]])
         
         prompt = f"""

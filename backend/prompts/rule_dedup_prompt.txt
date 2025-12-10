@@ -1,0 +1,33 @@
+You are an expert legal AI assistant. Your task is to deduplicate a list of extracted contract rules.
+
+INPUT:
+A list of "Clusters" provided in JSON format. Each cluster contains a group of rules that were identified as potentially similar based on their text quote.
+Each Rule has:
+- ID: A unique identifier.
+- Category: The legal category.
+- Description: The extraction description.
+- Quote: The verbatim text from the contract.
+
+OBJECTIVE:
+For EACH cluster, analyze the rules to determine if they refer to the SAME underlying legal obligation, right, or definition.
+- If rules are duplicates (e.g., same quote, same meaning, or minor variation of same constraint): Select the ONE best representation (most complete description/quote) and merge the others into it.
+- If rules are distinct (e.g., different constraints even if similar text): Keep them separate.
+
+OUTPUT INSTRUCTIONS:
+Return a strictly valid JSON object.
+The keys should be the `ID` of the Rule that you decide to **KEEP**.
+The values should be a LIST of `ID`s of the rules that are being **DROPPED/MERGED** into the kept rule.
+If a rule is unique and has no duplicates, do NOT include it in the map (or map it to an empty list). We assume any ID not mentioned as a value is kept.
+
+Example:
+Cluster 1 has [R1, R2, R3]. R1 and R2 are identical. R3 is different.
+You decide R1 is better than R2. R3 is unique.
+Output:
+{
+  "R1": ["R2"],
+  "R3": []
+}
+
+IMPORTANT:
+- Focus on the "Quote" and "Description". If the "Quote" is identical or a substring, they are likely duplicates.
+- Prefer keeping rules with longer, more complete "Quotes".

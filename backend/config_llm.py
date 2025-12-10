@@ -15,12 +15,18 @@ LLM_CONFIG = {
     
     # Task: Deep Analysis & Rule Extraction (Logic extraction)
     "ANALYSIS": {
-        "model_name": "gemini-2.0-flash",
+        "model_name": "gemini-2.5-flash", 
         "temperature": 0.0,
         "max_output_tokens": 8192,
-        "top_k": 1, 
-        "top_p": 0.95
+        "top_p": 0.95,
+        "top_k": 40
         # "response_mime_type": "application/json"  <-- DISABLED: Causing Hangs
+    },
+    "PROCESSING": {
+        "TERM_CLUSTERING_THRESHOLD": 0.75, # Tuned for Term consolidation
+        "RULE_CLUSTERING_THRESHOLD": 0.75, # User requested 0.75
+        "MAX_SECTION_CHARS": 100000,
+        "EMBEDDING_BATCH_SIZE": 100 # Reverted to 100 due to API Hard Limit
     },
     
     # Task: Clause Review / Risk Assessment (Comparison against rules)
