@@ -1,0 +1,212 @@
+ERROR: Expecting property name enclosed in double quotes: line 208 column 7 (char 8749)
+INPUT_LEN: 14292
+RESPONSE_LEN: 8749
+=== RAW RESPONSE ===
+{
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Pricing must be exclusively defined in the contract.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Pricing should be exclusively defined in the contract.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "Hidden costs must not be accepted.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "We should not accept any hidden costs",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "All prices and fees must be all-inclusive, with the exception of applicable value added tax, sales tax, or other indirect tax.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "all of the prices and fees should be all-inclusive with the only exception of any applicable value added tax, sales tax or such other indirect tax",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_4",
+      "description": "Applicable value added tax, sales tax, or other indirect tax will be added to the prices as required by relevant tax regulations.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "which will be added to the prices as required by the relevant tax regulations.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_5",
+      "description": "Pricing must be clearly and accurately defined in the agreement, especially for subcontracting agreements.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "it is imperative to make sure that the pricing is clearly and accurately defined in the agreement. This applies in particular to subcontracting agreements.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_6",
+      "description": "Only indirect sales taxes, such as value added tax or sales tax, should be excluded from the quoted price.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "only the indirect sales taxes such as value added tax or sales tax should be excluded from the quoted price.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_7",
+      "description": "Withholding taxes must not be excluded from the quoted price.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Withholding taxes should not be excluded.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_8",
+      "description": "If Zebracorp is legally required to withhold amounts from supplier payments, Zebracorp can agree to provide documentation evidencing such withholding tax and its remittance.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "In the event that Zebracorp is required by law to withhold any amounts from any payment made to the supplier, Zebracorp can agree to provide documentation evidencing such withholding tax and any remittance thereof.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_9",
+      "description": "Zebracorp must not exclude withholding taxes from the price or assume liability for them.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "Should withholding taxes be excluded from the price or should Zebracorp otherwise assume liability for the withholding tax, then Zebracorp would effectively be paying the supplier’s income taxes. That would be an untenable position.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_10",
+      "description": "Transportation costs must not be excluded from the price.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Transportation costs should not be excluded from the price.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_11",
+      "description": "The division of transportation costs must be determined by a mutually agreed delivery term.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "The division of transportation costs should be determined by mutually agreed delivery term",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_12",
+      "description": "For items requiring maintenance, support and maintenance must be priced at the time of purchase.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Items that need maintaining must also have support and maintenance priced at the time of purchase.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_13",
+      "description": "Out-of-pocket costs, such as travel expenses, should only be reimbursed exceptionally when the nature of the service requires it.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Out-of-pocket costs such as travel expenses should only be reimbursed exceptionally when the nature of the service so requires.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_14",
+      "description": "Travel arrangements must be submitted to Zebracorp’s prior approval.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "The travel arrangements should be submitted to Zebracorp’s prior approval",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_15",
+      "description": "Zebracorp must be afforded the opportunity to make the travel arrangements.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Zebracorp should be afforded the opportunity to make the travel arrangements.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_16",
+      "description": "Reimbursable travel costs must be limited to reasonable travel and accommodation expenses.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Reimbursable travel costs should be limited to reasonable travel and accommodation expenses",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_17",
+      "description": "Zebracorp must only make payments for reimbursable costs against a detailed invoice and receipts.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Zebracorp should only make the payments against a detailed invoice and against receipts.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_18",
+      "description": "Time spent travelling should generally not be reimbursed.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Time spent travelling should generally not be reimbursed",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_19",
+      "description": "Costs paid by Zebracorp for travel must be limited to direct out-of-pocket expenses, specifically reasonable transportation and accommodation costs.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "the costs paid by Zebracorp should be limited to the direct out-of-pocket expenses i.e. the costs of reasonable transportation and accommodation.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_20",
+      "description": "In certain cases, travel expenses can be reimbursed in accordance with the Zebracorp Travel Policy.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "In certain cases, we can say that the travel expenses will be reimbursed in accordance with the Zebracorp Travel Policy.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_21",
+      "description": "As a fall-back, Zebracorp can agree to refund “pre-approved and reasonable travel costs”.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      

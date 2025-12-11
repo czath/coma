@@ -1,0 +1,35 @@
+ERROR: Expecting value: line 29 column 28 (char 1269)
+INPUT_LEN: 14965
+RESPONSE_LEN: 1269
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Intellectual property rights (IPRs) are rights granted to individuals or companies for their inventions or creations.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Intellectual property rights or IPRs are the rights given to individuals or companies over their inventions or other creations.",
+      "source_id": null,
+      "source_header": "INTELLECTUAL PROPERTY RIGHTS",
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "Patents are granted by state authorities for inventions that solve a specific technological problem.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Patents are granted by state authorities in various countries to certain inventions that provide a solution to a specific technological problem.",
+      "source_id": null,
+      "source_header": "INTELLECTUAL PROPERTY RIGHTS",
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "An invention must meet patentability requirements like novelty, usefulness, and nonobviousness to be patentable.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote":

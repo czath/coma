@@ -1,0 +1,311 @@
+ERROR: Unterminated string starting at: line 305 column 7 (char 16908)
+INPUT_LEN: 10838
+RESPONSE_LEN: 16927
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [
+    {
+      "tag_id": "TAG_PAC_DEFINITION",
+      "term": "PAC",
+      "definition": "Partial or Provisional Acceptance Certificate"
+    },
+    {
+      "tag_id": "TAG_FAC_DEFINITION",
+      "term": "FAC",
+      "definition": "Final Acceptance Certificate"
+    },
+    {
+      "tag_id": "TAG_UCC_ACCEPTANCE_DEFINITION",
+      "term": "acceptance (UCC)",
+      "definition": "Acceptance is deemed to occur when the buyer fails to reject the goods within a 'reasonable time' as per section 2-606 of the United States Uniform Commercial Code ('UCC')."
+    },
+    {
+      "tag_id": "TAG_PROVISIONAL_ACCEPTANCE_DEFINITION",
+      "term": "Provisional acceptance",
+      "definition": "Provisional acceptance is often granted at the point in time when the deliverables substantially meet the agreed acceptance criteria."
+    },
+    {
+      "tag_id": "TAG_FINAL_ACCEPTANCE_DEFINITION",
+      "term": "Final acceptance",
+      "definition": "Final acceptance will be granted subsequently once all errors and deficiencies identified during the provisional acceptance tests have been remedied and the end customer has accepted the product."
+    },
+    {
+      "tag_id": "TAG_BACKSTOP_DATE_DEFINITION",
+      "term": "backstop date",
+      "definition": "A certain time period for completing the acceptance tests has passed."
+    },
+    {
+      "tag_id": "TAG_DEEMED_ACCEPTANCE_DEFINITION",
+      "term": "deemed acceptance",
+      "definition": "When Zebracorp or its customers take the results of the works into commercial or production use."
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "If a subcontractor is working directly for Zebracorp in a customer project, the acceptance provisions must be aligned with the corresponding provisions of the customer contract.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "If a subcontractor is working directly for Zebracorp in a customer project, acceptance must not be granted to the subcontractor before securing acceptance from the end customer.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "Acceptance provisions may be omitted in global sourcing contracts where the supplier is not delivering directly to Zebracorp’s customers and supplier payments are not tied to acceptance, provided Zebracorp's payment obligations are not tied to acceptance.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "In such contracts acceptance provisions may be omitted and the practical aspect of product acceptance can be dealt with the warranty provisions as long as Zebracorp’s payment obligations are not tied to acceptance.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_4",
+      "description": "The subcontractor/supplier must inform Zebracorp when deliverables are ready for acceptance tests and verification.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "The subcontractor/supplier should inform Zebracorp when the results of works or other deliverables are ready for acceptance i.e. for acceptance tests and verification.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_5",
+      "description": "The supplier/subcontractor should be allowed to participate in site-level acceptance tests.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "In most cases the supplier/subcontractor should be allowed to participate in the site level acceptance tests.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_6",
+      "description": "If Zebracorp allows the supplier to participate in testing, the supplier must never be in control of the acceptance tests.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Whenever Zebracorp allows the supplier to participate in the testing, the supplier should never be in control of the acceptance tests.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_7",
+      "description": "Zebracorp is typically required to issue a written acceptance certificate once deliverables pass acceptance tests and fulfill required criteria.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Once the results of services/deliverables pass the acceptance tests and otherwise fulfil the required acceptance criteria, Zebracorp would typically be required to issue a written acceptance certificate evidencing the completion of acceptance tests.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_8",
+      "description": "Zebracorp can agree to system element-based or other partial acceptance only if it aligns with the corresponding acceptance provisions of its customer contract.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "Zebracorp can agree to system element based or other partial acceptance only so long as this is in line with the corresponding acceptance provisions of our customer contract.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_9",
+      "description": "Zebracorp may agree to acceptance being deemed to take place without issuing a formal certificate when a certain time period for completing tests has passed ('backstop date') or when Zebracorp/customers use the works commercially/in production ('deemed acceptance').",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "Note also that in the majority of cases we may be able to agree to acceptance being deemed to take place without us issuing a formal acceptance certificate when the a certain time period for completing the acceptance tests has passed (“backstop date”), or when we or our customers takes the results of the works into commercial or production use (“deemed acceptance”).",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_10",
+      "description": "When agreeing on a backstop date, Zebracorp must ensure acceptance is not triggered if the delay in completing tests is not solely attributable to Zebracorp.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "When agreeing on a backstop date for completing the acceptance test, we should ensure that acceptance is not triggered, if the delay in completing the acceptance tests is not caused by reasons solely attributable to ZEBRACORP.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_11",
+      "description": "Any deficiencies, errors, or deviations in the subcontractor’s performance must automatically result in an extension of time for completing acceptance tests.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Any deficiencies, errors or deviations found in the subcontractor’s performance should automatically result in an extension of time for completing the acceptance tests.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_12",
+      "description": "It is recommended to have the subcontractor agree to send a final formal written notice and a reasonable cure period before granting deemed acceptance.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Also it is always recommended to have the subcontractor agree to send a final formal written notice to us and agree to give us a reasonable cure period before granting deemed acceptance.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_13",
+      "description": "Whenever Zebracorp has agreed to a commercial evaluation period with its customer, it is important to have respective subcontractors agree to a similar commercial evaluation period before granting Final Acceptance.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Whenever Zebracorp has agreed to such evaluation period, it is important to have our respective subcontractors for that particular customer agree to similar commercial evaluation period before granting Final Acceptance.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_14",
+      "description": "Zebracorp can agree that minor deficiencies/errors found during acceptance tests that do not prevent intended use will not prevent acceptance.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "In some instances we can agree that minor deficiencies/errors found during the acceptance tests that do not prevent the intended use of the results of the works will not prevent acceptance",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_15",
+      "description": "If minor deficiencies/errors do not prevent acceptance, the subcontractor must remedy them as part of warranty obligations or within a mutually agreed timeframe.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "but will be remedied by the subcontractor as part of its warranty obligations or within a certain mutually agreed timeframe.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_16",
+      "description": "In subcontracts where the supplier delivers directly to Zebracorp’s customer, acceptance must be sufficiently aligned with Zebracorp’s customer acceptance.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Again, in those subcontracts where the supplier is delivering the deliverables directly to Zebracorp’s customer, it is naturally important that the acceptance is sufficiently aligned with Zebracorp’s customer acceptance.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_17",
+      "description": "The completion of acceptance must be subject to the successful completion of acceptance tests performed by Zebracorp, end customers, or both jointly.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "The completion of acceptance should be subject to the successful completion of acceptance tests that are performed by either Zebracorp or our end customers, or, as applicable, both jointly.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_18",
+      "description": "Supplier/subcontractor participation in acceptance tests is at the discretion of Zebracorp and its end customer.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "The supplier/subcontractor participation to the acceptance tests will be at the discretion of Zebracorp and our end customer, as applicable.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_19",
+      "description": "The agreement must provide Zebracorp sufficient time to complete acceptance tests.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "The agreement should provide Zebracorp sufficient time to complete the acceptance tests.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_20",
+      "description": "Failure to complete tests in a timely manner must not automatically lead to deemed acceptance.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Failure to complete the tests in a timely manner should not automatically lead to deemed acceptance",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_21",
+      "description": "If Zebracorp fails to complete tests timely, the supplier/subcontractor must first be required to notify Zebracorp in writing and request completion within a reasonable timeframe.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "but the supplier/subcontractor should first be required to notify Zebracorp in writing and request Zebracorp to complete the acceptance within a reasonable time frame.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_22",
+      "description": "Acceptance must be final, partial, or conditional as indicated by Zebracorp.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Acceptance should be either final, partial or conditional as indicated by Zebracorp.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_23",
+      "description": "The Supplier shall notify Zebracorp in writing when the Works or relevant milestone is considered completed and request Zebracorp to initiate acceptance tests.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "“The [Supplier] shall notify Zebracorp in writing when the [Supplier] considers that the [Works] or the relevant milestone has been completed in accordance with this [Agreement], and request [Zebracorp] to initiate the acceptance tests.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_24",
+      "description": "Within thirty (30) days of receiving written notice, Zebracorp shall issue an acceptance certificate if satisfied that the Works or milestone is completed and acceptance criteria are met.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Within thirty (30) days of receipt of such written notice [Zebracorp] shall, if satisfied that the [Works] or the relevant milestone has been duly completed and the agreed acceptance criteria is met, issue a certificate of acceptance for the milestone in question.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_25",
+      "description": "Acceptance can be partial or conditional as indicated in Zebracorp’s acceptance certificate.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "Such acceptance can be partial or conditional as indicated in [Zebracorp’] acceptance certificate.",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_26",
+      "description": "If Zebracorp is not satisfied that the Works/milestone is completed or criteria are not met, Zebracorp shall notify the Supplier within the specified time limit.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "In the event that [Zebracorp] is not satisfied that the [Works] and/or the relevant milestone has been completed or if the agreed acceptance criteria or other agreed requirements are not met, [Zebracorp] shall notify [Supplier] thereof within the aforementioned time limit",
+      "source_id": null,
+      "source_header": "ACCEPTANCE",
+      "related_tags": []
+    },
+    {
+      "id": "rule_27",
+      "description": "If Zebracorp is not satisfied, it shall, at the Supplier's request, provide reasons for refusing acceptance.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote

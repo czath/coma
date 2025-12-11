@@ -1,0 +1,155 @@
+ERROR: Unterminated string starting at: line 149 column 29 (char 7861)
+INPUT_LEN: 14519
+RESPONSE_LEN: 7926
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Termination of an agreement means it ends prematurely before full performance by parties.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "The termination of an agreement means that the agreement comes to an end prematurely prior to it being fully performed by the parties.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "Zebracorp may cease placing further purchase orders and send an informal note of decreased business intention instead of terminating an agreement.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "Instead of terminating the agreement, it is in many cases possible for Zebracorp to simply cease placing further purchase orders under the agreement, and to send the supplier an informal note of Zebracorp’s intention to decrease its business.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "Zebracorp has the option to place purchase orders during the term of most supplier agreements, but is not obligated to purchase anything.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "most of our supplier contracts do not place on obligation on Zebracorp to purchase anything, but these contracts merely give us the option to place purchase orders during the term of the agreement.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_4",
+      "description": "It is imperative to carefully assess termination rights before proceeding with termination.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "For these reasons, it is imperative to carefully assess our termination rights before proceeding with the termination.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_5",
+      "description": "Proper termination notice and other procedural requirements for termination under contract terms must be followed exactly.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "Also servicing of a proper termination notice and proper completion of other procedural requirements necessary for termination under the contract terms must be followed exactly.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_6",
+      "description": "If parties wish to have the right to terminate an agreement without cause, they must agree on such termination rights in the agreement terms or reach a mutual understanding.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Whenever the parties wish to have the right to terminate an agreement without cause, they must agree on such termination rights in the terms of the agreement, or come to a mutual understanding on the termination of the agreement.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_7",
+      "description": "Termination for convenience provisions allow a party to terminate a contract without the other party's fault or breach, and without financial consequences from exercising the right.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Termination for convenience provisions allow a party to terminate a contract even in the absence of the other party’s fault or breach, and without suffering any financial consequences as a result of exercising a termination right.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_8",
+      "description": "Typical Zebracorp frame purchasing agreements for finished products (HW and SW) should not include termination for convenience clauses.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Typical Zebracorp frame purchasing agreements for (finished) products (HW and SW) should not include termination for convenience clauses.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_9",
+      "description": "Termination for convenience clauses may be relevant for Zebracorp in development and other agreements where Zebracorp has made purchase commitments.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "However, termination for convenience clause may become relevant for Zebracorp in those development and other agreements where Zebracorp has made purchase commitments.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_10",
+      "description": "Zebracorp cannot grant any right for termination for convenience to its supplier/subcontractor if it risks its development projects.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "While Zebracorp cannot risk its (development) projects by granting any right for termination for convenience to its supplier/subcontractor",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_11",
+      "description": "It may be essential for Zebracorp to have the right to terminate for convenience when the business case disappears.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "it may be essential to Zebracorp to have such right for the cases where the business case disappears.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_12",
+      "description": "Zebracorp should not accept contract language that allows a supplier/subcontractor to seek compensation for costs and expenses incurred due to Zebracorp exercising its termination right.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "Accordingly, we should not accept any language that would allow the supplier/subcontractor any right to seek any compensation for the costs and expenses that the supplier/subcontractor may incur as a result of us exercising our right to terminate.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_13",
+      "description": "It is more appropriate for Zebracorp to agree to pay for products delivered or services rendered up to the termination date, without additional cost reimbursement or other compensation.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "It would be more appropriate to agree with the supplier that Zebracorp will pay for any products delivered or services rendered up and until the actual termination date without any additional cost reimbursement or other compensation whatsoever.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_14",
+      "description": "Any payment for products delivered or services rendered up to termination should be capped to the next or following milestone payment.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "However, this should be capped to the next/following milestone payment",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_15",
+      "description": "Zebracorp can exceptionally agree to pay for products already ordered by the supplier that cannot be returned or used elsewhere.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "We can exceptionally also agree to pay for any products that the

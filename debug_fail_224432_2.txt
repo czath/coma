@@ -1,0 +1,32 @@
+ERROR: Unterminated string starting at: line 26 column 22 (char 1233)
+INPUT_LEN: 14392
+RESPONSE_LEN: 1364
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Confidentiality clauses in the final agreement typically supersede any prior Non-Disclosure Agreement (NDA) confidentiality undertakings.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "These confidentiality clauses usually prevail over or supersede any confidentiality undertakings that may have been agreed in a Non-Disclosure Agreement (NDA) that often predates the final agreements.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "A party is generally subject to unlimited damages for failing to observe confidentiality obligations, as damages for breaches are usually not capped or limited.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "Damages arising from breaches of confidentiality are usually not capped or limited, which means that a party is generally subject to unlimited damages for failure to observe confidentiality obligations.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "If a narrow definition of confidential information is used, each document must be labelled with \"Confidential\", \"Proprietary\",

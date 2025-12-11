@@ -1,0 +1,27 @@
+ERROR: Expecting value: line 23 column 7 (char 1315)
+INPUT_LEN: 12711
+RESPONSE_LEN: 1315
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "The term 'liability' is defined as an obligation on a party to pay damages or other monetary compensation due to an act or omission attributable to that party.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "The term ‘liability’ in the context of a purchasing of products and/or services can be defined as an obligation on a party to pay damages or other monetary compensation by virtue of an act or omission attributable to that party.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "If there is no explicit agreement limiting a seller’s liability, the seller is obligated to pay for indirect and consequential damages, including loss of profits, loss of revenue, and other reasonably foreseeable damages.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "Absent an agreement explicitly limiting a seller’s liability, a seller is liable for indirect and consequential damages (including loss of profits, loss of revenue, and other damages which can still be reasonably foreseeable).",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },

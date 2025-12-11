@@ -17,7 +17,7 @@ LLM_CONFIG = {
     
     # Task: Deep Analysis & Rule Extraction (Logic extraction)
     "ANALYSIS": {
-        "model_name": "gemini-2.5-flash", 
+        "model_name": "gemini-2.0-flash", 
         "temperature": 0.0, 
         "max_output_tokens": 8192,
         "top_p": 1.0, # Disable nucleus sampling for strict determinism
@@ -32,7 +32,7 @@ LLM_CONFIG = {
         "EMBEDDING_MODEL": "text-embedding-004",
         "TERM_CLUSTERING_THRESHOLD": 0.60, # Lowered from 0.7 to catch "Warranty" vs "Warranties"
         "RULE_CLUSTERING_THRESHOLD": 0.60, # Lowered from 0.7 to catch variants
-        "MAX_SECTION_CHARS": 100000,
+        "MAX_SECTION_CHARS": 15000,
         "EMBEDDING_BATCH_SIZE": 100
     },
     

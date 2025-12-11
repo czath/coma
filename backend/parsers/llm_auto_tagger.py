@@ -9,6 +9,7 @@ from google.genai import types
 from dotenv import load_dotenv
 
 from data_models import ClassificationItem, ClassificationResponse, TagType
+from config_llm import get_config
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -27,7 +28,8 @@ class LLMAutoTagger:
                 'httpx_async_client': httpx.AsyncClient(verify=False)
             }
         )
-        self.model_name = "gemini-2.0-flash"
+        self.config = get_config("TAGGING")
+        self.model_name = self.config["model_name"]
         
         # Load System Prompt
         prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "auto_tagger_prompt.txt")
@@ -143,7 +145,9 @@ class LLMAutoTagger:
                     model=self.model_name,
                     contents=prompt_content,
                     config=types.GenerateContentConfig(
-                        temperature=0.0,
+                        temperature=self.config.get("temperature", 0.0),
+                        top_p=self.config.get("top_p", 1.0),
+                        top_k=self.config.get("top_k", 40),
                         response_mime_type="application/json",
                         response_schema=ClassificationResponse
                     )

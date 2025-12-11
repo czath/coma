@@ -1,0 +1,35 @@
+ERROR: Unterminated string starting at: line 29 column 29 (char 1109)
+INPUT_LEN: 14585
+RESPONSE_LEN: 1257
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "A warranty is a statement of fact from the warrantor to the warrantee.",
+      "type": "DEFINITION",
+      "severity": "MEDIUM",
+      "verification_quote": "A warranty is a statement of fact made by the warrantor to the warrantee.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "A product warranty is a vendor's formal promise that a product performs as promised.",
+      "type": "DEFINITION",
+      "severity": "MEDIUM",
+      "verification_quote": "A product warranty is essentially a formal promise by a vendor that the product sold performs and/or has the qualities as the vendor has promised.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "Express warranties are written promises about product quality and features, specifically listed in the contract.",
+      "type": "DEFINITION",
+      "severity": "MEDIUM",
+      "verification_quote": "Express warranties are affirmative written promises about the quality and features of the products/services being sold that are specifically listed

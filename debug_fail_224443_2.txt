@@ -1,0 +1,35 @@
+ERROR: Unterminated string starting at: line 29 column 17 (char 1176)
+INPUT_LEN: 14965
+RESPONSE_LEN: 1202
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [
+    {
+      "tag_id": "TAG_IPR_DEFINITION",
+      "term": "Intellectual property rights or IPRs",
+      "definition": "the rights given to individuals or companies over their inventions or other creations."
+    },
+    {
+      "tag_id": "TAG_PATENT_DEFINITION",
+      "term": "Patents",
+      "definition": "granted by state authorities in various countries to certain inventions that provide a solution to a specific technological problem."
+    },
+    {
+      "tag_id": "TAG_PATENT_RIGHT_DEFINITION",
+      "term": "The exclusive right granted to a patent holder",
+      "definition": "the right to prevent others from making, using, selling, or distributing the patented invention without the patent holders’ permission."
+    },
+    {
+      "tag_id": "TAG_COPYRIGHT_DEFINITION",
+      "term": "Copyright laws",
+      "definition": "give creator of a certain piece of work exclusive rights to it."
+    },
+    {
+      "tag_id": "TAG_TRADEMARK_DEFINITION",
+      "term": "Trademarks",
+      "definition": "distinctive names, symbols or designs or combination of all of the above, that identify a company or products and services."
+    },
+    {
+      "tag_id": "TAG_DEFAULT_IPR_OWNERSHIP

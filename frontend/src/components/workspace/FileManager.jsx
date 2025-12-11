@@ -526,15 +526,18 @@ export default function FileManager() {
             <div className="flex flex-col items-start gap-1">
                 <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || styles.uploaded}`}>
                     {icons[status] || <FileText size={12} />}
-                    {displayStatus}
-                    {isProcessing && <span className="ml-1 font-bold">{currentProgress}%</span>}
+
+                    {/* Standard Status (Not Processing) */}
+                    {!isProcessing && displayStatus}
+
+                    {/* Processing: Show Stage + % only */}
+                    {isProcessing && (
+                        <span className="flex items-center gap-1">
+                            <span className="capitalize">{currentMessage || displayStatus}</span>
+                            <span className="font-bold opacity-80">{currentProgress}%</span>
+                        </span>
+                    )}
                 </span>
-                {/* Granular Message Display */}
-                {isProcessing && currentMessage && (
-                    <span className="text-[10px] text-gray-500 max-w-[150px] truncate" title={currentMessage}>
-                        {currentMessage}
-                    </span>
-                )}
             </div>
         );
     };

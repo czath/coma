@@ -25,6 +25,7 @@ from parsers.pdf_parser import PDFParser
 from parsers.docx_parser import DocxParser
 from parsers.auto_tagger import AutoTagger
 from parsers.llm_auto_tagger import LLMAutoTagger
+from config_llm import get_config
 import shutil
 import uuid
 import asyncio
@@ -71,7 +72,7 @@ def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: 
         jobs[job_id]["message"] = "Tagging content..."
         
         # Define progress callback
-        model_name = "gemini-2.0-flash" # Hardcoded for now as it matches LLMAutoTagger init
+        model_name = get_config("TAGGING")["model_name"]
         def update_progress(current, total):
             if total > 0:
                 percent = int((current / total) * 100)
@@ -184,10 +185,16 @@ async def run_analysis(job_id: str, content: List[Dict], document_id: str):
         jobs[job_id]["result"] = result
         jobs[job_id]["message"] = "Analysis complete."
 
+    except asyncio.CancelledError:
+        print(f"Analysis Job {job_id} CANCELLED by system/user.")
+        jobs[job_id]["status"] = "cancelled"
+        jobs[job_id]["error"] = "Job cancelled."
     except Exception as e:
         print(f"Analysis Job {job_id} failed: {e}")
         jobs[job_id]["status"] = "failed"
         jobs[job_id]["error"] = str(e)
+        import traceback
+        traceback.print_exc()
 
 @app.post("/analyze_document")
 async def analyze_document(

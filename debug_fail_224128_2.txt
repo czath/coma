@@ -1,0 +1,35 @@
+ERROR: Expecting property name enclosed in double quotes: line 29 column 7 (char 1240)
+INPUT_LEN: 9781
+RESPONSE_LEN: 1240
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [
+    {
+      "tag_id": "TAG_LIQUIDATED_DAMAGES",
+      "term": "Liquidated damages (LDs)",
+      "definition": "mutually agreed sum of money payable to an aggrieved party, if the other party breaches certain provisions of a contract."
+    },
+    {
+      "tag_id": "TAG_SERVICE_CREDITS",
+      "term": "service credits",
+      "definition": "LDs commonly referred to in connection with late performance or failure to meet service levels."
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Parties must specifically agree in a contract which actions or failures to act constitute a breach entitling the other party to liquidated damages.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "The parties should specifically agree in a contract which actions or failures to act constitute a breach that entitles the other party to LDs.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "The amounts and structure of the liquidated damages clause should always be aligned with the corresponding provisions of the customer contract, if applicable.",
+      "type": "OBLIGATION",
+      

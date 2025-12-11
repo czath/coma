@@ -1,0 +1,111 @@
+ERROR: Unterminated string starting at: line 107 column 22 (char 5702)
+INPUT_LEN: 9781
+RESPONSE_LEN: 5804
+=== RAW RESPONSE ===
+{
+  "taxonomy": [
+    {
+      "tag_id": "TAG_LIQUIDATED_DAMAGES",
+      "term": "Liquidated damages (LDs)",
+      "definition": "A mutually agreed sum of money payable to an aggrieved party if the other party breaches certain contract provisions."
+    },
+    {
+      "tag_id": "TAG_SERVICE_CREDITS",
+      "term": "service credits",
+      "definition": "Liquidated damages commonly referred to in connection with late performance or failure to meet service levels."
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Parties must specifically agree in a contract which actions or failures to act constitute a breach entitling the other party to liquidated damages.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "The parties should specifically agree in a contract which actions or failures to act constitute a breach that entitles the other party to LDs.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "When applicable, the amounts and structure of the liquidated damages clause must be aligned with the corresponding liquidated damages provisions of the customer contract.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Please always consider aligning the amounts and the structure of this LD clause with the corresponding LD provisions of our respective customer contract, if applicable.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "When flowing down liquidated damages provisions to subcontractors, the value of the liquidated damages may be reduced to a proportionate portion of each subcontractor’s scope of work.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "Note however, when flowing these LD provisions down to our subcontractors, the value of the LDs can be reduced to proportionate portion of each subcontractor’s scope of work.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_4",
+      "description": "If the contract's governing law changes from US to a Common Law jurisdiction (e.g., US or UK), the liquidated damages provisions must be reviewed by Legal & Compliance.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "It is also worth noting that if the governing law of the contract (see Governing Law section) changes from US to a Common Law jurisdiction in e.g. the US or the UK, then the LD provisions should be reviewed by Legal & Compliance.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_5",
+      "description": "Under Common Law, a liquidated damages clause is not valid if its purpose is to punish the breaching party rather than compensate the injured party.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "Under Common Law, a liquidated damages clause is usually not valid if its purpose is to seen to punish the party in breach rather than to compensate the injured party.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_6",
+      "description": "For a liquidated damages clause to be valid under Common Law, the amount must be a genuine pre-estimate of the loss due to the breach or delay.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "In order for a liquidated damages clause to be valid under Common Law contract, the amount of the liquidated damages must be a genuine pre-estimate of its loss due to the breach or delay of the obligation.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_7",
+      "description": "Particular care must be taken if the agreement is governed by US/UK laws and the liquidated damages clause is the sole remedy for a breach.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "Particular care should be taken where the agreement is governed by US/UK laws and the liquidated damages clause is agreed to be the only remedy for a breach of contract.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_8",
+      "description": "Liquidated damages should generally not be the sole remedy, preventing the aggrieved party from seeking other damages caused by delay.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "The liquidated damages should generally not be our sole remedy i.e. prevent us from seeking other damages caused by the delay.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_9",
+      "description": "If requested by the supplier/subcontractor, the aggrieved party may consider expressly stating in the agreement that they will not claim other damages in addition to liquidated damages, unless the delay is substantial enough to reach the maximum liquidated damages amount.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "If the supplier/subcontractor request we can consider expressly stating in the agreement that we will not claim other damages on top of the liquidated damages, unless the delay is so substantial that the maximum amount of these LDs has been reached.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_10",
+      "description": "The aggrieved party may consider stating that any liquidated damages paid by the supplier/subcontract

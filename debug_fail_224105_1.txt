@@ -1,0 +1,35 @@
+ERROR: Expecting property name enclosed in double quotes: line 30 column 1 (char 1194)
+INPUT_LEN: 8935
+RESPONSE_LEN: 1194
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Zebracorp must ensure that each warranty exclusion is objectively measurable.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Each exclusion should be capable of being objectively measured",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "Zebracorp must not accept any of the listed exclusions without careful, case-by-case consideration.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "we should not accept any of the above exclusions without careful consideration on a case-by-case basis.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "For a warranty exclusion to apply, the product's failure must be solely caused by the excluded event or circumstance.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Also failure of the product to meet the warranty has to be solely due to such excluded event or circumstance.",

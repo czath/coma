@@ -1,0 +1,36 @@
+ERROR: Expecting property name enclosed in double quotes: line 30 column 6 (char 1174)
+INPUT_LEN: 4111
+RESPONSE_LEN: 1174
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [
+    {
+      "tag_id": "TAG_LIMITATION_PERIOD",
+      "term": "limitation period",
+      "definition": "the period of time within which a party to a contract must bring a claim."
+    },
+    {
+      "tag_id": "TAG_TIME_BARRED",
+      "term": "'time barred' or ‘statute-barred’",
+      "definition": "Actions which fall outside of these time limits"
+    },
+    {
+      "tag_id": "TAG_WARRANTY_PERIOD_SCOPE",
+      "term": "warranty periods/defects liability periods scope",
+      "definition": "These periods are only relevant for product performance/construction quality claims and do not release the seller from all other liabilities under the purchasing contract."
+    },
+    {
+      "tag_id": "TAG_STATUTORY_LIMITATION",
+      "term": "Statutory Limitation Periods",
+      "definition": "Limitation periods imposed by law when the contract is silent on the matter."
+    },
+    {
+      "tag_id": "TAG_STATUTORY_START_DATE",
+      "term": "Statutory limitation period start date",
+      "definition": "Statutory limitation periods generally begin on the date the event giving rise to the claim occurred, not the contract date."
+    }
+  ],
+  "rules": [
+    {

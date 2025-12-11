@@ -1,0 +1,31 @@
+ERROR: Expecting value: line 27 column 14 (char 1205)
+INPUT_LEN: 14854
+RESPONSE_LEN: 1205
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "DEF_1",
+      "description": "A non-exclusive license means the licensor can license the same intellectual property rights to other customers in addition to Zebracorp.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Most licenses that Zebracorp obtains from its suppliers and licensors are non-exclusive (meaning that the licensor may license the same IPR to its other customers as well and not only Zebracorp).",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "DEF_2",
+      "description": "A non-transferable license means the licensee cannot transfer it to another third party.",
+      "type": "DEFINITION",
+      "severity": "MEDIUM",
+      "verification_quote": "Most licenses are non-transferable meaning that they cannot be transferred by the licensee to another third party.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "RESTR_1",
+      "description": "If a license is non-transferable, the licensee is prevented from transferring it horizontally to another entity or person.",
+      "type":

@@ -1,0 +1,38 @@
+ERROR: Unterminated string starting at: line 32 column 7 (char 1211)
+INPUT_LEN: 10838
+RESPONSE_LEN: 1219
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Acceptance can be final, conditional, or partial.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "An acceptance in regard to its extent and effect, may be either final, conditional, or partial.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "PAC means Partial or Provisional Acceptance Certificate; FAC means Final Acceptance Certificate.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Common terms used in subcontracts include: PAC = Partial or Provisional Acceptance Certificate; and FAC = Final Acceptance Certificate.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "Acceptance provisions must always be drafted and reviewed with special care.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Acceptance provisions should always be drafted and reviewed with special care.",
+      "source_id": null,
+      "source_header": null,
+      "related

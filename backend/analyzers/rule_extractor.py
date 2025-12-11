@@ -9,10 +9,11 @@ from dotenv import load_dotenv
 import math
 import json
 import uuid
+from datetime import datetime
 
 
 # Import Pydantic models
-from data_models import AnalysisResponse, Rule, Term
+from data_models import AnalysisResponse, Rule, Term, RuleType
 from config_llm import get_config
 
 load_dotenv()
@@ -50,17 +51,24 @@ class RuleExtractor:
         # self.processing_config already loaded above
         self.model_name = self.config["model_name"]
         
-        # Load System Prompt
-        prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "analysis_prompt.txt")
+        # Load System Prompts
+        
+        # Phase 1: Extraction (Analysis is renamed to Extraction Prompt)
+        prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "extraction_prompt.txt")
         with open(prompt_path, "r") as f:
-            self.base_prompt = f.read()
+            self.extraction_prompt = f.read()
 
-        # Load Consolidation Prompt
+        # Phase 2: Tagging
+        tagging_prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "tagging_prompt.txt")
+        with open(tagging_prompt_path, "r") as f:
+            self.tagging_prompt = f.read()
+            
+        # Phase 3: Consolidation
         consolidation_prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "consolidation_prompt.txt")
         with open(consolidation_prompt_path, "r") as f:
             self.consolidation_prompt = f.read()
-
-        # Load Rule Dedup Prompt
+            
+        # Phase 4: Deduplication
         rule_dedup_prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "rule_dedup_prompt.txt")
         with open(rule_dedup_prompt_path, "r") as f:
             self.rule_dedup_prompt = f.read()
@@ -118,7 +126,8 @@ class RuleExtractor:
             logger.info(f"Processing Section with Header: {header_text}")
 
             # CHUNKING LOGIC FOR LARGE SECTIONS
-            MAX_SECTION_CHARS = self.processing_config.get("MAX_SECTION_CHARS", 100000) 
+            # Reduced to 15000 to prevent Output Token Limit truncation (Unterminated string errors)
+            MAX_SECTION_CHARS = self.processing_config.get("MAX_SECTION_CHARS", 15000) 
             merged_response = AnalysisResponse(taxonomy=[], rules=[]) # Accumulator
 
             # Get Source ID (First Block ID)
@@ -156,7 +165,7 @@ class RuleExtractor:
                 
                 # Process chunks IN PARALLEL
                 logger.info(f"Processing {len(chunks)} chunks concurrently...")
-                chunk_tasks = [self._analyze_section_with_retry(chunk) for chunk in chunks]
+                chunk_tasks = [self._extract_rules_from_text(chunk, header_text) for chunk in chunks]
                 results = await asyncio.gather(*chunk_tasks)
                 
                 for i, res in enumerate(results):
@@ -170,7 +179,7 @@ class RuleExtractor:
                 
                 return merged_response
             else:
-                res = await self._analyze_section_with_retry(section_text)
+                res = await self._extract_rules_from_text(section_text, header_text)
                 if res:
                     for r in res.rules:
                         r.id = str(uuid.uuid4()) # CRITICAL FIX
@@ -184,54 +193,74 @@ class RuleExtractor:
         # Run tasks and update progress
         completed_results = []
         completed_count = 0
+        # Run tasks and update progress - PHASE 1: EXTRACTION
+        completed_results = []
+        completed_count = 0
+        
+        # Parallel Execution for Phase 1
         for future in asyncio.as_completed(tasks):
             result = await future
             completed_count += 1
             if progress_callback:
-                progress_callback(completed_count, total_sections, "Extracting")
+                progress_callback(int(completed_count / total_sections * 25), 100, "Extracting (Phase 1/5)") # 0-25%
             
             if result:
                 completed_results.append(result)
 
-        # Sort results by Source ID to ensure deterministic order of rules
-        # Assuming source_id is comparable (string or int). If None, put at end.
+        # Sort results
         completed_results.sort(key=lambda x: (x.rules[0].source_id if x.rules and x.rules[0].source_id else "", x.rules[0].source_header if x.rules and x.rules[0].source_header else ""))
 
         for res in completed_results:
             all_rules.extend(res.rules)
-            all_taxonomy.extend(res.taxonomy)
-
-
+            # res.taxonomy is empty in Phase 1
         
-        # Update Stats
-        stats["extract"]["rules"] = len(all_rules)
-        stats["extract"]["terms"] = len(all_taxonomy)
-
-        # 2. Consolidate Taxonomy
+        # PHASE 2: TAGGING
         if progress_callback:
-            progress_callback(20, 100, "Grouping")
+            progress_callback(30, 100, "Tagging (Phase 2/5)")
+            
+        await self._tag_rules(all_rules, progress_callback)
         
+        # PHASE 3: TAXONOMY BUILD & CONSOLIDATION
+        # Collect all raw tags
+        raw_tags = set()
+        for r in all_rules:
+            if r.related_tags:
+                for t in r.related_tags:
+                    raw_tags.add(t)
+
+        # Create Raw Terms for Consolidation
+        all_taxonomy = [Term(tag_id=t, term=t, definition="") for t in raw_tags]
+        
+        if progress_callback:
+             progress_callback(50, 100, "Grouping (Phase 3/5)")
+             
         final_taxonomy, tag_remap = await self._consolidate_taxonomy(all_taxonomy, progress_callback, stats=stats)
         
-        # 2.5 Remap Rule Tags
-        # Since terms were merged, we must point rules to the new canonical tags
+        # PHASE 4: RECONCILIATION
         if tag_remap:
             for rule in all_rules:
                 if not rule.related_tags:
                     continue
                 new_tags = []
                 for t in rule.related_tags:
-                    # Map to new tag if exists, else keep original
-                    new_tags.append(tag_remap.get(t, t))
-                rule.related_tags = list(set(new_tags)) # Dedup tags
-        
-        # 3. Deduplicate Rules
+                     # Map to canonical or keep original if not remapped
+                     canonical = tag_remap.get(t, t)
+                     new_tags.append(canonical)
+                rule.related_tags = list(set(new_tags))
+
+        # PHASE 5: GLOBAL RULE DEDUPLICATION
         if progress_callback:
-             progress_callback(75, 100, "Merging")
+             progress_callback(80, 100, "Deduplicating (Phase 4/5)")
              
+        # Call the dedicated deduplication method (re-named/refactored logic)
         final_rules = await self._deduplicate_rules(all_rules, progress_callback, stats=stats)
+        
+        # Log Stats
+        stats["extract"]["rules"] = len(all_rules) # Raw count
+        # Update consolidated counts later...
 
         # LOG SUMMARY
+
         summary_msg = (
             f"\n=== ANALYSIS PIPELINE METRICS ===\n"
             f"1. EXTRACTION:\n"
@@ -278,7 +307,7 @@ class RuleExtractor:
         # 2. Embed Quotes
         quotes = [r.verification_quote for r in valid_rules]
         embeddings = []
-        BATCH_SIZE = self.processing_config.get("EMBEDDING_BATCH_SIZE", 2000)
+        BATCH_SIZE = 100 # API Limit for embeddings is often 100
         
         try:
              async with self.sem:
@@ -385,6 +414,28 @@ class RuleExtractor:
         if progress_callback:
              progress_callback(100, 100, "Merging")
         return final_rules
+
+    def _fallback_string_dedupe(self, rules: List[Rule]) -> List[Rule]:
+        """
+        Fallback deduplication using exact quote matching if embeddings fail.
+        """
+        logger.warning("Falling back to string-based deduplication.")
+        seen_quotes = set()
+        unique_rules = []
+        for r in rules:
+            # If quote is empty, keep rule (safest)
+            if not r.verification_quote:
+                unique_rules.append(r)
+                continue
+            
+            # Normalize quote for comparison
+            # Remove whitespace and lower case to catch near-duplicates
+            normalized = " ".join(r.verification_quote.lower().split())
+            if normalized not in seen_quotes:
+                seen_quotes.add(normalized)
+                unique_rules.append(r)
+        
+        return unique_rules
 
     def _cluster_rules_semantically(self, indices: List[int], embeddings: List[List[float]]) -> List[List[int]]:
         """
@@ -756,60 +807,197 @@ class RuleExtractor:
         return dot_product / (norm_a * norm_b) if norm_a and norm_b else 0.0
 
 
-    async def _analyze_section_with_retry(self, section_text: str, max_retries: int = 5) -> Optional[AnalysisResponse]:
+    async def _extract_rules_from_text(self, text_chunk: str, header_text: str = "") -> AnalysisResponse:
         """
-        Analyzes a single section using the new SDK's Structured Output capability.
+        Phase 1: Pure Logic Extraction.
+        Extracts Rules (Obligations, Restrictions, Permissions, Definitions) from text.
+        NO TAGGING done here.
         """
-        backoff = 2
-        
-        for attempt in range(max_retries):
-            try:
-                # Prepare Config
-                gen_config_args = {
-                    "temperature": self.config.get("temperature", 0.0),
-                    "top_p": self.config.get("top_p", 1.0),
-                    "top_k": self.config.get("top_k", 40),
-                    "response_mime_type": "application/json",
-                    "response_schema": AnalysisResponse
-                }
+        import uuid
+        import json
+        async with self.sem:
+            max_retries = 3
+            current_retry = 0
+            
+            while current_retry < max_retries:
+                try:
+                    # Construct Prompt
+                    prompt = f"{self.extraction_prompt}\n\n### INPUT TEXT (Section: {header_text})\n{text_chunk}"
+                    
+                    # Call LLM
+                    # Default to Analysis Config (gemini-2.5-flash)
+                    config_args = {
+                        "response_mime_type": "application/json",
+                        "response_schema": AnalysisResponse,
+                        "temperature": self.config.get("temperature", 0.0),
+                        "top_p": self.config.get("top_p", 1.0),
+                        "top_k": self.config.get("top_k", 40),
+                        "max_output_tokens": 8192, # HARDCODED FORCE
+                    }
+                    
+                    # Handle Thinking Config securely
+                    thinking_conf = self.config.get("thinking_config") 
+                    if thinking_conf: # If present and not empty/None
+                         # Check if using a thinking-capable model? Assuming yes if config is set.
+                         # Only include if budget is set
+                         budget = thinking_conf.get("thinking_budget")
+                         if budget:
+                             config_args["thinking_config"] = types.ThinkingConfig(
+                                 include_thoughts=thinking_conf.get("include_thoughts", False),
+                                 thinking_budget=budget
+                             )
 
-                # Add Thinking Config if present
-                thinking_conf = self.config.get("thinking_config")
-                if thinking_conf:
-                    gen_config_args["thinking_config"] = types.ThinkingConfig(
-                        include_thoughts=thinking_conf.get("include_thoughts", True),
-                        thinking_budget=thinking_conf.get("thinking_budget", 4096)
+                    logger.info(f"Generating with Config: {config_args}")
+                    generation_config = types.GenerateContentConfig(**config_args)
+
+                    response = await self.client.aio.models.generate_content(
+                        model=self.model_name,
+                        contents=prompt,
+                        config=generation_config
                     )
+                    
+                    response_text = response.text
+                    if not response_text:
+                         logger.warning("Empty response from LLM for extraction.")
+                         return AnalysisResponse(rules=[], taxonomy=[])
 
-                # Call the Async Client
+                    # Parse JSON
+                    # Validate JSON structure (list of rules)
+                    # The schema enforces AnalysisResponse structure
+                    parsed_response = json.loads(response_text)
+                    
+                    # Extract Rules and ensure ID/Source
+                    rules_data = parsed_response.get("rules", [])
+                    extracted_rules = []
+                    
+                    for r_data in rules_data:
+                        # Instantiate Rule object to validate
+                        # Assign UUID immediately to avoid collisions
+                        r_data["id"] = str(uuid.uuid4())
+                        r_data["source_header"] = header_text
+                        # Ensure related_tags is empty (Phase 1)
+                        r_data["related_tags"] = []
+                        
+                        rule = Rule(**r_data)
+                        extracted_rules.append(rule)
+                        
+                    return AnalysisResponse(rules=extracted_rules, taxonomy=[]) # No taxonomy in Phase 1
+
+                except Exception as e:
+                    current_retry += 1
+                    logger.error(f"Extraction Error (Attempt {current_retry}/{max_retries}): {e}")
+                    
+                    # DEBUG: Capture the bad response
+                    try:
+                        timestamp = datetime.now().strftime("%H%M%S")
+                        debug_path = os.path.join(os.path.dirname(__file__), "..", "..", f"debug_fail_{timestamp}_{current_retry}.txt")
+                        with open(debug_path, "w", encoding="utf-8") as f:
+                            f.write(f"ERROR: {str(e)}\n")
+                            f.write(f"INPUT_LEN: {len(text_chunk)}\n")
+                            f.write(f"RESPONSE_LEN: {len(response_text) if response_text else 0}\n")
+                            
+                            # Check Finish Reason
+                            if response.candidates:
+                                cand = response.candidates[0]
+                                f.write(f"FINISH_REASON: {cand.finish_reason}\n")
+                                f.write(f"SAFETY_RATINGS: {cand.safety_ratings}\n")
+                            else:
+                                f.write("NO CANDIDATES\n")
+                            
+                            # Log Usage Metadata
+                            if response.usage_metadata:
+                                f.write(f"USAGE: {response.usage_metadata}\n")
+                            
+                            f.write("=== RAW RESPONSE ===\n")
+                            f.write(response_text if response_text else "NO RESPONSE TEXT")
+                        logger.info(f"Saved failed response to {debug_path}")
+                    except Exception as dump_error:
+                        logger.error(f"Failed to save debug dump: {dump_error}")
+
+                    if current_retry == max_retries:
+                        logger.error("Max retries reached. Returning empty.")
+                        return AnalysisResponse(rules=[], taxonomy=[])
+                    await asyncio.sleep(1 * current_retry)
+            
+            return AnalysisResponse(rules=[], taxonomy=[])
+
+    async def _tag_rules(self, rules: List[Rule], progress_callback=None) -> None:
+        """
+        Phase 2: Functional Rule Tagging.
+         Assigns tags to Functional Rules (O/R/P). Skips Definitions.
+        """
+        # Filter for Functional Rules only
+        functional_rules = [r for r in rules if r.type != RuleType.DEFINITION]
+        definitions = [r for r in rules if r.type == RuleType.DEFINITION]
+        
+        if not functional_rules:
+            logger.info("No functional rules to tag.")
+            return
+
+        batch_size = 20
+        total_batches = math.ceil(len(functional_rules) / batch_size)
+        
+        logger.info(f"Tagging {len(functional_rules)} functional rules in {total_batches} batches.")
+        
+        # Determine Tagging Schema (RuleTaggingResponse)
+        from data_models import RuleTaggingResponse
+
+        async def process_batch(batch_rules, batch_idx):
+            # Prepare Input Text
+            rules_text = json.dumps([
+                {"rule_id": r.id, "text": r.verification_quote, "type": r.type} 
+                for r in batch_rules
+            ], indent=2)
+            
+            prompt = f"{self.tagging_prompt}\n\n### INPUT RULES (Batch {batch_idx+1}/{total_batches})\n{rules_text}"
+            
+            try:
+                # Reuse Analysis Config (or specialized Tagging Config if exists - using Analysis for now)
+                generation_config = types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=RuleTaggingResponse,
+                    temperature=0.0, # Deterministic tagging
+                    top_p=1.0,
+                    max_output_tokens=8192
+                )
+
                 async with self.sem:
                     response = await self.client.aio.models.generate_content(
-                        model=self.model_name, 
-                        contents=[self.base_prompt, section_text],
-                        config=types.GenerateContentConfig(**gen_config_args)
+                        model=self.model_name,
+                        contents=prompt,
+                        config=generation_config
                     )
+                    
+                    if not response.text:
+                         return []
 
-                if response.parsed:
-                    return response.parsed
-                else:
-                    logger.warning(f"Empty parsed response for section length {len(section_text)}.")
-                    try:
-                        logger.warning(f"Finish Reason: {response.candidates[0].finish_reason}")
-                        logger.warning(f"Raw Text: {response.text}")
-                    except Exception:
-                        logger.warning("Could not read finish_reason or text.")
-                    return None
+                    parsed = json.loads(response.text)
+                    return parsed.get("tagged_rules", [])
 
             except Exception as e:
-                logger.error(f"Attempt {attempt+1} failed: {e}")
-                if "429" in str(e):
-                    await asyncio.sleep(backoff)
-                    backoff *= 2
-                else:
-                    await asyncio.sleep(1)
+                logger.error(f"Tagging Batch {batch_idx+1} Error: {e}")
+                return []
+
+        tasks = []
+        for i in range(0, len(functional_rules), batch_size):
+            batch = functional_rules[i : i + batch_size]
+            tasks.append(process_batch(batch, i // batch_size))
+
+        results = await asyncio.gather(*tasks)
         
-        logger.error(f"Failed to analyze section after {max_retries} attempts.")
-        return None
+        # Apply Tags to Rules
+        tag_map = {}
+        for batch_res in results:
+            for item in batch_res:
+                tag_map[item["rule_id"]] = item["tags"]
+        
+        for rule in functional_rules:
+            if rule.id in tag_map:
+                # Ensure tags are uppercase/normalized if needed, but let's trust LLM + Consolidation
+                rule.related_tags = tag_map[rule.id]
+        
+        # Definitions remain with empty tags (as initialized)
+        logger.info("Tagging Complete.")
 
     def _group_by_section(self, content_blocks: List[Dict[str, Any]]) -> List[List[Dict[str, Any]]]:
         """

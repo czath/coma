@@ -1,0 +1,184 @@
+ERROR: Expecting property name enclosed in double quotes: line 178 column 29 (char 10520)
+INPUT_LEN: 12711
+RESPONSE_LEN: 10520
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [
+    {
+      "tag_id": "TAG_LIABILITY",
+      "term": "liability",
+      "definition": "an obligation on a party to pay damages or other monetary compensation by virtue of an act or omission attributable to that party."
+    },
+    {
+      "tag_id": "TAG_INDIRECT_CONSEQUENTIAL_DAMAGES",
+      "term": "Indirect and consequential damages",
+      "definition": "those type of damages that are difficult to foresee, predict or quantify."
+    },
+    {
+      "tag_id": "TAG_DIRECT_DAMAGES",
+      "term": "Direct damages",
+      "definition": "easily foreseeable and quantifiable."
+    },
+    {
+      "tag_id": "TAG_VALUE_ADD_DAMAGES",
+      "term": "value add damages",
+      "definition": "those added damages result as an example from a computer chip worth $10 might being incorporated into piece of equipment worth $10.000."
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "A seller is liable for indirect and consequential damages, including loss of profits, loss of revenue, and other reasonably foreseeable damages, if there is no explicit agreement limiting their liability.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "Absent an agreement explicitly limiting a seller’s liability, a seller is liable for indirect and consequential damages (including loss of profits, loss of revenue, and other damages which can still be reasonably foreseeable).",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "Neither party shall be liable for indirect, consequential, special, or punitive damages, unless caused by intentional misconduct or gross negligence, or if related to intellectual property indemnity, confidentiality breaches, product liability, data protection, or privacy.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "With the exception of the intellectual property indemnity provisions of this [Agreement], any breach of any confidentiality provisions of this [Agreement], and/or damages relating to product liability, data protection or privacy, neither Party shall be liable to each other in contract, tort or otherwise for any indirect, consequential, special or punitive damages, howsoever arising under or in connection with this [Agreement], unless such damage has been caused by intentional misconduct or gross negligence.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "Zebracorp should generally not accept the exclusion of liability for 'cost of substitute goods' or 'cost of substitute procurement' as indirect damages.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "Many vendors seek to include ‘cost of substitute goods’ or ‘cost of substitute procurement’ into the list of indirect damages or to otherwise exclude all liability for cost of substitute procurement. This is hardly acceptable.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_4",
+      "description": "Parties may agree to a compromise where only the price difference between the original and higher substitute product price is charged to the supplier, rather than the entire cost.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "A compromise can be found by specifying that we will not charge the entire cost of substitute product from the supplier but only the price difference between the original price and higher price paid to the third party supplier.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_5",
+      "description": "Requests to exclude 'value add damages' should generally be rejected.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "These requests for exclusion of ‘value add damages’ should be generally rejected.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_6",
+      "description": "The concept of 'value add damages' should not be used in contracts.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "The concept of ‘value add damages’ is not well established and it should not be used in contracts.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_7",
+      "description": "Proposals to exclude 'economic loss' or 'financial loss' from liability should be rejected outright.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "Sometimes vendors include ‘economic loss’ or ‘financial loss’ into the list of damages for which they would not accept liability. Such proposals should be rejected outright.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_8",
+      "description": "Loss of management or employee productivity and failure to realize expected savings can generally be accepted as indirect damages.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "Other damages which one might attempt to define as “indirect and consequential” include: loss of management or employee productivity and failure to realize expected savings. Albeit somewhat unusual, the above can generally be accepted to be included into the list of indirect damages.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_9",
+      "description": "Defining 'increase in financing costs and/or cost of capital' as indirect damage can also be relatively easy to accept.",
+      "type": "PERMISSION",
+      "severity": "LOW",
+      "verification_quote": "Defining ‘increase in financing costs and/or cost of capital’ as indirect damage can also be relatively easy to accept since they work also in favour of the purchasing party should we fail to make our payments on time.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_10",
+      "description": "Parties should be very careful to accept administrative fees, legal fees or overhead; business interruption; shutdowns or service interruptions; inventory charges; loss of data or information; loss of use of an asset and loss of product as “indirect or consequential damages”.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "However, we should be very careful to accept: administrative fees, legal fees or overhead; business interruption; shutdowns or service interruptions; inventory charges; loss of data or information; loss of use of an asset and loss of product as “indirect or consequential damages”.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_11",
+      "description": "Administrative fees, legal fees, overhead, and inventory charges, which are likely direct damages, should not be given away in the contract.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "Of the above at least ‘administrative fees, legal fees, overhead and inventory charges’ are more likely to form direct damages. There is no point in giving these away in the contract.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_12",
+      "description": "It is not recommended to categorically label 'business interruption', 'shutdowns', or 'service interruptions' as indirect/consequential damages in a contract.",
+      "type": "RESTRICTION",
+      "severity": "MEDIUM",
+      "verification_quote": "As for the items: ’business interruption, shutdowns or service interruptions’. It would not be recommended to categorically label these as indirect/consequential damages in the contract.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_13",
+      "description": "Instead of listing 'business interruption', 'shutdowns', or 'service interruptions' as indirect damages, the list of indirect damages should be expanded to expressly include loss of profit, loss of business, and loss of revenue.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Instead of listing these as ‘indirect’ damage, we should consider expanding the list of ‘indirect’ damages to expressly include loss of profit, loss of business and loss of revenue.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_14",
+      "description": "The recommendation to not categorically label as indirect/consequential damages and to consider expanding the list of indirect damages also applies to 'loss of product', 'loss of data or information', and 'loss of use of an asset'.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "The aforesaid also applies for the items: ‘loss of product’, ‘loss of data or information’ and ‘loss of use of an asset’.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_15",
+      "description": "Liability caps must be mutual, applying to the benefit of both Zebracorp and the vendor.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "The liability caps should be made mutual i.e. they should also apply to the benefit of Zebracorp and not solely the vendor.",
+      "source_id": null,
+      "source_header": "LIMITATION OF LIABILITY",
+      "related_tags": []
+    },
+    {
+      "id": "rule_16",
+      "description": "Each party's maximum liability per calendar year is limited to the greater of the aggregate purchases from the previous calendar year or XXXXXXXX USD, but this limitation does not apply to intellectual property indemnity, confidentiality breaches, product liability, or damages from intentional misconduct or gross negligence.",
+      "type": "RESTRICTION",

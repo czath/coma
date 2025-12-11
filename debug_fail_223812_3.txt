@@ -1,0 +1,82 @@
+ERROR: Unterminated string starting at: line 78 column 29 (char 4619)
+INPUT_LEN: 14392
+RESPONSE_LEN: 4817
+=== RAW RESPONSE ===
+{
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Confidentiality clauses in the final agreement usually supersede any confidentiality undertakings in a prior Non-Disclosure Agreement (NDA).",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "These confidentiality clauses usually prevail over or supersede any confidentiality undertakings that may have been agreed in a Non-Disclosure Agreement (NDA) that often predates the final agreements.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "A party is generally subject to unlimited damages for failing to observe confidentiality obligations.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "Damages arising from breaches of confidentiality are usually not capped or limited, which means that a party is generally subject to unlimited damages for failure to observe confidentiality obligations.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "Zebracorp prefers a broad definition of confidential information that includes any technical or commercial information disclosed or exchanged between parties.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Zebracorp prefers a broad definition of confidential information which encompasses any technical or commercial information howsoever disclosed or exchanged between the parties.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_4",
+      "description": "A narrow definition of confidential information requires documents to be labelled 'Confidential' or 'Proprietary' to be protected.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "A more narrow definition of confidential information would require each document to be labelled with the legend \"Confidential\", “Proprietary” or similarly in order to for the information to be protected.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_5",
+      "description": "For information to be protected under a narrow definition, it must be disclosed in written or graphic form conspicuously as 'Confidential' or similarly, or if oral, clearly identified in writing by the discloser within xx days.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "“To be protected hereunder information must be disclosed in written or graphic form conspicuously as ‘Confidential’ or similarly. Oral disclosures for which protection is sought must be clearly identified in writing by discloser as information within xx days from disclosure”.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_6",
+      "description": "Zebracorp's standard definition of confidential information is limited to 'technical and commercial information' that is not in the public domain or already known to the receiving party.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "The Zebracorp standard definition of confidential information already narrows the scope of information down to “technical and commercial information” which is not in the public domain or already known to the receiving party.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_7",
+      "description": "If a narrow definition requiring labelling is accepted, information not marked as confidential or proprietary shall still be deemed confidential unless it could not reasonably be expected to be treated as confidential.",
+      "type": "DEFINITION",
+      "severity": "MEDIUM",
+      "verification_quote": "“Despite the foregoing, in the case of failure to mark information as confidential or proprietary said information shall be deemed confidential information hereunder unless it is of the type or nature that could not reasonably be expected to be treated as confidential”.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_8",
+      "description": "If Zebracorp must summarize all verbal disclosures in writing, it should appoint a single point of contact ('gatekeeper') for disclosing and receiving confidential information.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "Should the subcontractor categorically reject the foregoing compromise proposal, and should Zebracorp subsequently be forced to accept an obligation to summarize all verbal disclosures into written

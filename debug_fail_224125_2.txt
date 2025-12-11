@@ -1,0 +1,133 @@
+ERROR: Expecting property name enclosed in double quotes: line 127 column 7 (char 6826)
+INPUT_LEN: 9326
+RESPONSE_LEN: 6826
+FINISH_REASON: FinishReason.MAX_TOKENS
+SAFETY_RATINGS: None
+=== RAW RESPONSE ===
+{
+  "taxonomy": [],
+  "rules": [
+    {
+      "id": "rule_1",
+      "description": "Open source software (OSS) and free software are defined as software free from onerous licensing restrictions, available for viewing, editing, and changing code.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Open source software (OSS) and free software generally refer to software, which is free from any onerous licensing restrictions, and which is available for any person to view, edit, and/or change code.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_2",
+      "description": "Open source code is copyrighted and protected by copyright.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "However, open source code is, in fact, copyrighted and relies heavily to copyright protection.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_3",
+      "description": "A license from the copyright holder is required to use copyrighted code.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "As with any other copyrighted work (such as in e.g. Microsoft’s Office Pack), you need a license from the copyright holder to use the code.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_4",
+      "description": "The right to use copyrighted OSS software is contingent upon compliance with its license terms.",
+      "type": "OBLIGATION",
+      "severity": "HIGH",
+      "verification_quote": "only by being in compliance with the OSS license terms, we have rights to use the copyrighted OSS software.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_5",
+      "description": "Most open source software licenses grant licensees the right to copy, modify, and redistribute source code.",
+      "type": "PERMISSION",
+      "severity": "MEDIUM",
+      "verification_quote": "Most open source software licenses grant licensees somewhat free right to copy, modify and redistribute source code.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_6",
+      "description": "Open source licenses may impose obligations such as making distributed code modifications available in source code form, including copyright notices, specific redistribution requirements, or freely releasing combined software code.",
+      "type": "OBLIGATION",
+      "severity": "MEDIUM",
+      "verification_quote": "However, these licenses may also impose obligations such as for example a requirement that modifications to the code that are distributed must be made available in source code form, requirement to include copyright notices, requirements on how software can be redistributed, or requirement to freely release the combined software code (incorporating the open source code).",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_7",
+      "description": "'Strong open source license' or 'copyleft' open source license refers to open source software that imposes requirements on distribution.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Open source software that imposes requirements on distribution are generally known as ‘strong open source license’ or so called ‘copyleft’ open source license.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_8",
+      "description": "Under the GPL license, derived works can only be distributed under the same license terms.",
+      "type": "RESTRICTION",
+      "severity": "HIGH",
+      "verification_quote": "Under the GPL license, the derived works can only be distributed under the same license terms.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_9",
+      "description": "'Contamination' occurs when software created from or containing open source code must be made freely available according to the original open source license terms.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "This contamination occurs when software created from open source code or containing open source code must be made freely available according to the terms of the original open source license.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_10",
+      "description": "The 'viral effect' means that if GPL code is used in a work with proprietary code, the entire resulting work must become open under the GPL.",
+      "type": "DEFINITION",
+      "severity": "HIGH",
+      "verification_quote": "This so called viral effect means that if a piece of in e.g. GPL code is used in a work that includes proprietary code, then this resulting work must become open under the GPL in its entirety.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_11",
+      "description": "Open source software with reciprocity or share-alike requirements (requiring distributed copies or modified versions to be free of charge or freely available for modification) is considered problematic.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "Generally speaking open source software that has reciprocity or share-alike requirements (i.e. that require all distributed copies or/and modified versions of a work to be free of charge or freely available to be modified), are problematic.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_12",
+      "description": "'Permissive open source software' or 'flexible open source license' (e.g., Apache) has minimal redistribution requirements and usually permits combining licensed material with other license terms, potentially adding further restrictions to derived works.",
+      "type": "DEFINITION",
+      "severity": "LOW",
+      "verification_quote": "This is in contrast to so called ‘permissive open source software’ or ‘flexible open source license’ in e.g. Apache which has minimal requirements on how the software can be redistributed and which usually permit the re-distributor to combine the licensed material with other license terms, potentially adding further restrictions to a derived work.",
+      "source_id": null,
+      "source_header": null,
+      "related_tags": []
+    },
+    {
+      "id": "rule_13",
+      "description": "Zebracorp IPR must carefully consider any modifications to OSS code.",
+      

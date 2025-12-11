@@ -44,7 +44,7 @@ class DocType(str, Enum):
 
 class Rule(BaseModel):
     id: str = Field(description="Unique identifier for the rule (e.g., 'rule_1')")
-    description: str = Field(description="Concise summary of the rule")
+    description: str = Field(description="The rule logic expressed in plain English (layman's terms) but concisely. (Prompt calls this logic_instruction)")
     type: RuleType = Field(description="Type of the rule")
     severity: Severity = Field(description="Risk severity of the rule")
 
@@ -56,7 +56,7 @@ class Rule(BaseModel):
 class Term(BaseModel):
     tag_id: str = Field(description="The unique tag identifier (e.g. TAG_AFFILIATES)")
     term: str = Field(description="The defined term")
-    definition: str = Field(description="The definition of the term")
+    definition: str = Field(description="Brief topic label (e.g. 'Payment Rules').")
 
 class AnalysisResponse(BaseModel):
     taxonomy: List[Term] = Field(description="List of defined terms found in the text", default=[])
@@ -70,6 +70,13 @@ class ClassificationItem(BaseModel):
 
 class ClassificationResponse(BaseModel):
     items: List[ClassificationItem] = Field(description="List of classified items")
+
+class RuleTaggingItem(BaseModel):
+    rule_id: str = Field(description="The ID of the rule being tagged")
+    tags: List[str] = Field(description="List of functional tags (1-2 max) for this rule")
+
+class RuleTaggingResponse(BaseModel):
+    tagged_rules: List[RuleTaggingItem] = Field(description="List of tagging results")
 
 class ConsolidationResponse(BaseModel):
     terms: List[Term] = Field(description="List of consolidated and normalized terms")
