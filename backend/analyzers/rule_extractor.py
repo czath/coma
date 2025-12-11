@@ -8,6 +8,7 @@ from google.genai import types
 from dotenv import load_dotenv
 import math
 import json
+import uuid
 
 
 # Import Pydantic models
@@ -31,19 +32,22 @@ class RuleExtractor:
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY not found in environment variables")
 
+        self.processing_config = get_config("PROCESSING")
+        timeout_val = self.processing_config.get("API_TIMEOUT", 300)
+
         self.client = genai.Client(
             api_key=self.api_key,
             http_options={
                 'api_version': 'v1beta',
-                'httpx_client': httpx.Client(verify=False),
-                'httpx_async_client': httpx.AsyncClient(verify=False)
+                'httpx_client': httpx.Client(verify=False, timeout=timeout_val),
+                'httpx_async_client': httpx.AsyncClient(verify=False, timeout=timeout_val)
             }
         )
         
         # Load Config
 
         self.config = get_config("ANALYSIS")
-        self.processing_config = get_config("PROCESSING")
+        # self.processing_config already loaded above
         self.model_name = self.config["model_name"]
         
         # Load System Prompt
@@ -64,16 +68,26 @@ class RuleExtractor:
         # Global Rate Limiter (Tier 1 = 30 concurrent requests)
         self.sem = asyncio.Semaphore(30)
 
-    async def extract(self, content_blocks: List[Dict[str, Any]], progress_callback=None) -> Dict[str, Any]:
+    async def extract(self, content_blocks: List[Dict[str, Any]], progress_callback=None, stats=None) -> Dict[str, Any]:
         """
         Main extraction method using Section-Based Analysis concurrently.
         """
-        # 1. Group content by "logical sections"
+        # Stats Container
+        if stats is None:
+            stats = {
+                "extract": {"terms": 0, "rules": 0},
+                "vectorize": {"term_clusters": 0, "rule_clusters": 0},
+                "review": {"term_groups_sent": 0, "term_merges": 0, "rule_groups_sent": 0, "rule_merges": 0}
+            }
+
         # 1. Group content by "logical sections"
         sections = self._group_by_section(content_blocks)
         total_sections = len(sections)
         
-        logger.info(f"Starting Extraction Analysis using LLM Model: {self.model_name}")
+        msg = f"Starting Extraction Analysis using LLM Model: {self.model_name}"
+        logger.info(msg)
+        print(f"\n[{self.model_name.upper()}] {msg}")
+        print(f"[{self.model_name.upper()}] Temp: {self.config.get('temperature')} | Thinking: {bool(self.config.get('thinking_config'))}")
 
         all_rules = []
         all_taxonomy = []
@@ -148,6 +162,7 @@ class RuleExtractor:
                 for i, res in enumerate(results):
                     if res:
                         for r in res.rules:
+                            r.id = str(uuid.uuid4()) # CRITICAL FIX: Prevent ID collisions from parallel ISO execution
                             r.source_header = header_text
                             r.source_id = source_id # Assign Source ID
                         merged_response.taxonomy.extend(res.taxonomy)
@@ -158,6 +173,7 @@ class RuleExtractor:
                 res = await self._analyze_section_with_retry(section_text)
                 if res:
                     for r in res.rules:
+                        r.id = str(uuid.uuid4()) # CRITICAL FIX
                         r.source_header = header_text
                         r.source_id = source_id # Assign Source ID
                 return res
@@ -172,7 +188,7 @@ class RuleExtractor:
             result = await future
             completed_count += 1
             if progress_callback:
-                progress_callback(completed_count, total_sections)
+                progress_callback(completed_count, total_sections, "Extracting")
             
             if result:
                 completed_results.append(result)
@@ -186,27 +202,60 @@ class RuleExtractor:
             all_taxonomy.extend(res.taxonomy)
 
 
-        # Deduplicate Taxonomy (Semantic Consolidation)
-        # Deduplicate Taxonomy (Semantic Consolidation)
-        if all_taxonomy:
-            if progress_callback:
-                 progress_callback(total_sections, total_sections, "Consolidating terms...")
-            consolidated_taxonomy = await self._consolidate_taxonomy(all_taxonomy, progress_callback, total_sections)
-            unique_taxonomy_list = consolidated_taxonomy
-        else:
-            unique_taxonomy_list = []
+        
+        # Update Stats
+        stats["extract"]["rules"] = len(all_rules)
+        stats["extract"]["terms"] = len(all_taxonomy)
 
-        # Deduplicate Rules (Semantic & Fuzzy)
-        unique_rules = await self._deduplicate_rules(all_rules)
+        # 2. Consolidate Taxonomy
+        if progress_callback:
+            progress_callback(20, 100, "Grouping")
+        
+        final_taxonomy, tag_remap = await self._consolidate_taxonomy(all_taxonomy, progress_callback, stats=stats)
+        
+        # 2.5 Remap Rule Tags
+        # Since terms were merged, we must point rules to the new canonical tags
+        if tag_remap:
+            for rule in all_rules:
+                if not rule.related_tags:
+                    continue
+                new_tags = []
+                for t in rule.related_tags:
+                    # Map to new tag if exists, else keep original
+                    new_tags.append(tag_remap.get(t, t))
+                rule.related_tags = list(set(new_tags)) # Dedup tags
+        
+        # 3. Deduplicate Rules
+        if progress_callback:
+             progress_callback(75, 100, "Merging")
+             
+        final_rules = await self._deduplicate_rules(all_rules, progress_callback, stats=stats)
 
-        logger.info(f"Rule Deduplication: {len(all_rules)} raw -> {len(unique_rules)} unique.")
+        # LOG SUMMARY
+        summary_msg = (
+            f"\n=== ANALYSIS PIPELINE METRICS ===\n"
+            f"1. EXTRACTION:\n"
+            f"   - Raw Terms Found: {stats['extract']['terms']}\n"
+            f"   - Raw Rules Found: {stats['extract']['rules']}\n"
+            f"2. VECTORIZATION (CLUSTERING):\n"
+            f"   - Similar Term Groups: {stats['vectorize']['term_clusters']}\n"
+            f"   - Similar Rule Groups: {stats['vectorize']['rule_clusters']}\n"
+            f"3. LLM REVIEW:\n"
+            f"   - Term Groups Sent: {stats['review']['term_groups_sent']}\n"
+            f"   - Term Merges Successful: {stats['review']['term_merges']}\n"
+            f"   - Rule Groups Sent: {stats['review']['rule_groups_sent']}\n"
+            f"   - Rule Merges Successful: {stats['review']['rule_merges']}\n"
+            f"=================================\n"
+        )
+        logger.info(summary_msg)
+        print(summary_msg)
 
         return {
-            "taxonomy": [t.model_dump() for t in unique_taxonomy_list],
-            "rules": [r.model_dump() for r in unique_rules]
+            "rules": [r.model_dump() for r in final_rules],
+            "taxonomy": [t.model_dump() for t in final_taxonomy]
         }
 
-    async def _deduplicate_rules(self, rules: List[Rule]) -> List[Rule]:
+    async def _deduplicate_rules(self, rules: List[Rule], progress_callback=None, stats=None) -> List[Rule]:
         """
         Deduplicates rules using Cluster-and-Judge architecture:
         1. Embed rules (quotes).
@@ -222,6 +271,9 @@ class RuleExtractor:
             return rules 
 
         logger.info(f"Deduplicating {len(valid_rules)} rules using LLM Model: {self.model_name}")
+        
+        if progress_callback:
+            progress_callback(10, 100, "Merging")
 
         # 2. Embed Quotes
         quotes = [r.verification_quote for r in valid_rules]
@@ -250,6 +302,12 @@ class RuleExtractor:
         rule_indices = list(range(len(valid_rules)))
         clusters = self._cluster_rules_semantically(rule_indices, embeddings)
         
+        if stats:
+             stats["vectorize"]["rule_clusters"] = len([c for c in clusters if len(c) > 1])
+
+        if progress_callback:
+            progress_callback(50, 100, "Merging")
+        
         logger.info(f"Generated {len(clusters)} rule clusters for deduplication.")
 
         # 4. Resolve with LLM
@@ -272,46 +330,60 @@ class RuleExtractor:
             final_rules.append(valid_rules[idx])
             
         if clusters_to_resolve:
-            resolution_map = await self._resolve_rule_clusters_with_llm(clusters_to_resolve, valid_rules)
+            # Parallel Batch Processing
+            BATCH_SIZE = 10 
+            total_clusters = len(clusters_to_resolve)
+            batches = [clusters_to_resolve[i:i + BATCH_SIZE] for i in range(0, total_clusters, BATCH_SIZE)]
+            total_batches = len(batches)
             
-            # Resolution map: { "KEEP_ID": ["DROP_ID", "DROP_ID"] }
-            # But wait, LLM returns IDs. We need to map back to rule objects.
+            resolution_map = {}
+            
+            # Create async tasks for all batches
+            batch_tasks = [self._resolve_rule_clusters_with_llm(batch, valid_rules) for batch in batches]
+            
+            # Wrapper to collect all kept IDs
+            kept_ids_from_llm = set()
+            
+            completed_batches = 0
+            for future in asyncio.as_completed(batch_tasks):
+                batch_kept_ids = await future
+                kept_ids_from_llm.update(batch_kept_ids)
+                
+                # Assume batch size 1 is approximation for tracking?
+                # Actually we sent `batches` of clusters. 
+                # We can't easily track per-cluster merge here without parsing return properly
+                # But kept_ids count vs total rules in clusters gives hint.
+                
+                completed_batches += 1
+                # Progress ranges from 75% to 95%
+                if progress_callback:
+                    # Map 0..total -> 75..95
+                    progress_pct = 75 + int(20 * (completed_batches / total_batches))
+                    progress_callback(progress_pct, 100, "Merging")
+            
+            if stats:
+                stats["review"]["rule_groups_sent"] = len(clusters_to_resolve)
+                # Count explicitly kept
+                stats["review"]["rule_merges"] = len(kept_ids_from_llm) # This is KEEPS, not MERGES. User asked "successful merges".
+                # Actually "Merges" usually means "reductions". 
+                # Total Rules In Clusters - Kept Rules = Merged (Dropped) Rules.
+                total_in_clusters = sum(len(c) for c in clusters_to_resolve)
+                stats["review"]["rule_merges"] = total_in_clusters - len(kept_ids_from_llm)
+
+            
+            # Wait, singletons were PRE-ADDED. 
+            # We only need to check clustered rules against the LLM verdict.
+            # But the LLM only saw CLUSTERED rules.
             
             # Map Rule ID -> Rule Object
             id_to_rule = {r.id: r for r in valid_rules}
             
-            # The LLM output might just list "kept_rules". 
-            # Our prompt says: "Return JSON object... keys are ID of kept rule".
-            
-            kept_ids = set(resolution_map.keys())
-            dropped_ids = set()
-            for v_list in resolution_map.values():
-                dropped_ids.update(v_list)
-            
-            # Also need to handle rules that were in clusters but NOT in the map (implicitly kept? or dropped?)
-            # Prompt says: "If a rule is unique... do NOT include it". 
-            # But these are clusters > 1. 
-            
-            # Let's iterate through clusters to be safe.
-            for cluster_indices in clusters_to_resolve:
-                cluster_rules = [valid_rules[i] for i in cluster_indices]
-                cluster_rule_ids = {r.id for r in cluster_rules}
-                
-                # Check which of these IDs are in kept_ids
-                kept_in_cluster = [rid for rid in cluster_rule_ids if rid in kept_ids]
-                
-                if not kept_in_cluster:
-                    # Fallback: if LLM returned nothing for this cluster, keep ALL (safe) or keep FIRST?
-                    # "Safe" is keeping all.
-                    debug_logger.warning(f"LLM returned no decision for cluster {cluster_rule_ids}. Keeping all.")
-                    for r in cluster_rules:
-                        final_rules.append(r)
-                else:
-                    # Add the kept rules
-                    for rid in kept_in_cluster:
-                        if rid in id_to_rule:
-                            final_rules.append(id_to_rule[rid])
+            for rid in kept_ids_from_llm:
+                if rid in id_to_rule:
+                     final_rules.append(id_to_rule[rid])
 
+        if progress_callback:
+             progress_callback(100, 100, "Merging")
         return final_rules
 
     def _cluster_rules_semantically(self, indices: List[int], embeddings: List[List[float]]) -> List[List[int]]:
@@ -346,51 +418,46 @@ class RuleExtractor:
 
         return [[x['idx'] for x in c] for c in clusters]
 
-    async def _resolve_rule_clusters_with_llm(self, clusters: List[List[int]], rules: List[Rule]) -> Dict[str, List[str]]:
+    async def _resolve_rule_clusters_with_llm(self, clusters: List[List[int]], all_rules: List[Rule]) -> List[str]:
         """
-        Sends rule clusters to LLM for deduplication.
+        Sends extracted Rule Clusters to LLM to Identify which to KEEP.
+        Returns: List of Rule IDs to KEEP.
         """
+        if not clusters:
+            return []
+
         # Prepare Payload
-        # We want to send a list of Clusters.
-        # Payload structure:
-        # [
-        #   { "cluster_id": 1, "rules": [ {id, quote, category, description}, ... ] },
-        #   ...
-        # ]
-        
-        payload_data = []
-        for i, cluster_indices in enumerate(clusters):
-            cluster_rules = []
-            for idx in cluster_indices:
-                r = rules[idx]
-                cluster_rules.append({
-                    "id": r.id,
-                    "category": r.type.value if r.type else "Unknown", # Fixed: Rule has 'type', not 'category'
-                    "description": r.description,
-                    "quote": r.verification_quote
-                })
-            payload_data.append({
-                "cluster_id": i,
-                "rules": cluster_rules
-            })
-            
-        payload_str = json.dumps(payload_data, indent=2)
-        
-        # Construct Prompt
-        full_prompt = f"{self.rule_dedup_prompt}\n\nINPUT CLUSTERS:\n{payload_str}"
-        
-        debug_logger.info("Rule Dedup LLM Payload Snippet:")
-        debug_logger.info(payload_str[:500] + "...")
+        cluster_payload = {}
+        for idx, cluster in enumerate(clusters):
+             # Format: ID -> {Quote, Category, Desc}
+             group_data = []
+             for rule_idx in cluster:
+                 rule = all_rules[rule_idx]
+                 
+                 # Map 'type' to 'category' for LLM
+                 # handle invalid type if any
+                 rtype = rule.type.value if hasattr(rule, 'type') and hasattr(rule.type, 'value') else str(rule.type)
+                 
+                 group_data.append({
+                     "id": rule.id,
+                     "category": rtype,
+                     "description": rule.description or rule.logic_instruction,
+                     "quote": rule.verification_quote
+                 })
+             cluster_payload[f"Cluster {idx+1}"] = group_data
+             
+        prompt = self.rule_dedup_prompt + f"\n\nINPUT DATA:\n{json.dumps(cluster_payload, indent=2)}"
         
         try:
-             response = await self.client.aio.models.generate_content(
-                model=self.model_name,
-                contents=full_prompt,
-                config=types.GenerateContentConfig(
-                    temperature=0.0,
-                    response_mime_type="application/json"
-                )
-            )
+             async with self.sem:
+                 response = await self.client.aio.models.generate_content(
+                     model=self.model_name,
+                     contents=[prompt],
+                     config=types.GenerateContentConfig(
+                         temperature=0.0,
+                         response_mime_type="application/json"
+                     )
+                 )
              
              if response.parsed:
                  return json.loads(response.text)
@@ -418,7 +485,7 @@ class RuleExtractor:
         return list(unique_map.values())
 
 
-    async def _consolidate_taxonomy(self, raw_taxonomy: List[Term], progress_callback=None, total_steps=0) -> List[Term]:
+    async def _consolidate_taxonomy(self, raw_taxonomy: List[Term], progress_callback=None, stats=None) -> List[Term]:
         """
         Hybrid "Propose & Verify" Consolidation Pipeline.
         1. Extract (Done)
@@ -445,7 +512,7 @@ class RuleExtractor:
 
         # 2. Vectorize & Cluster
         if progress_callback:
-            progress_callback(total_steps, total_steps, "Vectorizing terms...")
+            progress_callback(20, 100, "Grouping")
             
         # We need to pass the full Term objects or at least (Term, Def) tuples to the clusterer
         # but the clusterer works on strings. Let's keep clusterer simple (strings) 
@@ -456,13 +523,16 @@ class RuleExtractor:
         clusters_str = await self._cluster_terms_semantically(term_strings)
         
         debug_logger.info(f"Generated {len(clusters_str)} clusters.")
+        
+        if stats:
+            stats["vectorize"]["term_clusters"] = len([c for c in clusters_str if len(c) > 1])
         for i, c in enumerate(clusters_str):
             if len(c) > 1:
                 debug_logger.info(f"Cluster {i}: {c}")
 
         # 3. Evaluate (LLM Judge)
         if progress_callback:
-            progress_callback(total_steps, total_steps, "Evaluating candidate merges...")
+            progress_callback(60, 100, "Grouping")
 
         # Prepare Payload WITH DEFINITIONS
         # We need to find the definition for each string in `clusters_str`
@@ -472,13 +542,42 @@ class RuleExtractor:
         # Create a lookup for term -> definition (using the sorted list to be safe)
         term_def_map = {t.term: t.definition for t in unique_terms}
 
-        resolution_map = await self._resolve_clusters_with_llm(clusters_str, term_def_map)
+        # Parallel Batch Processing
+        BATCH_SIZE = 10
+        total_clusters_count = len(clusters_str)
+        cluster_batches = [clusters_str[i:i + BATCH_SIZE] for i in range(0, total_clusters_count, BATCH_SIZE)]
+        total_batches_count = len(cluster_batches)
+        
+        resolution_map = {}
+        
+        # Create async tasks
+        batch_tasks = [self._resolve_clusters_with_llm(batch_clusters, term_def_map) for batch_clusters in cluster_batches]
+        
+        completed_batches = 0
+        for future in asyncio.as_completed(batch_tasks):
+            batch_res = await future
+            resolution_map.update(batch_res)
+            
+            completed_batches += 1
+            # Progress ranges from 60% to 95%
+            if progress_callback:
+                current_pct = 60 + int(35 * (completed_batches / total_batches_count))
+                progress_callback(current_pct, 100, "Grouping")
         
         debug_logger.info("Resolution Map from LLM:")
         debug_logger.info(resolution_map)
         
+        if stats:
+             stats["review"]["term_groups_sent"] = len([c for c in clusters_str if len(c) > 1])
+             merges = 0
+             for k, v in resolution_map.items():
+                 if k != v:
+                     merges += 1
+             stats["review"]["term_merges"] = merges
+        
         # 4. Rebuild Final Taxonomy
         final_terms_map = {} # Canonical Name -> Term Object
+        tag_remap = {} # Old Tag ID -> New Tag ID (Winner)
         
         for term_obj in unique_terms:
             original_text = term_obj.term
@@ -494,25 +593,37 @@ class RuleExtractor:
                 # Initialize info
                 new_term.definition = term_obj.definition or ""
                 final_terms_map[canonical_text] = new_term
+                
+                # Mapping: Self -> Self
+                tag_remap[term_obj.tag_id] = new_term.tag_id
             else:
                 # Merge into existing
                 existing = final_terms_map[canonical_text]
-                # Merge Definition
+                
+                # Mapping: This Tag -> Existing Winner Tag
+                tag_remap[term_obj.tag_id] = existing.tag_id
+
+                # Merge Definition - Smart Selection (Keep Longest/Detailed)
                 new_def = term_obj.definition or ""
                 if new_def:
-                    if existing.definition:
-                        # Append if unique
-                        if new_def not in existing.definition:
-                             existing.definition += " " + new_def
-                    else:
+                    if not existing.definition:
                         existing.definition = new_def
+                    elif len(new_def) > len(existing.definition):
+                         # If new definition is more detailed, use it.
+                         existing.definition = new_def
+                    # Else: keep existing (canonical winner usually has best def if sorted)
         
         # Final pass to clean definitions & Sort
         final_terms = sorted(list(final_terms_map.values()), key=lambda x: x.term.lower())
         
         logger.info(f"Consolidation complete. {len(unique_terms)} -> {len(final_terms)} terms.")
         debug_logger.info(f"=== END CONSOLIDATION: {len(final_terms)} final terms ===")
-        return final_terms
+        logger.info(f"Consolidation complete. {len(unique_terms)} -> {len(final_terms)} terms.")
+        debug_logger.info(f"=== END CONSOLIDATION: {len(final_terms)} final terms ===")
+        if progress_callback:
+            progress_callback(100, 100, "Grouping")
+            
+        return final_terms, tag_remap
 
     async def _cluster_terms_semantically(self, term_strings: List[str]) -> List[List[str]]:
         """
@@ -605,10 +716,12 @@ class RuleExtractor:
         try:
             async with self.sem:
                 response = await self.client.aio.models.generate_content(
-                    model='gemini-2.0-flash',
+                    model=self.model_name,
                     contents=[self.consolidation_prompt, payload_str],
                     config=types.GenerateContentConfig(
-                        temperature=0.0,
+                        temperature=self.config.get("temperature", 0.0),
+                        top_p=self.config.get("top_p", 0.95),
+                        top_k=self.config.get("top_k", 40),
                         response_mime_type="application/json"
                     )
                 )
@@ -651,18 +764,29 @@ class RuleExtractor:
         
         for attempt in range(max_retries):
             try:
+                # Prepare Config
+                gen_config_args = {
+                    "temperature": self.config.get("temperature", 0.0),
+                    "top_p": self.config.get("top_p", 1.0),
+                    "top_k": self.config.get("top_k", 40),
+                    "response_mime_type": "application/json",
+                    "response_schema": AnalysisResponse
+                }
+
+                # Add Thinking Config if present
+                thinking_conf = self.config.get("thinking_config")
+                if thinking_conf:
+                    gen_config_args["thinking_config"] = types.ThinkingConfig(
+                        include_thoughts=thinking_conf.get("include_thoughts", True),
+                        thinking_budget=thinking_conf.get("thinking_budget", 4096)
+                    )
+
                 # Call the Async Client
                 async with self.sem:
                     response = await self.client.aio.models.generate_content(
-                        model='gemini-2.0-flash', # Aligned with reliable Annotation Task (gemini-2.0-flash)
+                        model=self.model_name, 
                         contents=[self.base_prompt, section_text],
-                        config=types.GenerateContentConfig(
-                            temperature=0.0,
-                            top_p=1.0, 
-                            top_k=1, 
-                            response_mime_type="application/json",
-                            response_schema=AnalysisResponse
-                        )
+                        config=types.GenerateContentConfig(**gen_config_args)
                     )
 
                 if response.parsed:
