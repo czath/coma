@@ -4,7 +4,15 @@ import requests
 import warnings
 
 # FORCE DISABLE SSL VERIFICATION (Development Environment Workaround)
-# This patches the requests library to ignore SSL errors globallly.
+import ssl
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+# Patch requests library as well
 from urllib3.exceptions import InsecureRequestWarning
 warnings.simplefilter('ignore', InsecureRequestWarning)
 
@@ -14,10 +22,10 @@ def _new_request(self, method, url, *args, **kwargs):
     return _old_request(self, method, url, *args, **kwargs)
 requests.Session.request = _new_request
 
-# We still set these just in case other libs read them
-os.environ['SSL_CERT_FILE'] = certifi.where() # Keep for non-requests libs
-os.environ['GRPC_DEFAULT_SSL_ROOTS_FILE_PATH'] = certifi.where()
-os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
+# Environment variables for certs removed to allow unverified context to take precedence
+# os.environ['SSL_CERT_FILE'] = certifi.where()
+# os.environ['GRPC_DEFAULT_SSL_ROOTS_FILE_PATH'] = certifi.where()
+# os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, Form, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,6 +34,8 @@ from parsers.docx_parser import DocxParser
 from parsers.auto_tagger import AutoTagger
 from parsers.llm_auto_tagger import LLMAutoTagger
 from config_llm import get_config
+from hipdam.core import HiPDAMOrchestrator
+from hipdam.adapter import LegacyAdapter
 import shutil
 import uuid
 import asyncio
@@ -274,4 +284,49 @@ async def analyze_document(
     )
     
     return {"job_id": job_id}
+
+# HiPDAM Integration
+class HiPDAMRequest(BaseModel):
+    text: str
+    section_id: str = "unknown"
+
+@app.post("/hipdam/analyze")
+async def analyze_section_hipdam(
+    request: HiPDAMRequest,
+    background_tasks: BackgroundTasks
+):
+    """
+    Analyzes a single section using the HiPDAM Ensemble (5 Agents + Judge).
+    Returns TraceMap (full detail) AND Legacy AnalysisResponse (for old UI).
+    """
+    try:
+        if not request.text:
+             raise HTTPException(status_code=400, detail="Text is required")
+             
+        # Initialize Orchestrator with API Key from Env
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+             raise HTTPException(status_code=500, detail="GEMINI_API_KEY not configured")
+             
+        orchestrator = HiPDAMOrchestrator(api_key)
+        
+        # Run Pipeline
+        trace_map = await orchestrator.analyze_section(request.text, request.section_id)
+        
+        # Convert to Legacy for compat (Optional - fail safe)
+        legacy_result = {}
+        try:
+            legacy_response = LegacyAdapter.to_legacy_response(trace_map)
+            legacy_result = legacy_response.model_dump()
+        except Exception as e:
+            print(f"Warning: Legacy Adapter failed (skipping): {e}")
+        
+        return {
+            "trace": trace_map.model_dump(),
+            "legacy_result": legacy_result
+        }
+
+    except Exception as e:
+        print(f"HiPDAM Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 

@@ -35,6 +35,55 @@ LLM_CONFIG = {
         "MAX_SECTION_CHARS": 15000,
         "EMBEDDING_BATCH_SIZE": 100
     },
+
+    "HIPDAM": {
+        "AGENTS": {
+            "AGENT_AUDITOR": {
+                "name": "The Auditor",
+                "model": "gemini-2.5-flash",
+                "temperature": 0.0,
+                "top_p": 0.95,
+                "system_instruction": "You are The Auditor. Extract STRICT OBLIGATIONS. Return JSON List: [{ 'text': 'EXACT SOURCE QUOTE (Full Paragraph)', 'description': 'Layman explanation of the obligation', 'label': 'OBLIGATION', 'confidence_score': 1-10 }]. CRITICAL: 'text' must be verbatim source. 'description' must be your explanation."
+            },
+            "AGENT_STRATEGIST": {
+                "name": "The Strategist",
+                "model": "gemini-2.5-flash",
+                "temperature": 0.2,
+                "top_p": 0.95,
+                "system_instruction": "You are The Strategist. Extract NEGOTIATION RISKS. Return JSON List: [{ 'text': 'EXACT SOURCE QUOTE (Full Paragraph)', 'description': 'Layman explanation of why this is a risk', 'label': 'STRATEGY', 'confidence_score': 1-10 }]. CRITICAL: 'text' must be verbatim source. Do NOT put advice in 'text'."
+            },
+            "AGENT_LIBRARIAN": {
+                "name": "The Librarian",
+                "model": "gemini-2.5-flash",
+                "temperature": 0.0,
+                "top_p": 0.95,
+                "system_instruction": "You are The Librarian. Extract DEFINITIONS. Return JSON List: [{ 'text': 'THE DEFINED TERM', 'definition': 'The full definition text from the document', 'label': 'DEFINITION', 'confidence_score': 1-10 }]. If distinct definition text is not present, ignore."
+            },
+            "AGENT_SCOUT_A": {
+                "name": "Scout A",
+                "model": "gemini-2.5-flash",
+                "temperature": 0.7,
+                "top_p": 0.95,
+                "system_instruction": "You are Scout A. Extract EVERYTHING. Return JSON List: [{ 'text': 'EXACT SOURCE QUOTE (Full Paragraph)', 'description': 'Layman explanation', 'label': 'GENERAL', 'confidence_score': 1-10 }]. CRITICAL: Do NOT split dependent sentences."
+            },
+            "AGENT_SCOUT_B": {
+                "name": "Scout B",
+                "model": "gemini-2.5-flash",
+                "temperature": 0.7,
+                "top_p": 0.95,
+                "system_instruction": "You are Scout B. Extract EVERYTHING. Return JSON List: [{ 'text': 'EXACT SOURCE QUOTE (Full Paragraph)', 'description': 'Layman explanation', 'label': 'GENERAL', 'confidence_score': 1-10 }]. CRITICAL: Do NOT split dependent sentences."
+            }
+        },
+        "JUDGE": {
+            "model": "gemini-2.5-pro",
+            "temperature": 0.0,
+            "system_instruction": "You are the Supreme Judge. Review clusters. Output JSON: { 'decision_content': { 'text': 'Final Quote', 'description': 'Final Layman Explanation', ... }, 'rationale': '...', 'decision_confidence': 0.0-1.0 }. RULES: 1. Ensure 'text' is a valid source quote. 2. Ensure 'description' is a clear layman summary. 3. For Definitions, ensure 'definition' field is populated."
+        },
+        "CLUSTERING": {
+             "threshold": 0.85,
+             "model": "text-embedding-004"
+        }
+    },
     
     # Task: Clause Review / Risk Assessment (Comparison against rules)
     "REVIEW": {

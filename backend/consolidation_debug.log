@@ -8474,3 +8474,462 @@ Resolution Map from LLM:
 {'Defect Exclusion': 'Exclusion of Liability', 'Defect Rectification': 'Defect Rectification', 'Exclusion of Liability': 'Exclusion of Liability', 'Exclusions': 'Exclusion of Liability', 'Delay': 'Delay', 'Excusable Delay': 'Excusable Delay', 'Payment Delay': 'Payment Delay', 'Disposal': 'Disposal', 'Product Disposal': 'Product Disposal', 'Documentation': 'Documentation', 'Information': 'Information', 'Expense Reimbursement': 'Travel and Expenses', 'Travel Expenses': 'Travel and Expenses', 'Governing Law': 'Governing Law and Jurisdiction', 'Jurisdiction': 'Governing Law and Jurisdiction', 'Hiring': 'Hiring Restrictions', 'Hiring Restrictions': 'Hiring Restrictions', 'Subcontractor Rights': 'Subcontractors', 'Subcontractors': 'Subcontractors', 'Termination Rights': 'Termination Rights', 'Taxes': 'Taxes', 'Withholding Tax': 'Withholding Tax', 'Title': 'Title', 'Title Transfer': 'Title Transfer', 'Usage Restrictions': 'Usage Restrictions', 'Usage Rights': 'Usage Rights', 'Notice': 'Notice', 'Notification': 'Notice', 'Termination Notice': 'Termination Notice', 'Order Cancellation': 'Order Cancellation', 'Refund': 'Refund', 'Product Liability': 'Product Liability', 'Product Regulations': 'Product Regulations', 'Strict Liability': 'Strict Liability', 'Product Specifications': 'Product Specifications', 'Product Use': 'Product Use', 'Residual Rights': 'Residual Rights', 'Royalties': 'Royalties', 'Third Party Rights': 'Third Party Rights', 'Service Warranty': 'Service Warranty', 'Software Warranty': 'Software Warranty', 'Warranty': 'Warranty', 'Warranty Claims': 'Warranty Claims', 'Warranty Disclaimer': 'Warranty Disclaimer', 'Warranty Disclaimers': 'Warranty Disclaimer', 'Warranty Period': 'Warranty Period', 'Acceptance': 'Acceptance', 'Acceptance Criteria': 'Acceptance Criteria', 'Acceptance Tests': 'Acceptance Tests', 'Approval': 'Approval', 'Rejection': 'Rejection', 'Arbitration': 'Dispute Resolution', 'Dispute Resolution': 'Dispute Resolution', 'Audit Rights': 'Audit Rights', 'Rights': 'Rights', 'Bank Guarantee': 'Guarantee', 'Corporate Guarantee': 'Guarantee', 'Guarantee': 'Guarantee', 'Guarantees': 'Guarantee', 'Breach': 'Breach of Contract', 'Breach of Contract': 'Breach of Contract', 'Liability Cap': 'Limitation of Liability', 'Limitation of Liability': 'Limitation of Liability', 'Limitation Period': 'Limitation Period', 'Limitation of Action': 'Limitation of Action', 'Restriction': 'Restriction', 'Restrictions': 'Restriction', 'Use Restriction': 'Use Restriction', 'Material Information': 'Material Information', 'Materials': 'Materials', 'Mitigation': 'Mitigation', 'Remedies': 'Remedies', 'Compliance': 'Compliance', 'Enforcement': 'Enforcement', 'Environmental Regulations': 'Environmental Regulations', 'Confidentiality': 'Confidentiality', 'Disclosure': 'Disclosure', 'Consultation': 'Consultation', 'Consulting Rate': 'Consulting Rate', 'Damages': 'Damages', 'Incidental Damages': 'Incidental Damages', 'Liquidated Damages': 'Liquidated Damages', 'Data Delivery': 'Data Delivery', 'Delivery': 'Delivery', 'Business Interests': 'Business Interest', 'Interest': 'Business Interest', 'Change Order': 'Change Order', 'Purchase Order': 'Purchase Order', 'Claim Management': 'Claim Management', 'Claims': 'Claim Management', 'Collection Costs': 'Cost', 'Cost': 'Cost', 'Costs': 'Cost', 'Fees': 'Cost', 'Transportation Costs': 'Cost', 'Commitment': 'Obligation', 'Obligations': 'Obligation', 'Purchase Commitment': 'Obligation', 'Hourly Rate': 'Pricing', 'Pricing': 'Pricing', 'Implied Licenses': 'License Grant', 'License': 'License Grant', 'License Grant': 'License Grant', 'License Restrictions': 'License Restrictions', 'Software License': 'License Grant', 'Sublicensing': 'Sublicensing', 'Indemnification': 'Indemnification', 'Liability': 'Liability', 'IP Rights': 'Intellectual Property Rights (IPR)', 'Infringement': 'Infringement', 'Intellectual Property': 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights': 'Intellectual Property Rights (IPR)', 'Invoice': 'Invoice', 'Invoicing': 'Invoice', 'Late Payment': 'Payment Terms', 'Payment': 'Payment Terms', 'Payment Policy': 'Payment Terms', 'Payment Terms': 'Payment Terms', 'Legal Action': 'Legal Action', 'Legal Counsel': 'Legal Counsel', 'Legal Review': 'Legal Review'}
 === END CONSOLIDATION: 145 final terms ===
 === END CONSOLIDATION: 145 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 13
+Generated 12 clusters.
+Cluster 3: ['Governance & Compliance', 'Security & Business Continuity']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Governance & Compliance": "",
+    "Security & Business Continuity": ""
+  }
+}...
+Resolution Map from LLM:
+{'Governance & Compliance': 'Governance and Compliance', 'Security & Business Continuity': 'Security and Business Continuity'}
+=== END CONSOLIDATION: 13 final terms ===
+=== END CONSOLIDATION: 13 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 14
+Generated 13 clusters.
+Cluster 3: ['Governance & Compliance', 'Security & Business Continuity']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Governance & Compliance": "",
+    "Security & Business Continuity": ""
+  }
+}...
+Resolution Map from LLM:
+{'Governance & Compliance': 'Governance and Compliance', 'Security & Business Continuity': 'Security and Business Continuity'}
+=== END CONSOLIDATION: 14 final terms ===
+=== END CONSOLIDATION: 14 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 189
+Generated 93 clusters.
+Cluster 0: ['Acceptance', 'Acceptance of Terms', 'Approvals']
+Cluster 1: ['Access Rights', 'Licensing Rights', 'Rights and Obligations', 'Third Party Rights']
+Cluster 3: ['Audit Costs', 'Audit Notification', 'Audit Procedure', 'Audit Scope']
+Cluster 4: ['Audit Restriction', 'Compliance Restriction', 'Data Restriction', 'Liability Restriction', 'License Restrictions', 'Operational Restriction', 'Restrictions', 'Service Restrictions', 'Usage Restrictions', 'Use Restriction']
+Cluster 6: ['Breach of Contract', 'Contractual Obligation', 'Contractual Obligations', 'Contractual Rights', 'Contractual Term']
+Cluster 8: ['Business Conduct', 'Compliance']
+Cluster 11: ['Certification', 'Quality Standards']
+Cluster 12: ['Change Order Procedures', 'Invoice Procedures', 'Order Procedures']
+Cluster 13: ['Claims', 'Claims Management', 'Claims Process', 'Damages', 'Third Party Claims', 'Warranty Claims']
+Cluster 14: ['Compatibility', 'Specifications']
+Cluster 15: ['Competitive Restriction', 'Pricing Restrictions', 'Transfer Restrictions']
+Cluster 16: ['Compliance Obligations', 'Compliance Reporting', 'Consultation Obligations', 'Delivery Obligations', 'Enforcement Obligations', 'Export Compliance', 'Financial Obligations', 'License Compliance', 'Notification Obligations', 'Obligation', 'Obligations', 'Payment Obligations', 'Policy Compliance', 'Product Compliance', 'Regulatory Compliance', 'Reporting Obligations', 'Tax Obligations', 'Termination Obligations', 'Warranty Obligations']
+Cluster 17: ['Confidentiality', 'Disclosure', 'Information Disclosure']
+Cluster 18: ['Consent', 'Consent Requirement']
+Cluster 19: ['Contract Interpretation', 'Contract Negotiation', 'Customer Contract', 'Interpretation']
+Cluster 20: ['Contractual Arrangement', 'Mutual Agreement']
+Cluster 23: ['Cost Allocation', 'Risk Allocation']
+Cluster 27: ['Defective Product', 'Product Defects', 'Product Liability']
+Cluster 28: ['Defense', 'Legal Defense', 'Security']
+Cluster 29: ['Delivery Terms', 'Payment Terms', 'Pricing Terms', 'Service Delivery']
+Cluster 34: ['Documentation', 'Documentation Requirements']
+Cluster 35: ['Enforcement', 'Enforcement Rights']
+Cluster 36: ['Entire Agreement', 'Scope of Agreement']
+Cluster 37: ['Exclusion of Liability', 'Exclusions', 'Indemnification Exclusion', 'Liability', 'Liability Limitations', 'Liability Restrictions', 'Limitation of Liability', 'Strict Liability']
+Cluster 40: ['Fees', 'Pricing']
+Cluster 45: ['Governing Law', 'Jurisdiction']
+Cluster 46: ['Guarantees', 'Warranty']
+Cluster 48: ['Infringement', 'Intellectual Property', 'Intellectual Property Rights']
+Cluster 54: ['Legal Action', 'Legal Advice', 'Legal Counsel', 'Legal Review', 'Limitation of Actions', 'Remedial Action']
+Cluster 57: ['License Grant', 'Licensing', 'Licensing Restrictions', 'Licensing Terms', 'Software License']
+Cluster 60: ['Mitigation', 'Remedies']
+Cluster 63: ['Ownership', 'Ownership of Goods']
+Cluster 69: ['Purchase Commitment', 'Purchase Order']
+Cluster 85: ['Termination Payments', 'Termination Procedure', 'Termination Rights']
+Cluster 90: ['Transportation', 'Transportation Costs']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Contractual Arrangement": "",
+    "Mutual Agreement": ""
+  },
+  "Group 2": {
+    "Cost Allocation": "",
+    "Risk Allocation": ""
+  },
+  "Group 3": {
+    "Defective Product": "",
+    "Product Defects": "",
+    "Product Liability": ""
+  },
+  "Group 4": {
+    "Defense": "",
+    "Legal Defense": "",
+    "Security": ""
+  },
+  "Group 5": {
+    "Delivery Terms": "",
+    "Payment Terms": "",
+    "Pricing Terms": "",
+    "Service Delivery": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Legal Action": "",
+    "Legal Advice": "",
+    "Legal Counsel": "",
+    "Legal Review": "",
+    "Limitation of Actions": "",
+    "Remedial Action": ""
+  },
+  "Group 2": {
+    "License Grant": "",
+    "Licensing": "",
+    "Licensing Restrictions": "",
+    "Licensing Terms": "",
+    "Software License": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Acceptance": "",
+    "Acceptance of Terms": "",
+    "Approvals": ""
+  },
+  "Group 2": {
+    "Access Rights": "",
+    "Licensing Rights": "",
+    "Rights and Obligations": "",
+    "Third Party Rights": ""
+  },
+  "Group 3": {
+    "Audit Costs": "",
+    "Audit Notification": "",
+    "Audit Procedure": "",
+    "Audit Scope": ""
+  },
+  "Group 4": {
+    "Audit Restriction": "",
+    "Compliance Restriction": "",
+    "Data Restriction": "",
+    "Liability Restriction": "",
+    "Lic...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Fees": "",
+    "Pricing": ""
+  },
+  "Group 2": {
+    "Governing Law": "",
+    "Jurisdiction": ""
+  },
+  "Group 3": {
+    "Guarantees": "",
+    "Warranty": ""
+  },
+  "Group 4": {
+    "Infringement": "",
+    "Intellectual Property": "",
+    "Intellectual Property Rights": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Mitigation": "",
+    "Remedies": ""
+  },
+  "Group 2": {
+    "Ownership": "",
+    "Ownership of Goods": ""
+  },
+  "Group 3": {
+    "Purchase Commitment": "",
+    "Purchase Order": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Termination Payments": "",
+    "Termination Procedure": "",
+    "Termination Rights": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Documentation": "",
+    "Documentation Requirements": ""
+  },
+  "Group 2": {
+    "Enforcement": "",
+    "Enforcement Rights": ""
+  },
+  "Group 3": {
+    "Entire Agreement": "",
+    "Scope of Agreement": ""
+  },
+  "Group 4": {
+    "Exclusion of Liability": "",
+    "Exclusions": "",
+    "Indemnification Exclusion": "",
+    "Liability": "",
+    "Liability Limitations": "",
+    "Liability Restrictions": "",
+    "Limitation of Liability": "",
+    "Strict Liability": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Transportation": "",
+    "Transportation Costs": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Certification": "",
+    "Quality Standards": ""
+  },
+  "Group 2": {
+    "Change Order Procedures": "",
+    "Invoice Procedures": "",
+    "Order Procedures": ""
+  },
+  "Group 3": {
+    "Claims": "",
+    "Claims Management": "",
+    "Claims Process": "",
+    "Damages": "",
+    "Third Party Claims": "",
+    "Warranty Claims": ""
+  },
+  "Group 4": {
+    "Compatibility": "",
+    "Specifications": ""
+  },
+  "Group 5": {
+    "Competitive Restriction": "",
+    "Pricing Restrictions...
+Resolution Map from LLM:
+{'Transportation': 'Transportation', 'Transportation Costs': 'Transportation', 'Legal Action': 'Legal Action', 'Legal Advice': 'Legal Advice', 'Legal Counsel': 'Legal Counsel', 'Legal Review': 'Legal Review', 'Limitation of Actions': 'Limitation of Actions', 'Remedial Action': 'Remedial Action', 'License Grant': 'License Grant', 'Licensing': 'Licensing', 'Licensing Restrictions': 'Licensing Restrictions', 'Licensing Terms': 'Licensing Terms', 'Software License': 'Software License', 'Termination Payments': 'Termination Payments', 'Termination Procedure': 'Termination Procedure', 'Termination Rights': 'Termination Rights', 'Mitigation': 'Mitigation', 'Remedies': 'Remedies', 'Ownership': 'Ownership', 'Ownership of Goods': 'Ownership', 'Purchase Commitment': 'Purchase Commitment', 'Purchase Order': 'Purchase Order', 'Fees': 'Fees', 'Pricing': 'Pricing', 'Governing Law': 'Governing Law', 'Jurisdiction': 'Jurisdiction', 'Guarantees': 'Warranty', 'Warranty': 'Warranty', 'Infringement': 'Infringement', 'Intellectual Property': 'Intellectual Property Rights (IPR)', 'Intellectual Property Rights': 'Intellectual Property Rights (IPR)', 'Contractual Arrangement': 'Contractual Arrangement', 'Mutual Agreement': 'Contractual Arrangement', 'Cost Allocation': 'Cost Allocation', 'Risk Allocation': 'Risk Allocation', 'Defective Product': 'Defective Product', 'Product Defects': 'Defective Product', 'Product Liability': 'Product Liability', 'Defense': 'Defense', 'Legal Defense': 'Defense', 'Security': 'Security', 'Delivery Terms': 'Delivery Terms', 'Payment Terms': 'Payment Terms', 'Pricing Terms': 'Pricing Terms', 'Service Delivery': 'Service Delivery', 'Documentation': 'Documentation', 'Documentation Requirements': 'Documentation', 'Enforcement': 'Enforcement', 'Enforcement Rights': 'Enforcement', 'Entire Agreement': 'Entire Agreement', 'Scope of Agreement': 'Scope of Agreement', 'Exclusion of Liability': 'Exclusion of Liability', 'Exclusions': 'Exclusion of Liability', 'Indemnification Exclusion': 'Exclusion of Liability', 'Liability': 'Liability', 'Liability Limitations': 'Limitation of Liability', 'Liability Restrictions': 'Limitation of Liability', 'Limitation of Liability': 'Limitation of Liability', 'Strict Liability': 'Strict Liability', 'Acceptance': 'Acceptance', 'Acceptance of Terms': 'Acceptance', 'Approvals': 'Approvals', 'Access Rights': 'Access Rights', 'Licensing Rights': 'Licensing Rights', 'Rights and Obligations': 'Rights and Obligations', 'Third Party Rights': 'Third Party Rights', 'Audit Costs': 'Audit Costs', 'Audit Notification': 'Audit Notification', 'Audit Procedure': 'Audit Procedure', 'Audit Scope': 'Audit Scope', 'Audit Restriction': 'Audit Restriction', 'Compliance Restriction': 'Compliance Restriction', 'Data Restriction': 'Data Restriction', 'Liability Restriction': 'Liability Restriction', 'License Restrictions': 'License Restrictions', 'Operational Restriction': 'Operational Restriction', 'Restrictions': 'Restrictions', 'Service Restrictions': 'Service Restrictions', 'Usage Restrictions': 'Usage Restrictions', 'Use Restriction': 'Usage Restrictions', 'Breach of Contract': 'Breach of Contract', 'Contractual Obligation': 'Contractual Obligation', 'Contractual Obligations': 'Contractual Obligation', 'Contractual Rights': 'Contractual Rights', 'Contractual Term': 'Contractual Term', 'Business Conduct': 'Business Conduct', 'Compliance': 'Compliance', 'Certification': 'Certification', 'Quality Standards': 'Quality Standards', 'Change Order Procedures': 'Change Order Procedures', 'Invoice Procedures': 'Invoice Procedures', 'Order Procedures': 'Order Procedures', 'Claims': 'Claims', 'Claims Management': 'Claims Management', 'Claims Process': 'Claims Process', 'Damages': 'Damages', 'Third Party Claims': 'Third Party Claims', 'Warranty Claims': 'Warranty Claims', 'Compatibility': 'Compatibility', 'Specifications': 'Specifications', 'Competitive Restriction': 'Competitive Restriction', 'Pricing Restrictions': 'Pricing Restrictions', 'Transfer Restrictions': 'Transfer Restrictions', 'Compliance Obligations': 'Compliance Obligations', 'Compliance Reporting': 'Compliance Reporting', 'Consultation Obligations': 'Consultation Obligations', 'Delivery Obligations': 'Delivery Obligations', 'Enforcement Obligations': 'Enforcement Obligations', 'Export Compliance': 'Export Compliance', 'Financial Obligations': 'Financial Obligations', 'License Compliance': 'License Compliance', 'Notification Obligations': 'Notification Obligations', 'Obligation': 'Obligations', 'Obligations': 'Obligations', 'Payment Obligations': 'Payment Obligations', 'Policy Compliance': 'Policy Compliance', 'Product Compliance': 'Product Compliance', 'Regulatory Compliance': 'Regulatory Compliance', 'Reporting Obligations': 'Reporting Obligations', 'Tax Obligations': 'Tax Obligations', 'Termination Obligations': 'Termination Obligations', 'Warranty Obligations': 'Warranty Obligations', 'Confidentiality': 'Confidentiality', 'Disclosure': 'Disclosure', 'Information Disclosure': 'Information Disclosure', 'Consent': 'Consent', 'Consent Requirement': 'Consent Requirement', 'Contract Interpretation': 'Contract Interpretation', 'Contract Negotiation': 'Contract Negotiation', 'Customer Contract': 'Customer Contract', 'Interpretation': 'Interpretation'}
+=== END CONSOLIDATION: 172 final terms ===
+=== END CONSOLIDATION: 172 final terms ===
+=== START CONSOLIDATION ===
+Unique Terms (Pre-Cluster): 210
+Generated 87 clusters.
+Cluster 1: ['Access Rights', 'Affiliate Rights', 'Assignment Rights', 'Audit Rights', 'Inspection Rights', 'Ownership Restrictions', 'Patent Rights', 'Rights Limitation', 'Security Rights', 'Service Rights', 'Third Party Rights', 'Usage Rights']
+Cluster 2: ['Alteration Restriction', 'Assignment Restriction', 'Assignment Restrictions', 'Combination Restriction', 'Control Restriction', 'Guarantee Restrictions', 'Liability Restriction', 'Liability Restrictions', 'License Restrictions', 'Modification Restrictions', 'Pricing Restrictions', 'Resale Restriction', 'Restrictions', 'Restrictions on Use', 'Service Restrictions', 'Settlement Restriction', 'Sub-licensing Restrictions', 'Transfer Restrictions', 'Usage Restrictions', 'Use Restriction']
+Cluster 4: ['Approval Requirements', 'Consent Requirement', 'Documentation Requirement', 'Financial Requirements', 'Guarantee Requirements', 'Internal Approval']
+Cluster 5: ['Arbitration', 'Dispute Resolution']
+Cluster 7: ['Assistance Obligation', 'Compliance Obligation', 'Compliance Obligations', 'Consultation Obligation', 'Contractual Obligation', 'Cooperation Obligation', 'Data Delivery Obligation', 'Defense Obligations', 'Delivery Obligations', 'Disclosure Obligations', 'Duty of Care', 'Enforcement Obligation', 'Information Obligation', 'Maintenance Obligations', 'Mitigation Obligations', 'Notification Obligation', 'Notification Obligations', 'Obligations', 'Payment Obligations', 'Reporting Obligations', 'Subcontractor Obligation', 'Tax Obligations', 'Warranty Obligations']
+Cluster 10: ['Breach Notification', 'Notification']
+Cluster 11: ['Breach of Contract', 'Contract Compliance', 'Contract Modification', 'Contractual Remedies', 'Contractual Rights']
+Cluster 15: ['Change Order', 'Purchase Order']
+Cluster 16: ['Claim Requirements', 'Claims', 'Claims Handling', 'Claims Procedure']
+Cluster 17: ['Commercial Rights', 'Intellectual Property Rights', 'License', 'Licensing', 'Royalties']
+Cluster 18: ['Compliance', 'Enforcement', 'License Compliance', 'Regulatory Compliance']
+Cluster 19: ['Confidentiality', 'Disclosure', 'Information Disclosure']
+Cluster 21: ['Contract Interpretation', 'Contract Negotiation', 'Contractual Scope']
+Cluster 22: ['Control', 'Control of Legal Proceedings']
+Cluster 23: ['Cooperation', 'Mutual Agreement']
+Cluster 25: ['Cost Allocation', 'Cost Reimbursement']
+Cluster 26: ['Damages', 'Liquidated Damages', 'Mitigation of Damages']
+Cluster 30: ['Deliverables', 'Delivery Terms', 'Milestone Completion']
+Cluster 31: ['Design Specification', 'Specifications']
+Cluster 32: ['Disclaimer', 'Warranty Disclaimer']
+Cluster 34: ['Enforcement Standard', 'Performance Standards', 'Reasonableness Standard']
+Cluster 35: ['Exclusion of Liability', 'Exclusions', 'Indemnification Exclusion', 'Liability', 'Liability Limitation', 'Liability Limitations', 'Liability Mitigation', 'Limitation of Liability']
+Cluster 36: ['Excusable Delay', 'Payment Delay']
+Cluster 42: ['Governing Law', 'Jurisdiction']
+Cluster 44: ['Guarantees', 'Performance Guarantee', 'Service Warranty', 'Warranty']
+Cluster 48: ['Intellectual Property', 'Ownership of Derivative Works', 'Trademark Protection']
+Cluster 52: ['Invoice', 'Invoice Payments', 'Invoice Requirements', 'Invoicing Requirements']
+Cluster 53: ['Late Payment', 'Payment', 'Payment Terms']
+Cluster 54: ['Legal Action', 'Legal Advice', 'Legal Proceeding', 'Legal Review', 'Limitation of Actions', 'Litigation Conduct', 'Remedial Action']
+Cluster 56: ['License Grant', 'Scope of License']
+Cluster 57: ['Limitation Period', 'Statute of Limitations']
+Cluster 62: ['Ownership', 'Ownership of Work Product']
+Cluster 65: ['Pricing', 'Pricing Adjustment']
+Cluster 74: ['Scope of Review', 'Scope of Work']
+Cluster 79: ['Sub-licensee Obligations', 'Subcontracting', 'Subcontracts']
+Cluster 81: ['Termination Payments', 'Termination Procedure', 'Termination Rights']
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Governing Law": "",
+    "Jurisdiction": ""
+  },
+  "Group 2": {
+    "Guarantees": "",
+    "Performance Guarantee": "",
+    "Service Warranty": "",
+    "Warranty": ""
+  },
+  "Group 3": {
+    "Intellectual Property": "",
+    "Ownership of Derivative Works": "",
+    "Trademark Protection": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Access Rights": "",
+    "Affiliate Rights": "",
+    "Assignment Rights": "",
+    "Audit Rights": "",
+    "Inspection Rights": "",
+    "Ownership Restrictions": "",
+    "Patent Rights": "",
+    "Rights Limitation": "",
+    "Security Rights": "",
+    "Service Rights": "",
+    "Third Party Rights": "",
+    "Usage Rights": ""
+  },
+  "Group 2": {
+    "Alteration Restriction": "",
+    "Assignment Restriction": "",
+    "Assignment Restrictions": "",
+    "Combination Restriction": ...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Scope of Review": "",
+    "Scope of Work": ""
+  },
+  "Group 2": {
+    "Sub-licensee Obligations": "",
+    "Subcontracting": "",
+    "Subcontracts": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Breach Notification": "",
+    "Notification": ""
+  },
+  "Group 2": {
+    "Breach of Contract": "",
+    "Contract Compliance": "",
+    "Contract Modification": "",
+    "Contractual Remedies": "",
+    "Contractual Rights": ""
+  },
+  "Group 3": {
+    "Change Order": "",
+    "Purchase Order": ""
+  },
+  "Group 4": {
+    "Claim Requirements": "",
+    "Claims": "",
+    "Claims Handling": "",
+    "Claims Procedure": ""
+  },
+  "Group 5": {
+    "Commercial Rights": "",
+    "Intellect...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Termination Payments": "",
+    "Termination Procedure": "",
+    "Termination Rights": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Contract Interpretation": "",
+    "Contract Negotiation": "",
+    "Contractual Scope": ""
+  },
+  "Group 2": {
+    "Control": "",
+    "Control of Legal Proceedings": ""
+  },
+  "Group 3": {
+    "Cooperation": "",
+    "Mutual Agreement": ""
+  },
+  "Group 4": {
+    "Cost Allocation": "",
+    "Cost Reimbursement": ""
+  },
+  "Group 5": {
+    "Damages": "",
+    "Liquidated Damages": "",
+    "Mitigation of Damages": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Ownership": "",
+    "Ownership of Work Product": ""
+  },
+  "Group 2": {
+    "Pricing": "",
+    "Pricing Adjustment": ""
+  }
+}...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Invoice": "",
+    "Invoice Payments": "",
+    "Invoice Requirements": "",
+    "Invoicing Requirements": ""
+  },
+  "Group 2": {
+    "Late Payment": "",
+    "Payment": "",
+    "Payment Terms": ""
+  },
+  "Group 3": {
+    "Legal Action": "",
+    "Legal Advice": "",
+    "Legal Proceeding": "",
+    "Legal Review": "",
+    "Limitation of Actions": "",
+    "Litigation Conduct": "",
+    "Remedial Action": ""
+  },
+  "Group 4": {
+    "License Grant": "",
+    "Scope of License": ""
+  }...
+LLM Input Payload Snippet:
+{
+  "Group 1": {
+    "Deliverables": "",
+    "Delivery Terms": "",
+    "Milestone Completion": ""
+  },
+  "Group 2": {
+    "Design Specification": "",
+    "Specifications": ""
+  },
+  "Group 3": {
+    "Disclaimer": "",
+    "Warranty Disclaimer": ""
+  },
+  "Group 4": {
+    "Enforcement Standard": "",
+    "Performance Standards": "",
+    "Reasonableness Standard": ""
+  },
+  "Group 5": {
+    "Exclusion of Liability": "",
+    "Exclusions": "",
+    "Indemnification Exclusion": "",
+    "Liability": "",
+...
+Resolution Map from LLM:
+{'Termination Payments': 'Termination Payments', 'Termination Procedure': 'Termination Procedure', 'Termination Rights': 'Termination Rights', 'Ownership': 'Ownership', 'Ownership of Work Product': 'Ownership', 'Pricing': 'Pricing', 'Pricing Adjustment': 'Pricing', 'Scope of Review': 'Scope of Review', 'Scope of Work': 'Scope of Work', 'Sub-licensee Obligations': 'Sub-licensee Obligations', 'Subcontracting': 'Subcontracting', 'Subcontracts': 'Subcontracting', 'Governing Law': 'Governing Law', 'Jurisdiction': 'Jurisdiction', 'Guarantees': 'Warranty', 'Performance Guarantee': 'Warranty', 'Service Warranty': 'Warranty', 'Warranty': 'Warranty', 'Intellectual Property': 'Intellectual Property', 'Ownership of Derivative Works': 'Ownership of Derivative Works', 'Trademark Protection': 'Trademark Protection', 'Contract Interpretation': 'Contract Interpretation', 'Contract Negotiation': 'Contract Negotiation', 'Contractual Scope': 'Contractual Scope', 'Control': 'Control', 'Control of Legal Proceedings': 'Control of Legal Proceedings', 'Cooperation': 'Cooperation', 'Mutual Agreement': 'Mutual Agreement', 'Cost Allocation': 'Cost Allocation', 'Cost Reimbursement': 'Cost Reimbursement', 'Damages': 'Damages', 'Liquidated Damages': 'Liquidated Damages', 'Mitigation of Damages': 'Mitigation of Damages', 'Invoice': 'Invoice', 'Invoice Payments': 'Invoice', 'Invoice Requirements': 'Invoice', 'Invoicing Requirements': 'Invoice', 'Late Payment': 'Late Payment', 'Payment': 'Payment', 'Payment Terms': 'Payment Terms', 'Legal Action': 'Legal Action', 'Legal Advice': 'Legal Advice', 'Legal Proceeding': 'Legal Proceeding', 'Legal Review': 'Legal Review', 'Limitation of Actions': 'Limitation of Actions', 'Litigation Conduct': 'Litigation Conduct', 'Remedial Action': 'Remedial Action', 'License Grant': 'License Grant', 'Scope of License': 'Scope of License', 'Limitation Period': 'Statute of Limitations', 'Statute of Limitations': 'Statute of Limitations', 'Breach Notification': 'Breach Notification', 'Notification': 'Breach Notification', 'Breach of Contract': 'Breach of Contract', 'Contract Compliance': 'Contract Compliance', 'Contract Modification': 'Contract Modification', 'Contractual Remedies': 'Contractual Remedies', 'Contractual Rights': 'Contractual Rights', 'Change Order': 'Change Order', 'Purchase Order': 'Purchase Order', 'Claim Requirements': 'Claim Requirements', 'Claims': 'Claims', 'Claims Handling': 'Claims Handling', 'Claims Procedure': 'Claims Procedure', 'Commercial Rights': 'Commercial Rights', 'Intellectual Property Rights': 'Intellectual Property Rights', 'License': 'License', 'Licensing': 'License', 'Royalties': 'Royalties', 'Compliance': 'Compliance', 'Enforcement': 'Enforcement', 'License Compliance': 'License Compliance', 'Regulatory Compliance': 'Regulatory Compliance', 'Confidentiality': 'Confidentiality', 'Disclosure': 'Disclosure', 'Information Disclosure': 'Disclosure', 'Deliverables': 'Deliverables', 'Delivery Terms': 'Delivery Terms', 'Milestone Completion': 'Milestone Completion', 'Design Specification': 'Design Specification', 'Specifications': 'Specifications', 'Disclaimer': 'Disclaimer', 'Warranty Disclaimer': 'Warranty Disclaimer', 'Enforcement Standard': 'Enforcement Standard', 'Performance Standards': 'Performance Standards', 'Reasonableness Standard': 'Reasonableness Standard', 'Exclusion of Liability': 'Exclusion of Liability', 'Exclusions': 'Exclusion of Liability', 'Indemnification Exclusion': 'Indemnification Exclusion', 'Liability': 'Liability', 'Liability Limitation': 'Limitation of Liability', 'Liability Limitations': 'Limitation of Liability', 'Liability Mitigation': 'Liability Mitigation', 'Limitation of Liability': 'Limitation of Liability', 'Excusable Delay': 'Excusable Delay', 'Payment Delay': 'Payment Delay', 'Access Rights': 'Access Rights', 'Affiliate Rights': 'Affiliate Rights', 'Assignment Rights': 'Assignment Rights', 'Audit Rights': 'Audit Rights', 'Inspection Rights': 'Inspection Rights', 'Ownership Restrictions': 'Ownership Restrictions', 'Patent Rights': 'Patent Rights', 'Rights Limitation': 'Rights Limitation', 'Security Rights': 'Security Rights', 'Service Rights': 'Service Rights', 'Third Party Rights': 'Third Party Rights', 'Usage Rights': 'Usage Rights', 'Alteration Restriction': 'Alteration Restriction', 'Assignment Restriction': 'Assignment Restriction', 'Assignment Restrictions': 'Assignment Restriction', 'Combination Restriction': 'Combination Restriction', 'Control Restriction': 'Control Restriction', 'Guarantee Restrictions': 'Guarantee Restriction', 'Liability Restriction': 'Liability Restriction', 'Liability Restrictions': 'Liability Restriction', 'License Restrictions': 'License Restriction', 'Modification Restrictions': 'Modification Restriction', 'Pricing Restrictions': 'Pricing Restriction', 'Resale Restriction': 'Resale Restriction', 'Restrictions': 'Restriction', 'Restrictions on Use': 'Use Restriction', 'Service Restrictions': 'Service Restriction', 'Settlement Restriction': 'Settlement Restriction', 'Sub-licensing Restrictions': 'Sub-licensing Restriction', 'Transfer Restrictions': 'Transfer Restriction', 'Usage Restrictions': 'Usage Restriction', 'Use Restriction': 'Use Restriction', 'Approval Requirements': 'Approval Requirement', 'Consent Requirement': 'Consent Requirement', 'Documentation Requirement': 'Documentation Requirement', 'Financial Requirements': 'Financial Requirement', 'Guarantee Requirements': 'Guarantee Requirement', 'Internal Approval': 'Internal Approval', 'Arbitration': 'Arbitration', 'Dispute Resolution': 'Dispute Resolution', 'Assistance Obligation': 'Assistance Obligation', 'Compliance Obligation': 'Compliance Obligation', 'Compliance Obligations': 'Compliance Obligation', 'Consultation Obligation': 'Consultation Obligation', 'Contractual Obligation': 'Contractual Obligation', 'Cooperation Obligation': 'Cooperation Obligation', 'Data Delivery Obligation': 'Data Delivery Obligation', 'Defense Obligations': 'Defense Obligation', 'Delivery Obligations': 'Delivery Obligation', 'Disclosure Obligations': 'Disclosure Obligation', 'Duty of Care': 'Duty of Care', 'Enforcement Obligation': 'Enforcement Obligation', 'Information Obligation': 'Information Obligation', 'Maintenance Obligations': 'Maintenance Obligation', 'Mitigation Obligations': 'Mitigation Obligation', 'Notification Obligation': 'Notification Obligation', 'Notification Obligations': 'Notification Obligation', 'Obligations': 'Obligation', 'Payment Obligations': 'Payment Obligation', 'Reporting Obligations': 'Reporting Obligation', 'Subcontractor Obligation': 'Subcontractor Obligation', 'Tax Obligations': 'Tax Obligation', 'Warranty Obligations': 'Warranty Obligation'}
+=== END CONSOLIDATION: 189 final terms ===
+=== END CONSOLIDATION: 189 final terms ===

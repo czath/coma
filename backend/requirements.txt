@@ -6,3 +6,5 @@ pydantic
 python-dotenv
 python-docx
 certifi
+scikit-learn>=1.3.0
+numpy>=1.24.0
