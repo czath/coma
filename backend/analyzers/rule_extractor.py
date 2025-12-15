@@ -215,45 +215,45 @@ class RuleExtractor:
             # res.taxonomy is empty in Phase 1
         
         # PHASE 2: TAGGING
-        if progress_callback:
-            progress_callback(30, 100, "Tagging (Phase 2/5)")
+        # if progress_callback:
+        #     progress_callback(30, 100, "Tagging (Phase 2/5)")
             
-        await self._tag_rules(all_rules, progress_callback)
+        # await self._tag_rules(all_rules, progress_callback)
         
         # PHASE 3: TAXONOMY BUILD & CONSOLIDATION
         # Collect all raw tags
-        raw_tags = set()
-        for r in all_rules:
-            if r.related_tags:
-                for t in r.related_tags:
-                    raw_tags.add(t)
+        # raw_tags = set()
+        # for r in all_rules:
+        #     if r.related_tags:
+        #         for t in r.related_tags:
+        #             raw_tags.add(t)
 
         # Create Raw Terms for Consolidation
-        all_taxonomy = [Term(tag_id=t, term=t, definition="") for t in raw_tags]
+        # all_taxonomy = [Term(tag_id=t, term=t, definition="") for t in raw_tags]
         
-        if progress_callback:
-             progress_callback(50, 100, "Grouping (Phase 3/5)")
+        # if progress_callback:
+        #      progress_callback(50, 100, "Grouping (Phase 3/5)")
              
-        final_taxonomy, tag_remap = await self._consolidate_taxonomy(all_taxonomy, progress_callback, stats=stats)
+        # final_taxonomy, tag_remap = await self._consolidate_taxonomy(all_taxonomy, progress_callback, stats=stats)
         
         # PHASE 4: RECONCILIATION
-        if tag_remap:
-            for rule in all_rules:
-                if not rule.related_tags:
-                    continue
-                new_tags = []
-                for t in rule.related_tags:
-                     # Map to canonical or keep original if not remapped
-                     canonical = tag_remap.get(t, t)
-                     new_tags.append(canonical)
-                rule.related_tags = list(set(new_tags))
+        # if tag_remap:
+        #     for rule in all_rules:
+        #         if not rule.related_tags:
+        #             continue
+        #         new_tags = []
+        #         for t in rule.related_tags:
+        #              # Map to canonical or keep original if not remapped
+        #              canonical = tag_remap.get(t, t)
+        #              new_tags.append(canonical)
+        #         rule.related_tags = list(set(new_tags))
 
         # PHASE 5: GLOBAL RULE DEDUPLICATION
-        if progress_callback:
-             progress_callback(80, 100, "Deduplicating (Phase 4/5)")
+        # if progress_callback:
+        #      progress_callback(80, 100, "Deduplicating (Phase 4/5)")
              
         # Call the dedicated deduplication method (re-named/refactored logic)
-        final_rules = await self._deduplicate_rules(all_rules, progress_callback, stats=stats)
+        # final_rules = await self._deduplicate_rules(all_rules, progress_callback, stats=stats)
         
         # Log Stats
         stats["extract"]["rules"] = len(all_rules) # Raw count
@@ -280,8 +280,8 @@ class RuleExtractor:
         print(summary_msg)
 
         return {
-            "rules": [r.model_dump() for r in final_rules],
-            "taxonomy": [t.model_dump() for t in final_taxonomy]
+            "rules": [r.model_dump() for r in all_rules],
+            "taxonomy": []
         }
 
     async def _deduplicate_rules(self, rules: List[Rule], progress_callback=None, stats=None) -> List[Rule]:
@@ -820,6 +820,7 @@ class RuleExtractor:
             current_retry = 0
             
             while current_retry < max_retries:
+                response_text = None
                 try:
                     # Construct Prompt
                     prompt = f"{self.extraction_prompt}\n\n### INPUT TEXT (Section: {header_text})\n{text_chunk}"
@@ -832,7 +833,7 @@ class RuleExtractor:
                         "temperature": self.config.get("temperature", 0.0),
                         "top_p": self.config.get("top_p", 1.0),
                         "top_k": self.config.get("top_k", 40),
-                        "max_output_tokens": 8192, # HARDCODED FORCE
+                        "max_output_tokens": self.config.get("max_output_tokens", 8192),
                     }
                     
                     # Handle Thinking Config securely

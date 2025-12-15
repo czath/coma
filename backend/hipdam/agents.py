@@ -15,7 +15,20 @@ class AgentRunner:
         """
         try:
             model_name = agent_config.get("model", "gemini-2.0-flash") # Fallback to 2.0 if 2.5 not avail
-            system_instr = agent_config.get("system_instruction", "")
+            
+            # Load System Instruction (File > String)
+            system_instr = ""
+            if "prompt_file" in agent_config:
+                try:
+                    import os
+                    prompt_path = os.path.join(os.getcwd(), agent_config["prompt_file"])
+                    with open(prompt_path, "r", encoding="utf-8") as f:
+                        system_instr = f.read()
+                except Exception as e:
+                    print(f"Failed to load prompt file {agent_config['prompt_file']}: {e}")
+                    system_instr = agent_config.get("system_instruction", "")
+            else:
+                system_instr = agent_config.get("system_instruction", "")
             
             # Construct Prompt
             prompt = f"""

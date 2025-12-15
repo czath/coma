@@ -1,0 +1,2 @@
+ERROR: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'Unable to submit request because thinking is not supported by this model. Learn more: https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/gemini', 'status': 'INVALID_ARGUMENT'}}
+INPUT_LEN: 1894

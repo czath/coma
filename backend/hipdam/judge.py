@@ -9,7 +9,19 @@ class SupremeJudge:
         self.client = client
         self.config = config
         self.model_name = config.get("model", "gemini-2.5-flash-thinking")
-        self.system_instr = config.get("system_instruction", "You are the Judge.")
+        
+        # Load System Instruction (File > String)
+        if "prompt_file" in config:
+            try:
+                import os
+                prompt_path = os.path.join(os.getcwd(), config["prompt_file"])
+                with open(prompt_path, "r", encoding="utf-8") as f:
+                    self.system_instr = f.read()
+            except Exception as e:
+                print(f"Failed to load judge prompt file: {e}")
+                self.system_instr = config.get("system_instruction", "You are the Judge.")
+        else:
+            self.system_instr = config.get("system_instruction", "You are the Judge.")
 
     async def adjudicate(self, cluster: Cluster, recommendations: List[ExpertRecommendation], section_text: str) -> Optional[JudgeDecision]:
         """
