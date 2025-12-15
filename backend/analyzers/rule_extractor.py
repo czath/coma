@@ -13,7 +13,16 @@ from datetime import datetime
 
 
 # Import Pydantic models
-from data_models import AnalysisResponse, Rule, Term, RuleType
+from data_models import (
+    AnalysisResponse, 
+    ExtractedGuideline, 
+    GuidelineType,
+    TagType, 
+    RuleTaggingResponse, 
+    Term, 
+    ConsolidationResponse, 
+    DocType
+)
 from config_llm import get_config
 
 load_dotenv()
@@ -172,8 +181,7 @@ class RuleExtractor:
                     if res:
                         for r in res.rules:
                             r.id = str(uuid.uuid4()) # CRITICAL FIX: Prevent ID collisions from parallel ISO execution
-                            r.source_header = header_text
-                            r.source_id = source_id # Assign Source ID
+                            r.source_reference = header_text
                         merged_response.taxonomy.extend(res.taxonomy)
                         merged_response.rules.extend(res.rules)
                 
@@ -183,8 +191,7 @@ class RuleExtractor:
                 if res:
                     for r in res.rules:
                         r.id = str(uuid.uuid4()) # CRITICAL FIX
-                        r.source_header = header_text
-                        r.source_id = source_id # Assign Source ID
+                        r.source_reference = header_text
                 return res
 
         # Create tasks
@@ -208,7 +215,7 @@ class RuleExtractor:
                 completed_results.append(result)
 
         # Sort results
-        completed_results.sort(key=lambda x: (x.rules[0].source_id if x.rules and x.rules[0].source_id else "", x.rules[0].source_header if x.rules and x.rules[0].source_header else ""))
+        completed_results.sort(key=lambda x: (x.rules[0].source_reference if x.rules and x.rules[0].source_reference else ""))
 
         for res in completed_results:
             all_rules.extend(res.rules)
@@ -284,7 +291,7 @@ class RuleExtractor:
             "taxonomy": []
         }
 
-    async def _deduplicate_rules(self, rules: List[Rule], progress_callback=None, stats=None) -> List[Rule]:
+    async def _deduplicate_rules(self, rules: List[ExtractedGuideline], progress_callback=None, stats=None) -> List[ExtractedGuideline]:
         """
         Deduplicates rules using Cluster-and-Judge architecture:
         1. Embed rules (quotes).
@@ -295,7 +302,7 @@ class RuleExtractor:
             return []
 
         # 1. Filter rules with valid quotes
-        valid_rules = [r for r in rules if r.verification_quote and r.verification_quote.strip()]
+        valid_rules = [r for r in rules if r.verbatim_text and r.verbatim_text.strip()]
         if not valid_rules:
             return rules 
 
@@ -305,7 +312,7 @@ class RuleExtractor:
             progress_callback(10, 100, "Merging")
 
         # 2. Embed Quotes
-        quotes = [r.verification_quote for r in valid_rules]
+        quotes = [r.verbatim_text for r in valid_rules]
         embeddings = []
         BATCH_SIZE = 100 # API Limit for embeddings is often 100
         
@@ -344,7 +351,7 @@ class RuleExtractor:
         
         # Prepare inputs for rules that didn't have quotes (keep them)
         for r in rules:
-             if not r.verification_quote or not r.verification_quote.strip():
+             if not r.verbatim_text or not r.verbatim_text.strip():
                  final_rules.append(r)
 
         # Process clusters
@@ -415,7 +422,7 @@ class RuleExtractor:
              progress_callback(100, 100, "Merging")
         return final_rules
 
-    def _fallback_string_dedupe(self, rules: List[Rule]) -> List[Rule]:
+    def _fallback_string_dedupe(self, rules: List[ExtractedGuideline]) -> List[ExtractedGuideline]:
         """
         Fallback deduplication using exact quote matching if embeddings fail.
         """
@@ -424,13 +431,13 @@ class RuleExtractor:
         unique_rules = []
         for r in rules:
             # If quote is empty, keep rule (safest)
-            if not r.verification_quote:
+            if not r.verbatim_text:
                 unique_rules.append(r)
                 continue
             
             # Normalize quote for comparison
             # Remove whitespace and lower case to catch near-duplicates
-            normalized = " ".join(r.verification_quote.lower().split())
+            normalized = " ".join(r.verbatim_text.lower().split())
             if normalized not in seen_quotes:
                 seen_quotes.add(normalized)
                 unique_rules.append(r)
@@ -469,7 +476,7 @@ class RuleExtractor:
 
         return [[x['idx'] for x in c] for c in clusters]
 
-    async def _resolve_rule_clusters_with_llm(self, clusters: List[List[int]], all_rules: List[Rule]) -> List[str]:
+    async def _resolve_rule_clusters_with_llm(self, clusters: List[List[int]], all_rules: List[ExtractedGuideline]) -> List[str]:
         """
         Sends extracted Rule Clusters to LLM to Identify which to KEEP.
         Returns: List of Rule IDs to KEEP.
@@ -492,8 +499,8 @@ class RuleExtractor:
                  group_data.append({
                      "id": rule.id,
                      "category": rtype,
-                     "description": rule.description or rule.logic_instruction,
-                     "quote": rule.verification_quote
+                     "description": rule.rule_plain_english, # Updated field access
+                     "quote": rule.verbatim_text # Updated field access
                  })
              cluster_payload[f"Cluster {idx+1}"] = group_data
              
@@ -524,12 +531,12 @@ class RuleExtractor:
             
         return {}
 
-    def _fallback_string_dedupe(self, rules: List[Rule]) -> List[Rule]:
+    def _fallback_string_dedupe(self, rules: List[ExtractedGuideline]) -> List[ExtractedGuideline]:
         unique_map = {}
         for r in rules:
-            if not r.verification_quote:
+            if not r.verbatim_text:
                 continue
-            fingerprint = "".join(r.verification_quote.split()).lower()
+            fingerprint = "".join(r.verbatim_text.split()).lower()
             key = f"{r.source_id}_{fingerprint}"
             if key not in unique_map:
                 unique_map[key] = r
@@ -877,9 +884,9 @@ class RuleExtractor:
                         r_data["id"] = str(uuid.uuid4())
                         r_data["source_header"] = header_text
                         # Ensure related_tags is empty (Phase 1)
-                        r_data["related_tags"] = []
+                        r_data["tags"] = []
                         
-                        rule = Rule(**r_data)
+                        rule = ExtractedGuideline(**r_data) # Changed from Rule to ExtractedGuideline
                         extracted_rules.append(rule)
                         
                     return AnalysisResponse(rules=extracted_rules, taxonomy=[]) # No taxonomy in Phase 1
@@ -922,14 +929,14 @@ class RuleExtractor:
             
             return AnalysisResponse(rules=[], taxonomy=[])
 
-    async def _tag_rules(self, rules: List[Rule], progress_callback=None) -> None:
+    async def _tag_rules(self, rules: List[ExtractedGuideline], progress_callback=None) -> List[ExtractedGuideline]:
         """
         Phase 2: Functional Rule Tagging.
          Assigns tags to Functional Rules (O/R/P). Skips Definitions.
         """
         # Filter for Functional Rules only
-        functional_rules = [r for r in rules if r.type != RuleType.DEFINITION]
-        definitions = [r for r in rules if r.type == RuleType.DEFINITION]
+        functional_rules = [r for r in rules if r.type != GuidelineType.DEFINITION]
+        definitions = [r for r in rules if r.type == GuidelineType.DEFINITION]
         
         if not functional_rules:
             logger.info("No functional rules to tag.")
@@ -946,7 +953,7 @@ class RuleExtractor:
         async def process_batch(batch_rules, batch_idx):
             # Prepare Input Text
             rules_text = json.dumps([
-                {"rule_id": r.id, "text": r.verification_quote, "type": r.type} 
+                {"rule_id": r.id, "text": r.verbatim_text, "type": r.type} 
                 for r in batch_rules
             ], indent=2)
             
@@ -995,7 +1002,7 @@ class RuleExtractor:
         for rule in functional_rules:
             if rule.id in tag_map:
                 # Ensure tags are uppercase/normalized if needed, but let's trust LLM + Consolidation
-                rule.related_tags = tag_map[rule.id]
+                rule.tags = tag_map[rule.id]
         
         # Definitions remain with empty tags (as initialized)
         logger.info("Tagging Complete.")

@@ -150,19 +150,23 @@ export default function AnalyzeWrapper() {
         )
         .sort((a, b) => (a.term || "").localeCompare(b.term || ""));
 
+    // Filter Options
+    const severities = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'];
+    const types_list = ['GUIDELINE', 'DEFINITION', 'OTHER'];
+
     const filteredRules = rules.filter(r => {
         // Strict mapping check for related tags if they exist
         const matchesTerm = selectedTerm
-            ? r.related_tags && (r.related_tags.includes(selectedTerm.tag_id) || r.related_tags.includes(selectedTerm.term))
+            ? r.tags && (r.tags.includes(selectedTerm.tag_id) || r.tags.includes(selectedTerm.term))
             : true;
 
         const matchesSearch = ruleSearchTerm
-            ? ((r.description || "").toLowerCase().includes(ruleSearchTerm.toLowerCase()) ||
-                (r.verification_quote || "").toLowerCase().includes(ruleSearchTerm.toLowerCase()))
+            ? ((r.rule_plain_english || "").toLowerCase().includes(ruleSearchTerm.toLowerCase()) ||
+                (r.verbatim_text || "").toLowerCase().includes(ruleSearchTerm.toLowerCase()))
             : true;
 
         const matchesSeverity = selectedSeverities.length > 0
-            ? selectedSeverities.includes(r.severity)
+            ? selectedSeverities.includes(r.classification)
             : true;
 
         const matchesType = selectedTypes.length > 0
@@ -193,7 +197,7 @@ export default function AnalyzeWrapper() {
 
         // If source_id is missing (legacy/new backend), try fuzzy search or header match
         // For now, if no source_id, we can't deep-link easily unless we fuzzy match the quote.
-        if (!rule.verification_quote) return;
+        if (!rule.verbatim_text) return;
 
         // Simple Quote Context Logic (if source_id missing)
         // Find block containing the quote
@@ -206,7 +210,7 @@ export default function AnalyzeWrapper() {
             contextBlockIndex = content.findIndex(b => b.id === foundBlockId);
         } else {
             // Search for text
-            contextBlockIndex = content.findIndex(b => b.text && b.text.includes(rule.verification_quote.substring(0, 50)));
+            contextBlockIndex = content.findIndex(b => b.text && b.text.includes(rule.verbatim_text.substring(0, 50)));
         }
 
         if (contextBlockIndex === -1) {
@@ -215,8 +219,8 @@ export default function AnalyzeWrapper() {
             // For now, minimal fallback
             setContextData({
                 title: "Context Match",
-                text: "... " + rule.verification_quote + " ...",
-                highlight: rule.verification_quote
+                text: "... " + rule.verbatim_text + " ...",
+                highlight: rule.verbatim_text
             });
             setContextModalOpen(true);
             return;
@@ -251,18 +255,19 @@ export default function AnalyzeWrapper() {
         setContextData({
             title: headerText,
             text: sectionText,
-            highlight: rule.verification_quote
+            highlight: rule.verbatim_text
         });
         setContextModalOpen(true);
     };
 
     // Style Helpers
+    // Style Helpers
     const getSeverityStyle = (s) => {
-        // Handle varying case or missing
         const sev = (s || "UNKNOWN").toUpperCase();
         switch (sev) {
-            case 'HIGH': return 'bg-red-50 text-red-700 border-red-200 ring-red-500';
-            case 'MEDIUM': return 'bg-orange-50 text-orange-700 border-orange-200 ring-orange-500';
+            case 'CRITICAL': return 'bg-red-100 text-red-800 border-red-300 ring-red-500 font-extrabold';
+            case 'HIGH': return 'bg-orange-50 text-orange-700 border-orange-200 ring-orange-500';
+            case 'MEDIUM': return 'bg-yellow-50 text-yellow-700 border-yellow-200 ring-yellow-500';
             case 'LOW': return 'bg-green-50 text-green-700 border-green-200 ring-green-500';
             default: return 'bg-gray-100 text-gray-600 border-gray-200 ring-gray-400';
         }
@@ -270,25 +275,19 @@ export default function AnalyzeWrapper() {
 
     const getTypeStyle = (t) => {
         const typeStr = (t || "").toUpperCase();
-        if (typeStr.includes('RESTRICTION')) return 'bg-amber-50 text-amber-700 border-amber-200 ring-amber-500';
-        if (typeStr.includes('OBLIGATION')) return 'bg-blue-50 text-blue-700 border-blue-200 ring-blue-500';
-        if (typeStr.includes('PERMISSION')) return 'bg-emerald-50 text-emerald-700 border-emerald-200 ring-emerald-500';
+        if (typeStr.includes('GUIDELINE')) return 'bg-blue-50 text-blue-700 border-blue-200 ring-blue-500';
         if (typeStr.includes('DEFINITION')) return 'bg-purple-50 text-purple-700 border-purple-200 ring-purple-500';
+        if (typeStr.includes('OTHER')) return 'bg-gray-100 text-gray-700 border-gray-200 ring-gray-400';
         return 'bg-gray-100 text-gray-600 border-gray-200 ring-gray-400';
     };
 
     const getTypeIcon = (t) => {
         const typeStr = (t || "").toUpperCase();
-        if (typeStr.includes('RESTRICTION')) return <AlertTriangle size={14} />;
-        if (typeStr.includes('OBLIGATION')) return <CheckCircle size={14} />;
-        if (typeStr.includes('PERMISSION')) return <Check size={14} />;
+        if (typeStr.includes('GUIDELINE')) return <Gavel size={14} />;
         if (typeStr.includes('DEFINITION')) return <Book size={14} />;
+        if (typeStr.includes('OTHER')) return <Scale size={14} />;
         return <Scale size={14} />;
     };
-
-    // Filter Options
-    const severities = ['HIGH', 'MEDIUM', 'LOW'];
-    const types_list = ['RESTRICTION', 'OBLIGATION', 'DEFINITION', 'PERMISSION'];
 
     return (
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden font-sans">
@@ -593,31 +592,33 @@ function ContextModal({ data, onClose }) {
 }
 
 function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon, onViewContext }) {
+    const [expanded, setExpanded] = useState(false);
+
     return (
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow group">
-            <div className="flex items-start justify-between mb-3">
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow group flex flex-col gap-3">
+            <div className="flex items-start justify-between">
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getSeverityStyle(rule.severity)}`}>
-                            {rule.severity || 'UNKNOWN'}
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getSeverityStyle(rule.classification)}`}>
+                            {rule.classification || 'UNKNOWN'}
                         </span>
                         <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getTypeStyle(rule.type)}`}>
                             {getTypeIcon(rule.type)}
-                            {rule.type || 'RULE'}
+                            {rule.type || 'GUIDELINE'}
                         </span>
                     </div>
                     {/* Header Display */}
-                    {rule.source_header && rule.source_header !== "Unknown Section" && (
+                    {rule.source_reference && rule.source_reference !== "Unknown" && (
                         <div className="text-xs text-gray-400 font-medium flex items-center gap-1 pl-1">
                             <span className="uppercase tracking-wider">in</span>
-                            <span className="text-gray-600 bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 truncate max-w-[250px]" title={rule.source_header}>
-                                {rule.source_header}
+                            <span className="text-gray-600 bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 truncate max-w-[250px]" title={rule.source_reference}>
+                                {rule.source_reference}
                             </span>
                         </div>
                     )}
                 </div>
                 <div className="flex gap-1 flex-wrap justify-end">
-                    {rule.related_tags && rule.related_tags.map(t => (
+                    {rule.tags && rule.tags.map(t => (
                         <span key={t} className="text-xs bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-medium border border-purple-100">
                             {t}
                         </span>
@@ -625,19 +626,69 @@ function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon, onViewCon
                 </div>
             </div>
 
-            <p className="text-gray-900 font-medium text-lg mb-4">
-                {rule.description}
+            {/* Plain English Rule */}
+            <p className="text-gray-900 font-medium text-lg leading-snug">
+                {rule.rule_plain_english}
             </p>
 
+            {/* Verbatim Text + Context Link */}
             <div
                 onClick={() => onViewContext(rule)}
                 className="bg-slate-50 border-l-4 border-slate-300 p-3 text-sm text-slate-600 italic cursor-pointer group-hover:bg-slate-100 group-hover:border-slate-400 transition-colors relative"
                 title="Click to view full context"
             >
-                "{rule.verification_quote}"
+                "{rule.verbatim_text}"
                 <span className="absolute right-2 bottom-2 opacity-0 group-hover:opacity-100 transition-opacity text-xs bg-white border border-gray-200 px-2 py-1 rounded shadow-sm flex items-center gap-1 text-slate-500">
                     <BookOpen size={12} /> View Context
                 </span>
+            </div>
+
+            {/* Expanded Analysis Details */}
+            <div className="mt-2 text-sm text-gray-600">
+                <button
+                    onClick={() => setExpanded(!expanded)}
+                    className="text-purple-600 hover:text-purple-800 font-medium text-xs flex items-center gap-1 mb-2"
+                >
+                    {expanded ? "Hide Details" : "Show Analysis & Instructions"}
+                </button>
+
+                {expanded && (
+                    <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
+                        {/* Justification & Insights */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                            <div>
+                                <h4 className="font-bold text-gray-700 text-xs uppercase mb-1">Expert Insight</h4>
+                                <p className="text-gray-800 italic">{rule.analysis?.expert_insight}</p>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-gray-700 text-xs uppercase mb-1">Instruction</h4>
+                                <p className="text-gray-800 text-blue-800 font-medium bg-blue-50 p-1 rounded">
+                                    {rule.context?.instructions}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Extended Details Table */}
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs border-t border-gray-100 pt-2">
+                            <div>
+                                <span className="font-bold text-gray-500">Justification:</span>
+                                <p>{rule.analysis?.justification}</p>
+                            </div>
+                            <div>
+                                <span className="font-bold text-gray-500">Source Reasoning:</span>
+                                <p>{rule.analysis?.source_insight}</p>
+                            </div>
+                            <div>
+                                <span className="font-bold text-gray-500">Company Implication:</span>
+                                <p>{rule.analysis?.implication_company}</p>
+                            </div>
+                            <div>
+                                <span className="font-bold text-gray-500">Supplier Implication:</span>
+                                <p>{rule.analysis?.implication_supplier}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

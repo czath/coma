@@ -4,16 +4,18 @@ from pydantic import BaseModel, Field
 
 # --- Enums (Shared) ---
 
-class RuleType(str, Enum):
-    RESTRICTION = "RESTRICTION"
-    OBLIGATION = "OBLIGATION"
-    PERMISSION = "PERMISSION"
-    DEFINITION = "DEFINITION"
+# --- Enums (Shared) ---
 
-class Severity(str, Enum):
-    HIGH = "HIGH"
-    MEDIUM = "MEDIUM"
-    LOW = "LOW"
+class GuidelineType(str, Enum):
+    GUIDELINE = "GUIDELINE"       # Encapsulates Obligations and Restrictions
+    DEFINITION = "DEFINITION"
+    OTHER = "OTHER"             # Content that does not fit other categories
+
+class NegotiationPriority(str, Enum):
+    CRITICAL = "CRITICAL"       # Must have
+    HIGH = "HIGH"               # Strongly advice/prefer
+    MEDIUM = "MEDIUM"           # Prefer
+    LOW = "LOW"                 # Nice to have
 
 class TagType(str, Enum):
     # Primary "Start" tags as requested by Prompt
@@ -42,16 +44,32 @@ class DocType(str, Enum):
 
 # --- Analysis Models (RuleExtractor) ---
 
-class Rule(BaseModel):
-    id: str = Field(description="Unique identifier for the rule (e.g., 'rule_1')")
-    description: str = Field(description="The rule logic expressed in plain English (layman's terms) but concisely. (Prompt calls this logic_instruction)")
-    type: RuleType = Field(description="Type of the rule")
-    severity: Severity = Field(description="Risk severity of the rule")
+class AnalysisDetail(BaseModel):
+    justification: str = Field(description="Why this classification was chosen.")
+    source_insight: str = Field(description="Insight/Reasoning explicitly provided in the source text (if any). Default: 'None'")
+    expert_insight: str = Field(description="The LLM's own expert insight/reasoning as a Contract Expert.")
+    implication_company: str = Field(description="What this implies for the Company.")
+    implication_supplier: str = Field(description="What this implies for the Supplier.")
 
-    verification_quote: str = Field(description="Exact quote from the text verifying this rule")
-    source_id: Optional[str] = Field(description="The ID of the source block", default=None)
-    source_header: Optional[str] = Field(description="The header of the source section", default=None)
-    related_tags: List[str] = Field(description="List of related tags (e.g. TAG_AFFILIATES)", default=[])
+class ContextDetail(BaseModel):
+    conditions: str = Field(description="Conditions for application (e.g. 'US Only' or 'Contingent on X'). Default: 'None'")
+    instructions: str = Field(description="Wording or negotiation instructions (e.g. 'Use wording...'). Default: 'None'")
+    examples: str = Field(description="Practical examples provided. Default: 'None'")
+
+class ExtractedGuideline(BaseModel):
+    id: str = Field(description="Unique UUID (Must be unique across document)")
+    type: GuidelineType = Field(description="Functional type of the content")
+    classification: NegotiationPriority = Field(description="Strategic priority level")
+    
+    verbatim_text: str = Field(description="Exact source text/quote.")
+    rule_plain_english: str = Field(description="Plain English rule from Company POV (e.g. 'Company requires supplier to...').")
+    
+    analysis: AnalysisDetail
+    context: ContextDetail
+    
+    tags: List[str] = Field(description="Keywords/Tags found.", default=[])
+    confidence: float = Field(description="Confidence score 0.0-1.0")
+    source_reference: str = Field(description="SECTION NAME/ID")
 
 class Term(BaseModel):
     tag_id: str = Field(description="The unique tag identifier (e.g. TAG_AFFILIATES)")
@@ -60,7 +78,7 @@ class Term(BaseModel):
 
 class AnalysisResponse(BaseModel):
     taxonomy: List[Term] = Field(description="List of defined terms found in the text", default=[])
-    rules: List[Rule] = Field(description="List of rules extracted from the text", default=[])
+    rules: List[ExtractedGuideline] = Field(description="List of guidelines extracted from the text", default=[])
 
 # --- Tagging Models (LLMAutoTagger) ---
 

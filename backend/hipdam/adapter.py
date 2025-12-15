@@ -1,14 +1,14 @@
 from typing import List, Dict, Any
-from data_models import Rule, Term, AnalysisResponse, RuleType, Severity
+from data_models import ExtractedGuideline, Term, AnalysisResponse, GuidelineType, NegotiationPriority, AnalysisDetail, ContextDetail
 from hipdam.models import JudgeDecision, TraceMap
 
 class LegacyAdapter:
     @staticmethod
     def to_legacy_response(trace: TraceMap) -> AnalysisResponse:
         """
-        Converts HiPDAM TraceMap to legacy AnalysisResponse for frontend compatibility.
+        Converts HiPDAM TraceMap to AnalysisResponse for frontend compatibility.
         """
-        rules = []
+        guidelines = []
         taxonomy = []
         
         for decision in trace.decisions:
@@ -23,26 +23,37 @@ class LegacyAdapter:
             if "DEFINITION" in label.upper():
                 term = Term(
                     tag_id=decision.id, # Use decision ID as unique tag ID
-                    term=text, # Assuming text is the Term, or content has 'term'
+                    term=text, # Assuming text is the Term
                     definition=content.get("definition", text),
                     source_id=decision.id 
                 )
                 taxonomy.append(term)
             else:
-                # Treat as Rule/Risk
-                rule_type = RuleType.OBLIGATION
-                if "RISK" in label.upper() or "STRATEGY" in label.upper():
-                    rule_type = RuleType.RESTRICTION
-                
-                # Construct Rule
-                rule = Rule(
-                    id=decision.id,
-                    description=content.get("description", text), # Use Layman Description if available
-                    type=rule_type,
-                    severity=Severity.HIGH if rule_type == RuleType.RESTRICTION else Severity.MEDIUM,
-                    verification_quote=text, # Use Quote for verification
-                    source_id=decision.source_cluster_id
+                # Treat as Guideline
+                # Default Analysis
+                analysis = AnalysisDetail(
+                    justification="Adapted from HiPDAM decision",
+                    source_insight="N/A",
+                    expert_insight=decision.rationale or "N/A",
+                    implication_company="N/A",
+                    implication_supplier="N/A"
                 )
-                rules.append(rule)
+                # Default Context
+                context = ContextDetail()
                 
-        return AnalysisResponse(rules=rules, taxonomy=taxonomy)
+                # Construct ExtractedGuideline
+                guideline = ExtractedGuideline(
+                    id=decision.id,
+                    type=GuidelineType.GUIDELINE,
+                    classification=NegotiationPriority.MEDIUM, # Default priority
+                    verbatim_text=text,
+                    rule_plain_english=content.get("description", text),
+                    analysis=analysis,
+                    context=context,
+                    tags=[],
+                    confidence=decision.decision_confidence,
+                    source_reference="HiPDAM Adapter"
+                )
+                guidelines.append(guideline)
+                
+        return AnalysisResponse(rules=guidelines, taxonomy=taxonomy)
