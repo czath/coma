@@ -38,6 +38,11 @@ export default function AnalyzeWrapper() {
         loadFile();
     }, [id]);
 
+    const handleLinguisticAnalyze = () => {
+        setViewMode('linguistic');
+    };
+
+
     // Auto-Trigger: REMOVED. Logic moved to FileManager.
     // Instead, we just check if we have data to show.
     useEffect(() => {
