@@ -62,32 +62,37 @@ class RuleExtractor:
         
         # Load System Prompts
         
-        # Phase 1: Extraction (Analysis is renamed to Extraction Prompt)
-        prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "extraction_prompt.txt")
-        with open(prompt_path, "r") as f:
-            self.extraction_prompt = f.read()
+        # Phase 1: Specialized Prompts
+        logger.info("Loading Specialized Extraction Prompts...")
+        prompt_dir = os.path.join(os.path.dirname(__file__), "..", "prompts")
+        
+        with open(os.path.join(prompt_dir, "extraction_prompt_definitions.txt"), "r", encoding="utf-8") as f:
+            self.extraction_prompt_definitions = f.read()
+            
+        with open(os.path.join(prompt_dir, "extraction_prompt_guidelines.txt"), "r", encoding="utf-8") as f:
+            self.extraction_prompt_guidelines = f.read()
 
         # Phase 2: Tagging
-        tagging_prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "tagging_prompt.txt")
-        with open(tagging_prompt_path, "r") as f:
+        tagging_prompt_path = os.path.join(prompt_dir, "tagging_prompt.txt")
+        with open(tagging_prompt_path, "r", encoding="utf-8") as f:
             self.tagging_prompt = f.read()
             
         # Phase 3: Consolidation
-        consolidation_prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "consolidation_prompt.txt")
-        with open(consolidation_prompt_path, "r") as f:
+        consolidation_prompt_path = os.path.join(prompt_dir, "consolidation_prompt.txt")
+        with open(consolidation_prompt_path, "r", encoding="utf-8") as f:
             self.consolidation_prompt = f.read()
             
         # Phase 4: Deduplication
-        rule_dedup_prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "rule_dedup_prompt.txt")
-        with open(rule_dedup_prompt_path, "r") as f:
+        rule_dedup_prompt_path = os.path.join(prompt_dir, "rule_dedup_prompt.txt")
+        with open(rule_dedup_prompt_path, "r", encoding="utf-8") as f:
             self.rule_dedup_prompt = f.read()
 
         # Global Rate Limiter (Tier 1 = 30 concurrent requests)
-        self.sem = asyncio.Semaphore(30)
+        self.sem = asyncio.Semaphore(2)
 
     async def extract(self, content_blocks: List[Dict[str, Any]], progress_callback=None, stats=None) -> Dict[str, Any]:
         """
-        Main extraction method using Section-Based Analysis concurrently.
+        Main extraction method using Sequential Multi-Pass Analysis.
         """
         # Stats Container
         if stats is None:
@@ -101,7 +106,7 @@ class RuleExtractor:
         sections = self._group_by_section(content_blocks)
         total_sections = len(sections)
         
-        msg = f"Starting Extraction Analysis using LLM Model: {self.model_name}"
+        msg = f"Starting Multi-Pass Extraction using LLM Model: {self.model_name}"
         logger.info(msg)
         print(f"\n[{self.model_name.upper()}] {msg}")
         print(f"[{self.model_name.upper()}] Temp: {self.config.get('temperature')} | Thinking: {bool(self.config.get('thinking_config'))}")
@@ -109,90 +114,55 @@ class RuleExtractor:
         all_rules = []
         all_taxonomy = []
         
-        # NOTE: Local semaphore removed. Using global self.sem inside methods.
-        
         async def process_section(section):
             section_text = "\n".join([b.get("text", "") for b in section])
-            # Skip empty sections
             if not section_text.strip():
                 return None
             
-            # Identify known header from the first block of the section
+            # Identify Header
             header_text = "Unknown Section"
-            known_header_types = {
-                "CLAUSE", "APPENDIX", "ANNEX", "EXHIBIT", "GUIDELINE", "INFO",
-                "CLAUSE_START", "APPENDIX_START", "ANNEX_START", "EXHIBIT_START", "GUIDELINE_START", "INFO_START"
-            }
-
             if section:
                 first_block = section[0]
-                first_type = first_block.get("type", "").upper()
-                if first_type in known_header_types:
-                    header_text = first_block.get("text", "Unknown Section")
-                
-                print(f"DEBUG: Section First Block Type: {first_type}, Identified Header: {header_text}")
+                # Simple logic: use first block text as header if short enough
+                text = first_block.get("text", "")
+                if len(text) < 200:
+                    header_text = text
             
-            logger.info(f"Processing Section with Header: {header_text}")
+            print(f"DEBUG: Processing Section '{header_text}' (Length: {len(section_text)} chars)")
 
-            # CHUNKING LOGIC FOR LARGE SECTIONS
-            # Reduced to 15000 to prevent Output Token Limit truncation (Unterminated string errors)
-            MAX_SECTION_CHARS = self.processing_config.get("MAX_SECTION_CHARS", 15000) 
             merged_response = AnalysisResponse(taxonomy=[], rules=[]) # Accumulator
 
-            # Get Source ID (First Block ID)
-            source_id = None
-            if section:
-                    source_id = section[0].get("id")
+            # --- PASS 1: DEFINITIONS ---
+            print(f"  > Pass 1 (Definitions): '{header_text}'...")
+            defs_res = await self._extract_rules_from_text(
+                text_chunk=section_text, 
+                section_title=header_text, 
+                prompt_template=self.extraction_prompt_definitions,
+                pass_name="DEFINITIONS"
+            )
+            
+            if defs_res:
+                for r in defs_res.rules:
+                    r.id = str(uuid.uuid4())
+                    r.source_reference = header_text
+                merged_response.rules.extend(defs_res.rules)
 
-            if len(section_text) > MAX_SECTION_CHARS:
-                logger.info(f"Section size {len(section_text)} exceeds limit. Splitting into chunks.")
-                chunks = []
-                start = 0
-                while start < len(section_text):
-                    # Ensure we don't exceed remaining text
-                    end = min(start + MAX_SECTION_CHARS, len(section_text))
-                    
-                    # Only look for newline if we are NOT at end of text (i.e. we are splitting via limit)
-                    if end < len(section_text):
-                        # Look for newline in the valid chunk range [start, end]
-                        # But prefer newlines closer to the 'end' than 'start' to maximize chunk size
-                        # Ensure we don't accidentally set end=start if newline is at start
-                        last_newline = section_text.rfind('\n', start, end)
-                        
-                        # Valid newline logic: must be found AND must be past the midpoint (or reasonable minimum) 
-                        # to avoid infinite loops or tiny chunks.
-                        # Using start + 1000 ensures we advance at least 1000 chars if possible
-                        if last_newline != -1 and last_newline > (start + 1000):
-                            end = last_newline
+            # --- PASS 2: GUIDELINES & OTHER ---
+            print(f"  > Pass 2 (Guidelines): '{header_text}'...")
+            guides_res = await self._extract_rules_from_text(
+                text_chunk=section_text, 
+                section_title=header_text, 
+                prompt_template=self.extraction_prompt_guidelines,
+                pass_name="GUIDELINES"
+            )
 
-                    chunk = section_text[start:end]
-                    if not chunk: # Safety for infinite loop
-                        break
-                        
-                    chunks.append(chunk)
-                    start = end
-                
-                # Process chunks IN PARALLEL
-                logger.info(f"Processing {len(chunks)} chunks concurrently...")
-                chunk_tasks = [self._extract_rules_from_text(chunk, header_text) for chunk in chunks]
-                results = await asyncio.gather(*chunk_tasks)
-                
-                for i, res in enumerate(results):
-                    if res:
-                        for r in res.rules:
-                            r.id = str(uuid.uuid4()) # CRITICAL FIX: Prevent ID collisions from parallel ISO execution
-                            r.source_reference = header_text
-                        merged_response.taxonomy.extend(res.taxonomy)
-                        merged_response.rules.extend(res.rules)
-                
-                return merged_response
-            else:
-                res = await self._extract_rules_from_text(section_text, header_text)
-                if res:
-                    for r in res.rules:
-                        r.id = str(uuid.uuid4()) # CRITICAL FIX
-                        r.source_reference = header_text
-                return res
+            if guides_res:
+                for r in guides_res.rules:
+                    r.id = str(uuid.uuid4())
+                    r.source_reference = header_text
+                merged_response.rules.extend(guides_res.rules)
+
+            return merged_response
 
         # Create tasks
         tasks = [process_section(section) for section in sections]
@@ -814,46 +784,42 @@ class RuleExtractor:
         return dot_product / (norm_a * norm_b) if norm_a and norm_b else 0.0
 
 
-    async def _extract_rules_from_text(self, text_chunk: str, header_text: str = "") -> AnalysisResponse:
+
+    async def _extract_rules_from_text(self, text_chunk: str, section_title: str, prompt_template: str, pass_name: str) -> Optional[AnalysisResponse]:
         """
-        Phase 1: Pure Logic Extraction.
-        Extracts Rules (Obligations, Restrictions, Permissions, Definitions) from text.
-        NO TAGGING done here.
+        Sends text to LLM to extract items using the provided specialized prompt.
         """
-        import uuid
-        import json
+        max_retries = 3
+        current_retry = 0
+        
         async with self.sem:
-            max_retries = 3
-            current_retry = 0
-            
             while current_retry < max_retries:
+                # User Visibility
+                print(f"DEBUG: Starting LLM Request for '{section_title}' [PASS: {pass_name}] ({len(text_chunk)} chars) [Attempt {current_retry+1}]")
                 response_text = None
+                response = None # Initialize response to safe-guard error handler
                 try:
-                    # Construct Prompt
-                    prompt = f"{self.extraction_prompt}\n\n### INPUT TEXT (Section: {header_text})\n{text_chunk}"
+                    # Construct Prompt using the Template explicitly passed
+                    # We just append the data to the template
+                    prompt = f"{prompt_template}\n\n### DATA TO ANALYZE (Section: {section_title})\n{text_chunk}"
                     
                     # Call LLM
                     # Default to Analysis Config (gemini-2.5-flash)
                     config_args = {
                         "response_mime_type": "application/json",
                         "response_schema": AnalysisResponse,
-                        "temperature": self.config.get("temperature", 0.0),
-                        "top_p": self.config.get("top_p", 1.0),
-                        "top_k": self.config.get("top_k", 40),
+                        "temperature": self.config.get("temperature", 0.1),
+                        # Disable Top P/K for deterministic extraction if needed, but 1.0/40 is fine
                         "max_output_tokens": self.config.get("max_output_tokens", 8192),
                     }
                     
-                    # Handle Thinking Config securely
+                    # Handle Thinking Config securely (Analysis Config)
                     thinking_conf = self.config.get("thinking_config") 
-                    if thinking_conf: # If present and not empty/None
-                         # Check if using a thinking-capable model? Assuming yes if config is set.
-                         # Only include if budget is set
-                         budget = thinking_conf.get("thinking_budget")
-                         if budget:
-                             config_args["thinking_config"] = types.ThinkingConfig(
-                                 include_thoughts=thinking_conf.get("include_thoughts", False),
-                                 thinking_budget=budget
-                             )
+                    if thinking_conf and thinking_conf.get("thinking_budget"): 
+                         config_args["thinking_config"] = types.ThinkingConfig(
+                              include_thoughts=thinking_conf.get("include_thoughts", False),
+                              thinking_budget=thinking_conf.get("thinking_budget")
+                         )
 
                     logger.info(f"Generating with Config: {config_args}")
                     generation_config = types.GenerateContentConfig(**config_args)
@@ -882,7 +848,7 @@ class RuleExtractor:
                         # Instantiate Rule object to validate
                         # Assign UUID immediately to avoid collisions
                         r_data["id"] = str(uuid.uuid4())
-                        r_data["source_header"] = header_text
+                        r_data["source_header"] = section_title
                         # Ensure related_tags is empty (Phase 1)
                         r_data["tags"] = []
                         
@@ -904,16 +870,21 @@ class RuleExtractor:
                             f.write(f"INPUT_LEN: {len(text_chunk)}\n")
                             f.write(f"RESPONSE_LEN: {len(response_text) if response_text else 0}\n")
                             
+                            # Print to Console for User Visibility
+                            print(f"\n[ERROR] JSON PARSE FAILED (Attempt {current_retry})")
+                            print(f"Response Snippet: {response_text[:200] if response_text else 'None'}...")
+                            print(f"Error: {repr(e)}\n")
+                            
                             # Check Finish Reason
-                            if response.candidates:
+                            if response and response.candidates:
                                 cand = response.candidates[0]
                                 f.write(f"FINISH_REASON: {cand.finish_reason}\n")
                                 f.write(f"SAFETY_RATINGS: {cand.safety_ratings}\n")
                             else:
-                                f.write("NO CANDIDATES\n")
+                                f.write("NO CANDIDATES (or Response was None)\n")
                             
                             # Log Usage Metadata
-                            if response.usage_metadata:
+                            if response and response.usage_metadata:
                                 f.write(f"USAGE: {response.usage_metadata}\n")
                             
                             f.write("=== RAW RESPONSE ===\n")

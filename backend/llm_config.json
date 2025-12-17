@@ -12,17 +12,14 @@
         "max_output_tokens": 65536,
         "top_p": 1.0,
         "top_k": 40,
-        "thinking_config": {
-            "include_thoughts": true,
-            "thinking_budget": 4096
-        }
+        "thinking_config": null
     },
     "PROCESSING": {
         "API_TIMEOUT": 300,
         "EMBEDDING_MODEL": "text-embedding-004",
         "TERM_CLUSTERING_THRESHOLD": 0.60,
         "RULE_CLUSTERING_THRESHOLD": 0.60,
-        "MAX_SECTION_CHARS": 2000000,
+        "MAX_SECTION_CHARS": 5000,
         "EMBEDDING_BATCH_SIZE": 100
     },
     "HIPDAM": {

@@ -330,3 +330,173 @@ async def analyze_section_hipdam(
         print(f"HiPDAM Error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+# Linguistic Analysis Feature -----------------------------------------------
+from analyzers.semantic_annotator import SemanticAnnotator
+
+class LinguisticAnalysisPayload(BaseModel):
+    document_content: Dict[str, Any] # Full document object
+
+
+    
+async def run_linguistic_analysis(job_id: str, full_doc: Dict[str, Any]):
+    try:
+        jobs[job_id]["status"] = "processing"
+        jobs[job_id]["progress"] = 0
+        jobs[job_id]["message"] = "Initializing linguistic annotation..."
+        
+        annotator = SemanticAnnotator()
+        annotated_aggregated_blocks = []
+        
+        content = full_doc.get("content", [])
+        if not content and "original_content" in full_doc:
+             content = full_doc["original_content"]
+             
+        clauses = full_doc.get("clauses", [])
+        
+        # 1. Build Chunks
+        chunks = []
+        
+        if clauses and len(clauses) > 0:
+            print(f"Using {len(clauses)} existing clauses from input structure.")
+            for i, clause in enumerate(clauses):
+                # Extract text based on lines
+                start_line = clause["start"]["line"]
+                end_line = clause["end"]["line"]
+                
+                # Retrieve Header
+                title = clause.get("header") 
+                if not title:
+                     # Try to find header in content? Or just use clause type
+                     title = f"{clause.get('type', 'Section')} {i+1}"
+
+                # Extract lines
+                # Bounds check
+                start_line = max(0, start_line)
+                end_line = min(len(content) - 1, end_line)
+                
+                chunk_text = ""
+                for idx in range(start_line, end_line + 1):
+                    chunk_text += content[idx].get("text", "") + "\n"
+                
+                chunks.append({
+                    "text": chunk_text,
+                    "title": title,
+                    "original_clause_id": clause.get("id")
+                })
+        else:
+            print("No clauses found. Using content aggregation heuristic.")
+            # Fallback Heuristic
+            current_chunk_data = {"text": "", "start_idx": 0, "title": "Introduction"}
+            
+            for i, block in enumerate(content):
+                text = block.get("text", "")
+                b_type = block.get("type", "CONTENT")
+                
+                # Heuristic for new section
+                b_type_upper = str(b_type).upper()
+                text_strip = text.strip()
+                
+                is_new_section = (
+                    "HEADER" in b_type_upper or
+                    b_type_upper.endswith("_START") or
+                    b_type_upper in ["APPENDIX", "GUIDELINE", "EXHIBIT"] or
+                    (len(text_strip) < 120 and len(text_strip) > 3 and (
+                        text_strip.isupper() or 
+                        (text_strip[0].isdigit() and "." in text_strip[:5])
+                    ))
+                )
+                
+                if is_new_section and current_chunk_data["text"].strip():
+                    chunks.append(current_chunk_data)
+                    current_chunk_data = {"text": "", "start_idx": i, "title": text_strip or "Section"}
+                    
+                current_chunk_data["text"] += text + "\n"
+            
+            if current_chunk_data["text"].strip():
+                chunks.append(current_chunk_data)
+        
+        total_chunks = len(chunks)
+        print(f"Processing {total_chunks} chunks.")
+        
+        # 2. Process Chunks
+        for i, chunk in enumerate(chunks):
+            # Annotate
+            if not chunk["text"].strip(): 
+                continue
+
+            annotated_text = await annotator.annotate_section(chunk["text"], chunk["title"])
+            
+            # Count tags for stats
+            import re
+            def_count = len(re.findall(r'<DEF[^>]*>', annotated_text))
+            rule_count = len(re.findall(r'<RULE[^>]*>', annotated_text))
+            info_count = len(re.findall(r'<INFO[^>]*>', annotated_text))
+            
+            # Create a single block for this chunk
+            new_block = {
+                "id": f"chunk_{i}",
+                "type": "SECTION_GROUP",
+                "text": chunk["text"], # Original
+                "annotated_text": annotated_text,
+                "title": chunk["title"],
+                "stats": {
+                    "definitions": def_count,
+                    "rules": rule_count,
+                    "info": info_count
+                }
+            }
+            annotated_aggregated_blocks.append(new_block)
+            
+            print(f"  > Chunk '{chunk['title']}': Found {def_count} Definitions, {rule_count} Rules, {info_count} Info items.")
+            
+            # Update Progress
+            percent = int(((i + 1) / total_chunks) * 100)
+            jobs[job_id]["progress"] = percent
+            jobs[job_id]["message"] = f"Annotating sections: {percent}% ({i+1}/{total_chunks})"
+
+        # Summary Log
+        total_defs = sum(b["stats"]["definitions"] for b in annotated_aggregated_blocks)
+        total_rules = sum(b["stats"]["rules"] for b in annotated_aggregated_blocks)
+        total_info = sum(b["stats"]["info"] for b in annotated_aggregated_blocks)
+        print(f"\n=== LINGUISTIC ANALYSIS SUMMARY ===")
+        print(f"Total Sections Processed: {len(annotated_aggregated_blocks)}")
+        print(f"Total Definitions: {total_defs}")
+        print(f"Total Rules:       {total_rules}")
+        print(f"Total Info Items:  {total_info}")
+        print(f"===================================\n")
+        
+        jobs[job_id]["status"] = "completed"
+        jobs[job_id]["progress"] = 100
+        jobs[job_id]["result"] = annotated_aggregated_blocks
+        jobs[job_id]["message"] = "Linguistic annotation complete."
+
+    except Exception as e:
+        print(f"Linguistic Analysis Job {job_id} failed: {e}")
+        jobs[job_id]["status"] = "failed"
+        jobs[job_id]["error"] = str(e)
+        import traceback
+        traceback.print_exc()
+
+@app.post("/analyze_linguistic")
+async def analyze_linguistic_document(
+    payload: LinguisticAnalysisPayload,
+    background_tasks: BackgroundTasks
+):
+    """
+    Receives document, runs Semantic Annotation (XML tagging), returns Job ID.
+    Result will be a list of blocks with 'annotated_text' field.
+    """
+    job_id = str(uuid.uuid4())
+    
+    jobs[job_id] = {
+        "status": "queued",
+        "progress": 0,
+        "message": "Queued for linguistic analysis...",
+        "result": None
+    }
+    
+    # Pass FULL document (including 'clauses') to the analyzer
+    background_tasks.add_task(run_linguistic_analysis, job_id, payload.document_content)
+    
+    return {"job_id": job_id}

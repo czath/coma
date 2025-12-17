@@ -340,11 +340,11 @@ export default function FileManager() {
                 updateFile(file.header.id, { header: { ...file.header, status: 'analyzing' }, progress: 0 });
 
                 try {
-                    // 2. Send to Backend
-                    const response = await fetch('http://localhost:8000/analyze_document', {
+                    // 2. Send to Backend (Standard Rule Extraction Analysis)
+                    const response = await fetch('http://127.0.0.1:8000/analyze_document', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ document_content: file }) // Send full file object
+                        body: JSON.stringify({ document_content: file })
                     });
 
                     if (!response.ok) throw new Error('Analysis request failed');
@@ -355,19 +355,12 @@ export default function FileManager() {
 
                     const pollInterval = setInterval(async () => {
                         try {
-
-                            const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
+                            const statusRes = await fetch(`http://127.0.0.1:8000/status/${job_id}`);
 
                             if (statusRes.status === 404) {
                                 clearInterval(pollInterval);
                                 delete intervalsRef.current[file.header.id];
-                                console.warn("Job not found (404). Backend likely restarted.");
-
-                                setUploadProgress(prev => {
-                                    const newState = { ...prev };
-                                    delete newState[file.header.id];
-                                    return newState;
-                                });
+                                // Handle lost job
                                 await updateFile(file.header.id, {
                                     header: { ...file.header, status: 'annotated' },
                                     progress: 100
@@ -383,31 +376,29 @@ export default function FileManager() {
                                     ...prev,
                                     [file.header.id]: {
                                         percent: statusData.progress || 0,
-                                        message: statusData.message || "Processing..."
+                                        message: statusData.message || "Analyzing policies..."
                                     }
                                 }));
                             } else if (statusData.status === 'completed') {
                                 clearInterval(pollInterval);
                                 delete intervalsRef.current[file.header.id];
                                 setUploadProgress(prev => {
-
                                     const newState = { ...prev };
                                     delete newState[file.header.id];
                                     return newState;
                                 });
 
-                                // 4. Update File with Results
-                                const result = statusData.result; // { taxonomy, rules, original_content? }
+                                // 4. Update File with Analysis Results (Taxonomy + Rules)
+                                const { taxonomy, rules } = statusData.result;
 
                                 await updateFile(file.header.id, {
                                     header: { ...file.header, status: 'analyzed' },
                                     progress: 100,
-                                    // Merge new fields
-                                    taxonomy: result.taxonomy || [],
-                                    rules: result.rules || []
-                                    // We keep existing 'content' and 'clauses' unless the backend modified them?
-                                    // Plan said we "augment", so we just add these fields.
+                                    taxonomy: taxonomy,
+                                    rules: rules
                                 });
+
+                                navigate(`/analyze/${file.header.id}`);
 
                             } else if (statusData.status === 'failed') {
                                 clearInterval(pollInterval);

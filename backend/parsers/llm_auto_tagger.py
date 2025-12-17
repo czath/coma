@@ -33,7 +33,7 @@ class LLMAutoTagger:
         
         # Load System Prompt
         prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "auto_tagger_prompt.txt")
-        with open(prompt_path, "r") as f:
+        with open(prompt_path, "r", encoding="utf-8") as f:
             self.base_prompt = f.read()
 
     def tag(self, content: List[Dict[str, Any]], document_type: str, progress_callback=None) -> Tuple[List[Dict[str, Any]], str]:

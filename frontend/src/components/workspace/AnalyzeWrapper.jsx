@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search, X, Check, Book } from 'lucide-react';
+import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search, X, Check, Book, Sparkles, FileText } from 'lucide-react';
 import { dbAPI } from '../../utils/db'; // Adjust path if needed
+import LinguisticView from './LinguisticView';
 
 export default function AnalyzeWrapper() {
     const navigate = useNavigate();
@@ -15,6 +16,11 @@ export default function AnalyzeWrapper() {
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [contextModalOpen, setContextModalOpen] = useState(false);
     const [contextData, setContextData] = useState(null);
+
+    // Linguistic Analysis State - Default back to 'cards' (Rule View)
+    const [viewMode, setViewMode] = useState('cards'); // 'cards' | 'linguistic'
+    const [linguisticResult, setLinguisticResult] = useState(null);
+    const [analyzingLinguistic, setAnalyzingLinguistic] = useState(false);
 
     useEffect(() => {
         const loadFile = async () => {
@@ -31,6 +37,17 @@ export default function AnalyzeWrapper() {
         };
         loadFile();
     }, [id]);
+
+    // Auto-Trigger: REMOVED. Logic moved to FileManager.
+    // Instead, we just check if we have data to show.
+    useEffect(() => {
+        if (file && viewMode === 'linguistic' && !linguisticResult) {
+            // Check if file already has annotated text
+            if (file.content && file.content.some(b => b.annotated_text)) {
+                setLinguisticResult(file.content);
+            }
+        }
+    }, [file, viewMode]);
 
     const handleExport = (type) => {
         if (!file) return;
@@ -289,6 +306,24 @@ export default function AnalyzeWrapper() {
         return <Scale size={14} />;
     };
 
+    if (viewMode === 'linguistic') {
+        return (
+            <div className="h-screen bg-white">
+                {analyzingLinguistic ? (
+                    <div className="flex flex-col items-center justify-center h-full space-y-4">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+                        <p className="text-gray-500 font-medium">Re-Analyzing...</p>
+                    </div>
+                ) : (
+                    <LinguisticView
+                        jobResult={linguisticResult || (file?.content)}
+                        onBack={() => setViewMode('cards')}
+                    />
+                )}
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden font-sans">
             {/* Header */}
@@ -305,6 +340,16 @@ export default function AnalyzeWrapper() {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
+                    {/* Linguistic Analyze Button */}
+                    <button
+                        onClick={handleLinguisticAnalyze}
+                        className="flex items-center gap-2 px-3 py-2 text-purple-600 hover:text-purple-900 hover:bg-purple-50 rounded-lg transition-colors border border-transparent hover:border-purple-100 mr-2"
+                        title="Run Semantic Annotation (Linguistic Pass)"
+                    >
+                        <FileText size={18} />
+                        <span className="text-xs font-bold">Linguistic Map</span>
+                    </button>
+
                     <button
                         onClick={() => handleExport('rules')}
                         className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors border border-transparent hover:border-gray-200"
@@ -591,8 +636,29 @@ function ContextModal({ data, onClose }) {
     );
 }
 
+// Helper Component for Detail Cards
+function DetailCard({ title, icon, children, className = "bg-gray-50 border-gray-100", titleColor = "text-gray-700" }) {
+    return (
+        <div className={`p-3 rounded-lg border ${className} flex flex-col gap-2`}>
+            <h4 className={`font-bold text-xs uppercase flex items-center gap-2 ${titleColor}`}>
+                {icon}
+                {title}
+            </h4>
+            <div className="text-sm text-gray-800 leading-relaxed">
+                {children}
+            </div>
+        </div>
+    );
+}
+
 function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon, onViewContext }) {
     const [expanded, setExpanded] = useState(false);
+
+    // AI Confidence Formatting
+    const confidencePercent = rule.confidence ? Math.round(rule.confidence * 100) : 0;
+    let confidenceColor = 'text-green-600';
+    if (confidencePercent < 70) confidenceColor = 'text-orange-600';
+    if (confidencePercent < 40) confidenceColor = 'text-red-600';
 
     return (
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow group flex flex-col gap-3">
@@ -653,40 +719,86 @@ function RuleCard({ rule, getSeverityStyle, getTypeStyle, getTypeIcon, onViewCon
                 </button>
 
                 {expanded && (
-                    <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
-                        {/* Justification & Insights */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                            <div>
-                                <h4 className="font-bold text-gray-700 text-xs uppercase mb-1">Expert Insight</h4>
-                                <p className="text-gray-800 italic">{rule.analysis?.expert_insight}</p>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-gray-700 text-xs uppercase mb-1">Instruction</h4>
-                                <p className="text-gray-800 text-blue-800 font-medium bg-blue-50 p-1 rounded">
-                                    {rule.context?.instructions}
-                                </p>
-                            </div>
+                    <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-200 pt-2">
+
+                        {/* 1. Insight & Instruction */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <DetailCard
+                                title="Expert Insight"
+                                icon={<Sparkles size={14} className="text-purple-600" />}
+                                className="bg-purple-50 border-purple-100"
+                                titleColor="text-purple-800"
+                            >
+                                {rule.analysis?.expert_insight || "None provided."}
+                            </DetailCard>
+                            <DetailCard
+                                title="Instructions"
+                                icon={<Book size={14} className="text-blue-600" />}
+                                className="bg-blue-50 border-blue-100"
+                                titleColor="text-blue-800"
+                            >
+                                {rule.context?.instructions || "None."}
+                            </DetailCard>
                         </div>
 
-                        {/* Extended Details Table */}
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs border-t border-gray-100 pt-2">
-                            <div>
-                                <span className="font-bold text-gray-500">Justification:</span>
-                                <p>{rule.analysis?.justification}</p>
-                            </div>
-                            <div>
-                                <span className="font-bold text-gray-500">Source Reasoning:</span>
-                                <p>{rule.analysis?.source_insight}</p>
-                            </div>
-                            <div>
-                                <span className="font-bold text-gray-500">Company Implication:</span>
-                                <p>{rule.analysis?.implication_company}</p>
-                            </div>
-                            <div>
-                                <span className="font-bold text-gray-500">Supplier Implication:</span>
-                                <p>{rule.analysis?.implication_supplier}</p>
-                            </div>
+                        {/* 2. Examples & Conditions */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <DetailCard
+                                title="Examples"
+                                icon={<FileJson size={14} className="text-amber-600" />}
+                                className="bg-amber-50 border-amber-100"
+                                titleColor="text-amber-800"
+                            >
+                                {rule.context?.examples || "None."}
+                            </DetailCard>
+                            <DetailCard
+                                title="Conditions"
+                                icon={<AlertTriangle size={14} className="text-orange-600" />}
+                                className="bg-orange-50 border-orange-100"
+                                titleColor="text-orange-800"
+                            >
+                                {rule.context?.conditions || "None."}
+                            </DetailCard>
                         </div>
+
+                        {/* 3. Justification & Source Reasoning */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <DetailCard
+                                title={`Justification (Confidence: ${confidencePercent}%)`}
+                                icon={<CheckCircle size={14} className={confidenceColor} />}
+                                className="bg-gray-50 border-gray-200"
+                            >
+                                {rule.analysis?.justification || "No justification provided."}
+                            </DetailCard>
+                            <DetailCard
+                                title="Source Reasoning"
+                                icon={<Search size={14} className="text-gray-600" />}
+                                className="bg-gray-50 border-gray-200"
+                            >
+                                {rule.analysis?.source_insight || "No specific source reasoning."}
+                            </DetailCard>
+                        </div>
+
+                        {/* 4. Implications */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <DetailCard
+                                title="Company Implication"
+                                icon={<ArrowLeft size={14} className="text-green-600" />}
+                                className="bg-green-50 border-green-100"
+                                titleColor="text-green-800"
+                            >
+                                {rule.analysis?.implication_company || "None."}
+                            </DetailCard>
+                            <DetailCard
+                                title="Supplier Implication"
+                                icon={<ArrowLeft size={14} className="text-red-600 rotate-180" />}
+                                className="bg-red-50 border-red-100"
+                                titleColor="text-red-800"
+                            >
+                                {rule.analysis?.implication_supplier || "None."}
+                            </DetailCard>
+                        </div>
+
                     </div>
                 )}
             </div>

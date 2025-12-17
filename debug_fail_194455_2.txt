@@ -1,0 +1,3 @@
+ERROR: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'Penalty is not enabled for models/gemini-2.5-flash', 'status': 'INVALID_ARGUMENT'}}
+INPUT_LEN: 95
+RESPONSE_LEN: 0
