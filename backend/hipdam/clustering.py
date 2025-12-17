@@ -23,8 +23,8 @@ class Clusterer:
             # Singleton cluster
             return [Cluster(recommendation_ids=[recommendations[0].id])]
 
-        # Extract text to embed
-        texts = [r.content.get("text", "") for r in recommendations]
+        # Extract text to embed (Support new 'verbatim_text' and legacy 'text')
+        texts = [r.content.get("verbatim_text") or r.content.get("text", "") for r in recommendations]
         valid_indices = [i for i, t in enumerate(texts) if t and len(t.strip()) > 0]
         
         if not valid_indices:

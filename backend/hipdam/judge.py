@@ -74,18 +74,25 @@ Return JSON format ONLY:
                 config=types.GenerateContentConfig(
                     system_instruction=self.system_instr,
                     response_mime_type="application/json",
-                    temperature=self.config.get("temperature", 0.0)
+                    temperature=self.config.get("temperature", 0.0),
+                    max_output_tokens=self.config.get("max_output_tokens", 8192),
+                    thinking_config=types.ThinkingConfig(
+                        include_thoughts=self.config.get("thinking_config", {}).get("include_thoughts", False),
+                        thinking_budget=self.config.get("thinking_config", {}).get("thinking_budget", 4096)
+                    )
                 )
             )
             
-            response_text = response.text
-            # Clean potential markdown
-            if response_text.startswith("```json"):
-                response_text = response_text[7:-3]
-            elif response_text.startswith("```"):
-                response_text = response_text[3:-3]
-                
-            data = json.loads(response_text)
+            import re
+            # Extract JSON using regex
+            match = re.search(r'\{.*\}', response.text, re.DOTALL)
+            if match:
+                json_str = match.group(0)
+            else:
+                # Fallback to cleanup if no braces found (unlikely but possible)
+                json_str = response.text.replace("```json", "").replace("```", "").strip()
+
+            data = json.loads(json_str)
             
             decision = JudgeDecision(
                 is_valid=data.get("is_valid", False),

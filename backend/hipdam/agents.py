@@ -70,12 +70,21 @@ Return ONLY a valid JSON List. Do not use markdown code blocks.
             if isinstance(data, list):
                 for item in data:
                     # Normalize confidence to float 0-1
-                    conf_score = item.get("confidence_score", 0)
-                    if conf_score > 1: # Assuming 1-10 scale
-                        conf = float(conf_score) / 10.0
+                    conf_val = item.get("confidence") or item.get("confidence_score", 0)
+                    try:
+                        conf_score_float = float(conf_val)
+                    except:
+                        conf_score_float = 0.0
+                        
+                    if conf_score_float > 1: # Assuming 1-10 or 1-100 scale
+                        conf = conf_score_float / 10.0 # Heuristic normalization. If >1 it's likely 1-10.
+                        if conf > 1: conf = conf / 10.0 # If still >1 (was 0-100), divide again
                     else:
-                        conf = float(conf_score)
+                        conf = conf_score_float
 
+                    if "verbatim_text" in item and "text" not in item:
+                         item["text"] = item["verbatim_text"] # Polyfill for legacy compatibility
+                    
                     rec = ExpertRecommendation(
                         content=item,
                         source_agent=agent_id,

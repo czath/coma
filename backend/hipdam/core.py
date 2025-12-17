@@ -30,6 +30,9 @@ class HiPDAMOrchestrator:
         Executes the full HiPDAM pipeline: 
         Agents -> Clustering -> Judge -> TraceMap
         """
+        import time
+        start_time = time.time()
+        
         # 1. Run Agents Parallel
         print(f"--- HiPDAM: Starting Analysis for section {section_id} ---")
         agent_configs = self.config.get("AGENTS", {})
@@ -63,7 +66,9 @@ class HiPDAMOrchestrator:
             decision = await self.judge.adjudicate(cluster, recommendations, section_text)
             if decision:
                 decisions.append(decision)
-        print(f"--- HiPDAM: Judgment Complete. {len(decisions)} decisions ratified. ---")
+        
+        total_time = time.time() - start_time
+        print(f"--- HiPDAM: Judgment Complete. {len(decisions)} decisions ratified. Total Runtime: {total_time:.2f}s ---")
                 
         # 4. Construct Trace
         trace = TraceMap(

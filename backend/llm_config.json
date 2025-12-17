@@ -25,44 +25,54 @@
     "HIPDAM": {
         "AGENTS": {
             "AGENT_1": {
-                "name": "Obligation Extractor",
+                "name": "Senior Legal Counsel (Guidelines)",
                 "model": "gemini-2.5-flash",
                 "temperature": 0.0,
                 "top_p": 0.95,
+                "max_output_tokens": 65536,
                 "prompt_file": "prompts/agent_1_prompt.txt"
             },
             "AGENT_2": {
-                "name": "Risk Extractor",
+                "name": "Strategic Advisor (Context)",
                 "model": "gemini-2.5-flash",
                 "temperature": 0.2,
                 "top_p": 0.95,
+                "max_output_tokens": 65536,
                 "prompt_file": "prompts/agent_2_prompt.txt"
             },
             "AGENT_3": {
-                "name": "Definition Extractor",
+                "name": "Terminologist (Definitions)",
                 "model": "gemini-2.5-flash",
                 "temperature": 0.0,
                 "top_p": 0.95,
+                "max_output_tokens": 65536,
                 "prompt_file": "prompts/agent_3_prompt.txt"
             },
             "AGENT_4": {
                 "name": "General Scout A",
                 "model": "gemini-2.5-flash",
-                "temperature": 0.7,
+                "temperature": 0.5,
                 "top_p": 0.95,
+                "max_output_tokens": 65536,
                 "prompt_file": "prompts/agent_4_prompt.txt"
             },
             "AGENT_5": {
                 "name": "General Scout B",
                 "model": "gemini-2.5-flash",
-                "temperature": 0.7,
+                "temperature": 0.5,
                 "top_p": 0.95,
+                "max_output_tokens": 65536,
                 "prompt_file": "prompts/agent_5_prompt.txt"
             }
         },
         "JUDGE": {
-            "model": "gemini-2.5-pro",
+            "model": "gemini-2.5-flash",
             "temperature": 0.0,
+            "max_output_tokens": 65536,
+            "thinking_config": {
+                "include_thoughts": false,
+                "thinking_budget": 8192
+            },
             "prompt_file": "prompts/judge_prompt.txt"
         },
         "CLUSTERING": {
