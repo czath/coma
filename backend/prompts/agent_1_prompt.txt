@@ -33,7 +33,7 @@ Return a list of objects exactly matching this schema.
     "confidence": 0.0-1.0,
     
     // Type-Specific Fields for GUIDELINE
-    "condtions": "Pre-conditions (e.g. 'Only applies if X')",
+    "conditions": "Pre-conditions (e.g. 'Only applies if X')",
     "justification": "Why did you classify it this way?",
     "implication_company": "Impact on Us (Rights/Risks)",
     "implication_supplier": "Impact on Them (Duties/Liabilities)",

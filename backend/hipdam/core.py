@@ -60,15 +60,33 @@ class HiPDAMOrchestrator:
         # 3. Adjudication
         decisions: List[JudgeDecision] = []
         
-        print(f"--- HiPDAM: Judging {len(clusters)} clusters (Serial Execution)... ---")
-        for i, cluster in enumerate(clusters):
-            print(f"    > Judging Cluster {i+1}/{len(clusters)} ({len(cluster.recommendation_ids)} items)...")
-            decision = await self.judge.adjudicate(cluster, recommendations, section_text)
-            if decision:
-                decisions.append(decision)
+        # 3. Adjudication
+        decisions: List[JudgeDecision] = []
         
-        total_time = time.time() - start_time
-        print(f"--- HiPDAM: Judgment Complete. {len(decisions)} decisions ratified. Total Runtime: {total_time:.2f}s ---")
+        print(f"--- HiPDAM: Judging {len(clusters)} clusters (Parallel Execution)... ---")
+        
+        # Limit concurrency to avoid hitting rate limits
+        sem = asyncio.Semaphore(10)
+        
+        async def judge_cluster_safe(cluster, idx):
+            async with sem:
+                print(f"    > Judge started for Cluster {idx+1}/{len(clusters)}...")
+                try:
+                    return await self.judge.adjudicate(cluster, recommendations, section_text)
+                except Exception as e:
+                    print(f"    ! Judge failed for Cluster {idx+1}: {e}")
+                    return None
+
+        judge_tasks = [judge_cluster_safe(c, i) for i, c in enumerate(clusters)]
+        decision_results = await asyncio.gather(*judge_tasks)
+        
+        # Filter None results
+        decisions = [d for d in decision_results if d is not None]
+        
+        total_seconds = int(time.time() - start_time)
+        from datetime import timedelta
+        formatted_time = str(timedelta(seconds=total_seconds))
+        print(f"--- HiPDAM: Judgment Complete. {len(decisions)} decisions ratified. Total Runtime: {formatted_time} ({total_seconds}s) ---")
                 
         # 4. Construct Trace
         trace = TraceMap(

@@ -58,6 +58,33 @@ class Clusterer:
             dist_matrix = 1 - sim_matrix
             dist_matrix = np.clip(dist_matrix, 0, 1) # Ensure range
             
+            # --- OVERLAP MERGE STRATEGY (Optimization) ---
+            # Force-merge items where one is a substring of another.
+            # This fixes the issue where "Partial Text X" is separate from "Full Text X + Y".
+            print("    > Checking for textual overlaps...")
+            count_overrides = 0
+            n = len(valid_texts)
+            for i in range(n):
+                text_i = valid_texts[i].strip().lower()
+                if len(text_i) < 10: continue # Skip fragments
+                
+                for j in range(i + 1, n):
+                    text_j = valid_texts[j].strip().lower()
+                    if len(text_j) < 10: continue
+                    
+                    # Check substring containment (A in B or B in A)
+                    if text_i in text_j or text_j in text_i:
+                        # Force Distance to 0.0 (Perfect Match)
+                        dist_matrix[i, j] = 0.0
+                        dist_matrix[j, i] = 0.0
+                        count_overrides += 1
+                        
+            if count_overrides > 0:
+                print(f"    > Forced {count_overrides} merges due to substring overlap.")
+            # ---------------------------------------------
+            
+            # Clustering
+            
             # Clustering
             # If distance threshold is X, it means items with distance < X are merged.
             # Similarity > 0.85 means Distance < 0.15
