@@ -1,0 +1,123 @@
+{
+  "section_id": "line_1766141667898_8zhmqrm1m",
+  "decisions": [
+    {
+      "id": "66e33c1b-36d9-40ac-a228-bffa2d3683b2",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "cluster_arbitration_referral",
+        "verbatim_text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "For details concerning arbitration, refer to the 'Dispute Resolution' section below.",
+        "expert_insight": "This instruction indicates that arbitration is not a standalone clause but is integrated within the broader 'Dispute Resolution' section. A comprehensive understanding requires reviewing that specific section for all relevant procedures, conditions, and implications.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text explicitly directs the reader to another section for information on arbitration, functioning as an internal navigation instruction within the document.",
+        "implication_company": "The company must ensure that all arbitration-related processes, rules, and requirements are clearly and comprehensively detailed within the 'Dispute Resolution' section, as this is where parties will be directed for full information.",
+        "implication_supplier": "The supplier must refer to the 'Dispute Resolution' section to understand the arbitration terms, procedures, and their rights/obligations that would apply in case of a dispute.",
+        "source_insight": "The document uses a cross-reference to centralize information related to dispute resolution, including arbitration, in a single section, implying 'Arbitration' is a sub-topic rather than a distinct, self-contained clause at this point."
+      },
+      "rationale": "Consensus: All agents agreed on `type: OTHER` and `subtype: INSTRUCTION`. Value Assessment: The text is a clear, self-sufficient navigational instruction. It explicitly directs the reader to another section for details on arbitration. Utility Check: This instruction is highly useful as it guides users to the complete arbitration terms, preventing misinterpretation of a potentially incomplete or absent clause at this specific point. It helps a human understand where to find critical information for negotiation or dispute resolution. Therefore, it is classified as a valid and critical instruction.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "8d41f5a9-4dc7-4f54-9ef5-02c28f39deaa",
+      "supporting_evidence": [
+        "6347f70f-92d2-4d3b-bf51-8f0590cecaa5",
+        "9f39e39b-e7e1-40b7-a97b-4ff230a5bcc3",
+        "7f71ef2d-1deb-45bd-89c9-d76341a1124e"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "8d41f5a9-4dc7-4f54-9ef5-02c28f39deaa",
+      "recommendation_ids": [
+        "6347f70f-92d2-4d3b-bf51-8f0590cecaa5",
+        "9f39e39b-e7e1-40b7-a97b-4ff230a5bcc3",
+        "7f71ef2d-1deb-45bd-89c9-d76341a1124e"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "6347f70f-92d2-4d3b-bf51-8f0590cecaa5",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Please refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "Refer to the 'Dispute Resolution' section for details on arbitration.",
+        "expert_insight": "This instruction indicates that the arbitration clause is not standalone but integrated within a broader dispute resolution framework. A comprehensive understanding requires reviewing the entire 'Dispute Resolution' section to grasp the full process and implications.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text explicitly directs the reader to another section for relevant information, functioning as an internal navigation instruction within the document.",
+        "implication_company": "We must consult the 'Dispute Resolution' section to understand the full scope of arbitration procedures, including any specific rules, timelines, or costs, before making any strategic decisions related to dispute resolution.",
+        "implication_supplier": "The supplier will also need to refer to the 'Dispute Resolution' section to understand the arbitration terms and conditions that would apply in case of a dispute.",
+        "source_insight": "The instruction implies that 'Arbitration' is a sub-topic or a component within the larger 'Dispute Resolution' section, rather than a distinct, self-contained clause at this point in the document.",
+        "text": "Please refer to section ‘Dispute Resolution’ below."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "9f39e39b-e7e1-40b7-a97b-4ff230a5bcc3",
+      "content": {
+        "id": "2d9c1221-a3f7-41a4-9e79-88a2a095113d",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "For details concerning arbitration, refer to the 'Dispute Resolution' section of this document.",
+        "expert_insight": "This instruction indicates that arbitration is covered within the broader 'Dispute Resolution' section, suggesting a consolidated approach to conflict resolution. Stakeholders should consult that specific section for all relevant procedures and conditions related to arbitration.",
+        "confidence": 1.0,
+        "justification": "The text explicitly directs the reader to another section for information on arbitration, making it a clear instruction.",
+        "implication_company": "The company should ensure that all arbitration-related processes and requirements are clearly detailed within the 'Dispute Resolution' section, as this is where parties will be directed.",
+        "implication_supplier": "Suppliers seeking information on arbitration procedures or their rights/obligations regarding arbitration must refer to the 'Dispute Resolution' section.",
+        "source_insight": "The document uses a cross-reference to centralize information related to dispute resolution, including arbitration, in a single section.",
+        "text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "7f71ef2d-1deb-45bd-89c9-d76341a1124e",
+      "content": {
+        "id": "233364f9-22a4-44a5-926c-9418e3881c19",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "For details regarding arbitration, refer to the 'Dispute Resolution' section.",
+        "expert_insight": "This instruction indicates that arbitration is a component of the overall dispute resolution framework, and its specific procedures and conditions will be found in the designated 'Dispute Resolution' section. Parties should consult that section for comprehensive information.",
+        "confidence": 1.0,
+        "justification": "The text explicitly directs the reader to another section for information on arbitration.",
+        "implication_company": "The company must ensure that the 'Dispute Resolution' section clearly and comprehensively outlines the arbitration process, including rules, jurisdiction, and costs.",
+        "implication_supplier": "The supplier should review the 'Dispute Resolution' section to understand the arbitration procedures and their potential impact on resolving disputes with the company.",
+        "source_insight": "N/A",
+        "text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

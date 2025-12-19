@@ -745,8 +745,8 @@ export default function FileManager() {
 
                                                 {file.header.status === 'analyzed' && (
                                                     <>
-                                                        <button onClick={() => handleAction('annotate', file)} className="text-gray-400 hover:text-gray-600 p-1" title="View Annotation">
-                                                            <FileText size={18} />
+                                                        <button onClick={() => handleAction('annotate', file)} className="text-gray-400 hover:text-gray-600 p-1" title="View/Edit Annotation">
+                                                            <Edit size={18} />
                                                         </button>
                                                         <button onClick={() => handleAction('view-analysis', file)} className="text-indigo-600 hover:text-indigo-900 p-1" title="View Analysis">
                                                             <Eye size={18} />
