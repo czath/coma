@@ -198,7 +198,7 @@ export default function AnnotateWrapper() {
     };
 
     const handleFinalize = async () => {
-        if (window.confirm("Are you sure you want to finalize the annotation? This will save the structured document.")) {
+        if (window.confirm("Finalizing the annotation will save the structured document and set the document status to \"Annotated\".\n\nWARNING: If there is any Analysis already made, this will be lost.\n\nAre you sure you want to proceed?")) {
             try {
                 // 1. Generate the clean, stitched structure (same as Export)
                 const stitchedContent = generateStitchedContent();
