@@ -167,7 +167,8 @@ export default function AnalyzeWrapper() {
     if (!file) return <div className="p-8">Document not found.</div>;
 
     // HIPDAM INTERCEPTION
-    if (file.hipdam_analyzed_file) {
+    // Check for either a file path (from backend) OR direct content (from import)
+    if (file.hipdam_analyzed_file || file.hipdam_analyzed_content) {
         return <HipdamAnalysisViewer file={file} onBack={() => navigate('/workspace')} />;
     }
 

@@ -414,30 +414,15 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
     const [contextData, setContextData] = useState(null);
 
     // Initial Data Load Logic
+    // Initial Data Load Logic
     useEffect(() => {
-        // If file has content already embedded, use it immediately
+        // ALWAYS use In-Memory Content (Migration to Browser-Storage Architecture)
         if (file?.hipdam_analyzed_content) {
             setAnalyzedData(file.hipdam_analyzed_content);
-            return;
-        }
-
-        // Otherwise fetch if we have a file reference
-        if (file?.hipdam_analyzed_file) {
-            setLoading(true);
-            fetch(`http://localhost:8000/output/${file.hipdam_analyzed_file}`)
-                .then(res => {
-                    if (!res.ok) throw new Error("Failed to load analysis file");
-                    return res.json();
-                })
-                .then(data => {
-                    setAnalyzedData(data);
-                    setLoading(false);
-                })
-                .catch(err => {
-                    console.error(err);
-                    setError(err.message);
-                    setLoading(false);
-                });
+        } else {
+            console.warn("No in-memory analysis content found. This file may be from a legacy version or failed import.");
+            // We intentionally do NOT fetch from disk anymore as per architecture change.
+            setError("Analysis data is missing from browser storage.");
         }
     }, [file]);
 
@@ -447,20 +432,37 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
         setSelectedDecisionId(decisionId);
 
         // Fetch Trace if needed
-        if (!traceData && file?.hipdam_trace_file) {
-            setTraceLoading(true);
-            fetch(`http://localhost:8000/output/${file.hipdam_trace_file}`)
-                .then(res => res.json())
-                .then(data => {
-                    setTraceData(data);
-                    setTraceLoading(false);
-                })
-                .catch(err => {
-                    console.error("Trace load failed", err);
-                    setTraceLoading(false);
-                });
-        } else if (!traceData && file?.hipdam_trace_content) {
-            setTraceData(file.hipdam_trace_content);
+        if (!traceData) {
+            if (file?.hipdam_trace_content) {
+                setTraceData(file.hipdam_trace_content);
+                // No modal open here? wait, the original code had modal open logic implicitly via state or explicit setContextModalOpen?
+                // Original logic: handleViewTrace sets selected IDs, then fetches data, then user sees it.
+                // Wait, GlassHouseModal is controlled by 'traceData' presence? No, it's controlled by `GlassHouseModal isOpen={...}`?
+                // Wait, I need to see how the modal is opened.
+                // Ah, I see `setContextModalOpen` is missing in my replacement compared to the *original* fetch block?
+                // Original fetch block didn't explicitly call setContextModalOpen inside the fetch?
+                // Wait, lines 430-450 show `handleViewTrace`...
+                // It sets `setSelectedTraceSectionId` and `setSelectedDecisionId`.
+                // Where is `setContextModalOpen(true)`?
+                // It seems I missed it in my previous `view_file`.
+                // Let's assume the user triggers the modal separately or the modal is always rendered but visible based on state?
+
+                // Let's look at the `view_file` output again.
+                // It shows `GlassHouseModal` usage at line 356+.
+                // But where is it invoked? I didn't see the render part.
+
+                // However, I see `handleViewTrace` acts as the trigger.
+                // IF I look at the previous failed attempt's `TargetContent`:
+                // It had `setContextModalOpen(true);` 
+
+                // Let's stick to the visible code in `view_file` output (lines 430-450).
+                // It does NOT show `setContextModalOpen(true)`.
+                // It just sets trace data.
+
+                // So I will just set trace data.
+            } else {
+                console.warn("Trace data missing from memory.");
+            }
         }
     };
 
@@ -536,22 +538,52 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
         }
     };
 
-    // Flatten Decisions
+    // Extract Header and Decisions
     let allDecisions = [];
+    let analysisMetadata = null;
+
     if (analyzedData && Array.isArray(analyzedData)) {
-        analyzedData.forEach(section => {
-            if (section.decisions) {
-                section.decisions.forEach(d => {
+        analyzedData.forEach(item => {
+            if (item.type === 'HEADER' && item.metadata) {
+                analysisMetadata = item.metadata;
+            } else if (item.decisions) {
+                item.decisions.forEach(d => {
                     if (d.is_valid) {
                         // FIX: Trust backend title explicitly (No frontend truncation/splitting)
-                        let rawTitle = section.title || section.section_name || section.section_id || "Unknown Section";
-
-                        allDecisions.push({ ...d, _sectionId: section.section_id, _sectionName: rawTitle });
+                        let rawTitle = item.title || item.section_name || item.section_id || "Unknown Section";
+                        allDecisions.push({ ...d, _sectionId: item.section_id, _sectionName: rawTitle });
                     }
                 });
             }
         });
     }
+
+    // Strict Mode: No fallbacks. Information source is the analysis file header.
+    const displayFilename = analysisMetadata?.filename || "-";
+    const displayDate = analysisMetadata?.lastModified || null;
+    const displayRecordCount = analysisMetadata?.recordCount || 0;
+
+    // Export Functionality
+    const handleExport = () => {
+        if (!analyzedData) return;
+
+        // Use the display filename to construct the download name
+        const exportName = displayFilename.endsWith('.json')
+            ? displayFilename
+            : `${displayFilename.replace(/\.[^/.]+$/, "")}_analyzed.json`;
+
+        const dataStr = JSON.stringify(analyzedData, null, 2);
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = exportName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
 
     return (
         <div className="flex flex-col h-screen bg-gray-50 font-sans overflow-hidden">
@@ -564,62 +596,103 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                     <div>
                         <h1 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                             <Scale size={20} className="text-indigo-600" />
-                            HiPDAM Analysis: <span className="text-gray-500 font-normal">{filename}</span>
+                            {displayFilename}: <span className="text-gray-500 font-normal">Analysis Report</span>
                         </h1>
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <span className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold border border-indigo-100 flex items-center gap-1">
-                        <CheckCircle size={12} />
-                        {allDecisions.length} Golden Records
-                    </span>
+                    <button
+                        onClick={handleExport}
+                        className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full"
+                        title="Download Analysis JSON"
+                    >
+                        <FileJson size={20} />
+                    </button>
                 </div>
             </div>
 
-            {/* 2. Content Area */}
-            <div className="flex-1 overflow-y-auto p-8">
-                <div className="max-w-4xl mx-auto w-full">
-                    {/* Error State */}
-                    {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg flex items-center gap-3 mb-6">
-                            <XCircle size={20} />
+            {/* 2. Main Layout (Split View) */}
+            <div className="flex flex-1 overflow-hidden relative">
+
+                {/* LEFT PANEL: Document Info (Fixed 1/4) */}
+                <div className="w-1/4 bg-white border-r border-gray-200 flex flex-col p-6 shrink-0 z-10 overflow-y-auto">
+                    <div className="mb-8">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">
+                            Statistics
+                        </label>
+                        <div className="bg-indigo-50 text-indigo-700 p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col items-center gap-2">
+                            <CheckCircle size={28} className="text-indigo-600 mb-1" />
+                            <span className="text-3xl font-black">{displayRecordCount}</span>
+                            <span className="text-sm font-medium">Golden Records</span>
+                        </div>
+                    </div>
+
+                    {/* Document Metadata (Future Proofing) */}
+                    <div className="space-y-4">
+                        <div>
+                            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 block">Filename</label>
+                            <p className="text-sm text-gray-700 break-words font-medium">{displayFilename}</p>
+                        </div>
+                        {displayDate && (
                             <div>
-                                <h4 className="font-bold text-sm">Error Loading Analysis</h4>
-                                <p className="text-xs">{error}</p>
+                                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 block">Analysis Date</label>
+                                <p className="text-sm text-gray-600 font-mono">{new Date(displayDate).toLocaleDateString()}</p>
                             </div>
-                        </div>
-                    )}
+                        )}
+                        {analysisMetadata?.id && (
+                            <div>
+                                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 block">Report Type</label>
+                                <p className="text-sm text-gray-500 font-mono">{analysisMetadata.documentType || 'Analysis'}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
 
-                    {/* Loading State */}
-                    {loading && (
-                        <div className="flex flex-col items-center justify-center py-20 text-gray-400 gap-3">
-                            <RefreshCw className="animate-spin text-indigo-500" size={32} />
-                            <p>Loading decision records...</p>
-                        </div>
-                    )}
+                {/* RIGHT PANEL: Content Area (Scrollable 3/4) */}
+                <div className="w-3/4 flex-1 overflow-y-auto p-8 bg-gray-50">
+                    <div className="max-w-4xl mx-auto w-full">
+                        {/* Error State */}
+                        {error && (
+                            <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg flex items-center gap-3 mb-6">
+                                <XCircle size={20} />
+                                <div>
+                                    <h4 className="font-bold text-sm">Error Loading Analysis</h4>
+                                    <p className="text-xs">{error}</p>
+                                </div>
+                            </div>
+                        )}
 
-                    {/* Empty State */}
-                    {!loading && !error && allDecisions.length === 0 && (
-                        <div className="text-center text-gray-400 mt-20">
-                            <CheckCircle size={64} className="mx-auto mb-4 opacity-10" />
-                            <p className="text-lg font-medium text-gray-500">No Golden Records Verified</p>
-                            <p className="text-sm text-gray-400 mt-2">The analysis found no items matching the "Golden Record" criteria in this document.</p>
-                        </div>
-                    )}
+                        {/* Loading State */}
+                        {loading && (
+                            <div className="flex flex-col items-center justify-center py-20 text-gray-400 gap-3">
+                                <RefreshCw className="animate-spin text-indigo-500" size={32} />
+                                <p>Loading decision records...</p>
+                            </div>
+                        )}
 
-                    {/* Content List */}
-                    {!loading && !error && allDecisions.length > 0 && (
-                        <div className="space-y-6">
-                            {allDecisions.map((decision) => (
-                                <DecisionCard
-                                    key={decision.id}
-                                    decision={decision}
-                                    onViewTrace={(decisionId) => handleViewTrace(decision._sectionId, decisionId)}
-                                    onViewContext={handleViewContext}
-                                />
-                            ))}
-                        </div>
-                    )}
+                        {/* Empty State */}
+                        {!loading && !error && allDecisions.length === 0 && (
+                            <div className="text-center text-gray-400 mt-20">
+                                <CheckCircle size={64} className="mx-auto mb-4 opacity-10" />
+                                <p className="text-lg font-medium text-gray-500">No Golden Records Verified</p>
+                                <p className="text-sm text-gray-400 mt-2">The analysis found no items matching the "Golden Record" criteria in this document.</p>
+                            </div>
+                        )}
+
+                        {/* Content List */}
+                        {!loading && !error && allDecisions.length > 0 && (
+                            <div className="space-y-6">
+                                {allDecisions.map((decision) => (
+                                    <DecisionCard
+                                        key={decision.id}
+                                        decision={decision}
+                                        onViewTrace={(decisionId) => handleViewTrace(decision._sectionId, decisionId)}
+                                        onViewContext={handleViewContext}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 

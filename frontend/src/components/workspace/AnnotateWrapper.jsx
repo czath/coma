@@ -227,14 +227,24 @@ export default function AnnotateWrapper() {
                         documentTags,
                         lastModified: new Date().toISOString()
                     },
-                    content: stitchedContent,
-                    clauses: finalClauses
+                    clauses: finalClauses,
+                    progress: 100, // Reset progress for annotation phase
+
+                    // CRITICAL FIX: Clear previous analysis results
+                    hipdam_analyzed_file: null,
+                    hipdam_trace_file: null,
+                    hipdam_analyzed_content: null, // Clear imported content too
+                    taxonomy: [], // Clear legacy
+                    rules: []     // Clear legacy
                 });
+
+                // Clear persisted job state in frontend
+                localStorage.removeItem(`job_${file.header.id}`);
 
                 navigate('/workspace');
             } catch (e) {
-                console.error("Finalize failed", e);
-                alert("Failed to finalize document.");
+                console.error("Error finalizing:", e);
+                alert("Failed to save finalized document.");
             }
         }
     };

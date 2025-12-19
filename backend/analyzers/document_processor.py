@@ -27,8 +27,10 @@ class DocumentProcessor:
         job_id: str, 
         document_payload: List[Dict[str, Any]], 
         filename: str,
+
         document_type: str = "master",
-        progress_callback=None
+        progress_callback=None,
+        clean_start: bool = False
     ):
         """
         Orchestrates the full document processing pipeline:
@@ -41,6 +43,12 @@ class DocumentProcessor:
         
         # 1. Setup Temp Directory
         temp_dir = Path(f"temp_jobs/{job_id}")
+        
+        if clean_start and temp_dir.exists():
+            logger.info(f"Clean Start requested for {job_id}. Removing existing temp artifacts.")
+            import shutil
+            shutil.rmtree(temp_dir)
+            
         temp_dir.mkdir(parents=True, exist_ok=True)
         
         try:
@@ -220,6 +228,50 @@ class DocumentProcessor:
             # Construct Full Trace Map (List of TraceMaps)
             full_trace = [tm.model_dump() for tm in trace_maps]
             
+            # --- HEADER INJECTION ---
+            # 1. Find Original Header
+            original_header = next((b for b in document_payload if b.get("type") == "HEADER"), None)
+            
+            # 2. Prepare Base Metadata
+            import datetime
+            now_iso = datetime.datetime.utcnow().isoformat() + "Z"
+            
+            header_metadata = {
+                "id": f"doc_{job_id}", # Or preserve original ID if available in header
+                "filename": filename,
+                "documentType": document_type, # Original type
+                "documentTags": [],
+                "status": "analyzed",
+                "annotationMethod": "ai",
+                "lastModified": now_iso,
+                "exportDate": now_iso,
+                "recordCount": sum(len(tm.decisions) for tm in trace_maps) # Replaces sectionCount
+            }
+
+            # If we found an original header, carry over its ID and other non-overridden fields
+            if original_header and "metadata" in original_header:
+                orig_meta = original_header["metadata"]
+                # Preserve ID if it exists
+                if "id" in orig_meta: header_metadata["id"] = orig_meta["id"]
+                if "documentTags" in orig_meta: header_metadata["documentTags"] = orig_meta["documentTags"]
+            
+            # 3. Create Header Blocks
+            analysis_header_block = {
+                "type": "HEADER",
+                "metadata": header_metadata.copy()
+            }
+            
+            trace_header_block = {
+                "type": "HEADER",
+                "metadata": header_metadata.copy()
+            }
+            # User previously requested 'analysis_trace' for trace file, but then corrected to keep original type.
+            # So both headers have the same documentType (e.g. 'reference').
+            
+            # 4. Prepend Headers
+            golden_records.insert(0, analysis_header_block)
+            full_trace.insert(0, trace_header_block)
+            
             # Write Files
             with open(analyzed_path, "w", encoding="utf-8") as f:
                 json.dump(golden_records, f, indent=2)
@@ -227,12 +279,12 @@ class DocumentProcessor:
             with open(trace_path, "w", encoding="utf-8") as f:
                 json.dump(full_trace, f, indent=2)
                 
-            logger.info(f"Saved {analyzed_path} and {trace_path}")
+            logger.info(f"Saved {analyzed_path} and {trace_path} with HEADERS.")
             
             # Cleanup
-            # shutil.rmtree(temp_dir) # Uncomment to enable cleanup
-            # KEEPING TEMP DIR FOR NOW FOR DEBUGGING AS PER GOOD PRACTICE
-            logger.info(f"Temp dir {temp_dir} preserved for debugging.")
+            logger.info(f"Cleaning up temp artifacts for job {job_id}")
+            import shutil
+            shutil.rmtree(temp_dir)
             
             return {
                 "analyzed_file": analyzed_filename,

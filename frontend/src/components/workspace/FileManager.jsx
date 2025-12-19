@@ -122,19 +122,48 @@ export default function FileManager() {
                         });
                     } else {
                         // HIPDAM ANALYSIS COMPLETION
-                        // Result contains { analyzed_file, trace_file, stats }
-                        await updateFile(file.header.id, {
-                            header: { ...file.header, status: 'analyzed' },
-                            progress: 100,
-                            // Store references to the generated files
-                            hipdam_analyzed_file: result.analyzed_file,
-                            hipdam_trace_file: result.trace_file,
-                            // Legacy fields for compatibility (optional, or empty)
-                            taxonomy: [],
-                            rules: []
-                        });
-                        // Optional: Navigate immediately? User might want to stay in list.
-                        // navigate(`/analyze/${file.header.id}`);
+                        // AUTO-IMPORT LOGIC for Browser-Based Storage
+                        try {
+                            const result = statusData.result;
+
+                            // 1. Fetch Analyzed Content
+                            const analyzedRes = await fetch(`http://localhost:8000/output/${result.analyzed_file}`);
+                            const analyzedData = await analyzedRes.json();
+
+                            // 2. Fetch Trace Content (if available)
+                            let traceData = null;
+                            if (result.trace_file) {
+                                const traceRes = await fetch(`http://localhost:8000/output/${result.trace_file}`);
+                                traceData = await traceRes.json();
+                            }
+
+                            // 3. Save to In-Memory Record & Clear Links
+                            await updateFile(file.header.id, {
+                                header: { ...file.header, status: 'analyzed', recordCount: result.stats.total_decisions },
+                                progress: 100,
+                                hipdam_analyzed_content: analyzedData,
+                                hipdam_trace_content: traceData,
+                                hipdam_analyzed_file: null, // Clear link to enforce memory usage
+                                hipdam_trace_file: null     // Clear link
+                            });
+
+                            // 4. Cleanup Backend Files (Fire and Forget)
+                            fetch(`http://localhost:8000/cleanup_output/${result.analyzed_file}`, { method: 'DELETE' }).catch(console.error);
+                            if (result.trace_file) {
+                                fetch(`http://localhost:8000/cleanup_output/${result.trace_file}`, { method: 'DELETE' }).catch(console.error);
+                            }
+
+                        } catch (err) {
+                            console.error("Auto-import failed", err);
+                            // Fallback: Just link to file if import failed (though it shouldn't)
+                            // Note: If fetch failed, files preferrably still on disk.
+                            await updateFile(file.header.id, {
+                                header: { ...file.header, status: 'analyzed' },
+                                progress: 100,
+                                hipdam_analyzed_file: statusData.result.analyzed_file,
+                                hipdam_trace_file: statusData.result.trace_file
+                            });
+                        }
                     }
 
                 } else if (statusData.status === 'failed') {
@@ -229,55 +258,78 @@ export default function FileManager() {
                 if (true) { // Helper block for scope
                     const metadata = jsonContent[0].metadata;
 
-                    newFile.header = {
-                        ...newFile.header,
-                        status: metadata.status || 'uploaded',
-                        documentType: metadata.documentType || 'master',
-                        annotationMethod: metadata.annotationMethod || 'ai',
-                        documentTags: metadata.documentTags || [],
-                        lastModified: metadata.lastModified || new Date().toISOString(),
-                    };
+                    // CHECK FOR ANALYSIS FILE IMPORT
+                    if (metadata.status === 'analyzed') {
+                        console.log("Importing Analysis File:", file.name);
+                        newFile.header = {
+                            ...newFile.header,
+                            status: 'analyzed',
+                            documentType: metadata.documentType || 'master',
+                            lastModified: metadata.lastModified || new Date().toISOString(),
+                            // Use metadata ID if present to preserve linkage? Or generate new ID?
+                            // Generating new ID avoids conflicts but loses trace history (which user said is fine)
+                        };
 
-                    // Import Analysis Data if present
-                    newFile.taxonomy = metadata.taxonomy || [];
-                    newFile.rules = metadata.rules || [];
+                        // Store full analysis content locally for Viewer to consume immediately
+                        newFile.hipdam_analyzed_content = jsonContent;
+                        newFile.progress = 100;
 
-                    // Reconstruct content and clauses
-                    let lineIndex = 0;
-                    jsonContent.forEach(item => {
-                        if (item.type === 'HEADER') return;
+                        // We do NOT reconstruct 'content' or 'clauses' as this is not for annotation
+                        newFile.content = [];
+                        newFile.clauses = [];
 
-                        // Do NOT split by newline. Treat the whole JSON object text as one atomic block.
-                        const lineText = item.text || '';
+                    } else {
+                        // STANDARD ANNOTATION FILE IMPORT
+                        newFile.header = {
+                            ...newFile.header,
+                            status: metadata.status || 'uploaded',
+                            documentType: metadata.documentType || 'master',
+                            annotationMethod: metadata.annotationMethod || 'ai',
+                            documentTags: metadata.documentTags || [],
+                            lastModified: metadata.lastModified || new Date().toISOString(),
+                        };
 
-                        // Push single content block
-                        newFile.content.push({
-                            ...item, // FIX: Preserve all metadata (header, tags, title, etc)
-                            text: lineText,
-                            id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                            type: item.type // The whole block is this type
+                        // Import Analysis Data if present (Legacy)
+                        newFile.taxonomy = metadata.taxonomy || [];
+                        newFile.rules = metadata.rules || [];
+
+                        // Reconstruct content and clauses (Only for annotation files)
+                        let lineIndex = 0;
+                        jsonContent.forEach(item => {
+                            if (item.type === 'HEADER') return;
+
+                            // Do NOT split by newline. Treat the whole JSON object text as one atomic block.
+                            const lineText = item.text || '';
+
+                            // Push single content block
+                            newFile.content.push({
+                                ...item, // FIX: Preserve all metadata (header, tags, title, etc)
+                                text: lineText,
+                                id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                                type: item.type // The whole block is this type
+                            });
+
+                            const startLine = lineIndex;
+                            lineIndex++; // Increments by 1 per BLOCK now, not per line.
+
+                            const endLine = lineIndex - 1;
+                            // For a single block, the "length" is just the text length
+                            const endCh = lineText.length;
+
+                            if (item.type !== 'SKIP') {
+                                newFile.clauses.push({
+                                    id: item.id || `c_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                                    type: item.type,
+                                    header: item.header || (item.text ? item.text.substring(0, 50) : 'Section'),
+                                    start: { line: startLine, ch: 0 },
+                                    end: { line: endLine, ch: endCh },
+                                    tags: item.tags || []
+                                });
+                            }
                         });
 
-                        const startLine = lineIndex;
-                        lineIndex++; // Increments by 1 per BLOCK now, not per line.
-
-                        const endLine = lineIndex - 1;
-                        // For a single block, the "length" is just the text length
-                        const endCh = lineText.length;
-
-                        if (item.type !== 'SKIP') {
-                            newFile.clauses.push({
-                                id: item.id || `c_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                                type: item.type,
-                                header: item.header || (item.text ? item.text.substring(0, 50) : 'Section'),
-                                start: { line: startLine, ch: 0 },
-                                end: { line: endLine, ch: endCh },
-                                tags: item.tags || []
-                            });
-                        }
-                    });
-
-                    newFile.progress = 100;
+                        newFile.progress = 100;
+                    }
                 }
             } catch (e) {
                 console.error("Failed to parse JSON upload", e);
@@ -456,6 +508,18 @@ export default function FileManager() {
                 clearInterval(intervalsRef.current[file.header.id]);
                 delete intervalsRef.current[file.header.id];
             }
+
+            // CLEANUP BACKEND ARTIFACTS
+            const jobId = localStorage.getItem(`job_${file.header.id}`);
+            if (jobId) {
+                // Determine if we need to cancel/cleanup backend artifacts
+                // Just aggressively call cancel_job to be safe
+                fetch(`http://localhost:8000/cancel_job/${jobId}`, { method: 'DELETE' }).catch(err => {
+                    console.warn("Failed to cleanup remote job artifacts", err);
+                });
+                localStorage.removeItem(`job_${file.header.id}`);
+            }
+
             await deleteFile(file.header.id);
         }
     };
@@ -721,12 +785,18 @@ export default function FileManager() {
                                                             onClick={() => {
                                                                 if (window.confirm("Stop and Cancel this job?")) {
                                                                     // Optimistic Cancel
-                                                                    // Clear interval
                                                                     if (intervalsRef.current[file.header.id]) {
                                                                         clearInterval(intervalsRef.current[file.header.id]);
                                                                         delete intervalsRef.current[file.header.id];
                                                                     }
-                                                                    localStorage.removeItem(`job_${file.header.id}`);
+
+                                                                    // Call Backend to Cleanup
+                                                                    const jobId = localStorage.getItem(`job_${file.header.id}`);
+                                                                    if (jobId) {
+                                                                        fetch(`http://localhost:8000/cancel_job/${jobId}`, { method: 'DELETE' })
+                                                                            .catch(console.error);
+                                                                        localStorage.removeItem(`job_${file.header.id}`);
+                                                                    }
 
                                                                     const revertStatus = file.header.documentType === 'master' ? 'uploaded' : 'annotated';
                                                                     updateFile(file.header.id, {
@@ -745,9 +815,11 @@ export default function FileManager() {
 
                                                 {file.header.status === 'analyzed' && (
                                                     <>
-                                                        <button onClick={() => handleAction('annotate', file)} className="text-gray-400 hover:text-gray-600 p-1" title="View/Edit Annotation">
-                                                            <Edit size={18} />
-                                                        </button>
+                                                        {file.content && file.content.length > 0 && (
+                                                            <button onClick={() => handleAction('annotate', file)} className="text-gray-400 hover:text-gray-600 p-1" title="View/Edit Annotation">
+                                                                <Edit size={18} />
+                                                            </button>
+                                                        )}
                                                         <button onClick={() => handleAction('view-analysis', file)} className="text-indigo-600 hover:text-indigo-900 p-1" title="View Analysis">
                                                             <Eye size={18} />
                                                         </button>

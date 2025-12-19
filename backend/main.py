@@ -588,7 +588,8 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
             payload.document_content, 
             payload.filename, 
             document_type=payload.document_type,
-            progress_callback=update_progress
+            progress_callback=update_progress,
+            clean_start=True # FORCE CLEAN START for user-initiated analysis
         )
         
         jobs[job_id]["status"] = "completed"
@@ -641,3 +642,47 @@ async def get_output_file(filename: str):
     
     from fastapi.responses import FileResponse
     return FileResponse(file_path)
+
+@app.delete("/cancel_job/{job_id}")
+async def cancel_job(job_id: str):
+    """
+    Manually cancels a job and cleans up its temporary artifacts.
+    """
+    if job_id in jobs:
+        jobs[job_id]["status"] = "cancelled"
+        jobs[job_id]["message"] = "Cancelled by user."
+        
+    # Force cleanup of temp dir
+    import shutil
+    from pathlib import Path
+    temp_dir = Path(f"temp_jobs/{job_id}")
+    if temp_dir.exists():
+        try:
+            shutil.rmtree(temp_dir)
+            return {"status": "cancelled", "cleanup": "success"}
+        except Exception as e:
+            return {"status": "cancelled", "cleanup": "failed", "error": str(e)}
+            
+    return {"status": "cancelled", "cleanup": "no_artifacts_found"}
+
+@app.delete("/cleanup_output/{filename}")
+async def cleanup_output_file(filename: str):
+    """
+    Deletes a specific file from the output directory.
+    Used by frontend to cleanup after successfully importing analysis into memory.
+    """
+    import os
+    file_path = os.path.join("output", filename)
+    
+    # Security check: ensure no directory traversal
+    if ".." in filename or "/" in filename or "\\" in filename:
+         raise HTTPException(status_code=400, detail="Invalid filename")
+
+    if os.path.exists(file_path):
+        try:
+            os.remove(file_path)
+            return {"status": "deleted", "file": filename}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to delete file: {e}")
+            
+    return {"status": "not_found", "file": filename}
