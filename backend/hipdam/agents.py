@@ -48,15 +48,25 @@ Return ONLY a valid JSON List. Do not use markdown code blocks.
             
             generation_config = types.GenerateContentConfig(**config_args)
 
-            response = await self.client.aio.models.generate_content(
-                model=model_name,
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    system_instruction=system_instr,
-                    **config_args
+            print(f"      [AgentRunner] {agent_id}: Generating content... (Len: {len(section_text)})")
+            # Enforce strict asyncio timeout to prevent indefinite hangs
+            try:
+                response = await asyncio.wait_for(
+                    self.client.aio.models.generate_content(
+                        model=model_name,
+                        contents=prompt,
+                        config=types.GenerateContentConfig(
+                            system_instruction=system_instr,
+                            **config_args
+                        )
+                    ),
+                    timeout=300 # 5 Minute hard timeout per agent
                 )
-            )
-
+            except asyncio.TimeoutError:
+                print(f"      [AgentRunner] {agent_id}: TIMED OUT after 300s.")
+                return []
+                
+            print(f"      [AgentRunner] {agent_id}: Generation complete.")
             response_text = response.text
             # Clean potential markdown
             if response_text.startswith("```json"):

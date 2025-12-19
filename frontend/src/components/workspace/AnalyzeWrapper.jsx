@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search, X, Check, Book, Sparkles, FileText } from 'lucide-react';
 import { dbAPI } from '../../utils/db'; // Adjust path if needed
 import LinguisticView from './LinguisticView';
+import HipdamAnalysisViewer from './HipdamAnalysisViewer';
 
 export default function AnalyzeWrapper() {
     const navigate = useNavigate();
@@ -54,6 +55,7 @@ export default function AnalyzeWrapper() {
         }
     }, [file, viewMode]);
 
+    // Export Logic ... (Keeping existing helper methods)
     const handleExport = (type) => {
         if (!file) return;
 
@@ -159,8 +161,15 @@ export default function AnalyzeWrapper() {
         URL.revokeObjectURL(url);
     };
 
+    // ...
+
     if (loading) return <div className="p-8">Loading analysis...</div>;
     if (!file) return <div className="p-8">Document not found.</div>;
+
+    // HIPDAM INTERCEPTION
+    if (file.hipdam_analyzed_file) {
+        return <HipdamAnalysisViewer file={file} onBack={() => navigate('/workspace')} />;
+    }
 
     const taxonomy = file.taxonomy || [];
     const rules = file.rules || [];

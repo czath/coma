@@ -34,7 +34,7 @@ class HiPDAMOrchestrator:
         start_time = time.time()
         
         # 1. Run Agents Parallel
-        print(f"--- HiPDAM: Starting Analysis for section {section_id} ---")
+        print(f"--- HiPDAM: Starting Analysis for section {section_id} (Length: {len(section_text)} chars) ---")
         agent_configs = self.config.get("AGENTS", {})
         agent_tasks = []
         

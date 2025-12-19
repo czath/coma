@@ -21,26 +21,140 @@ export default function FileManager() {
     const cleanupDone = useRef(false);
 
     // Clean up stuck states on mount (ONCE only)
+    // Clean up stuck states or RESUME polling on mount
     useEffect(() => {
         if (loading || !files || files.length === 0) return;
         if (cleanupDone.current) return;
 
         cleanupDone.current = true;
-        console.log("Running one-time cleanup check...");
+        console.log("Running resumption/cleanup check...");
 
         files.forEach(file => {
             const status = file.header.status;
-            // Only reset if NO upload progress is found locally (meaning it's likely from a reload)
-            if (['ingesting', 'analyzing'].includes(status) && !uploadProgress[file.header.id]) {
-                const newStatus = status === 'ingesting' ? 'uploaded' : 'annotated';
-                console.log(`Resetting stuck file ${file.header.filename} from ${status} to ${newStatus}`);
-                updateFile(file.header.id, {
-                    header: { ...file.header, status: newStatus },
-                    progress: 0
-                });
+
+            // Check for resumable job in LocalStorage
+            const storedJobId = localStorage.getItem(`job_${file.header.id}`);
+
+            if (['ingesting', 'analyzing'].includes(status)) {
+                if (storedJobId) {
+                    console.log(`Resuming job ${storedJobId} for file ${file.header.filename}`);
+                    startPolling(file, storedJobId, status); // Resume polling
+                } else {
+                    // No job ID found -> Reset stuck state
+                    const newStatus = status === 'ingesting' ? 'uploaded' : 'annotated';
+                    console.log(`Resetting stuck file ${file.header.filename} from ${status} to ${newStatus}`);
+                    updateFile(file.header.id, {
+                        header: { ...file.header, status: newStatus },
+                        progress: 0
+                    });
+                }
             }
         });
     }, [files, loading, updateFile]);
+
+    // Reusable Polling Function
+    const startPolling = (file, jobId, type = 'analyzing') => {
+        if (intervalsRef.current[file.header.id]) clearInterval(intervalsRef.current[file.header.id]);
+
+        const pollInterval = setInterval(async () => {
+            try {
+                const statusRes = await fetch(`http://localhost:8000/status/${jobId}`);
+
+                if (statusRes.status === 404) {
+                    clearInterval(pollInterval);
+                    delete intervalsRef.current[file.header.id];
+                    localStorage.removeItem(`job_${file.header.id}`); // Clear invalid job
+
+                    console.warn("Job not found (404).");
+
+                    setUploadProgress(prev => {
+                        const newState = { ...prev };
+                        delete newState[file.header.id];
+                        return newState;
+                    });
+
+                    // Revert status
+                    const revertStatus = type === 'ingesting' ? 'uploaded' : 'annotated';
+                    await updateFile(file.header.id, {
+                        header: { ...file.header, status: revertStatus },
+                        progress: 0
+                    });
+                    return;
+                }
+
+                if (!statusRes.ok) return;
+
+                const statusData = await statusRes.json();
+
+                if (statusData.status === 'processing') {
+                    setUploadProgress(prev => ({
+                        ...prev,
+                        [file.header.id]: {
+                            percent: statusData.progress || 0,
+                            message: statusData.message // Backend sends "Analyzing XX% (X/Y)"
+                        }
+                    }));
+                } else if (statusData.status === 'completed') {
+                    clearInterval(pollInterval);
+                    delete intervalsRef.current[file.header.id];
+                    localStorage.removeItem(`job_${file.header.id}`); // Success!
+
+                    setUploadProgress(prev => {
+                        const newState = { ...prev };
+                        delete newState[file.header.id];
+                        return newState;
+                    });
+
+                    const result = statusData.result;
+
+                    if (type === 'ingesting') {
+                        // ... (Existing Ingestion Logic) ...
+                        const generatedClauses = generateClausesFromContent(result.content || []);
+                        await updateFile(file.header.id, {
+                            header: { ...file.header, status: 'draft' },
+                            content: result.content,
+                            clauses: generatedClauses,
+                            progress: 100
+                        });
+                    } else {
+                        // HIPDAM ANALYSIS COMPLETION
+                        // Result contains { analyzed_file, trace_file, stats }
+                        await updateFile(file.header.id, {
+                            header: { ...file.header, status: 'analyzed' },
+                            progress: 100,
+                            // Store references to the generated files
+                            hipdam_analyzed_file: result.analyzed_file,
+                            hipdam_trace_file: result.trace_file,
+                            // Legacy fields for compatibility (optional, or empty)
+                            taxonomy: [],
+                            rules: []
+                        });
+                        // Optional: Navigate immediately? User might want to stay in list.
+                        // navigate(`/analyze/${file.header.id}`);
+                    }
+
+                } else if (statusData.status === 'failed') {
+                    clearInterval(pollInterval);
+                    delete intervalsRef.current[file.header.id];
+                    localStorage.removeItem(`job_${file.header.id}`);
+
+                    alert(`Job failed: ${statusData.error}`);
+                    setUploadProgress(prev => {
+                        const newState = { ...prev };
+                        delete newState[file.header.id];
+                        return newState;
+                    });
+
+                    const revertStatus = type === 'ingesting' ? 'uploaded' : 'annotated';
+                    updateFile(file.header.id, { header: { ...file.header, status: revertStatus }, progress: 100 });
+                }
+            } catch (e) {
+                console.error("Polling error", e);
+            }
+        }, 2000); // Poll every 2s
+
+        intervalsRef.current[file.header.id] = pollInterval;
+    };
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -84,7 +198,7 @@ export default function FileManager() {
                 filename: file.name,
                 uploadDate: new Date().toISOString(),
                 status: 'uploaded', // Initial state
-                documentType: 'master', // Default
+                documentType: 'master', // Default - overwitten by metadata if present
                 annotationMethod: 'ai', // Default: 'ai'
                 version: '1.0'
             },
@@ -124,22 +238,23 @@ export default function FileManager() {
                     jsonContent.forEach(item => {
                         if (item.type === 'HEADER') return;
 
-                        const itemLines = (item.text || '').split('\n');
-                        const startLine = lineIndex;
+                        // Do NOT split by newline. Treat the whole JSON object text as one atomic block.
+                        const lineText = item.text || '';
 
-                        itemLines.forEach((lineText, idx) => {
-                            // Assign Header Type to first line, CONTENT to others to preserve logical grouping
-                            const lineType = idx === 0 ? item.type : 'CONTENT';
-                            newFile.content.push({
-                                text: lineText,
-                                id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                                type: lineType
-                            });
-                            lineIndex++;
+                        // Push single content block
+                        newFile.content.push({
+                            ...item, // FIX: Preserve all metadata (header, tags, title, etc)
+                            text: lineText,
+                            id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                            type: item.type // The whole block is this type
                         });
 
+                        const startLine = lineIndex;
+                        lineIndex++; // Increments by 1 per BLOCK now, not per line.
+
                         const endLine = lineIndex - 1;
-                        const endCh = itemLines[itemLines.length - 1].length;
+                        // For a single block, the "length" is just the text length
+                        const endCh = lineText.length;
 
                         if (item.type !== 'SKIP') {
                             newFile.clauses.push({
@@ -235,90 +350,11 @@ export default function FileManager() {
 
             const { job_id } = await response.json();
 
-            // 2. Poll for Status
-            // Clear any existing interval for this file just in case
-            if (intervalsRef.current[dbFile.header.id]) clearInterval(intervalsRef.current[dbFile.header.id]);
+            // Persist Job ID
+            localStorage.setItem(`job_${dbFile.header.id}`, job_id);
 
-            const pollInterval = setInterval(async () => {
-                try {
-                    const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
-
-                    if (statusRes.status === 404) {
-                        clearInterval(pollInterval);
-                        delete intervalsRef.current[dbFile.header.id];
-                        console.warn("Job not found (404). Backend likely restarted.");
-
-                        setUploadProgress(prev => {
-                            const newState = { ...prev };
-                            delete newState[dbFile.header.id];
-                            return newState;
-                        });
-                        await updateFile(dbFile.header.id, {
-                            header: { ...dbFile.header, status: 'uploaded' },
-                            progress: 0
-                        });
-                        return;
-                    }
-
-                    if (!statusRes.ok) return;
-
-                    const statusData = await statusRes.json();
-
-                    if (statusData.status === 'processing') {
-                        // Update LOCAL state including message
-                        setUploadProgress(prev => ({
-                            ...prev,
-                            [dbFile.header.id]: {
-                                percent: statusData.progress || 0,
-                                message: statusData.message || "Processing..."
-                            }
-                        }));
-                    } else if (statusData.status === 'completed') {
-                        clearInterval(pollInterval);
-                        delete intervalsRef.current[dbFile.header.id];
-
-                        // Clear local progress
-                        setUploadProgress(prev => {
-                            const newState = { ...prev };
-                            delete newState[dbFile.header.id];
-                            return newState;
-                        });
-
-                        const result = statusData.result;
-                        const generatedClauses = generateClausesFromContent(result.content || []);
-
-                        await updateFile(dbFile.header.id, {
-                            header: {
-                                ...dbFile.header,
-                                status: 'draft'
-                            },
-                            content: result.content,
-                            clauses: generatedClauses,
-                            progress: 100
-                        });
-                    } else if (statusData.status === 'failed') {
-                        clearInterval(pollInterval);
-                        delete intervalsRef.current[dbFile.header.id];
-                        alert(`Processing failed: ${statusData.error}`);
-
-
-                        setUploadProgress(prev => {
-                            const newState = { ...prev };
-                            delete newState[dbFile.header.id];
-                            return newState;
-                        });
-
-                        await updateFile(dbFile.header.id, {
-                            header: { ...dbFile.header, status: 'uploaded' }, // Revert status
-                            progress: 0
-                        });
-                    }
-                } catch (e) {
-                    console.error("Polling error", e);
-                }
-            }, 1000);
-
-            intervalsRef.current[dbFile.header.id] = pollInterval;
+            // 2. Poll for Status (Using new helper)
+            startPolling(dbFile, job_id, 'ingesting');
 
         } catch (error) {
             console.error(error);
@@ -330,6 +366,9 @@ export default function FileManager() {
         }
     };
 
+    // Legacy polling logic removed in favor of startPolling
+
+
     const handleAction = async (action, file) => {
         switch (action) {
             case 'annotate':
@@ -337,86 +376,35 @@ export default function FileManager() {
                 break;
             case 'analyze':
                 // 1. Set status to analyzing
-                updateFile(file.header.id, { header: { ...file.header, status: 'analyzing' }, progress: 0 });
+                await updateFile(file.header.id, { header: { ...file.header, status: 'analyzing' }, progress: 0 });
 
                 try {
-                    // 2. Send to Backend (Standard Rule Extraction Analysis)
-                    const response = await fetch('http://127.0.0.1:8000/analyze_document', {
+                    // 2. Send to Backend (Hipdam Analysis)
+                    // We send the 'content' or 'annotated_aggregated_blocks' if available. 
+                    // Assuming 'content' holds the structured data from ingestion.
+                    // Important: The backend logic for document_processor expects a specific structure.
+                    // If file.content is the ingestion result, it's correct.
+                    const payload = {
+                        document_content: file.content,
+                        filename: file.header.filename,
+                        document_type: file.header.documentType || "master",
+                        file_id: file.header.id // Enable deterministic Job ID for Resumption
+                    };
+
+                    const response = await fetch('http://127.0.0.1:8000/analyze_hipdam_document', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ document_content: file })
+                        body: JSON.stringify(payload)
                     });
 
                     if (!response.ok) throw new Error('Analysis request failed');
                     const { job_id } = await response.json();
 
-                    // 3. Poll for Status
-                    if (intervalsRef.current[file.header.id]) clearInterval(intervalsRef.current[file.header.id]);
+                    // Persist
+                    localStorage.setItem(`job_${file.header.id}`, job_id);
 
-                    const pollInterval = setInterval(async () => {
-                        try {
-                            const statusRes = await fetch(`http://127.0.0.1:8000/status/${job_id}`);
-
-                            if (statusRes.status === 404) {
-                                clearInterval(pollInterval);
-                                delete intervalsRef.current[file.header.id];
-                                // Handle lost job
-                                await updateFile(file.header.id, {
-                                    header: { ...file.header, status: 'annotated' },
-                                    progress: 100
-                                });
-                                return;
-                            }
-
-                            if (!statusRes.ok) return;
-                            const statusData = await statusRes.json();
-
-                            if (statusData.status === 'processing') {
-                                setUploadProgress(prev => ({
-                                    ...prev,
-                                    [file.header.id]: {
-                                        percent: statusData.progress || 0,
-                                        message: statusData.message || "Analyzing policies..."
-                                    }
-                                }));
-                            } else if (statusData.status === 'completed') {
-                                clearInterval(pollInterval);
-                                delete intervalsRef.current[file.header.id];
-                                setUploadProgress(prev => {
-                                    const newState = { ...prev };
-                                    delete newState[file.header.id];
-                                    return newState;
-                                });
-
-                                // 4. Update File with Analysis Results (Taxonomy + Rules)
-                                const { taxonomy, rules } = statusData.result;
-
-                                await updateFile(file.header.id, {
-                                    header: { ...file.header, status: 'analyzed' },
-                                    progress: 100,
-                                    taxonomy: taxonomy,
-                                    rules: rules
-                                });
-
-                                navigate(`/analyze/${file.header.id}`);
-
-                            } else if (statusData.status === 'failed') {
-                                clearInterval(pollInterval);
-                                delete intervalsRef.current[file.header.id];
-                                alert(`Analysis failed: ${statusData.error}`);
-                                setUploadProgress(prev => {
-                                    const newState = { ...prev };
-                                    delete newState[file.header.id];
-                                    return newState;
-                                });
-                                updateFile(file.header.id, { header: { ...file.header, status: 'annotated' }, progress: 100 });
-                            }
-                        } catch (e) {
-                            console.error("Polling error", e);
-                        }
-                    }, 1000);
-
-                    intervalsRef.current[file.header.id] = pollInterval;
+                    // 3. Poll
+                    startPolling(file, job_id, 'analyzing');
 
                 } catch (e) {
                     console.error(e);

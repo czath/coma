@@ -36,6 +36,8 @@ from parsers.llm_auto_tagger import LLMAutoTagger
 from config_llm import get_config
 from hipdam.core import HiPDAMOrchestrator
 from hipdam.adapter import LegacyAdapter
+from typing import List, Dict, Optional, Any
+from pydantic import BaseModel, Field
 import shutil
 import uuid
 import asyncio
@@ -169,6 +171,58 @@ from pydantic import BaseModel
 
 class AnalysisPayload(BaseModel):
     document_content: Dict[str, Any] # Full document object
+
+class HipdamAnalysisPayload(BaseModel):
+    document_content: List[Dict[str, Any]]
+    filename: str
+    document_type: str = "master" # Default to master
+
+async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPayload):
+    try:
+        # Update Status
+        jobs[job_id]["status"] = "processing"
+        jobs[job_id]["progress"] = 0
+        jobs[job_id]["message"] = "Initializing Agentic Workflow..."
+        
+        # Assuming DocumentProcessor is imported or defined elsewhere
+        # from hipdam.document_processor import DocumentProcessor # Example import
+        # processor = DocumentProcessor(api_key=os.environ.get("GEMINI_API_KEY"))
+        
+        # Placeholder for actual DocumentProcessor logic
+        # In a real scenario, you'd instantiate and call the processor here.
+        # For now, simulate processing.
+        
+        # Example: Simulate progress
+        total_steps = 10
+        for i in range(total_steps):
+            await asyncio.sleep(0.5) # Simulate work
+            jobs[job_id]["progress"] = int(((i + 1) / total_steps) * 100)
+            jobs[job_id]["message"] = f"Processing step {i+1}/{total_steps}..."
+
+        # Simulate a result
+        result = {
+            "summary": f"Analysis of {payload.filename} ({payload.document_type}) completed.",
+            "extracted_data": [
+                {"section": "Introduction", "rules_found": ["Rule A", "Rule B"]},
+                {"section": "Definitions", "rules_found": ["Rule C"]}
+            ]
+        }
+        
+        jobs[job_id]["status"] = "completed"
+        jobs[job_id]["progress"] = 100
+        jobs[job_id]["result"] = result
+        jobs[job_id]["message"] = "Agentic analysis complete."
+
+    except asyncio.CancelledError:
+        print(f"HiPDAM Document Analysis Job {job_id} CANCELLED by system/user.")
+        jobs[job_id]["status"] = "cancelled"
+        jobs[job_id]["error"] = "Job cancelled."
+    except Exception as e:
+        print(f"HiPDAM Document Analysis Job {job_id} failed: {e}")
+        jobs[job_id]["status"] = "failed"
+        jobs[job_id]["error"] = str(e)
+        import traceback
+        traceback.print_exc()
 
 async def run_analysis(job_id: str, content: List[Dict], document_id: str):
     try:
@@ -500,3 +554,90 @@ async def analyze_linguistic_document(
     background_tasks.add_task(run_linguistic_analysis, job_id, payload.document_content)
     
     return {"job_id": job_id}
+
+# HiPDAM Full Document Analysis -----------------------------------------------
+from analyzers.document_processor import DocumentProcessor
+
+class HipdamAnalysisPayload(BaseModel):
+    document_content: List[Dict[str, Any]]
+    filename: str
+    document_type: str = "master" # Default to master/clause-based
+    file_id: Optional[str] = None # For deterministic job IDs (Resumption)
+
+async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPayload):
+    try:
+        jobs[job_id]["status"] = "processing"
+        jobs[job_id]["progress"] = 0
+        jobs[job_id]["message"] = "Initializing HiPDAM orchestration..."
+        
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+             raise Exception("GEMINI_API_KEY not configured")
+             
+        processor = DocumentProcessor(api_key)
+        
+        def update_progress(current, total, message=None):
+            if total > 0:
+                percent = int((current / total) * 100)
+                jobs[job_id]["progress"] = percent
+                if message:
+                     jobs[job_id]["message"] = f"Analyzing {percent}% ({current}/{total})"
+
+        result = await processor.process_document(
+            job_id, 
+            payload.document_content, 
+            payload.filename, 
+            document_type=payload.document_type,
+            progress_callback=update_progress
+        )
+        
+        jobs[job_id]["status"] = "completed"
+        jobs[job_id]["progress"] = 100
+        jobs[job_id]["result"] = result
+        jobs[job_id]["message"] = "Analysis complete."
+
+    except Exception as e:
+        print(f"HiPDAM Job {job_id} failed: {e}")
+        jobs[job_id]["status"] = "failed"
+        jobs[job_id]["error"] = str(e)
+        import traceback
+        traceback.print_exc()
+
+@app.post("/analyze_hipdam_document")
+async def analyze_hipdam_document(
+    payload: HipdamAnalysisPayload,
+    background_tasks: BackgroundTasks
+):
+    """
+    Triggers HiPDAM Analysis.
+    Supports Resumption: If 'file_id' is provided, we try to reuse/resume that job namespace.
+    """
+    # Deterministic Job ID if file_id present
+    if payload.file_id:
+        # Use a consistent ID for this file so temp folders are reused
+        job_id = f"job_{payload.file_id}"
+    else:
+        import uuid
+        job_id = str(uuid.uuid4())
+    
+    # Initialize Job State
+    jobs[job_id] = {
+        "status": "processing", # Immediately set to processing
+        "progress": 0,
+        "message": "Initializing...",
+        "result": None
+    }
+    
+    background_tasks.add_task(run_hipdam_document_analysis, job_id, payload)
+    
+    return {"job_id": job_id}
+
+
+@app.get("/output/{filename}")
+async def get_output_file(filename: str):
+    file_path = os.path.join("output", filename)
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    from fastapi.responses import FileResponse
+    return FileResponse(file_path)
