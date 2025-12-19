@@ -1,8 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle, XCircle, Search, FileText, Activity, Users, Layers, Scale, AlertTriangle, ChevronDown, ChevronRight, Eye, Sparkles, Book, FileJson, X, RefreshCw, Gavel, BookOpen } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Search, FileText, Activity, Users, Layers, Scale, AlertTriangle, ChevronDown, ChevronRight, Eye, Sparkles, Book, FileJson, X, RefreshCw, Gavel, BookOpen, Wand2, Tag, List, Filter, Bookmark, Quote, Flashlight, Workflow, HelpCircle, Home, Store } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 // --- HELPER COMPONENTS (LEGACY STYLE) ---
+
+// Style Mappings for Record Types
+const getTypeStyle = (t) => {
+    const upperType = (t || "").toUpperCase();
+    if (upperType === "DEFINITION") return "bg-blue-100 text-blue-800 border-blue-200";
+    if (upperType === "GUIDELINE") return "bg-indigo-100 text-indigo-800 border-indigo-200";
+    if (upperType === "OTHER") return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    return "bg-slate-100 text-slate-800 border-slate-200";
+};
+
+const getTypeIcon = (t, size = 14) => {
+    const typeStr = (t || "").toUpperCase();
+    if (typeStr.includes('GUIDELINE')) return <Flashlight size={size} />;
+    if (typeStr.includes('DEFINITION')) return <Quote size={size} />;
+    if (typeStr.includes('OTHER')) return <BookOpen size={size} />;
+    return <BookOpen size={size} />; // Explicitly use open book for better clarity
+};
+
+// Style Mappings for Classifications
+const getClassificationStyle = (c) => {
+    const classStr = (c || "").toUpperCase();
+    if (classStr.includes('CRITICAL')) return 'bg-red-100 text-red-800 border-red-300 ring-red-500 font-extrabold';
+    if (classStr.includes('HIGH')) return 'bg-orange-100 text-orange-800 border-orange-200 ring-orange-400 font-bold';
+    if (classStr.includes('MEDIUM')) return 'bg-amber-50 text-amber-700 border-amber-200 ring-amber-300 font-semibold';
+    if (classStr.includes('LOW')) return 'bg-emerald-50 text-emerald-700 border-emerald-200 ring-emerald-300 font-medium';
+    return 'bg-gray-100 text-gray-700 border-gray-200 font-medium';
+};
 
 function ContextModal({ data, onClose }) {
     const highlightRef = React.useRef(null);
@@ -91,149 +118,207 @@ function DetailCard({ title, icon, children, className = "bg-gray-50 border-gray
     );
 }
 
-function DecisionCard({ decision, onViewTrace, onViewContext }) {
+function DecisionCard({ decision, onViewTrace, onViewContext, hasTrace }) {
     const content = decision.decision_content || {};
     const type = content.type || "OTHER";
     const confidence = decision.decision_confidence;
     const isCritical = (content.classification || "").includes('CRITICAL');
 
-    // Style Mappings mimicking Legacy/RuleCard
-    const getTypeStyle = (t) => {
-        const typeStr = (t || "").toUpperCase();
-        if (typeStr.includes('GUIDELINE')) return 'bg-blue-50 text-blue-700 border-blue-200 ring-blue-500';
-        if (typeStr.includes('DEFINITION')) return 'bg-purple-50 text-purple-700 border-purple-200 ring-purple-500';
-        return 'bg-gray-100 text-gray-600 border-gray-200 ring-gray-400';
-    };
-    const getTypeIcon = (t) => {
-        const typeStr = (t || "").toUpperCase();
-        if (typeStr.includes('GUIDELINE')) return <Gavel size={14} />;
-        if (typeStr.includes('DEFINITION')) return <Book size={14} />;
-        return <Scale size={14} />;
-    };
+    const [isExpanded, setIsExpanded] = React.useState(false);
 
-    // Filter content for display in the grid (excluding main text fields)
-    const displayFields = Object.entries(content).filter(([key]) =>
-        !["text", "verbatim_text", "plain_text", "type", "id", "confidence", "classification", "rationale"].includes(key)
+    // Identify specific fields for structured layout
+    const plainText = content.plain_text || content.text || "No summary available.";
+    const expertInsight = content.expert_insight || content.insight;
+    const verbatimText = content.verbatim_text || content.text;
+    const sourceInsight = content.source_insight || content.source_rational;
+    const implicationCompany = content.implication_company;
+    const implicationSupplier = content.implication_supplier;
+    const recordTags = content.recordTags || content.recordtags || content.tags || [];
+
+    // Filter "Other" fields that aren't handling explicitly in rows 1-5
+    const excludedKeys = [
+        "text", "verbatim_text", "plain_text", "type", "id",
+        "confidence", "classification", "rationale", "expert_insight",
+        "insight", "source_insight", "source_rational",
+        "implication_company", "implication_supplier", "subtype",
+        "recordtags", "recordTags", "tags"
+    ];
+
+    const otherFields = Object.entries(content).filter(([key]) =>
+        !excludedKeys.includes(key.toLowerCase())
     );
+
+    const renderDetailCard = (key, value) => {
+        let style = "bg-gray-50 border-gray-200";
+        let titleColor = "text-gray-700";
+        let icon = <CheckCircle size={14} className="text-gray-500" />;
+        const lowerKey = key.toLowerCase();
+        let displayTitle = key.replace(/_/g, " ");
+
+        if (lowerKey.includes("source insight") || lowerKey.includes("source_insight")) {
+            style = "bg-purple-50 border-purple-100"; titleColor = "text-purple-800";
+            icon = <HelpCircle size={14} className="text-purple-600" />;
+            displayTitle = "Source Insight";
+        } else if (lowerKey.includes("expert insight") || lowerKey.includes("expert_insight") || lowerKey.includes("insight")) {
+            style = "bg-purple-50 border-purple-100"; titleColor = "text-purple-800";
+            icon = <Sparkles size={14} className="text-purple-600" />;
+        } else if (lowerKey.includes("instruction")) {
+            style = "bg-blue-50 border-blue-100"; titleColor = "text-blue-800"; icon = <Book size={14} className="text-blue-600" />;
+        } else if (lowerKey.includes("condition")) {
+            style = "bg-orange-50 border-orange-100"; titleColor = "text-orange-800"; icon = <AlertTriangle size={14} className="text-orange-600" />;
+        } else if (lowerKey.includes("example")) {
+            style = "bg-amber-50 border-amber-100"; titleColor = "text-amber-800"; icon = <FileJson size={14} className="text-amber-600" />;
+        } else if (lowerKey.includes("company")) {
+            style = "bg-red-50 border-red-100"; titleColor = "text-red-800";
+            icon = <Home size={14} className="text-red-600" />;
+            displayTitle = "What it means for Company";
+        } else if (lowerKey.includes("supplier")) {
+            style = "bg-red-50 border-red-100"; titleColor = "text-red-800";
+            icon = <Store size={14} className="text-red-600" />;
+            displayTitle = "What it means for Supplier";
+        } else if (lowerKey.includes("justification")) {
+            style = "bg-gray-50 border-gray-200"; titleColor = "text-gray-700"; icon = <CheckCircle size={14} className="text-green-600" />;
+        } else if (lowerKey.includes("source")) {
+            style = "bg-gray-50 border-gray-200"; titleColor = "text-gray-600"; icon = <Search size={14} className="text-gray-500" />;
+        } else {
+            style = "bg-slate-50 border-slate-100"; titleColor = "text-slate-700"; icon = <FileText size={14} className="text-slate-500" />;
+        }
+
+        return (
+            <DetailCard key={key} title={displayTitle} icon={icon} className={style} titleColor={titleColor}>
+                <div className="space-y-1">
+                    {typeof value === 'object' && value !== null ? (
+                        Object.entries(value).map(([k, v]) => (
+                            <div key={k} className="flex gap-2">
+                                <span className="font-semibold text-gray-500 whitespace-nowrap">{k}:</span>
+                                <span>{String(v)}</span>
+                            </div>
+                        ))
+                    ) : String(value)}
+                </div>
+            </DetailCard>
+        );
+    };
 
     return (
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow flex flex-col gap-4 relative">
             <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2 flex-wrap mb-2">
-                    {/* Source Pill */}
-                    <span className="px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 bg-indigo-50 text-indigo-700 border-indigo-200">
-                        <Layers size={14} />
-                        {decision._sectionName || decision.source_reference || "Unknown Source"}
-                    </span>
-
-                    {isCritical && (
-                        <span className="px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 bg-red-100 text-red-800 border-red-300 ring-red-500 font-extrabold">
-                            CRITICAL
-                        </span>
-                    )}
+                    {/* 1. Type (Always) */}
                     <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getTypeStyle(type)}`}>
                         {getTypeIcon(type)}
                         {type}
                     </span>
-                    <span className="text-xs font-mono text-gray-400 bg-gray-50 px-2 py-0.5 rounded">
-                        {(confidence * 100).toFixed(0)}% Conf
-                    </span>
+
+                    {/* 2. Subtype (If available) */}
+                    {content.subtype && (
+                        <span className="px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 bg-slate-50 text-slate-600 border-slate-200">
+                            {content.subtype.toUpperCase()}
+                        </span>
+                    )}
+
+                    {/* 3. Classification (If available) */}
+                    {content.classification && (
+                        <span className={`px-2 py-0.5 rounded text-xs border flex items-center gap-1 ${getClassificationStyle(content.classification)}`}>
+                            {isCritical && <AlertTriangle size={12} />}
+                            {content.classification.toUpperCase()}
+                        </span>
+                    )}
                 </div>
+
+                {/* Section Name (Moved to Top Right) */}
+                <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium bg-gray-50/50 px-3 py-1.5 rounded-lg border border-gray-100 max-w-[200px]">
+                    <Bookmark size={12} className="text-indigo-400 shrink-0" />
+                    <span className="uppercase tracking-tight truncate">{decision._sectionName || decision.source_reference || "Unknown Section"}</span>
+                </div>
+            </div>
+
+            {/* RECORD TAGS (Keywords) - Second Row */}
+            {recordTags && recordTags.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                    {recordTags.map((tag, idx) => (
+                        <span
+                            key={`${tag}-${idx}`}
+                            className="bg-gray-50 text-gray-400 text-[10px] font-bold px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 uppercase tracking-wider"
+                        >
+                            <Tag size={8} className="text-gray-300" />
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+            )}
+
+            {/* ROW 1: Plain Text (Always Visible) */}
+            <div className="text-gray-900 font-medium text-lg leading-snug">
+                {plainText}
+            </div>
+
+            {/* ROW 2: Expert Insight (Always Visible) */}
+            {expertInsight && renderDetailCard("Expert Insight", expertInsight)}
+
+            {/* EXPAND TOGGLE */}
+            <div className="pt-2 border-t border-gray-50">
                 <button
-                    onClick={(e) => { e.stopPropagation(); onViewTrace(decision.id); }}
-                    className="text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg border border-indigo-100 flex items-center gap-1 transition-colors"
-                    title="Open Glass House Trace"
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors bg-indigo-50/50 px-3 py-1.5 rounded-lg group"
                 >
-                    <Activity size={14} /> View Trace
+                    {isExpanded ? <ChevronDown size={14} className="rotate-180 transition-transform" /> : <ChevronRight size={14} />}
+                    {isExpanded ? "Show Less" : "View More Details"}
                 </button>
             </div>
 
-            {/* Main Text Content */}
-            <div className="text-gray-900 font-medium text-lg leading-snug">
-                {content.plain_text || content.text || "No summary available."}
-            </div>
-
-            {/* Verbatim Blockquote */}
-            {(content.verbatim_text || content.text) && (
-                <div className="bg-slate-50 border-l-4 border-slate-300 p-4 text-sm text-slate-700 italic rounded-r-lg relative group">
-                    "{content.verbatim_text || content.text}"
-
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onViewContext(content.verbatim_text || content.text);
-                        }}
-                        className="absolute bottom-2 right-2 bg-white/90 border border-slate-200 shadow-sm text-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity hover:text-indigo-600 hover:border-indigo-200"
-                        title="View in Document Context"
-                    >
-                        <Eye size={12} /> Context
-                    </button>
-                </div>
-            )}
-
-            {/* Legacy "Colored Tabs" Grid */}
-            {displayFields.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                    {displayFields.map(([key, value], idx) => {
-                        // Icon Mapping based on Key (Legacy Parity)
-                        let style = "bg-gray-50 border-gray-200";
-                        let titleColor = "text-gray-700";
-                        let icon = <CheckCircle size={14} className="text-gray-500" />;
-
-                        const lowerKey = key.toLowerCase();
-
-                        // 1. Core Logic (Insight, Instructions, etc)
-                        if (lowerKey.includes("insight") || lowerKey.includes("expert")) {
-                            style = "bg-purple-50 border-purple-100"; titleColor = "text-purple-800"; icon = <Sparkles size={14} className="text-purple-600" />;
-                        } else if (lowerKey.includes("instruction")) {
-                            style = "bg-blue-50 border-blue-100"; titleColor = "text-blue-800"; icon = <Book size={14} className="text-blue-600" />;
-                        } else if (lowerKey.includes("condition")) {
-                            style = "bg-orange-50 border-orange-100"; titleColor = "text-orange-800"; icon = <AlertTriangle size={14} className="text-orange-600" />;
-                        } else if (lowerKey.includes("example")) {
-                            style = "bg-amber-50 border-amber-100"; titleColor = "text-amber-800"; icon = <FileJson size={14} className="text-amber-600" />;
-                        }
-                        // 2. Implications
-                        else if (lowerKey.includes("company")) {
-                            style = "bg-green-50 border-green-100"; titleColor = "text-green-800"; icon = <ArrowLeft size={14} className="text-green-600" />;
-                        } else if (lowerKey.includes("supplier")) {
-                            style = "bg-red-50 border-red-100"; titleColor = "text-red-800"; icon = <ArrowLeft size={14} className="text-red-600 rotate-180" />; // Subtly rotated per legacy
-                        }
-                        // 3. Metadata
-                        else if (lowerKey.includes("justification")) {
-                            style = "bg-gray-50 border-gray-200"; titleColor = "text-gray-700"; icon = <CheckCircle size={14} className="text-green-600" />;
-                        } else if (lowerKey.includes("source")) {
-                            style = "bg-gray-50 border-gray-200"; titleColor = "text-gray-600"; icon = <Search size={14} className="text-gray-500" />;
-                        } else {
-                            // Fallback for other fields
-                            style = "bg-slate-50 border-slate-100"; titleColor = "text-slate-700"; icon = <FileText size={14} className="text-slate-500" />;
-                        }
-
-                        return (
-                            <DetailCard
-                                key={key}
-                                title={key.replace(/_/g, " ")}
-                                icon={icon}
-                                className={style}
-                                titleColor={titleColor}
+            {/* EXPANDABLE SECTION */}
+            {isExpanded && (
+                <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                    {/* ROW 3: Verbatim Text */}
+                    {verbatimText && (
+                        <div className="bg-slate-50 border-l-4 border-slate-300 p-4 text-sm text-slate-700 italic rounded-right-lg relative group">
+                            "{verbatimText}"
+                            <button
+                                onClick={(e) => { e.stopPropagation(); onViewContext(verbatimText); }}
+                                className="absolute bottom-2 right-2 bg-white/90 border border-slate-200 shadow-sm text-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity hover:text-indigo-600 hover:border-indigo-200"
                             >
-                                <div className="space-y-1">
-                                    {typeof value === 'object' && value !== null ? (
-                                        Object.entries(value).map(([k, v]) => (
-                                            <div key={k} className="flex gap-2">
-                                                <span className="font-semibold text-gray-500">{k}:</span>
-                                                <span>{String(v)}</span>
-                                            </div>
-                                        ))
-                                    ) : String(value)}
-                                </div>
-                            </DetailCard>
-                        )
-                    })}
+                                <Eye size={12} /> View text in context
+                            </button>
+                        </div>
+                    )}
+
+                    {/* ROW 4: Source Insight */}
+                    {sourceInsight && renderDetailCard("Source Insight", sourceInsight)}
+
+                    {/* ROW 5: Implications (Side-by-Side) */}
+                    {(implicationCompany || implicationSupplier) && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {implicationCompany && renderDetailCard("Implication (Company)", implicationCompany)}
+                            {implicationSupplier && renderDetailCard("Implication (Supplier)", implicationSupplier)}
+                        </div>
+                    )}
+
+                    {/* ROW 6: Other Fields (Side-by-Side) */}
+                    {otherFields.length > 0 && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {otherFields.map(([key, value]) => renderDetailCard(key, value))}
+                        </div>
+                    )}
                 </div>
             )}
 
-            <div className="flex justify-end pt-2 border-t border-gray-50 mt-2">
-                <div className="text-[10px] text-gray-300 font-mono">
+            <div className="flex items-center justify-between pt-2 border-t border-gray-50 mt-2">
+                <div className="flex items-center gap-4">
+                    <span className="text-[10px] text-gray-400 font-mono tracking-tight uppercase">
+                        {(confidence * 100).toFixed(0)}% Confidence
+                    </span>
+                    {hasTrace && (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onViewTrace(decision.id); }}
+                            className="text-[10px] font-bold text-gray-500 hover:text-indigo-600 transition-colors flex items-center gap-1 group"
+                            title="Open Glass House Trace"
+                        >
+                            <Workflow size={12} className="text-gray-400 group-hover:text-indigo-500" /> Trace Analysis
+                        </button>
+                    )}
+                </div>
+                <div className="text-[10px] text-gray-300 font-mono italic">
                     REF: {decision.id.slice(0, 8)} | SRC: {decision.source_cluster_id?.slice(0, 6)}
                 </div>
             </div>
@@ -413,6 +498,15 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
     const [contextModalOpen, setContextModalOpen] = useState(false);
     const [contextData, setContextData] = useState(null);
 
+    // Search & Filter State
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filters, setFilters] = useState({
+        type: "all",
+        classification: "all",
+        subtype: "all",
+        section: "all"
+    });
+
     // Initial Data Load Logic
     // Initial Data Load Logic
     useEffect(() => {
@@ -558,6 +652,81 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
         });
     }
 
+    // Dynamic Record Type Counters
+    const typeCounts = allDecisions.reduce((acc, d) => {
+        const type = (d.decision_content?.type || "OTHER").toUpperCase();
+        acc[type] = (acc[type] || 0) + 1;
+        return acc;
+    }, {});
+
+    // --- SEARCH & FILTER LOGIC (DYNAMIC FACETED) ---
+    const filteredBySearch = React.useMemo(() => {
+        return allDecisions.filter(d => {
+            const content = d.decision_content || {};
+            return searchQuery === "" ||
+                (content.plain_text || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (content.verbatim_text || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (content.text || "").toLowerCase().includes(searchQuery.toLowerCase());
+        });
+    }, [allDecisions, searchQuery]);
+
+    const filterOptions = React.useMemo(() => {
+        // Faceted Search Logic: Each filter's options depend on ALL OTHER active filters
+        const getOptions = (excludeFilterKey) => {
+            const result = new Set();
+            filteredBySearch.forEach(d => {
+                const content = d.decision_content || {};
+
+                // Match criteria for everything EXCEPT the excluded filter
+                const matchesOthers = (
+                    (excludeFilterKey === 'section' || filters.section === "all" || d._sectionName === filters.section) &&
+                    (excludeFilterKey === 'type' || filters.type === "all" || (content.type || "").toUpperCase() === filters.type) &&
+                    (excludeFilterKey === 'subtype' || filters.subtype === "all" || (content.subtype || "").toUpperCase() === filters.subtype) &&
+                    (excludeFilterKey === 'classification' || filters.classification === "all" || (content.classification || "").toUpperCase() === filters.classification)
+                );
+
+                if (matchesOthers) {
+                    if (excludeFilterKey === 'section' && d._sectionName) result.add(d._sectionName);
+                    if (excludeFilterKey === 'type' && content.type) result.add(content.type.toUpperCase());
+                    if (excludeFilterKey === 'subtype' && content.subtype) result.add(content.subtype.toUpperCase());
+                    if (excludeFilterKey === 'classification' && content.classification) result.add(content.classification.toUpperCase());
+                }
+            });
+            return Array.from(result).sort();
+        };
+
+        const classificationPriority = { 'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3 };
+        const sortedClassifications = getOptions('classification').sort((a, b) => {
+            const pA = classificationPriority[a] ?? 99;
+            const pB = classificationPriority[b] ?? 99;
+            if (pA !== pB) return pA - pB;
+            return a.localeCompare(b);
+        });
+
+        return {
+            sections: getOptions('section'),
+            types: getOptions('type'),
+            subtypes: getOptions('subtype'),
+            classifications: sortedClassifications
+        };
+    }, [filteredBySearch, filters]);
+
+    const filteredDecisions = React.useMemo(() => {
+        return filteredBySearch.filter(d => {
+            const content = d.decision_content || {};
+            const matchesType = filters.type === "all" || (content.type || "").toUpperCase() === filters.type;
+            const matchesClass = filters.classification === "all" || (content.classification || "").toUpperCase() === filters.classification;
+            const matchesSubtype = filters.subtype === "all" || (content.subtype || "").toUpperCase() === filters.subtype;
+            const matchesSection = filters.section === "all" || d._sectionName === filters.section;
+            return matchesType && matchesClass && matchesSubtype && matchesSection;
+        });
+    }, [filteredBySearch, filters]);
+
+    const clearFilters = () => {
+        setSearchQuery("");
+        setFilters({ type: "all", classification: "all", subtype: "all", section: "all" });
+    };
+
     // Strict Mode: No fallbacks. Information source is the analysis file header.
     const displayFilename = analysisMetadata?.filename || "-";
     const displayDate = analysisMetadata?.lastModified || null;
@@ -595,8 +764,8 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                     </button>
                     <div>
                         <h1 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                            <Scale size={20} className="text-indigo-600" />
-                            {displayFilename}: <span className="text-gray-500 font-normal">Analysis Report</span>
+                            <Wand2 size={20} className="text-indigo-600" />
+                            Analysis Report
                         </h1>
                     </div>
                 </div>
@@ -616,82 +785,246 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
 
                 {/* LEFT PANEL: Document Info (Fixed 1/4) */}
                 <div className="w-1/4 bg-white border-r border-gray-200 flex flex-col p-6 shrink-0 z-10 overflow-y-auto">
-                    <div className="mb-8">
-                        <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">
-                            Statistics
-                        </label>
-                        <div className="bg-indigo-50 text-indigo-700 p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col items-center gap-2">
-                            <CheckCircle size={28} className="text-indigo-600 mb-1" />
-                            <span className="text-3xl font-black">{displayRecordCount}</span>
-                            <span className="text-sm font-medium">Golden Records</span>
-                        </div>
-                    </div>
-
-                    {/* Document Metadata (Future Proofing) */}
-                    <div className="space-y-4">
-                        <div>
-                            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 block">Filename</label>
-                            <p className="text-sm text-gray-700 break-words font-medium">{displayFilename}</p>
-                        </div>
-                        {displayDate && (
-                            <div>
-                                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 block">Analysis Date</label>
-                                <p className="text-sm text-gray-600 font-mono">{new Date(displayDate).toLocaleDateString()}</p>
+                    <div className="space-y-6">
+                        {/* 1. Document Identity Card (Top) */}
+                        <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden flex flex-col">
+                            <div className="bg-gray-50/50 px-4 py-3 border-b border-gray-100">
+                                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Document Info</label>
                             </div>
-                        )}
-                        {analysisMetadata?.id && (
-                            <div>
-                                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 block">Report Type</label>
-                                <p className="text-sm text-gray-500 font-mono">{analysisMetadata.documentType || 'Analysis'}</p>
+                            <div className="p-4 space-y-4">
+                                <div>
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Filename</label>
+                                    <p className="text-sm text-gray-800 break-words font-semibold leading-tight">{displayFilename}</p>
+                                </div>
+
+                                <div className="flex flex-wrap gap-4 items-center justify-between">
+                                    <div>
+                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Type</label>
+                                        {(() => {
+                                            const docType = analysisMetadata?.documentType || 'master';
+                                            const styles = {
+                                                master: 'bg-indigo-100 text-indigo-700 border-indigo-200',
+                                                subordinate: 'bg-orange-100 text-orange-700 border-orange-200',
+                                                reference: 'bg-teal-100 text-teal-700 border-teal-200'
+                                            };
+                                            return (
+                                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wide ${styles[docType] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
+                                                    {docType}
+                                                </span>
+                                            );
+                                        })()}
+                                    </div>
+
+                                    {displayDate && (
+                                        <div className="text-right">
+                                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Analysis Date/Time</label>
+                                            <p className="text-[10px] text-gray-600 font-mono">
+                                                {new Date(displayDate).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 2. Statistics Cards */}
+                        <div className="space-y-3">
+                            <div className="bg-indigo-50 text-indigo-700 p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col items-center gap-1">
+                                <CheckCircle size={24} className="text-indigo-600 mb-1" />
+                                <span className="text-3xl font-black">{displayRecordCount}</span>
+                                <span className="text-[10px] font-bold uppercase tracking-wider">Qualified Records</span>
+                            </div>
+
+                            {Object.keys(typeCounts).length > 0 && (
+                                <div className="bg-slate-50 text-slate-700 p-4 rounded-xl border border-slate-200 shadow-sm">
+                                    <div className="flex items-center gap-2 mb-3 border-b border-slate-200 pb-2">
+                                        <List size={16} className="text-slate-500" />
+                                        <span className="text-xs font-bold uppercase tracking-wider">Content Breakdown</span>
+                                    </div>
+                                    <div className="space-y-2">
+                                        {Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([type, count]) => (
+                                            <div key={type} className="flex justify-between items-center text-xs">
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`${getTypeStyle(type)} p-1 rounded-md border text-[10px]`}>
+                                                        {getTypeIcon(type, 12)}
+                                                    </span>
+                                                    <span className="text-slate-500 font-medium">{type}</span>
+                                                </div>
+                                                <span className="bg-white px-2 py-0.5 rounded-full border border-slate-200 font-bold text-slate-700">{count}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* 3. Tags Section */}
+                        {(file?.header?.documentTags || analysisMetadata?.documentTags)?.length > 0 && (
+                            <div className="pt-4 border-t border-gray-100">
+                                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Document Tags</label>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {(file?.header?.documentTags || analysisMetadata?.documentTags).map((tag, i) => (
+                                        <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 text-gray-600 border border-gray-200 rounded text-[10px] font-bold uppercase">
+                                            <Tag size={10} />
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>
                 </div>
 
                 {/* RIGHT PANEL: Content Area (Scrollable 3/4) */}
-                <div className="w-3/4 flex-1 overflow-y-auto p-8 bg-gray-50">
-                    <div className="max-w-4xl mx-auto w-full">
-                        {/* Error State */}
-                        {error && (
-                            <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg flex items-center gap-3 mb-6">
-                                <XCircle size={20} />
-                                <div>
-                                    <h4 className="font-bold text-sm">Error Loading Analysis</h4>
-                                    <p className="text-xs">{error}</p>
+                <div className="w-3/4 flex-1 flex flex-col bg-gray-50 overflow-hidden">
+                    {/* Sticky Search & Filter Bar */}
+                    <div className="bg-white border-b border-gray-200 px-8 py-4 z-20 shadow-sm">
+                        <div className="max-w-4xl mx-auto space-y-4">
+                            <div className="flex gap-4">
+                                {/* Search Input */}
+                                <div className="flex-1 relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                    <input
+                                        type="text"
+                                        placeholder="Search records by text or keywords..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
+                                    />
+                                    {searchQuery && (
+                                        <button
+                                            onClick={() => setSearchQuery("")}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        >
+                                            <X size={16} />
+                                        </button>
+                                    )}
+                                </div>
+                                <button
+                                    onClick={clearFilters}
+                                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors border border-transparent hover:border-indigo-100 flex items-center gap-2"
+                                >
+                                    <RefreshCw size={16} className={searchQuery || Object.values(filters).some(f => f !== 'all') ? "" : "opacity-50"} />
+                                    Reset
+                                </button>
+                            </div>
+
+                            {/* Filters Row */}
+                            <div className="flex flex-wrap gap-2 items-center">
+                                <div className="flex items-center gap-2 text-gray-400 mr-2">
+                                    <Filter size={14} />
+                                    <span className="text-[10px] font-bold uppercase tracking-wider">Filters</span>
+                                </div>
+
+                                <select
+                                    value={filters.section}
+                                    onChange={(e) => setFilters(prev => ({ ...prev, section: e.target.value }))}
+                                    className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 max-w-[150px]"
+                                >
+                                    <option value="all">All Sections</option>
+                                    {filterOptions.sections.map(s => <option key={s} value={s}>{s}</option>)}
+                                </select>
+
+                                <select
+                                    value={filters.type}
+                                    onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
+                                    className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                >
+                                    <option value="all">All Types</option>
+                                    {filterOptions.types.map(t => <option key={t} value={t}>{t}</option>)}
+                                </select>
+
+                                <select
+                                    value={filters.subtype}
+                                    onChange={(e) => setFilters(prev => ({ ...prev, subtype: e.target.value }))}
+                                    className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                >
+                                    <option value="all">All Subtypes</option>
+                                    {filterOptions.subtypes.map(s => <option key={s} value={s}>{s}</option>)}
+                                </select>
+
+                                <select
+                                    value={filters.classification}
+                                    onChange={(e) => setFilters(prev => ({ ...prev, classification: e.target.value }))}
+                                    className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                >
+                                    <option value="all">All Classifications</option>
+                                    {filterOptions.classifications.map(c => <option key={c} value={c}>{c}</option>)}
+                                </select>
+
+                                <div className="ml-auto">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-100 shadow-sm">
+                                        <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                                        <span className="text-[11px] font-bold uppercase tracking-wider">
+                                            Showing {filteredDecisions.length} of {allDecisions.length} Records
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        )}
+                        </div>
+                    </div>
 
-                        {/* Loading State */}
-                        {loading && (
-                            <div className="flex flex-col items-center justify-center py-20 text-gray-400 gap-3">
-                                <RefreshCw className="animate-spin text-indigo-500" size={32} />
-                                <p>Loading decision records...</p>
-                            </div>
-                        )}
+                    <div className="flex-1 overflow-y-auto p-8">
+                        <div className="max-w-4xl mx-auto w-full">
+                            {/* Error State */}
+                            {error && (
+                                <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg flex items-center gap-3 mb-6">
+                                    <XCircle size={20} />
+                                    <div>
+                                        <h4 className="font-bold text-sm">Error Loading Analysis</h4>
+                                        <p className="text-xs">{error}</p>
+                                    </div>
+                                </div>
+                            )}
 
-                        {/* Empty State */}
-                        {!loading && !error && allDecisions.length === 0 && (
-                            <div className="text-center text-gray-400 mt-20">
-                                <CheckCircle size={64} className="mx-auto mb-4 opacity-10" />
-                                <p className="text-lg font-medium text-gray-500">No Golden Records Verified</p>
-                                <p className="text-sm text-gray-400 mt-2">The analysis found no items matching the "Golden Record" criteria in this document.</p>
-                            </div>
-                        )}
+                            {/* Loading State */}
+                            {loading && (
+                                <div className="flex flex-col items-center justify-center py-20 text-gray-400 gap-3">
+                                    <RefreshCw className="animate-spin text-indigo-500" size={32} />
+                                    <p>Loading decision records...</p>
+                                </div>
+                            )}
 
-                        {/* Content List */}
-                        {!loading && !error && allDecisions.length > 0 && (
-                            <div className="space-y-6">
-                                {allDecisions.map((decision) => (
-                                    <DecisionCard
-                                        key={decision.id}
-                                        decision={decision}
-                                        onViewTrace={(decisionId) => handleViewTrace(decision._sectionId, decisionId)}
-                                        onViewContext={handleViewContext}
-                                    />
-                                ))}
-                            </div>
-                        )}
+                            {/* Empty State */}
+                            {!loading && !error && filteredDecisions.length === 0 && (
+                                <div className="text-center text-gray-400 mt-20">
+                                    {searchQuery || Object.values(filters).some(f => f !== 'all') ? (
+                                        <>
+                                            <Search size={64} className="mx-auto mb-4 opacity-10" />
+                                            <p className="text-lg font-medium text-gray-500">No matching records found</p>
+                                            <p className="text-sm text-gray-400 mt-2">Try adjusting your search query or filters.</p>
+                                            <button
+                                                onClick={clearFilters}
+                                                className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                                            >
+                                                Clear All Filters
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <CheckCircle size={64} className="mx-auto mb-4 opacity-10" />
+                                            <p className="text-lg font-medium text-gray-500">No Golden Records Verified</p>
+                                            <p className="text-sm text-gray-400 mt-2">The analysis found no items matching the "Golden Record" criteria in this document.</p>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Content List */}
+                            {!loading && !error && filteredDecisions.length > 0 && (
+                                <div className="space-y-6 pb-20">
+                                    {filteredDecisions.map((decision) => (
+                                        <DecisionCard
+                                            key={decision.id}
+                                            decision={decision}
+                                            onViewTrace={(decisionId) => handleViewTrace(decision._sectionId, decisionId)}
+                                            onViewContext={handleViewContext}
+                                            hasTrace={!!file?.hipdam_trace_content}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
