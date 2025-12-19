@@ -13,6 +13,119 @@ const getTypeStyle = (t) => {
     return "bg-slate-100 text-slate-800 border-slate-200";
 };
 
+const getAgentTheme = (agentName) => {
+    const themes = [
+        { text: 'text-emerald-700', icon: 'text-emerald-500', dot: 'bg-emerald-500', border: 'border-emerald-100', accent: 'bg-emerald-50' },
+        { text: 'text-blue-700', icon: 'text-blue-500', dot: 'bg-blue-500', border: 'border-blue-100', accent: 'bg-blue-50' },
+        { text: 'text-purple-700', icon: 'text-purple-500', dot: 'bg-purple-500', border: 'border-purple-100', accent: 'bg-purple-50' },
+        { text: 'text-amber-700', icon: 'text-amber-500', dot: 'bg-amber-500', border: 'border-amber-100', accent: 'bg-amber-50' },
+        { text: 'text-rose-700', icon: 'text-rose-500', dot: 'bg-rose-500', border: 'border-rose-100', accent: 'bg-rose-50' },
+        { text: 'text-indigo-700', icon: 'text-indigo-500', dot: 'bg-indigo-500', border: 'border-indigo-100', accent: 'bg-indigo-50' },
+    ];
+    let hash = 0;
+    const name = agentName || "Unknown";
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % themes.length;
+    return themes[index];
+};
+
+// --- RENDER HELPERS ---
+
+const getFieldConfig = (key) => {
+    const lowerKey = key.toLowerCase();
+    let config = {
+        style: "bg-slate-50 border-slate-100",
+        titleColor: "text-slate-700",
+        icon: <FileText size={14} className="text-slate-500" />,
+        displayTitle: key.replace(/_/g, " ")
+    };
+
+    if (lowerKey.includes("source insight") || lowerKey.includes("source_insight")) {
+        config.style = "bg-purple-50 border-purple-100";
+        config.titleColor = "text-purple-800";
+        config.icon = <HelpCircle size={14} className="text-purple-600" />;
+        config.displayTitle = "Source Insight";
+    } else if (lowerKey.includes("expert insight") || lowerKey.includes("expert_insight") || lowerKey.includes("insight")) {
+        config.style = "bg-purple-50 border-purple-100";
+        config.titleColor = "text-purple-800";
+        config.icon = <Sparkles size={14} className="text-purple-600" />;
+    } else if (lowerKey.includes("instruction")) {
+        config.style = "bg-blue-50 border-blue-100";
+        config.titleColor = "text-blue-800";
+        config.icon = <Book size={14} className="text-blue-600" />;
+    } else if (lowerKey.includes("condition")) {
+        config.style = "bg-orange-50 border-orange-100";
+        config.titleColor = "text-orange-800";
+        config.icon = <AlertTriangle size={14} className="text-orange-600" />;
+    } else if (lowerKey.includes("example")) {
+        config.style = "bg-amber-50 border-amber-100";
+        config.titleColor = "text-amber-800";
+        config.icon = <FileJson size={14} className="text-amber-600" />;
+    } else if (lowerKey.includes("company")) {
+        config.style = "bg-red-50 border-red-100";
+        config.titleColor = "text-red-800";
+        config.icon = <Home size={14} className="text-red-600" />;
+        config.displayTitle = "What it means for Company";
+    } else if (lowerKey.includes("supplier")) {
+        config.style = "bg-red-50 border-red-100";
+        config.titleColor = "text-red-800";
+        config.icon = <Store size={14} className="text-red-600" />;
+        config.displayTitle = "What it means for Supplier";
+    } else if (lowerKey.includes("justification")) {
+        config.style = "bg-gray-50 border-gray-200";
+        config.titleColor = "text-gray-700";
+        config.icon = <CheckCircle size={14} className="text-green-600" />;
+    } else if (lowerKey.includes("source")) {
+        config.style = "bg-gray-50 border-gray-200";
+        config.titleColor = "text-gray-600";
+        config.icon = <Search size={14} className="text-gray-500" />;
+    } else if (lowerKey.includes("text") || lowerKey.includes("content")) {
+        config.style = "bg-gray-50 border-gray-100";
+        config.titleColor = "text-gray-500";
+        config.icon = <FileText size={14} className="text-gray-400" />;
+        config.displayTitle = "Verbatim Text";
+    }
+
+    return config;
+};
+
+const RenderDetailCard = ({ fieldKey, value, variant = "default", titleColorOverride = null }) => {
+    const config = getFieldConfig(fieldKey);
+    const isCompact = variant === "compact";
+
+    return (
+        <DetailCard
+            title={config.displayTitle}
+            icon={React.cloneElement(config.icon, { className: isCompact ? titleColorOverride : config.icon.props.className, size: isCompact ? 12 : 14 })}
+            className={isCompact ? "bg-gray-50 border-gray-100 p-2" : config.style}
+            titleColor={isCompact ? (titleColorOverride || "text-gray-500") : config.titleColor}
+        >
+            <div className={`space-y-1 ${isCompact ? 'text-xs' : ''}`}>
+                {typeof value === 'object' && value !== null ? (
+                    Array.isArray(value) ? (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                            {value.map((v, i) => (
+                                <span key={i} className="bg-white/50 px-1.5 py-0.5 rounded border border-gray-200 text-[10px] font-bold text-gray-600 uppercase">
+                                    {String(v)}
+                                </span>
+                            ))}
+                        </div>
+                    ) : (
+                        Object.entries(value).map(([k, v]) => (
+                            <div key={k} className="flex gap-2">
+                                <span className="font-semibold text-gray-500 whitespace-nowrap">{k}:</span>
+                                <span>{String(v)}</span>
+                            </div>
+                        ))
+                    )
+                ) : String(value)}
+            </div>
+        </DetailCard>
+    );
+};
+
 const getTypeIcon = (t, size = 14) => {
     const typeStr = (t || "").toUpperCase();
     if (typeStr.includes('GUIDELINE')) return <Flashlight size={size} />;
@@ -41,8 +154,14 @@ function ContextModal({ data, onClose }) {
     }, [data]);
 
     return (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+            onClick={onClose}
+        >
+            <div
+                className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
                     <h3 className="font-bold text-gray-800 flex items-center gap-2">
                         <BookOpen size={18} className="text-purple-600" />
@@ -148,58 +267,6 @@ function DecisionCard({ decision, onViewTrace, onViewContext, hasTrace }) {
         !excludedKeys.includes(key.toLowerCase())
     );
 
-    const renderDetailCard = (key, value) => {
-        let style = "bg-gray-50 border-gray-200";
-        let titleColor = "text-gray-700";
-        let icon = <CheckCircle size={14} className="text-gray-500" />;
-        const lowerKey = key.toLowerCase();
-        let displayTitle = key.replace(/_/g, " ");
-
-        if (lowerKey.includes("source insight") || lowerKey.includes("source_insight")) {
-            style = "bg-purple-50 border-purple-100"; titleColor = "text-purple-800";
-            icon = <HelpCircle size={14} className="text-purple-600" />;
-            displayTitle = "Source Insight";
-        } else if (lowerKey.includes("expert insight") || lowerKey.includes("expert_insight") || lowerKey.includes("insight")) {
-            style = "bg-purple-50 border-purple-100"; titleColor = "text-purple-800";
-            icon = <Sparkles size={14} className="text-purple-600" />;
-        } else if (lowerKey.includes("instruction")) {
-            style = "bg-blue-50 border-blue-100"; titleColor = "text-blue-800"; icon = <Book size={14} className="text-blue-600" />;
-        } else if (lowerKey.includes("condition")) {
-            style = "bg-orange-50 border-orange-100"; titleColor = "text-orange-800"; icon = <AlertTriangle size={14} className="text-orange-600" />;
-        } else if (lowerKey.includes("example")) {
-            style = "bg-amber-50 border-amber-100"; titleColor = "text-amber-800"; icon = <FileJson size={14} className="text-amber-600" />;
-        } else if (lowerKey.includes("company")) {
-            style = "bg-red-50 border-red-100"; titleColor = "text-red-800";
-            icon = <Home size={14} className="text-red-600" />;
-            displayTitle = "What it means for Company";
-        } else if (lowerKey.includes("supplier")) {
-            style = "bg-red-50 border-red-100"; titleColor = "text-red-800";
-            icon = <Store size={14} className="text-red-600" />;
-            displayTitle = "What it means for Supplier";
-        } else if (lowerKey.includes("justification")) {
-            style = "bg-gray-50 border-gray-200"; titleColor = "text-gray-700"; icon = <CheckCircle size={14} className="text-green-600" />;
-        } else if (lowerKey.includes("source")) {
-            style = "bg-gray-50 border-gray-200"; titleColor = "text-gray-600"; icon = <Search size={14} className="text-gray-500" />;
-        } else {
-            style = "bg-slate-50 border-slate-100"; titleColor = "text-slate-700"; icon = <FileText size={14} className="text-slate-500" />;
-        }
-
-        return (
-            <DetailCard key={key} title={displayTitle} icon={icon} className={style} titleColor={titleColor}>
-                <div className="space-y-1">
-                    {typeof value === 'object' && value !== null ? (
-                        Object.entries(value).map(([k, v]) => (
-                            <div key={k} className="flex gap-2">
-                                <span className="font-semibold text-gray-500 whitespace-nowrap">{k}:</span>
-                                <span>{String(v)}</span>
-                            </div>
-                        ))
-                    ) : String(value)}
-                </div>
-            </DetailCard>
-        );
-    };
-
     return (
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow flex flex-col gap-4 relative">
             <div className="flex items-start justify-between">
@@ -254,7 +321,7 @@ function DecisionCard({ decision, onViewTrace, onViewContext, hasTrace }) {
             </div>
 
             {/* ROW 2: Expert Insight (Always Visible) */}
-            {expertInsight && renderDetailCard("Expert Insight", expertInsight)}
+            {expertInsight && <RenderDetailCard fieldKey="expert_insight" value={expertInsight} />}
 
             {/* EXPAND TOGGLE */}
             <div className="pt-2 border-t border-gray-50">
@@ -274,30 +341,34 @@ function DecisionCard({ decision, onViewTrace, onViewContext, hasTrace }) {
                     {verbatimText && (
                         <div className="bg-slate-50 border-l-4 border-slate-300 p-4 text-sm text-slate-700 italic rounded-right-lg relative group">
                             "{verbatimText}"
-                            <button
-                                onClick={(e) => { e.stopPropagation(); onViewContext(verbatimText); }}
-                                className="absolute bottom-2 right-2 bg-white/90 border border-slate-200 shadow-sm text-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity hover:text-indigo-600 hover:border-indigo-200"
-                            >
-                                <Eye size={12} /> View text in context
-                            </button>
+                            {onViewContext && (
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); onViewContext(verbatimText); }}
+                                    className="absolute bottom-2 right-2 bg-white/90 border border-slate-200 shadow-sm text-slate-600 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity hover:text-indigo-600 hover:border-indigo-200"
+                                >
+                                    <Eye size={12} /> View in Context
+                                </button>
+                            )}
                         </div>
                     )}
 
                     {/* ROW 4: Source Insight */}
-                    {sourceInsight && renderDetailCard("Source Insight", sourceInsight)}
+                    {sourceInsight && <RenderDetailCard fieldKey="source_insight" value={sourceInsight} />}
 
                     {/* ROW 5: Implications (Side-by-Side) */}
                     {(implicationCompany || implicationSupplier) && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {implicationCompany && renderDetailCard("Implication (Company)", implicationCompany)}
-                            {implicationSupplier && renderDetailCard("Implication (Supplier)", implicationSupplier)}
+                            {implicationCompany && <RenderDetailCard fieldKey="implication_company" value={implicationCompany} />}
+                            {implicationSupplier && <RenderDetailCard fieldKey="implication_supplier" value={implicationSupplier} />}
                         </div>
                     )}
 
                     {/* ROW 6: Other Fields (Side-by-Side) */}
                     {otherFields.length > 0 && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {otherFields.map(([key, value]) => renderDetailCard(key, value))}
+                            {otherFields.map(([key, value]) => (
+                                <RenderDetailCard key={key} fieldKey={key} value={value} />
+                            ))}
                         </div>
                     )}
                 </div>
@@ -312,7 +383,7 @@ function DecisionCard({ decision, onViewTrace, onViewContext, hasTrace }) {
                         <button
                             onClick={(e) => { e.stopPropagation(); onViewTrace(decision.id); }}
                             className="text-[10px] font-bold text-gray-500 hover:text-indigo-600 transition-colors flex items-center gap-1 group"
-                            title="Open Glass House Trace"
+                            title="Open Qualification Process Recording"
                         >
                             <Workflow size={12} className="text-gray-400 group-hover:text-indigo-500" /> Trace Analysis
                         </button>
@@ -342,19 +413,7 @@ function TraceVisualization({ trace, filterClusterId }) {
         }
 
         return (
-            <div className="h-full flex flex-col bg-gray-50">
-                {/* Overlay Header */}
-                <div className="bg-white border-b px-6 py-4 mb-4 shadow-sm">
-                    <h3 className="font-bold text-gray-800 flex items-center gap-2 text-lg">
-                        <Activity className="text-indigo-600" />
-                        Verification Trace
-                    </h3>
-                    <p className="text-xs text-gray-500 mt-1 flex items-center gap-2">
-                        <span>Decision Lineage</span>
-                        <ChevronRight size={12} />
-                        <span className="font-mono bg-gray-100 px-1 rounded">{filterClusterId.slice(0, 8)}</span>
-                    </p>
-                </div>
+            <div className="flex-1 flex flex-col bg-gray-50 pt-6 overflow-hidden">
 
                 <div className="flex-1 overflow-y-auto px-6 pb-6 space-y-8">
 
@@ -362,7 +421,7 @@ function TraceVisualization({ trace, filterClusterId }) {
                     <section>
                         <h4 className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
                             <Users size={14} />
-                            Constituent Agent Opinions ({displayedRecs.length})
+                            agent recommendations received ({displayedRecs.length})
                         </h4>
 
                         {displayedRecs.length === 0 ? (
@@ -371,23 +430,70 @@ function TraceVisualization({ trace, filterClusterId }) {
                             </div>
                         ) : (
                             <div className="space-y-4">
-                                {displayedRecs.map(rec => (
-                                    <div key={rec.id} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative hover:border-purple-200 transition-colors">
-                                        <div className="flex justify-between items-center mb-3">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-2 h-2 rounded-full bg-purple-500"></div>
-                                                <span className="font-bold text-purple-900">{rec.source_agent}</span>
+                                {displayedRecs.map(rec => {
+                                    const agentTheme = getAgentTheme(rec.source_agent);
+                                    return (
+                                        <div key={rec.id} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative transition-all hover:border-gray-300">
+                                            <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-50">
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${agentTheme.accent} ${agentTheme.text} ${agentTheme.border}`}>
+                                                        <Users size={12} className={agentTheme.icon} />
+                                                        {rec.config_snapshot?.name || rec.source_agent}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    {rec.content.type && (
+                                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${getTypeStyle(rec.content.type)} flex items-center gap-1 uppercase`}>
+                                                            {getTypeIcon(rec.content.type, 10)}
+                                                            {rec.content.type}
+                                                        </span>
+                                                    )}
+                                                    <span className="text-[10px] font-black bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 uppercase">
+                                                        {Math.round(rec.confidence * 100)}% Confidence
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <span className="text-xs font-bold bg-green-50 text-green-700 px-2 py-1 rounded border border-green-100">
-                                                {Math.round(rec.confidence * 100)}% Confidence
-                                            </span>
-                                        </div>
 
-                                        <div className="text-gray-700 leading-relaxed bg-gray-50/50 p-3 rounded-lg border border-gray-100 text-sm">
-                                            "{rec.content.verbatim_text || rec.content.text}"
+                                            {/* LLM Settings (Subtle Metadata) */}
+                                            {rec.config_snapshot && (
+                                                <div className="flex flex-wrap gap-2 mb-3 mt-[-4px]">
+                                                    <span className="text-[9px] text-gray-400 font-mono bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 flex items-center gap-1">
+                                                        <Flashlight size={8} className="text-gray-300" />
+                                                        {rec.config_snapshot.model || "unknown-model"}
+                                                    </span>
+                                                    {(rec.config_snapshot.temperature !== undefined) && (
+                                                        <span className="text-[9px] text-gray-400 font-mono bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 uppercase">
+                                                            Temp: {rec.config_snapshot.temperature}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            <div className="space-y-3">
+                                                {/* Primary Recommendation - Prominent, Bold, No Quotes */}
+                                                <div className="text-gray-900 leading-relaxed bg-gray-50/50 p-4 rounded-xl border border-gray-100 text-sm font-bold font-sans">
+                                                    {rec.content.verbatim_text || rec.content.text || rec.content.plain_text}
+                                                </div>
+
+                                                {/* Structured Details (Full Width Stack) */}
+                                                <div className="flex flex-col gap-2">
+                                                    {Object.entries(rec.content)
+                                                        .filter(([key]) => !["text", "verbatim_text", "plain_text", "type", "id", "source_agent", "confidence"].includes(key.toLowerCase()))
+                                                        .map(([key, value]) => (
+                                                            <RenderDetailCard
+                                                                key={key}
+                                                                fieldKey={key}
+                                                                value={value}
+                                                                variant="compact"
+                                                                titleColorOverride="text-gray-500"
+                                                            />
+                                                        ))
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         )}
                     </section>
@@ -400,35 +506,30 @@ function TraceVisualization({ trace, filterClusterId }) {
                     {/* 2. JUDGE SECTION */}
                     {targetDecision && (
                         <section className="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-xl p-6 shadow-sm relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-4 opacity-10">
-                                <Scale size={100} className="text-indigo-900" />
-                            </div>
 
                             <h4 className="flex items-center gap-2 text-xs font-bold text-indigo-400 uppercase tracking-widest mb-4 relative z-10">
                                 <Scale size={14} />
-                                Final Judicial Consensus
+                                Evaluator's opinion
                             </h4>
 
-                            <div className="mb-6 relative z-10">
-                                <div className="text-xs font-bold text-indigo-300 uppercase mb-1">Judge's Rationale</div>
-                                <p className="text-indigo-900 font-serif text-lg leading-relaxed italic">
+                            <div className="relative z-10">
+                                <p className="text-indigo-900 font-serif text-base leading-relaxed italic">
                                     "{targetDecision.rationale}"
                                 </p>
                             </div>
 
-                            <div className="flex justify-between items-end border-t border-indigo-100 pt-4 mt-2 relative z-10">
-                                <div className="text-xs text-indigo-400">
-                                    Validated & Ratified
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-sm font-bold text-indigo-700">Confidence Score:</span>
-                                    <div className="text-2xl font-black text-indigo-600">
-                                        {Math.round(targetDecision.decision_confidence * 100)}%
-                                    </div>
-                                </div>
-                            </div>
                         </section>
                     )}
+                </div>
+
+                {/* MODAL FOOTER - Decision Lineage ID */}
+                <div className="bg-gray-100/50 border-t border-gray-200 px-6 py-2 flex items-center justify-between">
+                    <div className="text-[10px] text-gray-400 font-mono flex items-center gap-2">
+                        <span className="uppercase tracking-widest font-bold">Decision Lineage ID:</span>
+                        <span className="bg-white px-2 py-0.5 rounded border border-gray-200 text-gray-600 font-black">
+                            {filterClusterId}
+                        </span>
+                    </div>
                 </div>
             </div>
         );
@@ -451,11 +552,17 @@ function GlassHouseModal({ isOpen, sectionId, decisionId, onClose, traceData, is
     }
 
     return (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-end">
-            <div className="w-full max-w-2xl bg-white h-full shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col">
+        <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-end"
+            onClick={onClose}
+        >
+            <div
+                className="w-full max-w-2xl bg-white h-full shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <div className="flex justify-between items-center p-4 border-b bg-gray-50/50">
                     <h2 className="font-bold text-gray-800 flex items-center gap-2">
-                        <Activity className="text-indigo-600" /> Glass House Analysis
+                        <Workflow className="text-indigo-600" size={20} /> Qualification Process Recording
                     </h2>
                     <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500"><X size={20} /></button>
                 </div>
