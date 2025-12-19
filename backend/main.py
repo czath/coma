@@ -563,6 +563,7 @@ class HipdamAnalysisPayload(BaseModel):
     filename: str
     document_type: str = "master" # Default to master/clause-based
     file_id: Optional[str] = None # For deterministic job IDs (Resumption)
+    force_clean: bool = False # Whether to wipe existing progress
 
 async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPayload):
     try:
@@ -589,7 +590,7 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
             payload.filename, 
             document_type=payload.document_type,
             progress_callback=update_progress,
-            clean_start=True # FORCE CLEAN START for user-initiated analysis
+            clean_start=payload.force_clean # No longer hardcoded to True
         )
         
         jobs[job_id]["status"] = "completed"

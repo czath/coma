@@ -63,24 +63,24 @@ Return JSON format ONLY:
 }}
 """
             
-            generation_config = types.GenerateContentConfig(
-                response_mime_type="application/json",
-                temperature=self.config.get("temperature", 0.0)
-            )
+            generation_config_params = {
+                "system_instruction": self.system_instr,
+                "response_mime_type": "application/json",
+                "temperature": self.config.get("temperature", 0.0),
+                "max_output_tokens": self.config.get("max_output_tokens", 8192),
+            }
+            
+            # Only add thinking_config if the model supports it
+            if "thinking" in self.model_name.lower():
+                generation_config_params["thinking_config"] = types.ThinkingConfig(
+                    include_thoughts=self.config.get("thinking_config", {}).get("include_thoughts", False),
+                    thinking_budget=self.config.get("thinking_config", {}).get("thinking_budget", 4096)
+                )
 
             response = await self.client.aio.models.generate_content(
                 model=self.model_name,
                 contents=prompt,
-                config=types.GenerateContentConfig(
-                    system_instruction=self.system_instr,
-                    response_mime_type="application/json",
-                    temperature=self.config.get("temperature", 0.0),
-                    max_output_tokens=self.config.get("max_output_tokens", 8192),
-                    thinking_config=types.ThinkingConfig(
-                        include_thoughts=self.config.get("thinking_config", {}).get("include_thoughts", False),
-                        thinking_budget=self.config.get("thinking_config", {}).get("thinking_budget", 4096)
-                    )
-                )
+                config=types.GenerateContentConfig(**generation_config_params)
             )
             
             import re
@@ -93,7 +93,6 @@ Return JSON format ONLY:
                 json_str = response.text.replace("```json", "").replace("```", "").strip()
 
             # FIX: Use raw_decode to parse only the first valid JSON object and ignore trailing garbage
-            # This fixes "Extra data" errors if the regex captured too much (e.g. valid JSON + trailing text with '}')
             try:
                 data, _ = json.JSONDecoder().raw_decode(json_str)
             except json.JSONDecodeError:
@@ -112,5 +111,7 @@ Return JSON format ONLY:
             return decision
 
         except Exception as e:
-            print(f"Judge error: {e}")
+            import traceback
+            print(f"Judge error on model {self.model_name}: {e}")
+            traceback.print_exc()
             return None
