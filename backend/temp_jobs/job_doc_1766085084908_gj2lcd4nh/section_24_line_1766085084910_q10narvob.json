@@ -1,0 +1,147 @@
+{
+  "section_id": "line_1766085084910_q10narvob",
+  "decisions": [
+    {
+      "id": "738d396e-e051-458e-8653-78f9e2f23d70",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "ZEBRACORP Payments shall mean Zebracorp’ centralized system for payments pursuant to which all invoices maturing on or before the predetermined payment day (the “Payment Day”), are consolidated and paid on the Payment Day. The Payment Day is the first weekday of the first week of each Zebracorp’ fiscal month, but the Payment Day may at any time and without prior notice be moved by Zebracorp to another day within that same week.",
+        "plain_text": "ZEBRACORP Payments refers to Zebracorp's centralized system for processing payments. All invoices due on or before a predetermined 'Payment Day' are consolidated and paid on that day. The 'Payment Day' is typically the first weekday of the first week of each Zebracorp fiscal month, but Zebracorp can change it to another day within the same week without prior notice.",
+        "expert_insight": "This definition outlines Zebracorp's standard payment cycle, emphasizing consolidation and a specific 'Payment Day'. The flexibility to move the Payment Day within the week is a key detail. It's Zebracorp's preferred payment term.",
+        "confidence": 1.0
+      },
+      "rationale": "Consensus: Single candidate, identified as a DEFINITION. Value Assessment: The verbatim text is a direct, self-sufficient definition from the source. Type-Specific Criteria: It accurately defines a specific, non-generic term ('ZEBRACORP Payments') which is crucial for understanding Zebracorp's payment policy. Utility Check: This definition is essential for clarifying Zebracorp's standard payment process and terms, making it highly valuable for negotiation and compliance. Therefore, it is accepted as a valid and critical definition.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "4d731f31-2522-416e-8c66-ba17abe519b7",
+      "supporting_evidence": [
+        "ad9b5ad5-6ad4-4f85-925b-9800262a3573"
+      ]
+    },
+    {
+      "id": "dea4c5cf-0b3c-4a0c-8d24-675a3f3d0969",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "verbatim_text": "Both Value Added Tax and Sales Taxes are consumption taxes in the sense that in that ultimately only the end consumer is taxed.",
+        "plain_text": "Value Added Tax (VAT) and Sales Taxes are types of consumption taxes where the ultimate tax burden falls on the end consumer.",
+        "expert_insight": "Standard definition of consumption taxes, clarifying that the burden is passed to the end consumer.",
+        "confidence": 0.9
+      },
+      "rationale": "Consensus: Single candidate, classified as DEFINITION. Value Assessment: The plain_text is clear, self-sufficient, and accurately captures the essence of the verbatim text, defining 'consumption taxes' in the context of VAT and Sales Taxes. Type-Specific Criteria: It provides a necessary and accurate definition of a specific tax concept within the document. Utility Check: This definition is useful for understanding the underlying principles of how VAT and Sales Taxes are treated in pricing, aiding in negotiation and comprehension. Therefore, accepted as a valid and critical definition.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "cd2b5bd4-292c-4851-bb9c-c30fe92ad0ed",
+      "supporting_evidence": [
+        "b8dd2de4-9f7d-4c8e-bb6a-d93e9f57c833"
+      ]
+    },
+    {
+      "id": "6eefcaae-9b9a-47d2-9fa7-ee2d64965640",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "verbatim_text": "A withholding tax is generally any tax that is required to be withheld or deducted by the payer before making a payment.",
+        "plain_text": "A withholding tax is a tax that a payer must deduct or withhold from a payment before giving it to the recipient.",
+        "expert_insight": "This is a standard definition of withholding tax, highlighting the payer's obligation to deduct before payment.",
+        "confidence": 1.0
+      },
+      "rationale": "Consensus: Single candidate, type DEFINITION. Evaluation: The definition is accurate, self-sufficient, and defines a specific, important term ('Withholding Tax') within the document. It passes the utility check as it clarifies a key concept for negotiation and understanding the related guidelines on payment terms. The plain_text is a good rephrasing of the verbatim text.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "8380ac09-1eb3-47a2-8669-d10def31b294",
+      "supporting_evidence": [
+        "f6381feb-547e-4693-ac37-0a46cc71115c"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "4d731f31-2522-416e-8c66-ba17abe519b7",
+      "recommendation_ids": [
+        "ad9b5ad5-6ad4-4f85-925b-9800262a3573"
+      ]
+    },
+    {
+      "id": "cd2b5bd4-292c-4851-bb9c-c30fe92ad0ed",
+      "recommendation_ids": [
+        "b8dd2de4-9f7d-4c8e-bb6a-d93e9f57c833"
+      ]
+    },
+    {
+      "id": "8380ac09-1eb3-47a2-8669-d10def31b294",
+      "recommendation_ids": [
+        "f6381feb-547e-4693-ac37-0a46cc71115c"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "ad9b5ad5-6ad4-4f85-925b-9800262a3573",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "DEFINITION",
+        "verbatim_text": "ZEBRACORP Payments shall mean Zebracorp’ centralized system for payments pursuant to which all invoices maturing on or before the predetermined payment day (the “Payment Day”), are consolidated and paid on the Payment Day. The Payment Day is the first weekday of the first week of each Zebracorp’ fiscal month, but the Payment Day may at any time and without prior notice be moved by Zebracorp to another day within that same week.",
+        "plain_text": "ZEBRACORP Payments refers to Zebracorp's centralized system for processing payments. All invoices due on or before a predetermined 'Payment Day' are consolidated and paid on that day. The 'Payment Day' is typically the first weekday of the first week of each Zebracorp fiscal month, but Zebracorp can change it to another day within the same week without prior notice.",
+        "expert_insight": "This definition outlines Zebracorp's standard payment cycle, emphasizing consolidation and a specific 'Payment Day'. The flexibility to move the Payment Day within the week is a key detail. It's Zebracorp's preferred payment term.",
+        "confidence": 1.0,
+        "text": "ZEBRACORP Payments shall mean Zebracorp’ centralized system for payments pursuant to which all invoices maturing on or before the predetermined payment day (the “Payment Day”), are consolidated and paid on the Payment Day. The Payment Day is the first weekday of the first week of each Zebracorp’ fiscal month, but the Payment Day may at any time and without prior notice be moved by Zebracorp to another day within that same week."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "b8dd2de4-9f7d-4c8e-bb6a-d93e9f57c833",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "DEFINITION",
+        "verbatim_text": "Both Value Added Tax and Sales Taxes are consumption taxes in the sense that in that ultimately only the end consumer is taxed.",
+        "plain_text": "Value Added Tax (VAT) and Sales Taxes are types of consumption taxes where the ultimate tax burden falls on the end consumer.",
+        "expert_insight": "Standard definition of consumption taxes, clarifying that the burden is passed to the end consumer.",
+        "confidence": 0.9,
+        "text": "Both Value Added Tax and Sales Taxes are consumption taxes in the sense that in that ultimately only the end consumer is taxed."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "f6381feb-547e-4693-ac37-0a46cc71115c",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "DEFINITION",
+        "verbatim_text": "A withholding tax is generally any tax that is required to be withheld or deducted by the payer before making a payment.",
+        "plain_text": "A withholding tax is a tax that a payer must deduct or withhold from a payment before giving it to the recipient.",
+        "expert_insight": "This is a standard definition of withholding tax, highlighting the payer's obligation to deduct before payment.",
+        "confidence": 1.0,
+        "text": "A withholding tax is generally any tax that is required to be withheld or deducted by the payer before making a payment."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    }
+  ]
+}

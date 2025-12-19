@@ -1,0 +1,241 @@
+{
+  "section_id": "line_1766085084910_u7qi9zd1r",
+  "decisions": [
+    {
+      "id": "77849f34-1072-4146-8deb-b90f70059420",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "No Third Party Beneficiaries. Except as otherwise provided herein, no provision of this [Agreement] shall in any way inure to the benefit of any third person so as to constitute any such person a third party beneficiary of this [Agreement] or any one or more of the terms hereof or otherwise give rise to any cause of action in any person not a party hereto.",
+        "plain_text": "Unless explicitly stated otherwise within the agreement, no third party shall be considered a beneficiary of this agreement, nor shall any provision grant them a cause of action.",
+        "expert_insight": "This is a standard and crucial clause in common law jurisdictions. It prevents unintended third parties from claiming rights or enforcing terms under the contract, thereby limiting Zebracorp's potential liabilities and obligations to only the direct contracting parties.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Except as otherwise provided herein.",
+        "justification": "This clause directly defines who can enforce the contract, which is fundamental to contract law and risk management. It uses 'shall', indicating a mandatory rule.",
+        "implication_company": "Protects Zebracorp from claims by non-parties and limits contractual obligations to direct parties.",
+        "implication_supplier": "Prevents the supplier from granting rights to third parties without Zebracorp's explicit agreement within the contract.",
+        "source_insight": "The bracketed '[Agreement]' indicates a placeholder for the specific contract name."
+      },
+      "rationale": "Consensus: Single candidate, type is GUIDELINE. Evaluation: The finding is a direct quote of a standard contractual clause that explicitly restricts third-party beneficiaries. It is highly actionable, creating a clear obligation/restriction. The plain_text is clear and the expert_insight provides valuable context regarding its importance for risk management in common law jurisdictions. It passes the Value and Utility checks, as it is a specific, protective clause. Classified as CRITICAL GUIDELINE.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "c3d88ea5-09ca-47fb-b45e-b3698c2d3fb2",
+      "supporting_evidence": [
+        "f47a64ca-b636-4d8d-b834-ec7f64c5dc95"
+      ]
+    },
+    {
+      "id": "0b00aad9-131f-4a5d-b9bd-7290ad9f0041",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "verbatim_text": "However, where rights are exceptionally granted to third parties in these types of clauses, we should carefully consider the specific rights granted, and whether the parties can amend the contract with or without the third party’s consent.",
+        "plain_text": "If third-party rights are exceptionally granted, Zebracorp must carefully review the scope of these rights and determine if contract amendments require the third party's consent.",
+        "expert_insight": "Granting third-party rights can significantly complicate contract management and future amendments. Understanding the implications, especially regarding consent for changes, is vital to avoid future disputes or operational hurdles.",
+        "confidence": 0.95,
+        "classification": "HIGH",
+        "conditions": "Where rights are exceptionally granted to third parties.",
+        "justification": "The use of 'should carefully consider' indicates a strong recommendation for due diligence when deviating from the standard 'no third-party beneficiaries' position. This has significant legal and operational implications.",
+        "implication_company": "Requires Zebracorp to perform thorough due diligence and risk assessment when granting third-party rights, impacting future contract flexibility.",
+        "implication_supplier": "If the supplier requests third-party rights, they must be prepared for Zebracorp's detailed scrutiny of those rights and amendment clauses.",
+        "source_insight": "This guideline applies specifically to exceptions to the general 'no third-party beneficiaries' rule."
+      },
+      "rationale": "Consensus: Only one candidate, classified as GUIDELINE. Evaluation: The verbatim text provides a clear, actionable instruction for Zebracorp regarding due diligence when third-party rights are exceptionally granted. It passes the 'So What?' test by outlining specific considerations (scope of rights, amendment consent). It is not generic advice but a specific rule for an exceptional scenario. The plain text is self-sufficient and accurately reflects the source. Therefore, it is classified as a Critical Guideline.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "34168fd7-a3b5-4431-8a68-a1fe61b3cf80",
+      "supporting_evidence": [
+        "0221b73e-e094-4a8f-b769-f490c6f6fd6f"
+      ]
+    },
+    {
+      "id": "1b361892-f09a-4c5a-9e67-51b765a554ac",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "verbatim_text": "In some cases, third party licensors may require us to include them as ‘third party beneficiaries’ of our license agreements with our end customers. These requests should be rejected.",
+        "plain_text": "Zebracorp must reject requests from third-party licensors to be included as 'third party beneficiaries' in Zebracorp's license agreements with end customers.",
+        "expert_insight": "This is a firm policy to protect Zebracorp's existing framework agreements and operational efficiency. Acceding to such requests would create an unmanageable administrative burden and legal complexity due to the bespoke nature of each licensor's requirements.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "When third-party licensors require inclusion as 'third party beneficiaries' in Zebracorp's license agreements with end customers.",
+        "justification": "The text explicitly states 'These requests should be rejected' and provides a strong rationale ('next to impossible to amend those framework agreements'), making this a mandatory policy for Zebracorp.",
+        "implication_company": "Zebracorp must maintain a firm stance against such requests to preserve the integrity and manageability of its existing customer framework agreements.",
+        "implication_supplier": "Third-party licensors will not be granted direct beneficiary status in Zebracorp's end-customer license agreements.",
+        "source_insight": "The justification provided highlights the practical impossibility of accommodating such requests due to Zebracorp's existing framework agreement structure."
+      },
+      "rationale": "Consensus: Single candidate, type GUIDELINE. Value Assessment: The plain_text is clear, self-sufficient, and accurately captures the instruction from the verbatim_text. Type-Specific Criteria: This is an actionable and specific obligation for Zebracorp, explicitly stating that certain requests 'should be rejected'. The 'CRITICAL' classification is appropriate given the firm directive and the strong justification provided in the source text regarding the impracticality of amending framework agreements. Utility Check: This item provides clear, specific guidance for Zebracorp, protecting its operational efficiency and existing contractual structures. Therefore, it is accepted as a valid and critical guideline.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "081a0c88-e38c-4ea9-b0fa-600bb00dec88",
+      "supporting_evidence": [
+        "28d3ece5-c0e1-418f-992a-b239ccb2077b"
+      ]
+    },
+    {
+      "id": "e3a42e51-0877-4275-97f7-e85ed4d45f9e",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "verbatim_text": "We can however agree to report any violations of the license terms to our licensor, and to enforce the license terms against our customers.",
+        "plain_text": "Zebracorp has the option to agree to report license term violations to its licensors and to enforce those terms against its customers.",
+        "expert_insight": "This offers a pragmatic alternative to granting third-party beneficiary status. It addresses the licensor's concern about enforcement without creating direct contractual links that would complicate Zebracorp's customer agreements.",
+        "confidence": 0.9,
+        "classification": "MEDIUM",
+        "conditions": "As an alternative to granting third-party beneficiary status to licensors.",
+        "justification": "The use of 'We can however agree' indicates an optional course of action or a right that Zebracorp may choose to exercise or offer. It's a viable alternative solution.",
+        "implication_company": "Provides Zebracorp with a flexible option to satisfy licensor concerns without compromising its framework agreements, but may incur administrative effort for reporting and enforcement.",
+        "implication_supplier": "Licensors can receive assurance of enforcement and reporting without becoming direct third-party beneficiaries.",
+        "source_insight": "This is presented as a compromise or alternative solution to the rejected request for third-party beneficiary status."
+      },
+      "rationale": "Consensus: Single candidate, type GUIDELINE. Evaluation: The verbatim text presents a clear, actionable option for Zebracorp to offer as an alternative to granting third-party beneficiary status to licensors. The plain_text is self-sufficient and accurately rephrases the option. It passes the Value and Utility checks by providing specific, practical advice that helps in negotiations and protects the company's framework agreements. Classified as a MEDIUM priority Guideline due to its tactical nature.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "e72cb323-67c7-402a-9742-32c9d87656db",
+      "supporting_evidence": [
+        "d1f32a36-1b0c-4e1f-965b-84e281f91185"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "c3d88ea5-09ca-47fb-b45e-b3698c2d3fb2",
+      "recommendation_ids": [
+        "f47a64ca-b636-4d8d-b834-ec7f64c5dc95"
+      ]
+    },
+    {
+      "id": "34168fd7-a3b5-4431-8a68-a1fe61b3cf80",
+      "recommendation_ids": [
+        "0221b73e-e094-4a8f-b769-f490c6f6fd6f"
+      ]
+    },
+    {
+      "id": "081a0c88-e38c-4ea9-b0fa-600bb00dec88",
+      "recommendation_ids": [
+        "28d3ece5-c0e1-418f-992a-b239ccb2077b"
+      ]
+    },
+    {
+      "id": "e72cb323-67c7-402a-9742-32c9d87656db",
+      "recommendation_ids": [
+        "d1f32a36-1b0c-4e1f-965b-84e281f91185"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "f47a64ca-b636-4d8d-b834-ec7f64c5dc95",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "No Third Party Beneficiaries. Except as otherwise provided herein, no provision of this [Agreement] shall in any way inure to the benefit of any third person so as to constitute any such person a third party beneficiary of this [Agreement] or any one or more of the terms hereof or otherwise give rise to any cause of action in any person not a party hereto.",
+        "plain_text": "Unless explicitly stated otherwise within the agreement, no third party shall be considered a beneficiary of this agreement, nor shall any provision grant them a cause of action.",
+        "expert_insight": "This is a standard and crucial clause in common law jurisdictions. It prevents unintended third parties from claiming rights or enforcing terms under the contract, thereby limiting Zebracorp's potential liabilities and obligations to only the direct contracting parties.",
+        "confidence": 1.0,
+        "conditions": "Except as otherwise provided herein.",
+        "justification": "This clause directly defines who can enforce the contract, which is fundamental to contract law and risk management. It uses 'shall', indicating a mandatory rule.",
+        "implication_company": "Protects Zebracorp from claims by non-parties and limits contractual obligations to direct parties.",
+        "implication_supplier": "Prevents the supplier from granting rights to third parties without Zebracorp's explicit agreement within the contract.",
+        "source_insight": "The bracketed '[Agreement]' indicates a placeholder for the specific contract name.",
+        "text": "No Third Party Beneficiaries. Except as otherwise provided herein, no provision of this [Agreement] shall in any way inure to the benefit of any third person so as to constitute any such person a third party beneficiary of this [Agreement] or any one or more of the terms hereof or otherwise give rise to any cause of action in any person not a party hereto."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "0221b73e-e094-4a8f-b769-f490c6f6fd6f",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "However, where rights are exceptionally granted to third parties in these types of clauses, we should carefully consider the specific rights granted, and whether the parties can amend the contract with or without the third party’s consent.",
+        "plain_text": "If third-party rights are exceptionally granted, Zebracorp must carefully review the scope of these rights and determine if contract amendments require the third party's consent.",
+        "expert_insight": "Granting third-party rights can significantly complicate contract management and future amendments. Understanding the implications, especially regarding consent for changes, is vital to avoid future disputes or operational hurdles.",
+        "confidence": 0.95,
+        "conditions": "Where rights are exceptionally granted to third parties.",
+        "justification": "The use of 'should carefully consider' indicates a strong recommendation for due diligence when deviating from the standard 'no third-party beneficiaries' position. This has significant legal and operational implications.",
+        "implication_company": "Requires Zebracorp to perform thorough due diligence and risk assessment when granting third-party rights, impacting future contract flexibility.",
+        "implication_supplier": "If the supplier requests third-party rights, they must be prepared for Zebracorp's detailed scrutiny of those rights and amendment clauses.",
+        "source_insight": "This guideline applies specifically to exceptions to the general 'no third-party beneficiaries' rule.",
+        "text": "However, where rights are exceptionally granted to third parties in these types of clauses, we should carefully consider the specific rights granted, and whether the parties can amend the contract with or without the third party’s consent."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "28d3ece5-c0e1-418f-992a-b239ccb2077b",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "In some cases, third party licensors may require us to include them as ‘third party beneficiaries’ of our license agreements with our end customers. These requests should be rejected.",
+        "plain_text": "Zebracorp must reject requests from third-party licensors to be included as 'third party beneficiaries' in Zebracorp's license agreements with end customers.",
+        "expert_insight": "This is a firm policy to protect Zebracorp's existing framework agreements and operational efficiency. Acceding to such requests would create an unmanageable administrative burden and legal complexity due to the bespoke nature of each licensor's requirements.",
+        "confidence": 1.0,
+        "conditions": "When third-party licensors require inclusion as 'third party beneficiaries' in Zebracorp's license agreements with end customers.",
+        "justification": "The text explicitly states 'These requests should be rejected' and provides a strong rationale ('next to impossible to amend those framework agreements'), making this a mandatory policy for Zebracorp.",
+        "implication_company": "Zebracorp must maintain a firm stance against such requests to preserve the integrity and manageability of its existing customer framework agreements.",
+        "implication_supplier": "Third-party licensors will not be granted direct beneficiary status in Zebracorp's end-customer license agreements.",
+        "source_insight": "The justification provided highlights the practical impossibility of accommodating such requests due to Zebracorp's existing framework agreement structure.",
+        "text": "In some cases, third party licensors may require us to include them as ‘third party beneficiaries’ of our license agreements with our end customers. These requests should be rejected."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "d1f32a36-1b0c-4e1f-965b-84e281f91185",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "We can however agree to report any violations of the license terms to our licensor, and to enforce the license terms against our customers.",
+        "plain_text": "Zebracorp has the option to agree to report license term violations to its licensors and to enforce those terms against its customers.",
+        "expert_insight": "This offers a pragmatic alternative to granting third-party beneficiary status. It addresses the licensor's concern about enforcement without creating direct contractual links that would complicate Zebracorp's customer agreements.",
+        "confidence": 0.9,
+        "conditions": "As an alternative to granting third-party beneficiary status to licensors.",
+        "justification": "The use of 'We can however agree' indicates an optional course of action or a right that Zebracorp may choose to exercise or offer. It's a viable alternative solution.",
+        "implication_company": "Provides Zebracorp with a flexible option to satisfy licensor concerns without compromising its framework agreements, but may incur administrative effort for reporting and enforcement.",
+        "implication_supplier": "Licensors can receive assurance of enforcement and reporting without becoming direct third-party beneficiaries.",
+        "source_insight": "This is presented as a compromise or alternative solution to the rejected request for third-party beneficiary status.",
+        "text": "We can however agree to report any violations of the license terms to our licensor, and to enforce the license terms against our customers."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    }
+  ]
+}

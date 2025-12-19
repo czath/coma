@@ -1,0 +1,616 @@
+{
+  "section_id": "line_1766077970167_c5v4ipbyz",
+  "decisions": [
+    {
+      "id": "cd539c23-9f18-48be-bf4d-d39d18e66334",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "Acceptance provisions should always be drafted and reviewed with special care.",
+        "plain_text": "Acceptance provisions must always be drafted and reviewed with special care.",
+        "expert_insight": "Acceptance provisions are fundamental as they define project completion, trigger subcontractor invoicing and payment rights, stop liquidated damages, and often initiate warranty periods. Meticulous drafting and review are paramount to prevent disputes, ensure deliverables meet requirements, and manage financial and contractual alignment effectively.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Applies to all contracts involving acceptance provisions.",
+        "justification": "The source text explicitly states that 'Acceptance provisions should always be drafted and reviewed with special care' and then details *why* they are 'essential' by explaining their impact on defining work completion, revenue recognition, invoicing, payment, liquidated damages, and warranty start dates. The 'always' underscores the critical nature of this diligence.",
+        "implication_company": "Ensures clarity on project completion, manages financial obligations and cash flow, mitigates risks associated with incomplete or unsatisfactory work, and prevents disputes by establishing clear criteria for acceptance.",
+        "implication_supplier": "Provides clear and consistent criteria for work completion, enabling timely revenue recognition, invoicing, and payment, and defining the start of warranty periods.",
+        "source_insight": "The text provides extensive justification for *why* special care is needed, detailing the critical functions of acceptance provisions in defining work completion, financial triggers, and risk management."
+      },
+      "rationale": "Consensus: Mixed, with three agents classifying as GUIDELINE and one as OTHER (INFO). Evaluation: The phrase 'should always be drafted and reviewed with special care' combined with the extensive justification provided in the source text (detailing the essential nature of acceptance provisions for defining work completion, revenue recognition, invoicing, payment, liquidated damages, and warranty start) elevates this from generic advice to a specific, critical directive. It creates a clear obligation for diligence in a key contractual area. Therefore, it is correctly classified as a GUIDELINE. Passed Value and Utility tests. Classified as CRITICAL due to the profound implications detailed in the source text.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "f0e5d6d2-4e59-4d15-9d42-97a42725c7f9",
+      "supporting_evidence": [
+        "8263132d-65ba-4090-8da1-9801de31bc41",
+        "ac16e826-761b-4142-81b8-8f1d22c4310b",
+        "84b102ab-e2ee-472f-8cf5-262eef8c499a",
+        "73688ee0-7b37-44b9-82c6-566e1e67ecbd"
+      ]
+    },
+    {
+      "id": "14b9a022-0dc6-4da5-879d-e28742bf3463",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "f0e9d8c7-b6a5-4321-fedc-ba9876543210",
+        "verbatim_text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer.",
+        "plain_text": "When a subcontractor works directly for Zebracorp on a customer project, Zebracorp must ensure that the subcontractor's acceptance provisions are aligned with the corresponding provisions of Zebracorp's customer contract. This prevents Zebracorp from accepting the subcontractor's work before the end customer accepts Zebracorp's work.",
+        "expert_insight": "This is a critical risk mitigation strategy for 'back-to-back' contracting. It prevents Zebracorp from being obligated to accept and pay a subcontractor before Zebracorp itself has received acceptance from its end customer. Failure to align creates significant financial and contractual risk, potentially leaving Zebracorp in a 'sandwich' position where it has accepted and paid a subcontractor, but its own work has not yet been accepted by the end customer, leading to potential financial and reputational exposure.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Applies specifically 'In cases where the subcontractor is working directly for Zebracorp in a particular customer project'.",
+        "justification": "The alignment is required to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer, thereby mitigating Zebracorp's financial and contractual risk and aligning payment triggers.",
+        "implication_company": "Protects Zebracorp from premature payment obligations and contractual liabilities to subcontractors, ensuring back-to-back alignment and mitigating financial and operational risk by preventing 'acceptance gaps'.",
+        "implication_supplier": "The subcontractor's acceptance and payment may be contingent on Zebracorp's acceptance from the end customer, requiring them to understand and potentially accept this dependency and the project's overall acceptance chain.",
+        "source_insight": "The phrase 'would need to be aligned' indicates a mandatory requirement for Zebracorp in a specific, high-risk scenario (subcontracting for a customer project) to ensure contractual alignment and risk mitigation."
+      },
+      "rationale": "Consensus Check: Three agents classified this as a 'GUIDELINE' and one as 'OTHER' (Instruction). The phrase 'would need to be aligned' indicates a mandatory requirement and a specific obligation, making 'GUIDELINE' the most appropriate classification. Value Assessment: The text is clear, self-sufficient, and provides critical context for Zebracorp's operations. Type-Specific Criteria: As a GUIDELINE, it is highly actionable, creating a specific obligation for Zebracorp to align acceptance provisions in a defined scenario. The risk mitigation aspect makes it a 'CRITICAL' guideline. Utility Check: This finding is highly specific, helps in contract negotiation, and directly protects the company from significant financial and contractual risk. Therefore, it is a valid and critical finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "e37dc978-78e8-43a6-9b02-3cf5961b4f9c",
+      "supporting_evidence": [
+        "bbafb2a6-3018-4de4-87a6-88f45cfdcc49",
+        "79b168b2-7805-44e1-bee4-238353ea257a",
+        "7460ff6b-b056-406e-914d-908b32dcc33b",
+        "9a55f3e2-c1d6-4aa1-8745-9c25f09d781e"
+      ]
+    },
+    {
+      "id": "3d495060-2d74-4a06-a221-bfa86258b4b9",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "b8d5a7e1-c0f3-4b92-9d2b-1c4e8f7d0b32",
+        "verbatim_text": "Acceptance provisions are essential since they ultimately define whether the works rendered by the subcontractor meet the mutually agreed requirements, and when these works have been completed enabling the supplier/subcontractor to recognize revenue.",
+        "plain_text": "Acceptance provisions are crucial because they define if a subcontractor's work meets agreed requirements and when it is complete, enabling the supplier/subcontractor to recognize revenue.",
+        "expert_insight": "This highlights the dual importance of acceptance provisions: ensuring quality and compliance for the company, and enabling financial certainty and revenue recognition for the supplier/subcontractor. Clear acceptance criteria are vital for both parties' contractual and financial interests.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Explains the fundamental purpose and importance of acceptance provisions in defining project success, compliance, and financial milestones for both parties.",
+        "implication_company": "Provides a formal mechanism to verify that subcontractor work meets contractual standards before assuming responsibility or making payments, thereby protecting the company's interests and ensuring quality.",
+        "implication_supplier": "Establishes the point at which work is deemed complete and revenue can be officially recognized, which is vital for their financial reporting, stability, and cash flow.",
+        "source_insight": "The text explicitly states the definition and purpose of acceptance provisions, highlighting both the qualitative (meeting requirements) and financial (revenue recognition) aspects."
+      },
+      "rationale": "Consensus: All agents agreed on 'OTHER' type with 'INFO' subtype. Value Assessment: The verbatim text is self-sufficient and clearly explains the fundamental purpose and importance of acceptance provisions, linking them to both compliance/quality for the company and revenue recognition for the supplier. No contextual rewrite was needed. Type-Specific Criteria: As an 'INFO' type, it provides valuable background context that is crucial for understanding the significance of acceptance clauses. Utility Check: This information is highly useful for negotiators to understand the dual impact of acceptance provisions on both parties, making it a valid and important finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "9038dea3-5468-440f-bb73-d095ac57bca9",
+      "supporting_evidence": [
+        "bd47758e-7e02-44eb-b2db-8b980e3192a3",
+        "c13fe53d-f538-4033-a591-58f5cee14a73",
+        "3a2cb19b-fef8-4d34-8f44-2618e6e95933"
+      ]
+    },
+    {
+      "id": "dd967fe7-daa2-4109-aeaa-4f036b7018e1",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "c7f4b9d0-e2a1-4c03-8e3c-0d5f9a8b1c43",
+        "verbatim_text": "Acceptance generally triggers the right for the subcontractor to invoice and get paid for its deliverables and it can stop the liquidated damages clock. Moreover, the majority of contracts stipulate that the warranty starts to run from the date of acceptance.",
+        "plain_text": "Acceptance typically allows subcontractors to invoice and get paid, can stop liquidated damages, and usually starts the warranty period.",
+        "expert_insight": "Acceptance is a critical milestone with significant financial and legal consequences for both parties. It triggers the subcontractor's right to payment and can stop liquidated damages, while also initiating the warranty period. This shift in financial burden and risk necessitates clear acceptance definitions.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Explains the direct contractual, financial, and legal consequences of acceptance for both parties.",
+        "implication_company": "Initiates payment obligations, potentially ends the period for assessing liquidated damages, and marks the start of the company's warranty exposure, requiring careful financial and risk management.",
+        "implication_supplier": "Secures the right to invoice and receive payment, limits exposure to liquidated damages, and marks the beginning of their warranty obligations.",
+        "source_insight": "The text explicitly lists the multi-faceted financial, legal, and contractual consequences triggered by acceptance."
+      },
+      "rationale": "Consensus: All agents correctly identified the type as 'OTHER' with subtype 'INFO', describing the consequences of acceptance. Value Assessment: The verbatim text is clear, self-sufficient, and provides crucial context regarding the financial and legal implications of acceptance. It passes the 'So What?' test as it highlights why acceptance provisions are essential. Type-Specific Criteria: As an 'INFO' type, it effectively contextualizes the importance of acceptance by detailing its triggers (invoicing, payment, liquidated damages, warranty start). Utility Check: This information is highly useful for understanding the stakes involved in acceptance, aiding in negotiation and risk management. The most complete verbatim text from Candidate 1 was chosen, and other fields were consolidated to reflect all aspects mentioned.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "9c075b4b-b004-4780-b6e0-77dfd417e194",
+      "supporting_evidence": [
+        "86f41fc6-0c90-4fec-94e6-b2d645936243",
+        "046909c3-768b-45cd-95d9-50eb885e42d4",
+        "d21390e8-6dae-430f-930d-e9777fa7f7dc"
+      ]
+    },
+    {
+      "id": "e78459e0-2ed2-4c09-b579-864f21b4cf44",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "cluster_warranty_acceptance_start",
+        "verbatim_text": "Moreover, the majority of contracts stipulate that the warranty starts to run from the date of acceptance.",
+        "plain_text": "Most contracts specify that the warranty period for deliverables begins on the date of acceptance.",
+        "expert_insight": "This is a standard contractual practice and a key implication of acceptance. Companies need to be aware that accepting work starts the clock on their warranty period, which impacts their rights to recourse for defects. Subcontractors need to understand their warranty obligations begin at this point.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Highlights a common contractual consequence related to warranty periods and their commencement upon acceptance.",
+        "implication_company": "The warranty period for the accepted work/deliverables begins, defining the timeframe for claims against defects.",
+        "implication_supplier": "The supplier's/subcontractor's warranty obligations for the accepted deliverables officially start.",
+        "source_insight": "The text states this as a common contractual stipulation."
+      },
+      "rationale": "Consensus: Agents agreed on the type (OTHER) and subtype (INFO). Evaluation: The verbatim text is a clear, self-sufficient statement about a common contractual practice regarding warranty commencement upon acceptance. This information is highly relevant for understanding the implications of acceptance provisions, making it valuable for both parties. It passes the utility check as it helps in contract negotiation and management. Classified as OTHER (INFO) due to its nature as a general statement about common contractual practice rather than a specific rule within the document itself.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "3ef9aaca-2990-4748-a739-3b1f2f72c258",
+      "supporting_evidence": [
+        "1c1b9302-5c0e-4c15-9736-cf17457fd0be",
+        "8620ba77-9a07-4827-bbcd-af3b9d889fa8"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "f0e5d6d2-4e59-4d15-9d42-97a42725c7f9",
+      "recommendation_ids": [
+        "8263132d-65ba-4090-8da1-9801de31bc41",
+        "ac16e826-761b-4142-81b8-8f1d22c4310b",
+        "84b102ab-e2ee-472f-8cf5-262eef8c499a",
+        "73688ee0-7b37-44b9-82c6-566e1e67ecbd"
+      ]
+    },
+    {
+      "id": "e37dc978-78e8-43a6-9b02-3cf5961b4f9c",
+      "recommendation_ids": [
+        "bbafb2a6-3018-4de4-87a6-88f45cfdcc49",
+        "79b168b2-7805-44e1-bee4-238353ea257a",
+        "7460ff6b-b056-406e-914d-908b32dcc33b",
+        "9a55f3e2-c1d6-4aa1-8745-9c25f09d781e"
+      ]
+    },
+    {
+      "id": "9038dea3-5468-440f-bb73-d095ac57bca9",
+      "recommendation_ids": [
+        "bd47758e-7e02-44eb-b2db-8b980e3192a3",
+        "c13fe53d-f538-4033-a591-58f5cee14a73",
+        "3a2cb19b-fef8-4d34-8f44-2618e6e95933"
+      ]
+    },
+    {
+      "id": "9c075b4b-b004-4780-b6e0-77dfd417e194",
+      "recommendation_ids": [
+        "86f41fc6-0c90-4fec-94e6-b2d645936243",
+        "046909c3-768b-45cd-95d9-50eb885e42d4",
+        "d21390e8-6dae-430f-930d-e9777fa7f7dc"
+      ]
+    },
+    {
+      "id": "3ef9aaca-2990-4748-a739-3b1f2f72c258",
+      "recommendation_ids": [
+        "1c1b9302-5c0e-4c15-9736-cf17457fd0be",
+        "8620ba77-9a07-4827-bbcd-af3b9d889fa8"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "8263132d-65ba-4090-8da1-9801de31bc41",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Acceptance provisions should always be drafted and reviewed with special care.",
+        "plain_text": "Zebracorp must ensure that acceptance provisions are always drafted and reviewed with special care.",
+        "expert_insight": "Acceptance provisions are fundamental as they define project completion, trigger subcontractor invoicing and payment rights, stop liquidated damages, and often initiate warranty periods. Meticulous drafting prevents disputes and ensures proper financial and contractual alignment.",
+        "confidence": 1.0,
+        "conditions": "Applies to all contracts involving acceptance provisions.",
+        "justification": "The text explicitly states 'should always be drafted and reviewed with special care' and then explains *why* they are 'essential' due to their impact on defining work completion, revenue recognition, invoicing, payment, liquidated damages, and warranty start dates. The 'always' makes it a strong recommendation.",
+        "implication_company": "Ensures clarity on project completion, payment triggers, and warranty commencement, reducing disputes and managing financial exposure.",
+        "implication_supplier": "Provides clear criteria for revenue recognition, invoicing rights, and the start of warranty periods.",
+        "source_insight": "The text provides extensive justification for *why* special care is needed, detailing the critical functions of acceptance provisions.",
+        "text": "Acceptance provisions should always be drafted and reviewed with special care."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "bbafb2a6-3018-4de4-87a6-88f45cfdcc49",
+      "content": {
+        "id": "f0e9d8c7-b6a5-4321-fedc-ba9876543210",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer.",
+        "plain_text": "When a subcontractor works directly for Zebracorp on a customer project, Zebracorp must ensure that the subcontractor's acceptance provisions are aligned with the corresponding provisions of Zebracorp's customer contract.",
+        "expert_insight": "This alignment is critical to prevent Zebracorp from being obligated to accept and pay a subcontractor before Zebracorp itself has received acceptance and payment from its end customer. Failure to align creates significant financial and contractual risk, potentially leaving Zebracorp in a 'pay-when-paid' or 'pay-if-paid' scenario without the necessary contractual protections.",
+        "confidence": 1.0,
+        "conditions": "Applies specifically 'In cases where the subcontractor is working directly for Zebracorp in a particular customer project'.",
+        "justification": "The text uses 'would need to be aligned' and explicitly states the purpose 'in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer,' indicating a mandatory requirement to mitigate a critical risk.",
+        "implication_company": "Protects Zebracorp from premature payment obligations to subcontractors and ensures back-to-back contractual alignment, mitigating financial and operational risk.",
+        "implication_supplier": "Subcontractor's acceptance and payment may be contingent on Zebracorp's acceptance from the end customer, requiring them to understand and potentially accept this dependency.",
+        "source_insight": "The conditionality ('In cases where...') and the explicit risk mitigation ('in order to ensure...') make this a highly specific and critical rule.",
+        "text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "ac16e826-761b-4142-81b8-8f1d22c4310b",
+      "content": {
+        "id": "a9e6b3c2-d1f0-4e87-8c1a-2b5d7f6e9a01",
+        "type": "OTHER",
+        "verbatim_text": "Acceptance provisions should always be drafted and reviewed with special care.",
+        "plain_text": "Always draft and review acceptance provisions with special care.",
+        "expert_insight": "This emphasizes the critical importance of acceptance clauses, suggesting they are not boilerplate and require dedicated legal attention due to their far-reaching implications.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This is a general piece of advice highlighting the importance of a specific contract element.",
+        "implication_company": "We must allocate sufficient time and expertise to meticulously craft and scrutinize acceptance provisions in all contracts.",
+        "implication_supplier": "Suppliers should expect a rigorous review process for acceptance clauses, indicating their significance to Zebracorp.",
+        "source_insight": "The use of 'always' underscores the non-negotiable nature of this diligence.",
+        "text": "Acceptance provisions should always be drafted and reviewed with special care."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "bd47758e-7e02-44eb-b2db-8b980e3192a3",
+      "content": {
+        "id": "b8d5a7e1-c0f3-4b92-9d2b-1c4e8f7d0b32",
+        "type": "OTHER",
+        "verbatim_text": "Acceptance provisions are essential since they ultimately define whether the works rendered by the subcontractor meet the mutually agreed requirements, and when these works have been completed enabling the supplier/subcontractor to recognize revenue.",
+        "plain_text": "Acceptance provisions define if subcontractor work meets requirements and when it's complete, which allows the subcontractor to recognize revenue.",
+        "expert_insight": "This clarifies the dual purpose of acceptance: validating performance against requirements and triggering financial recognition for the supplier. Understanding this linkage is key for negotiation.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This provides background information on the fundamental purpose and impact of acceptance provisions.",
+        "implication_company": "Understanding the supplier's revenue recognition drivers can inform our negotiation strategy regarding acceptance criteria and timelines.",
+        "implication_supplier": "Acceptance is directly tied to their ability to book revenue, making these clauses critical for their financial reporting and stability.",
+        "source_insight": "The text highlights both the qualitative (meeting requirements) and financial (revenue recognition) aspects.",
+        "text": "Acceptance provisions are essential since they ultimately define whether the works rendered by the subcontractor meet the mutually agreed requirements, and when these works have been completed enabling the supplier/subcontractor to recognize revenue."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "86f41fc6-0c90-4fec-94e6-b2d645936243",
+      "content": {
+        "id": "c7f4b9d0-e2a1-4c03-8e3c-0d5f9a8b1c43",
+        "type": "OTHER",
+        "verbatim_text": "Acceptance generally triggers the right for the subcontractor to invoice and get paid for its deliverables and it can stop the liquidated damages clock. Moreover, the majority of contracts stipulate that the warranty starts to run from the date of acceptance.",
+        "plain_text": "Acceptance typically allows subcontractors to invoice and get paid, can stop liquidated damages, and usually starts the warranty period.",
+        "expert_insight": "This details the immediate and significant consequences of acceptance, encompassing financial implications (invoicing, payment), liability mitigation (liquidated damages), and the commencement of post-acceptance obligations (warranty).",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This explains the direct contractual effects and consequences of acceptance.",
+        "implication_company": "Acceptance has critical financial and liability implications for us, including payment obligations, potential cessation of damages, and the start of our warranty exposure.",
+        "implication_supplier": "Acceptance is crucial for their cash flow, limits their exposure to liquidated damages, and marks the beginning of their warranty obligations.",
+        "source_insight": "The text bundles several key consequences, emphasizing the multi-faceted impact of acceptance.",
+        "text": "Acceptance generally triggers the right for the subcontractor to invoice and get paid for its deliverables and it can stop the liquidated damages clock. Moreover, the majority of contracts stipulate that the warranty starts to run from the date of acceptance."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "79b168b2-7805-44e1-bee4-238353ea257a",
+      "content": {
+        "id": "d6e3a8c1-f5b2-4d14-9f4d-2e6a0b9c3d54",
+        "type": "OTHER",
+        "verbatim_text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer.",
+        "plain_text": "When a subcontractor works on a Zebracorp customer project, ensure their acceptance terms align with the end customer contract to prevent accepting subcontractor work before the end customer accepts our work.",
+        "expert_insight": "This is a critical risk mitigation instruction. It prevents Zebracorp from being in a 'sandwich' position where it has accepted and paid a subcontractor, but its own work has not yet been accepted by the end customer, leading to potential financial and reputational exposure.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "This is a specific directive on how to manage acceptance provisions in a common, high-risk scenario (subcontracting for a customer project).",
+        "implication_company": "We must implement a robust process to cross-reference and align acceptance clauses in all back-to-back contracts to avoid financial and operational misalignment.",
+        "implication_supplier": "Their acceptance and payment may be contingent upon Zebracorp's acceptance by the end customer, requiring them to understand the project's overall acceptance chain.",
+        "source_insight": "The phrase 'would need to be aligned' indicates a strong requirement for internal process and contractual drafting.",
+        "text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "84b102ab-e2ee-472f-8cf5-262eef8c499a",
+      "content": {
+        "id": "23d1e1a0-1c3b-4f0e-8c5d-9a0f1b2c3d4e",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Acceptance provisions should always be drafted and reviewed with special care.",
+        "plain_text": "Always draft and review acceptance provisions with special attention.",
+        "expert_insight": "Given the critical implications of acceptance, meticulous attention during drafting and review is paramount to prevent future disputes, financial liabilities, and operational delays. This is a foundational best practice for contract management.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "Acceptance provisions are essential as they define work completion, revenue recognition, payment triggers, and the start of warranty periods.",
+        "implication_company": "Ensures clarity on project completion, manages financial obligations, and mitigates risks associated with quality and timelines.",
+        "implication_supplier": "Provides clear criteria for work completion, enabling timely revenue recognition and payment.",
+        "source_insight": "The importance of acceptance provisions for defining work completion, revenue recognition, payment, and warranty periods.",
+        "text": "Acceptance provisions should always be drafted and reviewed with special care."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "c13fe53d-f538-4033-a591-58f5cee14a73",
+      "content": {
+        "id": "4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Acceptance provisions are essential since they ultimately define whether the works rendered by the subcontractor meet the mutually agreed requirements, and when these works have been completed enabling the supplier/subcontractor to recognize revenue.",
+        "plain_text": "Acceptance provisions are crucial because they determine if a subcontractor's work meets agreed requirements and when the work is considered complete, which allows the subcontractor to recognize revenue.",
+        "expert_insight": "This highlights the dual importance of acceptance provisions: ensuring quality and compliance for the company, and enabling financial certainty and revenue recognition for the supplier/subcontractor. Clear acceptance criteria are vital for both parties.",
+        "confidence": 1.0,
+        "justification": "Explains the fundamental role of acceptance provisions in contract performance and financial reporting.",
+        "implication_company": "Provides a formal mechanism to verify that subcontractor work meets contractual standards before assuming responsibility or making payments.",
+        "implication_supplier": "Establishes the point at which work is deemed complete and revenue can be officially recognized.",
+        "source_insight": "The text explicitly states the definition and purpose of acceptance provisions.",
+        "text": "Acceptance provisions are essential since they ultimately define whether the works rendered by the subcontractor meet the mutually agreed requirements, and when these works have been completed enabling the supplier/subcontractor to recognize revenue."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "046909c3-768b-45cd-95d9-50eb885e42d4",
+      "content": {
+        "id": "6f7e8d9c-0b1a-2f3e-4d5c-6b7a8f9e0d1c",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Acceptance generally triggers the right for the subcontractor to invoice and get paid for its deliverables and it can stop the liquidated damages clock.",
+        "plain_text": "Acceptance typically grants the subcontractor the right to invoice and receive payment for deliverables, and it can also halt the accrual of liquidated damages.",
+        "expert_insight": "This outlines key financial and liability implications of acceptance. For the company, it means payment obligations kick in. For the subcontractor, it's the gateway to payment and relief from ongoing penalties. Clear definitions of acceptance are crucial to manage these financial flows and risks.",
+        "confidence": 1.0,
+        "justification": "Details the direct financial and liability consequences of acceptance for both parties.",
+        "implication_company": "Initiates payment obligations and potentially ends the period for assessing liquidated damages, requiring careful financial planning.",
+        "implication_supplier": "Confirms the right to payment for completed work and can cease the accumulation of penalties for delays.",
+        "source_insight": "The text explicitly lists the effects of acceptance.",
+        "text": "Acceptance generally triggers the right for the subcontractor to invoice and get paid for its deliverables and it can stop the liquidated damages clock."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "1c1b9302-5c0e-4c15-9736-cf17457fd0be",
+      "content": {
+        "id": "8a9b0c1d-2e3f-4a5b-6c7d-8e9f0a1b2c3d",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Moreover, the majority of contracts stipulate that the warranty starts to run from the date of acceptance.",
+        "plain_text": "Most contracts specify that the warranty period commences upon the date of acceptance.",
+        "expert_insight": "This is a standard contractual practice. Companies need to be aware that accepting work starts the clock on their warranty period, which impacts their rights to recourse for defects. Subcontractors need to understand their warranty obligations begin at this point.",
+        "confidence": 1.0,
+        "justification": "Highlights a common contractual consequence related to warranty periods.",
+        "implication_company": "The warranty period for the accepted work begins, defining the timeframe for claims against defects.",
+        "implication_supplier": "The warranty period for the delivered work commences, establishing the duration of their responsibility for defects.",
+        "source_insight": "The text states this as a common contractual stipulation.",
+        "text": "Moreover, the majority of contracts stipulate that the warranty starts to run from the date of acceptance."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "7460ff6b-b056-406e-914d-908b32dcc33b",
+      "content": {
+        "id": "a0b1c2d3-e4f5-6a7b-8c9d-0e1f2a3b4c5d",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer.",
+        "plain_text": "When a subcontractor works directly for Zebracorp on a customer project, Zebracorp's acceptance provisions for the subcontractor must align with the customer contract's provisions. This ensures Zebracorp does not accept the subcontractor's work before the end customer accepts it.",
+        "expert_insight": "This is a critical risk mitigation strategy for 'back-to-back' or 'flow-down' contracts. Zebracorp must avoid a scenario where it accepts and pays a subcontractor for work that its own customer subsequently rejects. This alignment prevents financial exposure, rework, and potential disputes with both the customer and the subcontractor. It's imperative to review customer contracts for acceptance criteria before finalizing subcontractor agreements.",
+        "confidence": 1.0,
+        "conditions": "The subcontractor is working directly for Zebracorp in a particular customer project.",
+        "justification": "To ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer, thereby mitigating Zebracorp's risk.",
+        "implication_company": "Prevents Zebracorp from being liable to a subcontractor for work that its own customer has not yet accepted, reducing financial and operational risk.",
+        "implication_supplier": "Acceptance of their work by Zebracorp will be contingent upon Zebracorp's acceptance from the end customer, potentially delaying their revenue recognition.",
+        "source_insight": "The text provides a specific scenario and a clear requirement for Zebracorp.",
+        "text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "73688ee0-7b37-44b9-82c6-566e1e67ecbd",
+      "content": {
+        "id": "1a2b3c4d-5e6f-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Acceptance provisions should always be drafted and reviewed with special care.",
+        "plain_text": "Acceptance provisions in contracts must always be drafted and reviewed meticulously.",
+        "expert_insight": "Careful drafting and review of acceptance provisions are paramount to avoid disputes, ensure deliverables meet requirements, and manage financial implications effectively.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "Acceptance provisions are foundational for defining successful project completion, revenue recognition, payment triggers, and risk management.",
+        "implication_company": "Ensures clarity on project completion, manages financial outflows, and mitigates risks associated with incomplete or unsatisfactory work.",
+        "implication_supplier": "Provides clear criteria for project completion, enabling timely revenue recognition and payment.",
+        "source_insight": "The importance of acceptance provisions for defining work completion and financial triggers.",
+        "text": "Acceptance provisions should always be drafted and reviewed with special care."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "3a2cb19b-fef8-4d34-8f44-2618e6e95933",
+      "content": {
+        "id": "2b3c4d5e-6f78-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Acceptance provisions are essential since they ultimately define whether the works rendered by the subcontractor meet the mutually agreed requirements, and when these works have been completed enabling the supplier/subcontractor to recognize revenue.",
+        "plain_text": "Acceptance provisions are crucial because they determine if a subcontractor's work meets agreed requirements and when the work is complete, allowing the subcontractor to recognize revenue.",
+        "expert_insight": "These provisions are the contractual benchmark for quality and completion, directly impacting a subcontractor's ability to claim project milestones and revenue, and for the company to confirm satisfactory delivery.",
+        "confidence": 1.0,
+        "justification": "Explains the fundamental purpose and importance of acceptance provisions in defining project success and financial milestones.",
+        "implication_company": "Ensures that deliverables meet contractual standards before formal acceptance, protecting the company's interests.",
+        "implication_supplier": "Provides a clear mechanism for demonstrating completion and recognizing revenue, which is vital for financial reporting and cash flow.",
+        "source_insight": "The role of acceptance provisions in defining work completion and revenue recognition.",
+        "text": "Acceptance provisions are essential since they ultimately define whether the works rendered by the subcontractor meet the mutually agreed requirements, and when these works have been completed enabling the supplier/subcontractor to recognize revenue."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "d21390e8-6dae-430f-930d-e9777fa7f7dc",
+      "content": {
+        "id": "3c4d5e6f-7890-1234-5678-90abcdef0123",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Acceptance generally triggers the right for the subcontractor to invoice and get paid for its deliverables and it can stop the liquidated damages clock.",
+        "plain_text": "Acceptance typically grants the subcontractor the right to invoice for deliverables and receive payment, and it can also halt the accrual of liquidated damages.",
+        "expert_insight": "This highlights the significant financial and legal consequences of acceptance, making it a critical milestone for both parties. It shifts the financial burden and risk from the subcontractor to the company.",
+        "confidence": 1.0,
+        "justification": "Details the direct financial and legal consequences of acceptance for both parties.",
+        "implication_company": "Initiates payment obligations and concludes the period during which liquidated damages can be claimed from the subcontractor.",
+        "implication_supplier": "Secures the right to payment and potentially frees the supplier from further liquidated damages.",
+        "source_insight": "The financial and legal triggers linked to acceptance.",
+        "text": "Acceptance generally triggers the right for the subcontractor to invoice and get paid for its deliverables and it can stop the liquidated damages clock."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "8620ba77-9a07-4827-bbcd-af3b9d889fa8",
+      "content": {
+        "id": "4d5e6f78-9012-3456-7890-abcdef012345",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Moreover, the majority of contracts stipulate that the warranty starts to run from the date of acceptance.",
+        "plain_text": "Most contracts specify that the warranty period for deliverables begins on the date of acceptance.",
+        "expert_insight": "This is another key implication of acceptance, marking the commencement of the subcontractor's responsibility for defects or failures under warranty. Companies should be aware of this timeline.",
+        "confidence": 1.0,
+        "justification": "Explains when warranty periods typically commence in contracts.",
+        "implication_company": "The warranty period for the subcontractor's work begins, providing a defined period for recourse on defects.",
+        "implication_supplier": "The supplier's warranty obligations for the accepted deliverables officially start.",
+        "source_insight": "The common contractual practice regarding warranty commencement.",
+        "text": "Moreover, the majority of contracts stipulate that the warranty starts to run from the date of acceptance."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "9a55f3e2-c1d6-4aa1-8745-9c25f09d781e",
+      "content": {
+        "id": "5e6f7890-1234-5678-90ab-cdef01234567",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer.",
+        "plain_text": "If a subcontractor is directly involved in a Zebracorp customer project, Zebracorp's acceptance provisions with that subcontractor must align with the customer contract's provisions to prevent accepting the subcontractor's work before the end customer accepts it.",
+        "expert_insight": "This is a critical risk mitigation strategy for 'back-to-back' contracting. Zebracorp should ensure its liabilities and payment triggers to subcontractors are always downstream from its own acceptance and payment from the end customer to avoid carrying undue risk or financial burden.",
+        "confidence": 1.0,
+        "conditions": "Subcontractor is working directly for Zebracorp in a particular customer project.",
+        "justification": "To ensure that Zebracorp does not grant acceptance to a subcontractor and incur obligations before receiving acceptance from its own end customer, thereby aligning risk and payment triggers.",
+        "implication_company": "Protects Zebracorp from assuming financial or contractual obligations to a subcontractor for work that has not yet been accepted by the end customer, preventing 'acceptance gaps' and potential losses.",
+        "implication_supplier": "Acceptance and subsequent payment from Zebracorp may be contingent upon Zebracorp securing acceptance from the end customer for the project.",
+        "source_insight": "Specific guidance for managing acceptance in multi-tiered project structures to align contractual obligations.",
+        "text": "In cases where the subcontractor is working directly for Zebracorp in a particular customer project, the acceptance provisions would need to be aligned with the corresponding provisions of our customer contract in order to ensure that acceptance is not granted to the subcontractor before securing acceptance from the end customer."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1436 @@
+{
+  "section_id": "g_1",
+  "decisions": [
+    {
+      "id": "2627af92-42ee-401b-b846-7ae1a7679bec",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "verbatim_text": "Please note that this document is company confidential and for Zebracorp internal use only. This document must not be distributed outside Zebracorp.",
+        "plain_text": "This document is confidential, for internal Zebracorp use only, and must not be distributed outside Zebracorp.",
+        "expert_insight": "This is a critical security and compliance instruction. It mandates that the Procurement Contract Playbook is company confidential, strictly for internal Zebracorp use, and explicitly prohibits its distribution outside the company. Breaching this directive could expose Zebracorp's proprietary negotiation strategies, preferred positions, and sensitive internal information, leading to severe competitive disadvantages, legal risks, and undermining its negotiation leverage.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Applies to the entire Procurement Contract Playbook.",
+        "justification": "The text explicitly states 'company confidential,' 'for Zebracorp internal use only,' and uses the imperative 'must not be distributed outside Zebracorp,' indicating a mandatory restriction on access, usage, and external sharing.",
+        "implication_company": "Zebracorp must ensure strict adherence to this policy by its employees to protect its intellectual property, strategic negotiation positions, and internal operational details from unauthorized disclosure. Non-compliance could lead to severe competitive disadvantages and legal risks.",
+        "implication_supplier": "Suppliers are explicitly excluded from receiving or viewing this document, as it contains Zebracorp's proprietary internal strategies. If leaked, suppliers would gain invaluable insight into Zebracorp's negotiation playbook, potentially allowing them to anticipate and counter Zebracorp's strategies.",
+        "source_insight": "The 'Please note' phrasing emphasizes the importance of this directive, and the use of 'must not' clearly indicates a strict and mandatory prohibition."
+      },
+      "rationale": "Consensus: Mixed on whether to split the confidentiality and non-distribution directives or combine them. The combined text from Agent 2, which encompasses both statements, represents a single, comprehensive directive regarding the document's handling. This approach best fulfills the requirement for a 'single, perfect GOLDEN RECORD' for this cluster. The directive is clear, self-sufficient, and creates an actionable obligation for Zebracorp employees. It passed the Value and Utility tests. The type has been standardized to 'GUIDELINE' as it represents a mandatory rule of conduct, rather than 'OTHER' (Instruction), which is typically used for less formal or less critical directives. The classification 'CRITICAL' is consistent across all agents and appropriate for the nature of the information.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "736621c8-26d5-4794-8a65-50ac75471cf8",
+      "supporting_evidence": [
+        "59f3b20b-79c0-4d83-9d26-e6d74d1fed28",
+        "1907f8d5-1e89-473a-a511-b6afd1305b28",
+        "e91d77c6-989e-4a6f-b0ed-42949ad7baf1",
+        "5a62228a-5292-43e2-8aeb-8c621d6610d9",
+        "50a6c66f-5c2c-483e-8a64-b8ee9c4a09f5",
+        "500bba44-e85f-4b19-9a91-ba3ab5cf05bb",
+        "ad2e4ae2-caef-4d0b-8b11-38aad67e0bcd"
+      ]
+    },
+    {
+      "id": "1395fc79-7f49-4e8d-93f0-b1045bcc3a8d",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "golden-record-disclaimer-001",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "The information provided in this document is general in nature, should not be considered conclusive, and is not a substitute for specific legal advice on individual cases.",
+        "expert_insight": "This is a crucial legal disclaimer that manages expectations and limits Zebracorp's liability. It clarifies that the playbook provides general guidance and is not a substitute for specific legal advice tailored to individual cases, thereby mitigating risks associated with over-reliance on general information.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This statement defines the scope and limitations of the information provided in the playbook, acting as a critical legal disclaimer to manage expectations and legal exposure.",
+        "implication_company": "Zebracorp mitigates potential liability by explicitly stating the general nature of the information. Employees must understand that for specific, complex, or high-risk situations, they should seek tailored legal advice rather than relying solely on the playbook.",
+        "implication_supplier": "N/A (This is an internal Zebracorp document and does not directly apply to suppliers).",
+        "source_insight": "The phrases 'is not intended to be conclusive' and 'is not a substitute' clearly define the limitations and purpose of the document's content, emphasizing its role as guidance rather than definitive legal counsel."
+      },
+      "rationale": "Consensus: Split between GUIDELINE (1 agent) and OTHER (INFO) (3 agents). Evaluation: The text functions as a crucial legal disclaimer, defining the scope and limitations of the document's content. It informs users about the nature of the information rather than imposing a direct, actionable obligation. Therefore, 'OTHER' with 'INFO' subtype is the most appropriate classification. Passed Value and Utility tests as it is self-sufficient, clear, and essential for managing legal risk and user expectations.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "4b546d75-c80f-454c-a22a-19077e83db79",
+      "supporting_evidence": [
+        "9a38592b-2ac4-4a47-8b84-245962a56912",
+        "08ae5df7-e3fb-40c0-88ca-3b5b97433061",
+        "099acb85-5097-4432-861b-1a3454cf9637",
+        "cdf08d3d-fb2b-4435-b6d1-26eae6dd8dea"
+      ]
+    },
+    {
+      "id": "fc0fdc8a-8219-4965-8b40-b5f46412b982",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "consolidated-feedback-instruction-001",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Users are requested to send any feedback regarding the document's content to feedback@zebracorp.com.",
+        "expert_insight": "This instruction provides a clear and direct channel for users to contribute to the continuous improvement of the playbook. Encouraging feedback fosters user engagement and helps ensure the document remains relevant, accurate, and effective for Zebracorp's internal needs.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "This is an explicit instruction for users to provide feedback, facilitating ongoing document refinement.",
+        "implication_company": "Zebracorp benefits from continuous improvement of its internal playbook, ensuring its accuracy, relevance, and utility through user contributions.",
+        "implication_supplier": "Not applicable; this is an internal instruction for Zebracorp employees.",
+        "source_insight": "The 'Please send' phrase clearly indicates a request or instruction for user action."
+      },
+      "rationale": "Consensus: Split between GUIDELINE (1 agent) and OTHER (INSTRUCTION) (3 agents). Evaluation: The phrase 'Please send' indicates a polite request or instruction rather than a mandatory guideline or obligation. It provides a clear channel for user engagement and document improvement. The text is self-sufficient and actionable. Therefore, it is best classified as an 'OTHER' type with 'INSTRUCTION' subtype. It passes the utility check as it is specific and helps in the continuous improvement of the internal document.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "7aeb30e2-fc1d-45cf-b506-f644b986daec",
+      "supporting_evidence": [
+        "fd25fe15-7ef3-410f-8d1e-2d8a37fe91f7",
+        "473889fa-3070-4920-80f3-a11e2a450a79",
+        "d552484c-b2c6-4935-9c80-cf11bb35b7ae",
+        "187d62b4-b96d-4545-8941-be50736b0dda"
+      ]
+    },
+    {
+      "id": "8ac46bc1-4fbd-426c-b076-0b9295bbd377",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "The purpose of this Procurement Contract Playbook is to provide additional guidance on negotiating procurement contracts and Zebracorp’s preferred negotiating positions on certain key legal terms in such contracts.",
+        "plain_text": "The Procurement Contract Playbook provides guidance on negotiating procurement contracts and outlines Zebracorp’s preferred negotiating positions on key legal terms.",
+        "expert_insight": "This statement establishes the primary objective and scope of the playbook, indicating its utility as a strategic negotiation aid for Zebracorp employees, focusing on both negotiation guidance and Zebracorp's preferred positions on critical legal terms.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This sentence describes the overall purpose and scope of the document, setting expectations for its content.",
+        "implication_company": "Zebracorp provides a standardized resource to guide its employees in contract negotiations, aiming for consistency and adherence to preferred terms. Users should expect guidance on negotiation strategies and Zebracorp's stance on critical legal terms.",
+        "implication_supplier": "Suppliers might face Zebracorp negotiators who are well-versed in specific strategies and preferred terms, potentially leading to more consistent negotiation outcomes for Zebracorp.",
+        "source_insight": "Highlights the dual focus on 'guidance' and 'preferred positions' as the core purpose of the playbook."
+      },
+      "rationale": "Consensus: All agents agree on 'OTHER' type and 'INFO' subtype. The verbatim text is identical across all candidates. Evaluation: The finding clearly states the purpose of the document, making it self-sufficient and highly relevant for users to understand the playbook's scope. It passes the Value and Utility checks as it provides essential context. Classified as 'OTHER' (INFO) as it describes the document itself rather than a specific rule or definition within a contract.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "51ca9cc0-70b5-4ab3-a94e-137eee47a6e4",
+      "supporting_evidence": [
+        "1813c8a0-1f59-4a24-a5f1-53751f8e6f21",
+        "7e5324b6-107c-48f9-b3d2-353aab3b2742",
+        "db57a499-bdcf-4271-8bf4-f6f8989ccf14"
+      ]
+    },
+    {
+      "id": "fa70f59a-68ca-4a74-9016-983e2148118f",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "verbatim_text": "The focus is on providing the essentials on negotiating these terms, and some drafting points.",
+        "plain_text": "The playbook focuses on providing essential guidance for negotiating contract terms and specific drafting points.",
+        "expert_insight": "This clarifies the practical nature of the playbook, indicating it provides actionable advice on core negotiation strategies and specific drafting considerations for contract terms.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This statement describes the specific content focus of the playbook, emphasizing its practical utility for negotiation and drafting.",
+        "implication_company": "Zebracorp employees will find practical, concise information and tools to assist in contract discussions and document creation, potentially leading to more standardized and effective contract language.",
+        "implication_supplier": "N/A",
+        "source_insight": "Directly states the practical focus of the document on negotiation essentials and drafting advice."
+      },
+      "rationale": "Consensus: All agents agreed on 'OTHER' type with 'INFO' subtype and identical verbatim text. Value Assessment: The statement clearly defines the focus of the playbook, providing essential context for users. The 'plain_text' is self-sufficient, clarifying 'these terms' to 'contract terms'. Type-Specific Criteria: As an 'INFO' type, it accurately describes the document's content. Utility Check: This finding is highly useful as it sets expectations for the user regarding the practical nature and specific content (negotiation essentials, drafting points) of the playbook. It helps users understand what kind of guidance they will receive.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "25e96190-dabe-4b3f-a711-fcdae7705562",
+      "supporting_evidence": [
+        "6aede73a-6cc1-484e-8cd5-46601d6135ca",
+        "f47f6694-a6e2-495e-8a5e-478e39aeaee7",
+        "e8b090de-1503-49a9-8acf-fc7f75b29613"
+      ]
+    },
+    {
+      "id": "399e80b0-ffcf-4961-a7cf-cc375268d17a",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "verbatim_text": "This Playbook also seeks to give explanations on the implications of certain key legal terms.",
+        "plain_text": "The playbook explains the consequences and effects of key legal terms.",
+        "expert_insight": "Understanding the implications of legal terms is crucial for effective negotiation and risk management. This feature helps users grasp the 'why' behind certain positions, educating them on the consequences and effects of various legal clauses.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This describes a key content area of the playbook, focusing on the practical effects of legal terms to support negotiation.",
+        "implication_company": "Users will gain a deeper understanding of the practical effects of contract clauses, aiding in informed decision-making and strengthening negotiation arguments.",
+        "implication_supplier": "N/A (internal document).",
+        "source_insight": "Emphasizes the educational aspect of the playbook beyond just stating positions, directly supporting negotiation effectiveness."
+      },
+      "rationale": "Consensus Check: Agents consistently identified two distinct informational statements about the playbook's content, both classified as 'OTHER' with 'subtype: INFO'. The cluster contained two separate verbatim texts, each supported by multiple agents. Value Assessment: Both identified statements are clear, self-sufficient, and provide valuable information about the playbook's scope and utility. Type-Specific Criteria: Both are accurate descriptions of the playbook's content, not rules or definitions of specific contractual terms. Utility Check: Both are useful for understanding the playbook's purpose and how to leverage its content. Consolidation Decision: Due to the strict requirement for 'verbatim_text' to be exact and represent a single, contiguous segment, these two distinct sentences cannot be combined into a single 'decision_content' object. I have selected the finding related to 'explanations on the implications of certain key legal terms' as the primary Golden Record because understanding implications is more directly aligned with the playbook's stated purpose of providing 'guidance on negotiating procurement contracts'. The other finding, while valid, describes a more foundational glossary-like function. The 'plain_text', 'expert_insight', 'justification', 'implication_company', and 'source_insight' fields have been consolidated from the best aspects of the contributing agents for the selected finding.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "10d24fe6-3c3f-41dc-8943-ea2e8effa0b2",
+      "supporting_evidence": [
+        "c3d791c8-9bd8-4184-a647-0f450cab3389",
+        "635dba30-6f5c-4a88-a60a-fda312a5dc37",
+        "dae2e066-e65b-4dc7-9618-61b894ddfb40",
+        "70695295-2ede-4564-a8d8-1009b39369fc",
+        "d69f40b8-3a84-42dd-81a6-5fd8abcce98c",
+        "ceeeecaa-ac2d-46d2-8129-0411e06db0e7"
+      ]
+    },
+    {
+      "id": "9237d63f-8047-4080-bb51-113aeda5b6df",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "verbatim_text": "There is less focus on laying out Zebracorp preferred position on these terms since the preferred terms are typically well reflected in the provisions of the corresponding Zebracorp procurement contract templates.",
+        "plain_text": "The playbook provides less focus on detailing Zebracorp's preferred negotiating positions for terms, as these are typically well-reflected in the provisions of the corresponding Zebracorp procurement contract templates.",
+        "expert_insight": "This clarifies the playbook's role as a supplementary guide for negotiation and understanding, rather than the primary source for Zebracorp's definitive preferred legal terms. Users are directed to consult the official Zebracorp contract templates for the exact preferred language.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This statement explains a deliberate content decision within the playbook, clarifying its scope and relationship with Zebracorp's standard contract templates.",
+        "implication_company": "Employees should primarily consult Zebracorp's official contract templates for the definitive preferred legal terms, using the playbook for negotiation guidance, strategy, and understanding the implications of those terms.",
+        "implication_supplier": "If a supplier has access to Zebracorp's standard templates, they would already be aware of Zebracorp's preferred terms. The playbook's value to them would then be in understanding Zebracorp's negotiation strategy rather than the terms themselves.",
+        "source_insight": "Crucial for understanding the relationship between the playbook and other internal legal resources, specifically Zebracorp's contract templates."
+      },
+      "rationale": "Consensus: All agents correctly identified the finding as 'OTHER' with 'subtype: INFO' and provided identical verbatim text. Value Assessment: The text is self-sufficient and provides crucial context regarding the playbook's scope and its relationship with Zebracorp's contract templates. It clarifies where to find definitive preferred terms. Type-Specific Criteria: It accurately describes a content decision and its rationale within the document. Utility Check: This information is highly useful for users to understand the playbook's purpose and effectively navigate Zebracorp's internal legal resources. It prevents misinterpretation of the playbook's primary function.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "0c7092db-14ec-4b16-8828-6381a15e74f3",
+      "supporting_evidence": [
+        "c6365583-6680-4e6c-aef2-5f644a9bdb82",
+        "bb764531-e28b-4946-965c-70a5a75818c3",
+        "ba2ce24d-5682-493e-aedb-3666bf1f0e8a"
+      ]
+    },
+    {
+      "id": "85b03e3b-bcdc-4f22-a2f8-ccc5f98c13f7",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "e1f2g3h4-i5j6-7890-abcd-ef0123456789",
+        "verbatim_text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context.",
+        "plain_text": "In this Playbook, the terms 'supplier', 'vendor', 'subcontractor', 'licensor', and 'developer' all refer to Zebracorp’s contracting party in a purchasing contract and are used interchangeably depending on the context.",
+        "expert_insight": "This definition clarifies that the terms 'supplier', 'vendor', 'subcontractor', 'licensor', and 'developer' are used interchangeably within this Playbook to refer to Zebracorp's contracting party in a purchasing contract, ensuring consistent understanding of roles and responsibilities throughout the document.",
+        "confidence": 1.0
+      },
+      "rationale": "Consensus Check: Agents were split between 'DEFINITION' (3 agents) and 'OTHER' (1 agent). Based on the source text, 'Please note that the term… refer to Zebracorp’s contracting party… and these are used interchangeably…', this clearly defines how specific terms are to be understood within the document. Therefore, 'DEFINITION' is the correct classification.\nValue Assessment: The finding is clear, self-sufficient, and provides essential context for understanding key terminology used throughout the playbook. No missing context or dangling references.\nType-Specific Criteria (DEFINITION): The definition is accurate and necessary, as it clarifies the interchangeable use of several specific terms that refer to Zebracorp's contracting party, which is crucial for consistent interpretation within the document.\nUtility Check: This item is highly specific and helps users understand the document's terminology, protecting against misinterpretation of roles and responsibilities. It is not filler.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "aa2795ac-d715-4c8b-994b-eee8c753507f",
+      "supporting_evidence": [
+        "3c9a160b-3ee7-44f0-8d28-806307f6fc22",
+        "ee7548b8-1f1d-45b2-8de1-4e5fca68f26a",
+        "26a83804-2b62-4288-ba22-1427d4064740",
+        "b46f2570-19da-42e8-a490-163243d89138"
+      ]
+    },
+    {
+      "id": "74677ac0-ab4a-464c-b777-5f5cbfc243b1",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "d0e1f2a3-b4c5-6789-0123-4567890abcde",
+        "verbatim_text": "The subjects covered by this Playbook are divided in different chapters, which are in alphabetical order.",
+        "plain_text": "The playbook's content is organized into alphabetically ordered chapters.",
+        "expert_insight": "This describes the structural organization of the document, making it easier for users to navigate and find specific topics.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This describes the organizational structure of the document, aiding user navigation.",
+        "implication_company": "Users can easily locate specific topics by referring to the alphabetical chapter arrangement, enhancing usability and efficiency of the playbook for employees.",
+        "implication_supplier": "N/A (internal document).",
+        "source_insight": "A practical detail for usability, directly stated in the introduction."
+      },
+      "rationale": "Consensus: All agents agree on the type (OTHER) and subtype (INFO), and the verbatim text. Value Assessment: The text is clear, self-sufficient, and provides useful information about the document's organizational structure. Type-Specific Criteria: Correctly classified as 'OTHER' with 'INFO' subtype as it describes a characteristic of the document, not a rule or a specific definition. Utility Check: This information is valuable for users to understand how to navigate the playbook, enhancing its usability. The finding is specific and helps users interact with the document effectively.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "e97a0617-8c09-4290-a5d9-213f18028252",
+      "supporting_evidence": [
+        "d7181641-9ebf-4d94-b63d-0b79adbabd0f",
+        "0bdce12c-687f-46ef-ab31-6e69b2d3971b",
+        "9781b993-0f34-487d-8545-189ca91ebd50"
+      ]
+    },
+    {
+      "id": "946b6bcb-dbe3-4d1f-91cc-127e62f59eae",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "e1f2a3b4-c5d6-7890-1234-567890abcdef",
+        "verbatim_text": "Note that the chapters and items of this document will be updated and new chapters will be added continuously.",
+        "plain_text": "The chapters and content of this document will be continuously updated, and new chapters will be added over time.",
+        "expert_insight": "This informs users that the playbook is a dynamic resource, subject to ongoing revisions and additions. Users should expect and seek out the latest versions, understanding that its content is subject to change and expansion.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This statement provides essential information about the ongoing maintenance and evolution of the document, managing user expectations.",
+        "implication_company": "Zebracorp users should periodically check for updated versions or new content to ensure they are always using the most current guidance and information.",
+        "implication_supplier": "N/A (This is an internal document for Zebracorp employees only).",
+        "source_insight": "Crucial for managing user expectations about document currency and ensuring reliance on the latest information."
+      },
+      "rationale": "Consensus: All agents agreed on 'OTHER' type and 'INFO' subtype. Evaluation: The finding clearly states the dynamic nature of the document, which is crucial information for users regarding its currency and future updates. It is self-sufficient, actionable (in terms of user expectation management), and provides valuable context for anyone using the playbook. It passes the Clarity, Value, and Utility tests. The plain_text and expert_insight are well-aligned across candidates and have been consolidated for completeness.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "6d6e9fe7-da7d-43f1-8c9c-5a39124dcce3",
+      "supporting_evidence": [
+        "e07c68c1-cf27-4845-abd7-fade61fdfbd6",
+        "db116ca3-f44a-4841-a8a7-84da03fde2c8",
+        "31146af3-ffc2-4cae-9854-875395f58bc9"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "736621c8-26d5-4794-8a65-50ac75471cf8",
+      "recommendation_ids": [
+        "59f3b20b-79c0-4d83-9d26-e6d74d1fed28",
+        "1907f8d5-1e89-473a-a511-b6afd1305b28",
+        "e91d77c6-989e-4a6f-b0ed-42949ad7baf1",
+        "5a62228a-5292-43e2-8aeb-8c621d6610d9",
+        "50a6c66f-5c2c-483e-8a64-b8ee9c4a09f5",
+        "500bba44-e85f-4b19-9a91-ba3ab5cf05bb",
+        "ad2e4ae2-caef-4d0b-8b11-38aad67e0bcd"
+      ]
+    },
+    {
+      "id": "4b546d75-c80f-454c-a22a-19077e83db79",
+      "recommendation_ids": [
+        "9a38592b-2ac4-4a47-8b84-245962a56912",
+        "08ae5df7-e3fb-40c0-88ca-3b5b97433061",
+        "099acb85-5097-4432-861b-1a3454cf9637",
+        "cdf08d3d-fb2b-4435-b6d1-26eae6dd8dea"
+      ]
+    },
+    {
+      "id": "7aeb30e2-fc1d-45cf-b506-f644b986daec",
+      "recommendation_ids": [
+        "fd25fe15-7ef3-410f-8d1e-2d8a37fe91f7",
+        "473889fa-3070-4920-80f3-a11e2a450a79",
+        "d552484c-b2c6-4935-9c80-cf11bb35b7ae",
+        "187d62b4-b96d-4545-8941-be50736b0dda"
+      ]
+    },
+    {
+      "id": "51ca9cc0-70b5-4ab3-a94e-137eee47a6e4",
+      "recommendation_ids": [
+        "1813c8a0-1f59-4a24-a5f1-53751f8e6f21",
+        "7e5324b6-107c-48f9-b3d2-353aab3b2742",
+        "db57a499-bdcf-4271-8bf4-f6f8989ccf14"
+      ]
+    },
+    {
+      "id": "25e96190-dabe-4b3f-a711-fcdae7705562",
+      "recommendation_ids": [
+        "6aede73a-6cc1-484e-8cd5-46601d6135ca",
+        "f47f6694-a6e2-495e-8a5e-478e39aeaee7",
+        "e8b090de-1503-49a9-8acf-fc7f75b29613"
+      ]
+    },
+    {
+      "id": "10d24fe6-3c3f-41dc-8943-ea2e8effa0b2",
+      "recommendation_ids": [
+        "c3d791c8-9bd8-4184-a647-0f450cab3389",
+        "635dba30-6f5c-4a88-a60a-fda312a5dc37",
+        "dae2e066-e65b-4dc7-9618-61b894ddfb40",
+        "70695295-2ede-4564-a8d8-1009b39369fc",
+        "d69f40b8-3a84-42dd-81a6-5fd8abcce98c",
+        "ceeeecaa-ac2d-46d2-8129-0411e06db0e7"
+      ]
+    },
+    {
+      "id": "0c7092db-14ec-4b16-8828-6381a15e74f3",
+      "recommendation_ids": [
+        "c6365583-6680-4e6c-aef2-5f644a9bdb82",
+        "bb764531-e28b-4946-965c-70a5a75818c3",
+        "ba2ce24d-5682-493e-aedb-3666bf1f0e8a"
+      ]
+    },
+    {
+      "id": "aa2795ac-d715-4c8b-994b-eee8c753507f",
+      "recommendation_ids": [
+        "3c9a160b-3ee7-44f0-8d28-806307f6fc22",
+        "ee7548b8-1f1d-45b2-8de1-4e5fca68f26a",
+        "26a83804-2b62-4288-ba22-1427d4064740",
+        "b46f2570-19da-42e8-a490-163243d89138"
+      ]
+    },
+    {
+      "id": "e97a0617-8c09-4290-a5d9-213f18028252",
+      "recommendation_ids": [
+        "d7181641-9ebf-4d94-b63d-0b79adbabd0f",
+        "0bdce12c-687f-46ef-ab31-6e69b2d3971b",
+        "9781b993-0f34-487d-8545-189ca91ebd50"
+      ]
+    },
+    {
+      "id": "6d6e9fe7-da7d-43f1-8c9c-5a39124dcce3",
+      "recommendation_ids": [
+        "e07c68c1-cf27-4845-abd7-fade61fdfbd6",
+        "db116ca3-f44a-4841-a8a7-84da03fde2c8",
+        "31146af3-ffc2-4cae-9854-875395f58bc9"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "59f3b20b-79c0-4d83-9d26-e6d74d1fed28",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Please note that this document is company confidential and for Zebracorp internal use only.",
+        "plain_text": "This document is confidential and intended solely for Zebracorp's internal use.",
+        "expert_insight": "Maintaining the confidentiality of internal playbooks is paramount to protect Zebracorp's proprietary negotiation strategies and sensitive information, preventing external parties from gaining an unfair advantage or insight into internal processes.",
+        "confidence": 1.0,
+        "conditions": "Applies to the entire document.",
+        "justification": "The text explicitly states 'company confidential' and 'for Zebracorp internal use only,' indicating a mandatory restriction on access and usage.",
+        "implication_company": "Protects Zebracorp's intellectual property, strategic positions, and internal operational details from unauthorized disclosure.",
+        "implication_supplier": "Not directly applicable to suppliers; this is an internal Zebracorp guideline for its employees.",
+        "source_insight": "The 'Please note' phrasing emphasizes the importance of this directive, making it a clear and strong rule.",
+        "text": "Please note that this document is company confidential and for Zebracorp internal use only."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "1907f8d5-1e89-473a-a511-b6afd1305b28",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "This document must not be distributed outside Zebracorp.",
+        "plain_text": "This document must not be distributed to any party outside of Zebracorp.",
+        "expert_insight": "Prohibiting external distribution is a fundamental control for safeguarding confidential information. Any breach could expose Zebracorp to competitive disadvantages, legal risks, or compromise its negotiation leverage.",
+        "confidence": 1.0,
+        "conditions": "Applies to the entire document.",
+        "justification": "The use of 'must not' clearly indicates a strict and mandatory prohibition, reinforcing the confidentiality requirement.",
+        "implication_company": "Prevents unauthorized disclosure of sensitive internal information, protecting Zebracorp's strategic interests and reputation.",
+        "implication_supplier": "Not directly applicable to suppliers; this is an internal Zebracorp guideline for its employees.",
+        "source_insight": "The language is unambiguous and leaves no room for interpretation regarding the prohibition.",
+        "text": "This document must not be distributed outside Zebracorp."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "9a38592b-2ac4-4a47-8b84-245962a56912",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "The information provided in this document is general and should not be considered conclusive or a replacement for specific legal advice tailored to individual cases.",
+        "expert_insight": "This disclaimer is crucial for managing legal risk and liability. It ensures that users understand the playbook provides guidance, not definitive legal counsel, thereby limiting Zebracorp's responsibility for decisions made based solely on this general information.",
+        "confidence": 0.95,
+        "conditions": "Applies to all information contained within the document.",
+        "justification": "This statement sets a clear boundary on the utility and reliability of the document's content, preventing misuse or over-reliance and managing expectations regarding its scope and authority.",
+        "implication_company": "Limits Zebracorp's potential liability arising from users relying on general information as definitive legal advice without seeking specific counsel.",
+        "implication_supplier": "Not directly applicable to suppliers; this is an internal Zebracorp guideline for its employees.",
+        "source_insight": "The phrases 'is not intended to be conclusive' and 'is not a substitute' clearly define the limitations and purpose of the document's content.",
+        "text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "fd25fe15-7ef3-410f-8d1e-2d8a37fe91f7",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "GUIDELINE",
+        "classification": "LOW",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Users are encouraged to send any feedback regarding the document's content to feedback@zebracorp.com.",
+        "expert_insight": "Encouraging feedback is a best practice for continuous improvement of internal documents. It helps ensure the playbook remains relevant, accurate, and effective for its users, fostering a culture of collaboration and refinement.",
+        "confidence": 0.9,
+        "conditions": "If the user has feedback on the document's contents.",
+        "justification": "The use of 'Please send' indicates a polite request or invitation, rather than a mandatory obligation or strict rule.",
+        "implication_company": "Facilitates the ongoing improvement, accuracy, and user-friendliness of the playbook.",
+        "implication_supplier": "Not applicable; this is an internal Zebracorp guideline for its employees.",
+        "source_insight": "The 'Please' prefix clearly marks this as an optional action rather than a command.",
+        "text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "1813c8a0-1f59-4a24-a5f1-53751f8e6f21",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "The purpose of this Procurement Contract Playbook is to provide additional guidance on negotiating procurement contracts and Zebracorp’s preferred negotiating positions on certain key legal terms in such contracts.",
+        "plain_text": "The playbook aims to guide negotiation of procurement contracts and outline Zebracorp's preferred positions on key legal terms.",
+        "expert_insight": "This statement sets the foundational objective of the playbook, indicating its role as a strategic negotiation aid rather than just a repository of clauses.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This sentence describes the overall purpose and scope of the document.",
+        "implication_company": "Users should expect guidance on negotiation strategies and Zebracorp's stance on critical legal terms.",
+        "implication_supplier": "Suppliers might face Zebracorp negotiators who are well-versed in specific strategies and preferred terms, potentially leading to more consistent negotiation outcomes for Zebracorp.",
+        "source_insight": "Highlights the dual focus on 'guidance' and 'preferred positions'.",
+        "text": "The purpose of this Procurement Contract Playbook is to provide additional guidance on negotiating procurement contracts and Zebracorp’s preferred negotiating positions on certain key legal terms in such contracts."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "6aede73a-6cc1-484e-8cd5-46601d6135ca",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "verbatim_text": "The focus is on providing the essentials on negotiating these terms, and some drafting points.",
+        "plain_text": "The playbook focuses on essential negotiation points and drafting advice for contract terms.",
+        "expert_insight": "This clarifies the practical nature of the playbook, emphasizing actionable advice for both negotiation and the actual wording of contracts.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "This specifies the type of content users can expect regarding negotiation and drafting.",
+        "implication_company": "Users will find practical, concise information to assist in contract discussions and document creation.",
+        "implication_supplier": "Zebracorp's internal teams will be equipped with specific drafting points, potentially leading to more standardized and favorable contract language.",
+        "source_insight": "Indicates a practical, rather than purely theoretical, approach.",
+        "text": "The focus is on providing the essentials on negotiating these terms, and some drafting points."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "c3d791c8-9bd8-4184-a647-0f450cab3389",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "verbatim_text": "This Playbook also seeks to give explanations on the implications of certain key legal terms.",
+        "plain_text": "The playbook explains the consequences and effects of key legal terms.",
+        "expert_insight": "Understanding the implications of terms is crucial for effective negotiation and risk management. This feature helps users grasp the 'why' behind certain positions.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This describes another key content area of the playbook.",
+        "implication_company": "Users will gain a deeper understanding of the practical effects of contract clauses, aiding in informed decision-making.",
+        "implication_supplier": "Zebracorp's negotiators will be better prepared to articulate the impact of terms, potentially strengthening their arguments.",
+        "source_insight": "Emphasizes the educational aspect of the playbook beyond just stating positions.",
+        "text": "This Playbook also seeks to give explanations on the implications of certain key legal terms."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "c6365583-6680-4e6c-aef2-5f644a9bdb82",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "OTHER",
+        "verbatim_text": "There is less focus on laying out Zebracorp preferred position on these terms since the preferred terms are typically well reflected in the provisions of the corresponding Zebracorp procurement contract templates.",
+        "plain_text": "The playbook has less emphasis on Zebracorp's preferred positions because these are already detailed in the standard contract templates.",
+        "expert_insight": "This is a critical piece of context. It directs users to the primary source for Zebracorp's 'ideal' terms (the templates) and clarifies the playbook's supplementary role.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This explains a deliberate content choice and directs users to another resource.",
+        "implication_company": "Users should primarily consult Zebracorp's contract templates for the definitive preferred legal terms, using the playbook for negotiation guidance around those terms.",
+        "implication_supplier": "If a supplier has access to Zebracorp's standard templates, they would already know Zebracorp's preferred terms, making the playbook's negotiation guidance more about strategy than the terms themselves.",
+        "source_insight": "Crucial for understanding the relationship between the playbook and other internal legal resources.",
+        "text": "There is less focus on laying out Zebracorp preferred position on these terms since the preferred terms are typically well reflected in the provisions of the corresponding Zebracorp procurement contract templates."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "635dba30-6f5c-4a88-a60a-fda312a5dc37",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "OTHER",
+        "verbatim_text": "The playbook also contains explanations on certain commonly used legal terms and concepts.",
+        "plain_text": "The playbook includes explanations of common legal terms and concepts.",
+        "expert_insight": "This indicates the playbook serves as a basic legal glossary, enhancing the understanding of non-legal professionals involved in procurement.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "This describes another type of content provided in the playbook.",
+        "implication_company": "Users can refer to the playbook for clarification on standard legal terminology, reducing reliance on external legal counsel for basic definitions.",
+        "implication_supplier": "N/A (internal document).",
+        "source_insight": "Highlights the educational value for a broad internal audience.",
+        "text": "The playbook also contains explanations on certain commonly used legal terms and concepts."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "e91d77c6-989e-4a6f-b0ed-42949ad7baf1",
+      "content": {
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "type": "OTHER",
+        "verbatim_text": "Please note that this document is company confidential and for Zebracorp internal use only. This document must not be distributed outside Zebracorp.",
+        "plain_text": "This document is confidential, for internal Zebracorp use only, and must not be shared externally.",
+        "expert_insight": "This is a critical security and compliance instruction. Breaching this could expose Zebracorp's negotiation strategies and preferred positions to external parties, severely undermining its leverage.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "This is a direct command regarding the handling and distribution of the document.",
+        "implication_company": "Strict adherence is required to protect sensitive negotiation strategies and internal legal positions. Non-compliance could lead to severe competitive disadvantages and legal risks.",
+        "implication_supplier": "If this document were to be leaked, suppliers would gain invaluable insight into Zebracorp's negotiation playbook, potentially allowing them to anticipate and counter Zebracorp's strategies.",
+        "source_insight": "Uses strong imperative language ('must not').",
+        "text": "Please note that this document is company confidential and for Zebracorp internal use only. This document must not be distributed outside Zebracorp."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "08ae5df7-e3fb-40c0-88ca-3b5b97433061",
+      "content": {
+        "id": "a7b8c9d0-e1f2-3456-7890-abcdef012345",
+        "type": "OTHER",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "The information in this document is general guidance, not conclusive, and does not replace specific legal advice.",
+        "expert_insight": "This is a standard legal disclaimer, crucial for managing expectations and limiting liability. It emphasizes that the playbook is a guide, not a definitive legal opinion for every unique situation.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This statement defines the scope and limitations of the advice provided in the playbook.",
+        "implication_company": "Users must understand that for specific, complex, or high-risk situations, they should seek tailored legal advice rather than relying solely on the playbook.",
+        "implication_supplier": "N/A (internal document).",
+        "source_insight": "A common and important legal caveat.",
+        "text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "3c9a160b-3ee7-44f0-8d28-806307f6fc22",
+      "content": {
+        "id": "b8c9d0e1-f2a3-4567-8901-234567890abc",
+        "type": "OTHER",
+        "verbatim_text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context.",
+        "plain_text": "The terms 'supplier,' 'vendor,' 'subcontractor,' 'licensor,' and 'developer' are used interchangeably in this playbook to refer to Zebracorp's contracting party in a purchasing contract.",
+        "expert_insight": "This provides a crucial definitional clarification, ensuring consistency in understanding who 'the other party' refers to throughout the document, regardless of the specific label used.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This clarifies the interchangeable use of key terms within the document.",
+        "implication_company": "Users should understand that these terms all refer to the same concept: the external party Zebracorp is contracting with.",
+        "implication_supplier": "N/A (internal document).",
+        "source_insight": "A helpful internal glossary entry.",
+        "text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "d7181641-9ebf-4d94-b63d-0b79adbabd0f",
+      "content": {
+        "id": "c9d0e1f2-a3b4-5678-9012-34567890abcd",
+        "type": "OTHER",
+        "verbatim_text": "The subjects covered by this Playbook are divided in different chapters, which are in alphabetical order.",
+        "plain_text": "The playbook's subjects are organized into alphabetically ordered chapters.",
+        "expert_insight": "This provides structural information, making the playbook easier to navigate and use as a reference tool.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "This describes the organizational structure of the document.",
+        "implication_company": "Users can easily locate specific topics by referring to the alphabetical chapter arrangement.",
+        "implication_supplier": "N/A (internal document).",
+        "source_insight": "A practical detail for usability.",
+        "text": "The subjects covered by this Playbook are divided in different chapters, which are in alphabetical order."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "e07c68c1-cf27-4845-abd7-fade61fdfbd6",
+      "content": {
+        "id": "d0e1f2a3-b4c5-6789-0123-4567890abcde",
+        "type": "OTHER",
+        "verbatim_text": "Note that the chapters and items of this document will be updated and new chapters will be added continuously.",
+        "plain_text": "The playbook is a living document, with chapters and content continuously updated and new chapters added.",
+        "expert_insight": "This indicates that the playbook is a dynamic resource, not static. Users should expect and seek out the latest versions, and understand that its content is subject to change and expansion.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This informs users about the dynamic nature and ongoing development of the playbook.",
+        "implication_company": "Users should always refer to the most current version of the playbook and anticipate future updates and additions to its content.",
+        "implication_supplier": "N/A (internal document).",
+        "source_insight": "Crucial for managing user expectations about document currency.",
+        "text": "Note that the chapters and items of this document will be updated and new chapters will be added continuously."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "473889fa-3070-4920-80f3-a11e2a450a79",
+      "content": {
+        "id": "e1f2a3b4-c5d6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Send any feedback on the playbook's content to feedback@zebracorp.com.",
+        "expert_insight": "This is an explicit instruction for user engagement, facilitating continuous improvement of the playbook based on practical user experience.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "This provides a clear directive for users to submit feedback.",
+        "implication_company": "Users are encouraged to contribute to the playbook's evolution, ensuring it remains relevant and effective for Zebracorp's needs.",
+        "implication_supplier": "N/A (internal document).",
+        "source_insight": "A direct call to action for users.",
+        "text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "ee7548b8-1f1d-45b2-8de1-4e5fca68f26a",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "DEFINITION",
+        "verbatim_text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context.",
+        "plain_text": "The terms 'supplier', 'vendor', 'subcontractor', 'licensor', and 'developer' refer to Zebracorp’s contracting party in a purchasing contract and are used interchangeably depending on the context.",
+        "expert_insight": "Standard",
+        "confidence": 1.0,
+        "text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "7e5324b6-107c-48f9-b3d2-353aab3b2742",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The purpose of this Procurement Contract Playbook is to provide additional guidance on negotiating procurement contracts and Zebracorp’s preferred negotiating positions on certain key legal terms in such contracts.",
+        "plain_text": "The Procurement Contract Playbook aims to offer guidance on negotiating procurement contracts and outlines Zebracorp’s preferred negotiating positions on key legal terms.",
+        "expert_insight": "This statement establishes the primary objective and scope of the playbook, indicating its utility for Zebracorp employees involved in procurement negotiations.",
+        "confidence": 1.0,
+        "justification": "This sentence describes the purpose of the document, providing context.",
+        "implication_company": "Zebracorp provides a standardized resource to guide its employees in contract negotiations, aiming for consistency and adherence to preferred terms.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "The purpose of this Procurement Contract Playbook is to provide additional guidance on negotiating procurement contracts and Zebracorp’s preferred negotiating positions on certain key legal terms in such contracts."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "f47f6694-a6e2-495e-8a5e-478e39aeaee7",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The focus is on providing the essentials on negotiating these terms, and some drafting points.",
+        "plain_text": "The playbook focuses on essential negotiation techniques and drafting considerations for contract terms.",
+        "expert_insight": "This clarifies that the playbook is practical, offering core negotiation strategies and specific drafting advice.",
+        "confidence": 1.0,
+        "justification": "This sentence elaborates on the content focus of the playbook.",
+        "implication_company": "Employees gain practical tools for effective contract negotiation and drafting, reducing reliance on ad-hoc approaches.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "The focus is on providing the essentials on negotiating these terms, and some drafting points."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "dae2e066-e65b-4dc7-9618-61b894ddfb40",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "This Playbook also seeks to give explanations on the implications of certain key legal terms.",
+        "plain_text": "The playbook also explains the practical implications of significant legal terms.",
+        "expert_insight": "Beyond just negotiation, the playbook aims to educate users on the consequences and effects of various legal clauses.",
+        "confidence": 1.0,
+        "justification": "This sentence describes another aspect of the playbook's content.",
+        "implication_company": "Employees will better understand the risks and benefits associated with different legal terms, leading to more informed decision-making.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "This Playbook also seeks to give explanations on the implications of certain key legal terms."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "bb764531-e28b-4946-965c-70a5a75818c3",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "There is less focus on laying out Zebracorp preferred position on these terms since the preferred terms are typically well reflected in the provisions of the corresponding Zebracorp procurement contract templates.",
+        "plain_text": "The playbook provides less detail on Zebracorp's preferred positions for terms, as these are already incorporated into Zebracorp's standard procurement contract templates.",
+        "expert_insight": "This indicates that for specific preferred terms, users should primarily refer to the official Zebracorp contract templates rather than relying solely on the playbook.",
+        "confidence": 1.0,
+        "justification": "This sentence explains a specific content decision regarding the playbook's focus.",
+        "implication_company": "Employees are directed to use official templates as the primary source for Zebracorp's preferred contractual language, ensuring consistency.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "There is less focus on laying out Zebracorp preferred position on these terms since the preferred terms are typically well reflected in the provisions of the corresponding Zebracorp procurement contract templates."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "70695295-2ede-4564-a8d8-1009b39369fc",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The playbook also contains explanations on certain commonly used legal terms and concepts.",
+        "plain_text": "The playbook includes explanations of common legal terms and concepts.",
+        "expert_insight": "This highlights the playbook's role as a glossary or reference for legal terminology, aiding comprehension for users.",
+        "confidence": 1.0,
+        "justification": "This sentence describes an additional feature of the playbook's content.",
+        "implication_company": "Employees can use the playbook as a reference to understand legal jargon, improving their ability to interpret and negotiate contracts.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "The playbook also contains explanations on certain commonly used legal terms and concepts."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "5a62228a-5292-43e2-8aeb-8c621d6610d9",
+      "content": {
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Please note that this document is company confidential and for Zebracorp internal use only.",
+        "plain_text": "This document is confidential to Zebracorp and is strictly for internal use only.",
+        "expert_insight": "This is a critical confidentiality instruction, emphasizing that the document contains sensitive information meant exclusively for Zebracorp personnel.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "This statement imposes a clear restriction on the document's access and usage.",
+        "implication_company": "Zebracorp must ensure strict adherence to this confidentiality policy to protect its internal strategies and information from unauthorized disclosure.",
+        "implication_supplier": "Suppliers should not expect to receive or view this document, as it is proprietary to Zebracorp.",
+        "source_insight": "N/A",
+        "text": "Please note that this document is company confidential and for Zebracorp internal use only."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "50a6c66f-5c2c-483e-8a64-b8ee9c4a09f5",
+      "content": {
+        "id": "a7b8c9d0-e1f2-3456-7890-abcdef012345",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "This document must not be distributed outside Zebracorp.",
+        "plain_text": "The document is strictly prohibited from being distributed outside of Zebracorp.",
+        "expert_insight": "This is a direct and absolute prohibition against external sharing, reinforcing the document's highly confidential nature.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "This statement explicitly forbids external distribution, making it a critical rule.",
+        "implication_company": "Zebracorp faces risks of competitive disadvantage or legal issues if this document is improperly distributed. Strict internal controls and employee awareness are necessary.",
+        "implication_supplier": "Suppliers are explicitly excluded from receiving this document.",
+        "source_insight": "N/A",
+        "text": "This document must not be distributed outside Zebracorp."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "099acb85-5097-4432-861b-1a3454cf9637",
+      "content": {
+        "id": "b8c9d0e1-f2a3-4567-8901-234567890abc",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "The information in this document is general, not conclusive, and does not replace specific legal advice for individual cases.",
+        "expert_insight": "This disclaimer is crucial, informing users that the playbook provides general guidance and should not be treated as definitive legal counsel for specific situations. Users should seek professional legal advice when necessary.",
+        "confidence": 1.0,
+        "justification": "This statement clarifies the scope and limitations of the information provided, acting as a disclaimer.",
+        "implication_company": "Zebracorp mitigates liability by explicitly stating the general nature of the information and the need for specific legal counsel for individual cases. Employees must understand this limitation.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "26a83804-2b62-4288-ba22-1427d4064740",
+      "content": {
+        "id": "c9d0e1f2-a3b4-5678-9012-34567890abcd",
+        "type": "DEFINITION",
+        "verbatim_text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context.",
+        "plain_text": "The terms 'supplier', 'vendor', 'subcontractor', 'licensor', and 'developer' are used interchangeably within this Playbook to refer to Zebracorp’s contracting party in a purchasing contract.",
+        "expert_insight": "This definition clarifies the scope of several key terms, ensuring consistent understanding throughout the playbook regardless of the specific term used.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "0bdce12c-687f-46ef-ab31-6e69b2d3971b",
+      "content": {
+        "id": "d0e1f2a3-b4c5-6789-0123-4567890abcde",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The subjects covered by this Playbook are divided in different chapters, which are in alphabetical order.",
+        "plain_text": "The playbook's content is organized into alphabetically ordered chapters.",
+        "expert_insight": "This describes the structural organization of the document, making it easier for users to navigate and find specific topics.",
+        "confidence": 1.0,
+        "justification": "This sentence describes the organizational structure of the playbook.",
+        "implication_company": "A clear organizational structure enhances the usability and efficiency of the playbook for employees.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "The subjects covered by this Playbook are divided in different chapters, which are in alphabetical order."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "db116ca3-f44a-4841-a8a7-84da03fde2c8",
+      "content": {
+        "id": "e1f2a3b4-c5d6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Note that the chapters and items of this document will be updated and new chapters will be added continuously.",
+        "plain_text": "The chapters and content of this document will be continuously updated and expanded with new chapters.",
+        "expert_insight": "This informs users that the playbook is a dynamic document, subject to ongoing revisions and additions, implying that users should refer to the latest version.",
+        "confidence": 1.0,
+        "justification": "This sentence provides information about the ongoing maintenance and evolution of the document.",
+        "implication_company": "Zebracorp commits to keeping the playbook current and comprehensive, reflecting evolving legal landscapes and company policies.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Note that the chapters and items of this document will be updated and new chapters will be added continuously."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "d552484c-b2c6-4935-9c80-cf11bb35b7ae",
+      "content": {
+        "id": "f2a3b4c5-d6e7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Users are requested to send feedback regarding the document's content to feedback@zebracorp.com.",
+        "expert_insight": "This provides a clear channel for users to contribute to the improvement of the playbook, fostering a collaborative approach to document maintenance.",
+        "confidence": 1.0,
+        "justification": "This is an explicit instruction for users to provide feedback.",
+        "implication_company": "Zebracorp actively encourages employee engagement and feedback to continuously refine and improve the playbook's quality and relevance.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "db57a499-bdcf-4271-8bf4-f6f8989ccf14",
+      "content": {
+        "id": "27c37416-01d7-402a-a92c-7b4d3204e339",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The purpose of this Procurement Contract Playbook is to provide additional guidance on negotiating procurement contracts and Zebracorp’s preferred negotiating positions on certain key legal terms in such contracts.",
+        "plain_text": "The Procurement Contract Playbook aims to offer guidance on negotiating procurement contracts and outlines Zebracorp's preferred stances on key legal terms.",
+        "expert_insight": "This statement clarifies the primary objective of the playbook, setting expectations for its content regarding contract negotiation strategies and Zebracorp's standard positions.",
+        "confidence": 0.9,
+        "justification": "Provides context on the document's overall goal.",
+        "implication_company": "Helps internal teams understand the resource's utility for contract negotiations.",
+        "implication_supplier": "N/A",
+        "source_insight": "Directly stated purpose of the document.",
+        "text": "The purpose of this Procurement Contract Playbook is to provide additional guidance on negotiating procurement contracts and Zebracorp’s preferred negotiating positions on certain key legal terms in such contracts."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "e8b090de-1503-49a9-8acf-fc7f75b29613",
+      "content": {
+        "id": "1d2a10e7-8178-43d9-a72a-6091010373e3",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The focus is on providing the essentials on negotiating these terms, and some drafting points.",
+        "plain_text": "The playbook concentrates on essential negotiation points and drafting advice for contract terms.",
+        "expert_insight": "This indicates that the playbook is practical, focusing on actionable advice for both negotiation and the actual wording of contract clauses.",
+        "confidence": 0.9,
+        "justification": "Describes the specific content focus of the playbook.",
+        "implication_company": "Users can expect practical, concise guidance on contract terms and drafting.",
+        "implication_supplier": "N/A",
+        "source_insight": "Directly stated focus of the document.",
+        "text": "The focus is on providing the essentials on negotiating these terms, and some drafting points."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "d69f40b8-3a84-42dd-81a6-5fd8abcce98c",
+      "content": {
+        "id": "0d297921-6962-4f7f-8e2b-f351d382215c",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "This Playbook also seeks to give explanations on the implications of certain key legal terms.",
+        "plain_text": "The playbook also explains the consequences and effects of key legal terms.",
+        "expert_insight": "Understanding the implications of legal terms is crucial for effective negotiation and risk management. This feature adds significant value by helping users grasp the 'why' behind certain positions.",
+        "confidence": 0.9,
+        "justification": "Highlights another key aspect of the playbook's content.",
+        "implication_company": "Empowers employees to make informed decisions during negotiations by understanding potential impacts of contract clauses.",
+        "implication_supplier": "N/A",
+        "source_insight": "Directly stated content inclusion.",
+        "text": "This Playbook also seeks to give explanations on the implications of certain key legal terms."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "ba2ce24d-5682-493e-aedb-3666bf1f0e8a",
+      "content": {
+        "id": "d0496150-13f5-4702-8693-559d18b32066",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "There is less focus on laying out Zebracorp preferred position on these terms since the preferred terms are typically well reflected in the provisions of the corresponding Zebracorp procurement contract templates.",
+        "plain_text": "The playbook emphasizes less on detailing Zebracorp's preferred terms because these are already incorporated into Zebracorp's standard procurement contract templates.",
+        "expert_insight": "This clarifies that the playbook serves as a supplementary guide, assuming users are already familiar with or have access to the standard contract templates. It suggests the playbook's role is to elaborate on *why* those terms are preferred and how to negotiate them, rather than just stating them.",
+        "confidence": 0.9,
+        "justification": "Explains the approach to Zebracorp's preferred positions within the playbook.",
+        "implication_company": "Users should refer to official contract templates for Zebracorp's exact preferred terms, using the playbook for negotiation strategy and understanding.",
+        "implication_supplier": "N/A",
+        "source_insight": "Directly stated approach and rationale.",
+        "text": "There is less focus on laying out Zebracorp preferred position on these terms since the preferred terms are typically well reflected in the provisions of the corresponding Zebracorp procurement contract templates."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "ceeeecaa-ac2d-46d2-8129-0411e06db0e7",
+      "content": {
+        "id": "038317c4-2795-4673-9a84-2977b2195758",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The playbook also contains explanations on certain commonly used legal terms and concepts.",
+        "plain_text": "The playbook includes definitions and explanations for common legal terms and concepts.",
+        "expert_insight": "This indicates that the playbook also functions as a glossary or reference for legal terminology, which is beneficial for users who may not have a strong legal background.",
+        "confidence": 0.9,
+        "justification": "Describes an additional content feature of the playbook.",
+        "implication_company": "Employees can use the playbook to clarify legal jargon encountered in contracts.",
+        "implication_supplier": "N/A",
+        "source_insight": "Directly stated content inclusion.",
+        "text": "The playbook also contains explanations on certain commonly used legal terms and concepts."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "500bba44-e85f-4b19-9a91-ba3ab5cf05bb",
+      "content": {
+        "id": "9740e531-1502-4099-b13c-74a0046e7f81",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Please note that this document is company confidential and for Zebracorp internal use only.",
+        "plain_text": "This document is confidential to Zebracorp and strictly for internal use.",
+        "expert_insight": "This is a critical confidentiality and usage restriction. It mandates that the document must not be shared externally and its contents are proprietary to Zebracorp.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "Explicitly states the confidential nature and restricted use of the document.",
+        "implication_company": "Employees must ensure the document's confidentiality and restrict its access to authorized internal personnel only, to protect proprietary information.",
+        "implication_supplier": "Suppliers should not have access to this document.",
+        "source_insight": "Explicit 'Please note' and declarative statement of confidentiality.",
+        "text": "Please note that this document is company confidential and for Zebracorp internal use only."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "ad2e4ae2-caef-4d0b-8b11-38aad67e0bcd",
+      "content": {
+        "id": "402a7b3c-91d8-4a57-b01a-8e2c7f6d5a4b",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "This document must not be distributed outside Zebracorp.",
+        "plain_text": "The document is prohibited from being distributed externally from Zebracorp.",
+        "expert_insight": "This is a direct and unambiguous prohibition against external distribution, reinforcing the confidentiality requirement. Violation could lead to severe consequences, including intellectual property breaches or competitive disadvantages.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "Explicitly states a prohibition on external distribution.",
+        "implication_company": "Employees are strictly forbidden from sharing this document with any external parties, including suppliers, partners, or the general public. Failure to comply can result in disciplinary action and potential legal ramifications for the company.",
+        "implication_supplier": "Suppliers are explicitly excluded from receiving this document.",
+        "source_insight": "Explicit 'must not' statement regarding distribution.",
+        "text": "This document must not be distributed outside Zebracorp."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "cdf08d3d-fb2b-4435-b6d1-26eae6dd8dea",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "The document provides general information, is not definitive, and should not replace specific legal advice for individual situations.",
+        "expert_insight": "This is a standard legal disclaimer, limiting the liability of Zebracorp and advising users that the playbook offers general guidance, not tailored legal counsel. Users should consult legal professionals for specific contractual issues.",
+        "confidence": 1.0,
+        "justification": "Provides a crucial disclaimer about the nature and applicability of the information.",
+        "implication_company": "Employees must understand that this playbook is a guide, not a definitive legal opinion. For specific, complex, or high-risk cases, internal or external legal counsel should be consulted.",
+        "implication_supplier": "N/A",
+        "source_insight": "Explicit disclaimer regarding the nature of the information.",
+        "text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "b46f2570-19da-42e8-a490-163243d89138",
+      "content": {
+        "id": "f2e1d0c9-8a7b-6543-210f-edcba9876543",
+        "type": "DEFINITION",
+        "verbatim_text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context.",
+        "plain_text": "In this Playbook, the terms 'supplier', 'vendor', 'subcontractor', 'licensor', and 'developer' all refer to the party contracting with Zebracorp in a purchasing agreement and are used interchangeably.",
+        "expert_insight": "This definition clarifies the scope of various party designations, ensuring consistent understanding throughout the playbook. It's important for accurate interpretation of roles and responsibilities described.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Please note that the term ‘supplier’/’vendor’/’subcontractor’/’licensor’/’developer’ as used is this Playbook refer to Zebracorp’s contracting party in a purchasing contract and these are used interchangeably depending on the context."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "9781b993-0f34-487d-8545-189ca91ebd50",
+      "content": {
+        "id": "c7b6a5d4-e3f2-1098-7654-3210fedcba98",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The subjects covered by this Playbook are divided in different chapters, which are in alphabetical order.",
+        "plain_text": "The playbook's content is organized into alphabetically ordered chapters.",
+        "expert_insight": "This describes the structural organization of the playbook, making it easier for users to navigate and find specific topics.",
+        "confidence": 0.9,
+        "justification": "Provides information on the document's structure.",
+        "implication_company": "Users can quickly locate relevant information by using the alphabetical chapter arrangement.",
+        "implication_supplier": "N/A",
+        "source_insight": "Directly stated organizational structure.",
+        "text": "The subjects covered by this Playbook are divided in different chapters, which are in alphabetical order."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "31146af3-ffc2-4cae-9854-875395f58bc9",
+      "content": {
+        "id": "b8a7c6d5-e4f3-2109-8765-43210fedcba9",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Note that the chapters and items of this document will be updated and new chapters will be added continuously.",
+        "plain_text": "The playbook's chapters and content will be regularly updated, and new chapters will be added over time.",
+        "expert_insight": "This indicates that the playbook is a living document, subject to continuous improvement and expansion. Users should be aware that the content may evolve.",
+        "confidence": 0.9,
+        "justification": "Informs users about the dynamic nature and ongoing development of the document.",
+        "implication_company": "Employees should periodically check for updated versions or new content to ensure they are using the most current guidance.",
+        "implication_supplier": "N/A",
+        "source_insight": "Explicit 'Note that' statement regarding updates.",
+        "text": "Note that the chapters and items of this document will be updated and new chapters will be added continuously."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "187d62b4-b96d-4545-8941-be50736b0dda",
+      "content": {
+        "id": "a9b8c7d6-e5f4-3210-9876-543210fedcba",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Users are requested to send any feedback regarding the document's content to feedback@zebracorp.com.",
+        "expert_insight": "This provides a clear channel for user engagement and continuous improvement of the playbook. Encouraging feedback helps ensure the document remains relevant and useful.",
+        "confidence": 1.0,
+        "justification": "Provides a direct instruction for submitting feedback.",
+        "implication_company": "Employees are encouraged to contribute to the playbook's improvement by providing feedback, which can enhance its accuracy and utility.",
+        "implication_supplier": "N/A",
+        "source_insight": "Explicit 'Please send' instruction.",
+        "text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "section_id": "line_1766134380716_6yvcm8t48",
+  "decisions": [
+    {
+      "id": "c985e24d-0b74-4fef-9356-882ae0e4bf7c",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "cluster_arbitration_cross_reference",
+        "verbatim_text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "For details regarding Arbitration, refer to the 'Dispute Resolution' section of this document.",
+        "expert_insight": "This statement serves as a direct cross-reference, guiding the reader to the 'Dispute Resolution' section for comprehensive information on arbitration. It indicates that arbitration is a specific component or method within the broader dispute resolution framework outlined in the document, and all relevant rules and procedures are detailed there.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text explicitly instructs the reader to refer to another section for information on Arbitration.",
+        "implication_company": "The company must consult the 'Dispute Resolution' section to understand its rights, obligations, and procedures concerning arbitration, which is crucial for dispute management.",
+        "implication_supplier": "The supplier must refer to the 'Dispute Resolution' section to understand the arbitration processes and their implications, ensuring compliance and informed decision-making in case of a dispute.",
+        "source_insight": "The document's internal structure uses this instruction to guide readers to the specific location where detailed information on arbitration is provided."
+      },
+      "rationale": "Consensus: Agents unanimously classified this as 'OTHER' with subtype 'INSTRUCTION'. Evaluation: The text is a clear, self-sufficient cross-reference, directing the reader to another section for details on 'Arbitration'. It passes the Clarity, Value, and Utility checks as it provides essential navigational information within the document. No rewrite of plain_text was necessary as the original instruction is explicit. Classified as a high-priority instruction.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "dc2233be-e09e-486f-85bd-943ae97bdb6c",
+      "supporting_evidence": [
+        "906702cb-d716-474e-af3b-3806442cf02e",
+        "e2a7862b-d357-42bb-88b2-8e0fd677359f"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "dc2233be-e09e-486f-85bd-943ae97bdb6c",
+      "recommendation_ids": [
+        "906702cb-d716-474e-af3b-3806442cf02e",
+        "e2a7862b-d357-42bb-88b2-8e0fd677359f"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "906702cb-d716-474e-af3b-3806442cf02e",
+      "content": {
+        "id": "2d6a5e12-3b7f-4c8e-8a9d-1e0f2c3b4a5d",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "ARBITRATION Please refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "Information regarding 'Arbitration' can be found in the 'Dispute Resolution' section of this document.",
+        "expert_insight": "This statement serves as a cross-reference, directing the reader to the 'Dispute Resolution' section for details on arbitration. It implies that arbitration is a component or a specific method within the broader dispute resolution framework outlined in the document.",
+        "confidence": 1.0,
+        "justification": "The text explicitly instructs the reader to refer to another section for the topic of Arbitration.",
+        "implication_company": "The company needs to consult the 'Dispute Resolution' section to understand any arbitration clauses, procedures, or requirements that may affect its operations or agreements.",
+        "implication_supplier": "The supplier should refer to the 'Dispute Resolution' section to understand the arbitration processes and their implications if a dispute arises.",
+        "source_insight": "The document's internal structure guides the reader to the relevant section for detailed information on arbitration.",
+        "text": "ARBITRATION Please refer to section ‘Dispute Resolution’ below."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "e2a7862b-d357-42bb-88b2-8e0fd677359f",
+      "content": {
+        "id": "e9196b29-b630-47b8-b769-14a51e66c611",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "For information regarding arbitration, refer to the 'Dispute Resolution' section.",
+        "expert_insight": "This statement indicates that the specific rules and procedures concerning arbitration are detailed within the 'Dispute Resolution' section of the document. Parties should consult that section for all relevant information.",
+        "confidence": 1.0,
+        "justification": "The text explicitly directs the reader to another section for details on arbitration.",
+        "implication_company": "The company must refer to the 'Dispute Resolution' section to understand its rights and obligations concerning arbitration.",
+        "implication_supplier": "The supplier must refer to the 'Dispute Resolution' section to understand its rights and obligations concerning arbitration.",
+        "source_insight": "The instruction is directly stated in the input text.",
+        "text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

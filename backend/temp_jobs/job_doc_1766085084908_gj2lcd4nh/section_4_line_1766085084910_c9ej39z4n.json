@@ -1,0 +1,2028 @@
+{
+  "section_id": "line_1766085084910_c9ej39z4n",
+  "decisions": [
+    {
+      "id": "bb8c581d-b078-4c4d-b398-441d3496949a",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "zebracorp-liability-general-rule-001",
+        "verbatim_text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters).",
+        "plain_text": "As a general rule, Zebracorp expects its vendors and suppliers to bear costs associated with order cancellations and to fully meet forecasted demand, including additional drop-in orders as specified in flexibility parameters.",
+        "expert_insight": "This establishes Zebracorp's default position: suppliers are generally responsible for managing the financial impact of forecast inaccuracies and order cancellations, integrating this risk into their business model. This is a core principle for cost allocation and risk management.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "As a general rule; as set forth in the flexibility parameters.",
+        "justification": "The source text explicitly states this as a 'general rule'. It further clarifies that 'The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers. In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk.' This rationale supports Zebracorp's expectation for vendors to absorb these costs, especially when they have diversified customer bases.",
+        "implication_company": "Zebracorp is generally not liable for costs incurred by suppliers due to order cancellations or unmet forecasts, minimizing its financial exposure.",
+        "implication_supplier": "Suppliers must absorb costs related to order cancellations and ensure capacity to meet forecasted demand, factoring this business risk into their operations and pricing.",
+        "source_insight": "The text clearly outlines Zebracorp's expectation regarding the supplier's responsibility for managing forecast risk and cancellations, explicitly labeling it a 'general rule' and providing a business rationale."
+      },
+      "rationale": "Consensus Check: Agents were split between classifying the introductory paragraph as 'OTHER' (INFO) and the 'general rule' sentence as 'GUIDELINE'. Candidate 3 combined the 'general rule' with its justification into an 'OTHER' (INFO). I have prioritized the explicit 'general rule' as the core actionable GUIDELINE for this cluster, as it represents Zebracorp's primary expectation regarding liability. Value Assessment: The chosen verbatim text is a clear, self-sufficient statement of Zebracorp's default policy, defining a critical allocation of risk and cost. Type-Specific Criteria (GUIDELINE): It creates a specific obligation for the supplier. The 'plain_text' is clear, and the 'justification' field incorporates the supporting rationale from the broader source text to ensure completeness and self-sufficiency. Classification is 'CRITICAL' due to its explicit 'general rule' status. Utility Check: This item is highly specific, actionable, and crucial for understanding Zebracorp's baseline position on vendor liability.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "53ff08a2-8567-4a36-9e9e-033602be42e8",
+      "supporting_evidence": [
+        "087ec20a-0f59-4241-9579-2b3dbb73ef30",
+        "3d559a7e-3fb4-4ebb-b5f5-3c8eaddc03b7",
+        "274136c0-c5fb-4855-aded-1760e099ab71",
+        "993f2046-d6df-4414-9a6c-09d21f85cc79",
+        "e9784822-b85a-4559-b561-2efa5b4aa791",
+        "3d9b0fd3-aeb2-48ab-a0b9-f2be7302a96d",
+        "717fbef1-8b19-4e67-8c3f-22382634da47"
+      ]
+    },
+    {
+      "id": "b2b7088d-6519-48cf-9747-c60dfb7090d6",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "19b52479-7f72-466d-a162-85885c54d142",
+        "verbatim_text": "The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers. In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk.",
+        "plain_text": "The risk of forecasts or estimated demand not materializing is typically the selling party's business risk, a principle Zebracorp also applies to its own sales to end customers. Vendors with multiple customers for a product should generally manage this risk without significant issues.",
+        "expert_insight": "This statement provides the underlying business principle and rationale for Zebracorp's expectation that suppliers bear the risk of unmaterialized demand. It frames this as a standard commercial practice, reinforced by Zebracorp's own sales approach, and suggests that diversified suppliers are better equipped to manage this risk.",
+        "confidence": 1.0,
+        "subtype": "JUSTIFICATION",
+        "justification": "Explains the underlying business principle for risk allocation and provides context for Zebracorp's expectations from suppliers.",
+        "implication_company": "Zebracorp's position on risk allocation is strengthened by aligning it with general business principles and its own sales practices, providing a strong basis for expecting suppliers to absorb forecast risks.",
+        "implication_supplier": "Suppliers are expected to understand that the risk of unmaterialized demand is typically their business risk. Those with diversified customer bases are explicitly noted as being better positioned to manage this.",
+        "source_insight": "The text explicitly states the 'typical' allocation of business risk and applies it to Zebracorp's own sales, then adds a condition for suppliers with multiple customers, all serving to justify Zebracorp's stance."
+      },
+      "rationale": "Consensus: Split between GUIDELINE (Agent 1) and OTHER (Agents 2, 3). Evaluation: The text describes a general business principle regarding risk allocation and provides a justification for Zebracorp's expectation that suppliers bear certain costs. It explains *why* Zebracorp holds this position, rather than stating a direct, actionable obligation itself (which is covered by a preceding sentence in the source text). The inclusion of the condition for vendors with many customers further solidifies its role as a contextual explanation or justification. Passed Clarity, Value, and Utility checks. Classified as OTHER (Justification).",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "61dd0608-5c8f-4a02-9642-bb418635434f",
+      "supporting_evidence": [
+        "f0fe934b-1947-4b6e-b44e-60085220074e",
+        "32b25d64-85f5-4960-b1dd-1e89e2c60205",
+        "c81731d0-ead4-41bb-a9aa-ad8527f2c988"
+      ]
+    },
+    {
+      "id": "8a37044a-e3fd-4d2a-94eb-144b7711a2bf",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "zebracorp-liability-condition-001",
+        "verbatim_text": "This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties.",
+        "plain_text": "Zebracorp's acceptance of liability for components or other materials used to manufacture products is generally acceptable only when Zebracorp is purchasing customized or non-standard products that the supplier is unable to sell to any third parties.",
+        "expert_insight": "This guideline establishes a critical limitation on Zebracorp's willingness to accept liability for components or materials. It ensures that Zebracorp only assumes risk for highly specific, customized, or non-standard products that the supplier cannot otherwise market or sell, thereby protecting Zebracorp from unnecessary financial exposure for generic or reusable components.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Zebracorp is considering accepting liability for components or materials; AND Zebracorp is purchasing customized products or other non-standard products; AND the supplier is unable to sell these products to any third parties.",
+        "justification": "This clause sets a strict 'only in cases where' condition for Zebracorp accepting liability, acting as a critical gatekeeper for financial exposure related to component and material costs.",
+        "implication_company": "Zebracorp's liability exposure is significantly limited to highly specific, non-reusable products, reducing financial risk for standard components.",
+        "implication_supplier": "Suppliers must demonstrate that products are customized/non-standard and unsellable to third parties to transfer liability to Zebracorp, placing the burden of proof on them.",
+        "source_insight": "The phrase 'generally acceptable only in cases where' clearly indicates a strict condition for Zebracorp's acceptance of liability, making it a definitive rule."
+      },
+      "rationale": "Consensus Check: Agents were split on the type and scope. Candidates 1 and 4 classified the specific condition as a GUIDELINE, while Candidates 2, 3, and 5 classified broader introductory text or combined sentences as OTHER (INFO). Evaluation: The phrase 'This is generally acceptable only in cases where...' clearly establishes a specific, actionable condition for Zebracorp's acceptance of liability, making it a GUIDELINE. The preceding sentence serves as necessary context for 'This'. Value Assessment: The `plain_text` has been rewritten to incorporate the necessary context from the source text, making it self-sufficient and clear. Type-Specific Criteria: As a GUIDELINE, it is actionable, complete, and represents a critical limitation on Zebracorp's financial exposure, thus classified as 'CRITICAL'. Utility Check: The finding is specific, aids in negotiation by clarifying liability conditions, and protects Zebracorp's interests.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "6af6f872-76a3-4953-95b5-a2ae3757093b",
+      "supporting_evidence": [
+        "2c4bb341-485c-42ac-a266-9a81650e29ef",
+        "03916f46-fe92-46a7-9fcd-ae7a1abf3f55",
+        "7c2a7b04-e6be-431c-be09-e8149f6d5f1d",
+        "1b8a77a9-d42d-48f0-8fc1-c2028d803bc0",
+        "10cf4569-9461-4076-9648-51fbb55d2576"
+      ]
+    },
+    {
+      "id": "b79e3328-1400-4399-9196-e514e88e6970",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "verbatim_text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses.",
+        "plain_text": "Zebracorp's liability for components is limited to customized products that the supplier cannot use or exploit in any other business.",
+        "expert_insight": "This clause critically limits Zebracorp's liability, ensuring it only covers truly unique, customized products that the supplier cannot repurpose or sell elsewhere, thereby minimizing financial exposure.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Zebracorp has agreed to take component liability.",
+        "justification": "This is a direct and explicit limitation on Zebracorp's liability when it agrees to assume component liability.",
+        "implication_company": "Zebracorp avoids liability for components that the supplier could potentially repurpose, sell, or use in other businesses, significantly reducing financial risk.",
+        "implication_supplier": "Suppliers must demonstrate that the products are customized for Zebracorp and have no alternative use or marketability to claim liability from Zebracorp.",
+        "source_insight": "The phrases 'limited to' and 'only that cannot in any manner be used or exploited' strongly emphasize the strict and narrow scope of this liability."
+      },
+      "rationale": "Consensus: Mixed (3 GUIDELINE, 1 OTHER). Evaluation: The text explicitly states a condition and limitation on Zebracorp's liability ('Zebracorp’s liability is limited to...'). This constitutes a specific rule or obligation governing Zebracorp's financial exposure, making it a GUIDELINE. It is not merely a tactic but a direct statement of a contractual term. The finding is clear, self-sufficient, actionable, and critical for risk management. It passes the Utility Check.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "2970d01d-a5a6-49ec-a52a-a8f4d114ac30",
+      "supporting_evidence": [
+        "fd723d89-d9e3-4776-9d6a-5199fab4f509",
+        "8b384837-f25e-4337-a81f-9c3522bc8e45",
+        "77d267d6-e9ad-48e0-85f1-dd3227f544ac",
+        "a794dbd8-adb1-4374-a755-3ea946fb06e3"
+      ]
+    },
+    {
+      "id": "60068c9a-ea4c-433f-8b4f-aaac6790d263",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "verbatim_text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted.",
+        "plain_text": "The supplier has an affirmative obligation to mitigate its costs and damages, for example, by immediately ceasing production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third-party vendors if permitted.",
+        "expert_insight": "This is a critical legal principle imposing an affirmative duty on the supplier to minimize costs and damages, even when Zebracorp accepts liability. Failure to actively mitigate can significantly reduce or invalidate the supplier's claim for compensation, shifting the burden of cost control back to the supplier.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "This obligation applies when Zebracorp has agreed to take component liability, and specifically when the supplier learns Zebracorp will not consume the products, or if returning components/materials is permitted.",
+        "justification": "This clause imposes a fundamental and explicit legal 'affirmative obligation' on the supplier to mitigate costs and damages, directly reducing Zebracorp's potential financial exposure.",
+        "implication_company": "Zebracorp's potential financial exposure and total liability are significantly reduced by the supplier's proactive and legally mandated duty to minimize losses and prevent inflated claims.",
+        "implication_supplier": "Suppliers are legally bound to take immediate and active steps to minimize losses, such as ceasing production and returning materials, even when Zebracorp accepts liability. Failure to implement such procedures and fulfill this affirmative obligation can significantly reduce or invalidate their claim for compensation.",
+        "source_insight": "The explicit phrase 'Supplier has an affirmative obligation to mitigate' clearly defines a mandatory legal duty, reinforced by concrete examples of mitigation actions."
+      },
+      "rationale": "Consensus: Mixed (3 GUIDELINE, 1 OTHER). Evaluation: The source text explicitly states 'Supplier has an affirmative obligation to mitigate...', which directly imposes a specific, actionable duty. This is a clear contractual requirement, not merely a tactic or advice. Therefore, it is classified as a GUIDELINE. It passes the Value and Utility checks as it is self-sufficient, creates a specific obligation, and significantly impacts Zebracorp's liability. The classification as CRITICAL is appropriate given its legal weight and financial implications.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "bf73ee78-6e83-4ec5-b5f3-c417e23ead03",
+      "supporting_evidence": [
+        "7e4a794d-97d8-4681-b5bc-c3b86574bac7",
+        "f2207bad-62b5-4d26-9317-358f4e0ef22a",
+        "ed64465b-759d-49cc-8e3a-6cd485b015c6",
+        "ac39ccf0-0a02-4d64-bb27-e7c72a420370"
+      ]
+    },
+    {
+      "id": "639697f1-922d-4e89-a7ab-be88d77ff1ea",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "verbatim_text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast.",
+        "plain_text": "Zebracorp's liability for components is time-limited, specifically to products forecasted in its most recent forecast.",
+        "expert_insight": "This limitation is crucial for managing Zebracorp's financial exposure by preventing claims for outdated forecasts or speculative production. It ensures liability aligns with current business plans and encourages suppliers to use the latest official forecasts.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "When Zebracorp agrees to take component liability.",
+        "justification": "This clause explicitly states a critical temporal limitation on Zebracorp's component liability, preventing open-ended exposure and aligning responsibility with current forecasts.",
+        "implication_company": "Zebracorp's financial exposure for component liability is contained to a specific, recent timeframe, avoiding claims based on historical or speculative demand.",
+        "implication_supplier": "Suppliers must ensure their production and claims for component liability are based on Zebracorp's most recent forecasts to be valid and eligible for compensation.",
+        "source_insight": "The phrase 'limited in time in e.g. to products forecasted in its most recent forecast' directly establishes a temporal boundary, with 'e.g.' indicating an illustrative but firm principle."
+      },
+      "rationale": "Consensus Check: Three agents classified this as a GUIDELINE (Critical/High), while one classified it as OTHER (Tactic). The verbatim text 'Zebracorp’s liability is limited in time...' clearly establishes a specific restriction on Zebracorp's obligations, making it a GUIDELINE. The 'OTHER' classification was rejected as it misrepresents the direct nature of the statement. Value Assessment: The text is self-sufficient and clearly defines a temporal limitation on Zebracorp's liability. Type-Specific Criteria: As a GUIDELINE, it is actionable, complete, and represents a critical limitation. Utility Check: This is a specific, actionable rule that helps manage Zebracorp's financial exposure and provides clarity on liability conditions, thus protecting the company.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "3d34e161-c594-4182-9380-1b2be5d29302",
+      "supporting_evidence": [
+        "9cd63adc-0873-44df-a85f-cbb8ed83cdb8",
+        "7de5b988-3399-4b68-8315-7e0af3222418",
+        "45adefe8-9152-43f5-950d-c5021881fef5",
+        "77eb442c-3198-4b22-a431-1d52bf58e6a8"
+      ]
+    },
+    {
+      "id": "1e575e73-229a-4fb9-bbfb-2bd9988afba7",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "a7b8c9d0-e1f2-3456-7890-abcdef012345",
+        "verbatim_text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises.",
+        "plain_text": "The supplier should have an obligation to regularly report Zebracorp's current material/component liability to prevent any unforeseen surprises.",
+        "expert_insight": "This guideline is crucial for Zebracorp's financial planning and risk management. Regular reporting ensures transparency and allows Zebracorp to proactively monitor and manage its potential financial exposure, preventing unexpected liabilities and claims.",
+        "confidence": 0.98,
+        "classification": "HIGH",
+        "conditions": "When Zebracorp has agreed to take component liability for customized or non-standard products.",
+        "justification": "The text establishes a clear, actionable obligation for the supplier to provide regular reports on Zebracorp's material/component liability, which is essential for Zebracorp's risk management and financial oversight.",
+        "implication_company": "Zebracorp gains vital transparency into its potential component liability, enabling better financial planning, proactive risk management, and avoidance of unexpected financial burdens.",
+        "implication_supplier": "Suppliers are required to establish and maintain a system for tracking and regularly reporting Zebracorp's material/component liability, ensuring compliance and fostering trust through clear communication.",
+        "source_insight": "The phrase 'Supplier should also have an obligation to report... on regular intervals in order to avoid any unforeseen surprises' clearly defines a key operational requirement for the supplier when Zebracorp assumes liability, highlighting its importance for preventing financial shocks."
+      },
+      "rationale": "Consensus Check: The agents were split between GUIDELINE (3 agents) and OTHER (1 agent). The phrase 'Supplier should also have an obligation to report' clearly establishes a specific duty or requirement for the supplier, which aligns perfectly with a GUIDELINE. The 'OTHER' classification as 'TACTIC' is less accurate as this is a direct contractual expectation, not merely a strategy. Therefore, GUIDELINE is the correct type.\nValue Assessment: The verbatim text is clear and self-sufficient. The 'plain_text' accurately rephrases the obligation. The context for this obligation (when Zebracorp accepts liability) is clearly established in the preceding sentences of the source text, making the finding robust.\nType-Specific Criteria (GUIDELINE): This is highly actionable, creating a specific reporting obligation for the supplier. It is complete, specifying what needs to be reported ('Zebracorp’s then-current material/component liability'), when ('on regular intervals'), and why ('to avoid any unforeseen surprises'). The classification as 'HIGH' is appropriate given the importance of preventing financial surprises, even with the use of 'should' rather than 'must'.\nUtility Check: This is a specific, valuable rule that enhances transparency, helps Zebracorp manage financial risk, and prevents unexpected liabilities. It is a critical operational requirement.",
+      "decision_confidence": 0.98,
+      "source_cluster_id": "3d6aa17a-af93-4b37-8348-f35329edb283",
+      "supporting_evidence": [
+        "0b3c5da5-97dc-444b-9b9c-f5799c85a004",
+        "191f29ae-ede6-450d-a7cb-e4d7af1a73d8",
+        "9df689c9-231e-4ff0-bc44-728350ece056",
+        "d51aa96d-e408-459b-bbcf-28f8f6f8d7f3"
+      ]
+    },
+    {
+      "id": "21741ca4-89b1-4f32-b013-0f4344c0afa8",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "b8c9d0e1-f2a3-4567-8901-abcdef012346",
+        "verbatim_text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge.",
+        "plain_text": "Zebracorp has the option to require the supplier to store products, provided Zebracorp pays a mutually agreed reasonable carrying charge.",
+        "expert_insight": "This clause grants Zebracorp a valuable option to manage unconsumed products. Instead of immediate disposal, Zebracorp can require the supplier to store them, providing flexibility for future use or market timing, while ensuring the supplier is compensated for storage costs.",
+        "confidence": 0.98,
+        "classification": "HIGH",
+        "conditions": "Against payment of a mutually agreed reasonable carrying charge.",
+        "justification": "This describes a specific option/right available to Zebracorp for managing unconsumed products, offering flexibility in inventory management.",
+        "implication_company": "Zebracorp can strategically manage its inventory and consumption timelines, deferring immediate disposal and maintaining control over materials, by utilizing supplier storage and paying a mutually agreed carrying charge.",
+        "implication_supplier": "Suppliers must be prepared to store products for Zebracorp if required, but they are entitled to receive a mutually agreed reasonable carrying charge for this service, ensuring fair compensation for storage costs.",
+        "source_insight": "The text explicitly states 'Zebracorp has an option to require', indicating a specific right, with the condition of 'mutually agreed reasonable carrying charge' highlighting a negotiation point."
+      },
+      "rationale": "Consensus Check: Agents 1, 3, and 4 classified this as a GUIDELINE, while Agent 2 classified it as OTHER (TACTIC). The text 'Zebracorp has an option to require...' clearly describes a specific right or capability Zebracorp possesses, which directly impacts contractual obligations and actions. Therefore, GUIDELINE is the correct classification.\nValue Assessment: The wording is clear and self-sufficient, defining a specific option for Zebracorp regarding product storage and associated costs.\nType-Specific Criteria (GUIDELINE): It is actionable, creating a specific right for Zebracorp and a corresponding obligation for the supplier (if the option is exercised), along with a payment condition. The information is complete as presented in the source text. The classification as HIGH is appropriate given it grants Zebracorp a significant operational and financial flexibility.\nUtility Check: This is a specific, actionable clause that helps Zebracorp manage inventory and costs, making it highly valuable for negotiation and contract management.",
+      "decision_confidence": 0.98,
+      "source_cluster_id": "070ed5e5-e716-47ed-b48d-da0b07b9d773",
+      "supporting_evidence": [
+        "bd36788d-881d-4b00-add8-64f7da071599",
+        "0b9ac05c-1687-4f2e-8b8a-9eabf7c56b19",
+        "d92c74b7-189c-4873-95d4-6baeb045189d",
+        "1fb041c4-4a9d-4914-8934-dfbe89f318de"
+      ]
+    },
+    {
+      "id": "f54c20b2-8b31-4d54-a626-74881f455350",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "c9d0e1f2-a3b4-5678-9012-abcdef012347",
+        "verbatim_text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost.",
+        "plain_text": "Zebracorp obtains title to materials/components it has paid for, or has the option to require the supplier to dispose of unused materials/components without additional cost.",
+        "expert_insight": "This clause is critical for Zebracorp to manage its financial exposure and asset control when accepting liability for components. It ensures that Zebracorp either gains ownership of materials it has paid for or can direct their cost-free disposal, preventing further storage or disposal costs and potential legal limbo.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "This applies when Zebracorp has accepted liability for components/materials and has paid for them.",
+        "justification": "This statement defines Zebracorp's specific rights and entitlements regarding the ownership and disposition of materials/components for which it has accepted liability and made payment.",
+        "implication_company": "Zebracorp secures control over its investment by either obtaining title to paid materials or ensuring their cost-free disposal, thereby mitigating further financial liabilities and avoiding additional costs.",
+        "implication_supplier": "The supplier is obligated to transfer title of paid materials to Zebracorp or to dispose of unused materials/components as instructed by Zebracorp, without incurring additional charges to Zebracorp.",
+        "source_insight": "The provision of dual options ('obtains the title' OR 'an option to request... dispose') grants Zebracorp significant flexibility and leverage in managing materials it has paid for."
+      },
+      "rationale": "Consensus: Mixed, with three agents classifying as GUIDELINE and one as OTHER (TACTIC). Evaluation: The verbatim text clearly defines a specific right and entitlement for Zebracorp regarding materials it has paid for, offering control over ownership or disposal. This is a concrete contractual term, not merely a tactic or general advice. It is self-sufficient and creates a specific obligation for the supplier and a right for Zebracorp. Therefore, it is correctly classified as a GUIDELINE. It passed the Value and Utility tests, as it is specific, actionable, and protects Zebracorp's interests by clarifying asset ownership and disposal responsibilities. The classification is CRITICAL due to its direct impact on asset management and liability.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "a5f12b58-3597-4d61-83ab-09c87638917c",
+      "supporting_evidence": [
+        "7033db47-c0d5-4c79-84fb-655ce178cd19",
+        "e051226d-b60b-41f7-89aa-3de1b4382d7d",
+        "5978e98f-4d8f-4cac-b889-cad43b62f171",
+        "bc266681-45a9-481d-ac36-004a14641d88"
+      ]
+    },
+    {
+      "id": "6dea407e-73f2-4b4a-98c1-5a79696460a7",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "d0e1f2a3-b4c5-6789-0123-abcdef012348",
+        "verbatim_text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues).",
+        "plain_text": "Zebracorp is relieved from all liability if the failure to consume products is not solely caused by Zebracorp (e.g., due to supplier quality or delivery issues).",
+        "expert_insight": "This is a crucial clause that protects Zebracorp from liability if the non-consumption is due to the supplier's own failures, aligning liability with fault and preventing Zebracorp from being held liable for costs arising from the supplier's performance issues.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Failure to consume products is not caused solely by Zebracorp (e.g., due to supplier quality or delivery issues).",
+        "justification": "This clause directly defines a key condition for Zebracorp's relief from liability, protecting it from exposure when non-consumption is attributable to supplier performance issues.",
+        "implication_company": "Zebracorp is protected from liability if supplier issues contribute to non-consumption, avoiding costs stemming from the supplier's performance failures.",
+        "implication_supplier": "Suppliers bear the risk if their quality or delivery issues lead to Zebracorp not consuming products, even if Zebracorp had initially accepted some liability.",
+        "source_insight": "The phrase 'not caused solely by Zebracorp' is key, meaning even partial fault by the supplier can relieve Zebracorp from all liability."
+      },
+      "rationale": "Consensus: Mixed (3 GUIDELINE, 1 OTHER). Evaluation: The verbatim text explicitly states a condition under which Zebracorp 'is relieved from all liability'. This directly defines a specific right or obligation within a contractual context, making it a clear and actionable GUIDELINE. It is not merely a 'tactic' or advice to include such a clause, but the clause itself. The finding passed the Value and Utility tests as it is self-sufficient, clear, and critical for limiting Zebracorp's financial exposure. Therefore, it is classified as a Critical Guideline.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "ff0bc6bb-94c8-4f01-99b8-7359b9fb8ffb",
+      "supporting_evidence": [
+        "3a318dca-44db-49b9-a810-08ac88209ad8",
+        "b53e3958-3e4b-4395-852b-d1029c1b7fcb",
+        "167ef311-6041-488a-992d-5e5a1bbe5d0a",
+        "3f72bb18-b88c-41bd-bf0d-4ecf173d9277"
+      ]
+    },
+    {
+      "id": "28d56fb7-132e-4798-a27b-550bf9ad6801",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "e1f2a3b4-c5d6-7890-1234-abcdef012349",
+        "verbatim_text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation.",
+        "plain_text": "The supplier must present its claims within a short, specified timeframe, or it forfeits its right to compensation.",
+        "expert_insight": "This imposes a strict deadline on suppliers for filing claims, preventing stale claims and ensuring timely resolution. Strict claim periods are essential for Zebracorp to manage its financial obligations, prevent stale claims, and ensure timely resolution. Suppliers must be diligent in tracking and submitting claims.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "This applies when Zebracorp has agreed to take component liability.",
+        "justification": "This imposes a strict deadline with a severe consequence ('foregoes its right'), making it a critical control for managing claims. It is a specific obligation to impose on the supplier to ensure timely claims and prevent indefinite liability.",
+        "implication_company": "Zebracorp's liability is time-bound, preventing indefinite exposure to claims and reducing uncertainty and potential long-term liabilities.",
+        "implication_supplier": "Suppliers must adhere to strict deadlines for submitting claims or lose their right to compensation. They must be aware of and adhere to strict claim submission deadlines to protect their right to compensation.",
+        "source_insight": "The phrase 'failing which the supplier foregoes its right' clearly indicates a critical consequence and a non-negotiable obligation."
+      },
+      "rationale": "Consensus: Mixed (3 GUIDELINE, 1 OTHER). Evaluation: The verbatim text clearly states a specific obligation for the supplier ('has an a short time frame to present its claims') and a direct, severe consequence for non-compliance ('failing which the supplier foregoes its right to claim compensation'). This is a direct contractual rule, not merely a tactic or advice on how to draft a rule. Therefore, 'GUIDELINE' is the most appropriate classification. The rule is actionable, complete as stated, and critical for managing Zebracorp's liability. It passed the Value and Utility checks.",
+      "decision_confidence": 0.98,
+      "source_cluster_id": "220ffdd3-bd58-47c1-9ded-afa3605f8029",
+      "supporting_evidence": [
+        "c1de89bc-3176-429c-937c-0392c1651339",
+        "79124523-93eb-48be-85cb-1dc6199be738",
+        "b3cb104a-d469-4419-a942-1694bb982906",
+        "252f4567-657a-4ce6-af8f-68a95c3e4fb5"
+      ]
+    },
+    {
+      "id": "91ec46b8-896a-46f7-b9c9-fedbcbd15e63",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "zebracorp_liability_ceiling_and_scope",
+        "verbatim_text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product. Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only.",
+        "plain_text": "Zebracorp's total liability is capped by an overall maximum ceiling, defined as both a fixed dollar amount and a percentage of the product's sales price (excluding taxes). Ideally, this liability would also exclude the supplier's profit margin and be limited solely to actual, direct production costs.",
+        "expert_insight": "This establishes a critical financial control by setting an absolute maximum ceiling on Zebracorp's liability, ensuring predictability. The 'ideally' clause further aims to minimize Zebracorp's financial outlay by excluding supplier profit margins and limiting compensation to actual, direct production costs, preventing suppliers from using Zebracorp's liability as a profit center.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "When Zebracorp accepts component liability.",
+        "justification": "This guideline defines crucial financial limitations on Zebracorp's liability, capping exposure and specifying the preferred scope of recoverable costs.",
+        "implication_company": "Zebracorp's maximum financial exposure is capped and predictable. It aims to further reduce its liability by excluding profit margins and limiting compensation to direct costs only.",
+        "implication_supplier": "Suppliers' potential compensation is limited by the maximum ceiling and, ideally, will not include their profit margin, being restricted to actual, direct production costs.",
+        "source_insight": "The text explicitly states an 'overall maximum ceiling' for liability, expressed in dual terms (fixed amount and percentage). It then details preferred exclusions using the term 'Ideally,' indicating a strong negotiation position or a goal for Zebracorp's financial protection."
+      },
+      "rationale": "Consensus: Mixed on granularity and type. Agents 1 and 4 split the text into two GUIDELINES, while Agents 2 and 5 combined them. Agent 2 classified as OTHER (TACTIC), while Agents 1, 4, and 5 classified as GUIDELINE. \n\nEvaluation: The source text contains two closely related statements regarding Zebracorp's liability limitations: a mandatory overall maximum ceiling and an 'ideal' scope for that liability (excluding supplier margin, limited to direct costs). Combining these into a single GUIDELINE provides a more holistic and complete representation of Zebracorp's financial protection strategy in this context. The 'ideally' clause, while aspirational, represents a strong negotiation position and a desired characteristic of the liability, making it a valid part of a guideline rather than a separate 'tactic' or a distinct, less critical rule. The combined text is clear, self-sufficient, and highly actionable for contract negotiation. \n\nClassification: The overall maximum ceiling is a critical financial control. The ideal exclusions further strengthen Zebracorp's financial protection. Therefore, the combined guideline is classified as CRITICAL.\n\nPassed Value and Utility tests.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "6d65fb08-e864-4011-ae18-0f61e8a8680c",
+      "supporting_evidence": [
+        "f01ac9a0-5ebe-4e64-8ff2-6ab7dbf61a55",
+        "cad73bcd-e393-4090-9c10-a96555cae1d9",
+        "d25a60ac-272a-4fb5-bf1d-73bc9880c0cf",
+        "c12f2d9c-3237-4f52-b9dc-7c447cfe2d24",
+        "1bd7910d-575c-4a34-93f3-733979e51b0b",
+        "a05a004f-7676-4310-a45e-42c14806a289"
+      ]
+    },
+    {
+      "id": "7d871e52-758a-441c-99d2-ec7b9639b7eb",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14",
+        "verbatim_text": "In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk.",
+        "plain_text": "Vendors with multiple customers for their products should not face significant issues in assuming the risk of unmaterialized forecasts.",
+        "expert_insight": "This suggests that the general rule of supplier-borne risk is particularly applicable and less burdensome for suppliers with diversified customer bases.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Provides a specific scenario where the general rule is easily applicable.",
+        "implication_company": "Zebracorp's general rule is more easily justified and less likely to cause issues with suppliers who have diversified customer bases.",
+        "implication_supplier": "Suppliers with a broad customer base are expected to absorb these risks more readily due to their ability to reallocate or resell products.",
+        "source_insight": "The text explicitly states 'In cases where the vendor has many customers...'"
+      },
+      "rationale": "Consensus: Single candidate, classified as OTHER (INFO). Evaluation: The statement provides a specific scenario that supports Zebracorp's general rule regarding vendor liability for unmaterialized forecasts. The plain_text clarifies the 'such risk' reference, making it self-sufficient. It offers valuable context and justification for Zebracorp's position, making it useful for understanding the policy. Passed all value and utility checks. Classified as OTHER (INFO) with high confidence.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "7ccae02b-7da4-41dc-8d6d-6168223384ad",
+      "supporting_evidence": [
+        "303dbecb-77f4-478d-9445-60758f6ab8b9"
+      ]
+    },
+    {
+      "id": "8f047ef2-03db-4670-8df1-3bff12f42cf9",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "62402927-995b-43d9-a311-536440f10c66",
+        "verbatim_text": "When agreeing to take such component liability it is important to consider that:",
+        "plain_text": "When Zebracorp agrees to assume component liability, several key factors must be considered.",
+        "expert_insight": "This serves as an introductory statement, signaling that the following points are crucial conditions and limitations when Zebracorp takes on component liability. It implies these are non-negotiable terms.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "Acts as a lead-in to a list of important considerations.",
+        "implication_company": "This highlights the need for careful due diligence and clear terms when Zebracorp accepts liability.",
+        "implication_supplier": "Suppliers should be aware that Zebracorp's acceptance of liability comes with strict conditions.",
+        "source_insight": "The phrase 'it is important to consider that:' explicitly indicates an instruction/preamble."
+      },
+      "rationale": "Consensus: Single candidate, classified as OTHER (Instruction). Evaluation: The text serves as a clear introductory statement to a list of critical considerations for Zebracorp when accepting component liability. The plain_text is self-sufficient and accurately reflects the verbatim, providing necessary context for 'such component liability'. Passed Value and Utility tests. Classified as OTHER (Instruction).",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "9d22c4d9-bc60-4486-8523-bf10bd67c132",
+      "supporting_evidence": [
+        "b10ba8fe-dcfe-44ce-8eb5-83c52b26fa25"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "53ff08a2-8567-4a36-9e9e-033602be42e8",
+      "recommendation_ids": [
+        "087ec20a-0f59-4241-9579-2b3dbb73ef30",
+        "3d559a7e-3fb4-4ebb-b5f5-3c8eaddc03b7",
+        "274136c0-c5fb-4855-aded-1760e099ab71",
+        "993f2046-d6df-4414-9a6c-09d21f85cc79",
+        "e9784822-b85a-4559-b561-2efa5b4aa791",
+        "3d9b0fd3-aeb2-48ab-a0b9-f2be7302a96d",
+        "717fbef1-8b19-4e67-8c3f-22382634da47"
+      ]
+    },
+    {
+      "id": "61dd0608-5c8f-4a02-9642-bb418635434f",
+      "recommendation_ids": [
+        "f0fe934b-1947-4b6e-b44e-60085220074e",
+        "32b25d64-85f5-4960-b1dd-1e89e2c60205",
+        "c81731d0-ead4-41bb-a9aa-ad8527f2c988"
+      ]
+    },
+    {
+      "id": "6af6f872-76a3-4953-95b5-a2ae3757093b",
+      "recommendation_ids": [
+        "2c4bb341-485c-42ac-a266-9a81650e29ef",
+        "03916f46-fe92-46a7-9fcd-ae7a1abf3f55",
+        "7c2a7b04-e6be-431c-be09-e8149f6d5f1d",
+        "1b8a77a9-d42d-48f0-8fc1-c2028d803bc0",
+        "10cf4569-9461-4076-9648-51fbb55d2576"
+      ]
+    },
+    {
+      "id": "2970d01d-a5a6-49ec-a52a-a8f4d114ac30",
+      "recommendation_ids": [
+        "fd723d89-d9e3-4776-9d6a-5199fab4f509",
+        "8b384837-f25e-4337-a81f-9c3522bc8e45",
+        "77d267d6-e9ad-48e0-85f1-dd3227f544ac",
+        "a794dbd8-adb1-4374-a755-3ea946fb06e3"
+      ]
+    },
+    {
+      "id": "bf73ee78-6e83-4ec5-b5f3-c417e23ead03",
+      "recommendation_ids": [
+        "7e4a794d-97d8-4681-b5bc-c3b86574bac7",
+        "f2207bad-62b5-4d26-9317-358f4e0ef22a",
+        "ed64465b-759d-49cc-8e3a-6cd485b015c6",
+        "ac39ccf0-0a02-4d64-bb27-e7c72a420370"
+      ]
+    },
+    {
+      "id": "3d34e161-c594-4182-9380-1b2be5d29302",
+      "recommendation_ids": [
+        "9cd63adc-0873-44df-a85f-cbb8ed83cdb8",
+        "7de5b988-3399-4b68-8315-7e0af3222418",
+        "45adefe8-9152-43f5-950d-c5021881fef5",
+        "77eb442c-3198-4b22-a431-1d52bf58e6a8"
+      ]
+    },
+    {
+      "id": "3d6aa17a-af93-4b37-8348-f35329edb283",
+      "recommendation_ids": [
+        "0b3c5da5-97dc-444b-9b9c-f5799c85a004",
+        "191f29ae-ede6-450d-a7cb-e4d7af1a73d8",
+        "9df689c9-231e-4ff0-bc44-728350ece056",
+        "d51aa96d-e408-459b-bbcf-28f8f6f8d7f3"
+      ]
+    },
+    {
+      "id": "070ed5e5-e716-47ed-b48d-da0b07b9d773",
+      "recommendation_ids": [
+        "bd36788d-881d-4b00-add8-64f7da071599",
+        "0b9ac05c-1687-4f2e-8b8a-9eabf7c56b19",
+        "d92c74b7-189c-4873-95d4-6baeb045189d",
+        "1fb041c4-4a9d-4914-8934-dfbe89f318de"
+      ]
+    },
+    {
+      "id": "a5f12b58-3597-4d61-83ab-09c87638917c",
+      "recommendation_ids": [
+        "7033db47-c0d5-4c79-84fb-655ce178cd19",
+        "e051226d-b60b-41f7-89aa-3de1b4382d7d",
+        "5978e98f-4d8f-4cac-b889-cad43b62f171",
+        "bc266681-45a9-481d-ac36-004a14641d88"
+      ]
+    },
+    {
+      "id": "ff0bc6bb-94c8-4f01-99b8-7359b9fb8ffb",
+      "recommendation_ids": [
+        "3a318dca-44db-49b9-a810-08ac88209ad8",
+        "b53e3958-3e4b-4395-852b-d1029c1b7fcb",
+        "167ef311-6041-488a-992d-5e5a1bbe5d0a",
+        "3f72bb18-b88c-41bd-bf0d-4ecf173d9277"
+      ]
+    },
+    {
+      "id": "220ffdd3-bd58-47c1-9ded-afa3605f8029",
+      "recommendation_ids": [
+        "c1de89bc-3176-429c-937c-0392c1651339",
+        "79124523-93eb-48be-85cb-1dc6199be738",
+        "b3cb104a-d469-4419-a942-1694bb982906",
+        "252f4567-657a-4ce6-af8f-68a95c3e4fb5"
+      ]
+    },
+    {
+      "id": "6d65fb08-e864-4011-ae18-0f61e8a8680c",
+      "recommendation_ids": [
+        "f01ac9a0-5ebe-4e64-8ff2-6ab7dbf61a55",
+        "cad73bcd-e393-4090-9c10-a96555cae1d9",
+        "d25a60ac-272a-4fb5-bf1d-73bc9880c0cf",
+        "c12f2d9c-3237-4f52-b9dc-7c447cfe2d24",
+        "1bd7910d-575c-4a34-93f3-733979e51b0b",
+        "a05a004f-7676-4310-a45e-42c14806a289"
+      ]
+    },
+    {
+      "id": "7ccae02b-7da4-41dc-8d6d-6168223384ad",
+      "recommendation_ids": [
+        "303dbecb-77f4-478d-9445-60758f6ab8b9"
+      ]
+    },
+    {
+      "id": "9d22c4d9-bc60-4486-8523-bf10bd67c132",
+      "recommendation_ids": [
+        "b10ba8fe-dcfe-44ce-8eb5-83c52b26fa25"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "087ec20a-0f59-4241-9579-2b3dbb73ef30",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters).",
+        "plain_text": "Vendors and suppliers are expected to bear costs associated with order cancellations and to meet Zebracorp's forecasted demand.",
+        "expert_insight": "This establishes the default position: suppliers bear the risk of unconsumed materials due to cancellations or forecast inaccuracies. It's fundamental to cost allocation and risk management.",
+        "confidence": 1.0,
+        "conditions": "None, this is the general rule.",
+        "justification": "This is explicitly stated as a 'general rule' and defines a core expectation for vendors, shifting significant financial risk away from Zebracorp.",
+        "implication_company": "Zebracorp is generally not liable for costs incurred by suppliers due to order cancellations or unmet forecasts.",
+        "implication_supplier": "Suppliers must absorb costs related to order cancellations and ensure capacity to meet forecasted demand.",
+        "source_insight": "The text clearly outlines Zebracorp's expectation regarding the supplier's responsibility for managing forecast risk and cancellations.",
+        "text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters)."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "f0fe934b-1947-4b6e-b44e-60085220074e",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers.",
+        "plain_text": "The risk of forecasts or estimated demand not materializing is typically the selling party's business risk.",
+        "expert_insight": "This reinforces the previous guideline by stating a general principle of commercial risk allocation, further solidifying Zebracorp's position that suppliers bear this risk.",
+        "confidence": 1.0,
+        "conditions": "None, this is a general principle of risk allocation.",
+        "justification": "This explicitly defines who bears the business risk for unmaterialized demand, which is a critical aspect of commercial agreements.",
+        "implication_company": "Zebracorp's position is strengthened; the supplier bears the risk of unmaterialized demand.",
+        "implication_supplier": "Suppliers must account for the business risk that Zebracorp's forecasts may not materialize.",
+        "source_insight": "The text uses 'typically' but then applies it directly to Zebracorp's sales, indicating a strong preference for this risk allocation.",
+        "text": "The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "2c4bb341-485c-42ac-a266-9a81650e29ef",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties.",
+        "plain_text": "Zebracorp will only consider accepting component liability for customized or non-standard products that the supplier cannot sell to any third parties.",
+        "expert_insight": "This is a crucial limitation on Zebracorp's willingness to accept liability, protecting it from assuming risk for generic or reusable components.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp is considering accepting component liability AND Zebracorp is purchasing customized or non-standard products AND the supplier is unable to sell these products to any third parties.",
+        "justification": "This sets a strict 'only in cases where' condition for Zebracorp accepting liability, making it a critical gatekeeper for financial exposure.",
+        "implication_company": "Zebracorp's liability exposure is significantly limited to highly specific, non-reusable products.",
+        "implication_supplier": "Suppliers must demonstrate that products are customized/non-standard and unsellable to third parties to transfer liability to Zebracorp.",
+        "source_insight": "The phrase 'generally acceptable only in cases where' clearly indicates a strict condition.",
+        "text": "This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "fd723d89-d9e3-4776-9d6a-5199fab4f509",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses.",
+        "plain_text": "Zebracorp's liability for components is limited to customized products that the supplier cannot use or exploit in any other business.",
+        "expert_insight": "This further refines and limits Zebracorp's liability, ensuring it only pays for truly unique items with no alternative use for the supplier.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp has agreed to take component liability.",
+        "justification": "This is a direct limitation on Zebracorp's liability, specifying the exact scope of products for which it will be responsible.",
+        "implication_company": "Zebracorp avoids liability for components that the supplier could potentially repurpose or sell elsewhere.",
+        "implication_supplier": "Suppliers must prove the components are customized and have no alternative use to claim liability from Zebracorp.",
+        "source_insight": "The use of 'limited to' and 'only' emphasizes the strict nature of this condition.",
+        "text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "7e4a794d-97d8-4681-b5bc-c3b86574bac7",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted.",
+        "plain_text": "The supplier has an affirmative obligation to mitigate costs and damages, including immediately ceasing production and returning components/materials if Zebracorp will not consume products.",
+        "expert_insight": "This is a standard and critical legal principle. Failure to mitigate can significantly reduce or eliminate a supplier's claim for damages.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp has agreed to take component liability AND Zebracorp will not consume the products.",
+        "justification": "This imposes a fundamental legal 'affirmative obligation' on the supplier, directly impacting Zebracorp's potential financial exposure.",
+        "implication_company": "Zebracorp's liability is reduced by the supplier's duty to minimize losses.",
+        "implication_supplier": "Suppliers must actively take steps to reduce costs and damages, or risk losing compensation.",
+        "source_insight": "The phrase 'affirmative obligation' highlights the mandatory nature of this duty.",
+        "text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "9cd63adc-0873-44df-a85f-cbb8ed83cdb8",
+      "content": {
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast.",
+        "plain_text": "Zebracorp's liability for components is time-limited, for example, to products included in its most recent forecast.",
+        "expert_insight": "Time limitations are crucial for managing financial exposure and preventing claims for outdated forecasts or materials.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp has agreed to take component liability.",
+        "justification": "This imposes a critical time limitation on Zebracorp's liability, preventing open-ended exposure.",
+        "implication_company": "Zebracorp's financial exposure is contained to a specific, recent timeframe.",
+        "implication_supplier": "Suppliers must ensure their claims relate to the most recent forecasts to be valid.",
+        "source_insight": "The 'e.g.' indicates this is an example, but the principle of time limitation is firm.",
+        "text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "0b3c5da5-97dc-444b-9b9c-f5799c85a004",
+      "content": {
+        "id": "a7b8c9d0-e1f2-3456-7890-abcdef012345",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises.",
+        "plain_text": "The supplier should have an obligation to regularly report Zebracorp's current material/component liability.",
+        "expert_insight": "Regular reporting is vital for Zebracorp's financial planning and risk management, preventing unexpected liabilities.",
+        "confidence": 0.9,
+        "conditions": "Zebracorp has agreed to take component liability.",
+        "justification": "The use of 'should also have an obligation' indicates a strong preference and a significant operational requirement, though not as absolute as 'must' or 'is limited to'.",
+        "implication_company": "Zebracorp gains transparency and avoids financial surprises regarding its component liability.",
+        "implication_supplier": "Suppliers are required to provide regular updates on Zebracorp's liability exposure.",
+        "source_insight": "The word 'should' makes it HIGH rather than CRITICAL, but the purpose 'to avoid any unforeseen surprises' highlights its importance.",
+        "text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "bd36788d-881d-4b00-add8-64f7da071599",
+      "content": {
+        "id": "b8c9d0e1-f2a3-4567-8901-abcdef012346",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge.",
+        "plain_text": "Zebracorp has the option to require the supplier to store products, subject to a mutually agreed reasonable carrying charge.",
+        "expert_insight": "This provides Zebracorp with flexibility to retain control over materials it has paid for, potentially for future use, while compensating the supplier for storage.",
+        "confidence": 0.9,
+        "conditions": "Zebracorp has agreed to take component liability.",
+        "justification": "This grants Zebracorp a significant 'option' to manage materials, which is important for operational flexibility and asset management.",
+        "implication_company": "Zebracorp can choose to store materials for future use, maintaining control over its assets.",
+        "implication_supplier": "Suppliers may be required to store products for Zebracorp, receiving a carrying charge.",
+        "source_insight": "The term 'option' makes it a right for Zebracorp, and the 'mutually agreed reasonable carrying charge' implies a negotiation point.",
+        "text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "7033db47-c0d5-4c79-84fb-655ce178cd19",
+      "content": {
+        "id": "c9d0e1f2-a3b4-5678-9012-abcdef012347",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost.",
+        "plain_text": "Zebracorp obtains title to materials/components it pays for, or has the option to require the supplier to dispose of unused materials/components without additional cost.",
+        "expert_insight": "This is critical for establishing ownership of paid-for assets or ensuring cost-free disposal, preventing further liabilities.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp has agreed to take component liability AND Zebracorp has paid for the materials/components.",
+        "justification": "This defines ownership ('obtains the title') or disposal rights ('option to request... without additional cost'), which are fundamental to managing assets and liabilities.",
+        "implication_company": "Zebracorp secures ownership of paid materials or ensures cost-free disposal, avoiding further expenses.",
+        "implication_supplier": "Suppliers must transfer title to Zebracorp or dispose of materials as instructed, without additional charge.",
+        "source_insight": "The dual options provide Zebracorp with flexibility in managing the materials.",
+        "text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "3a318dca-44db-49b9-a810-08ac88209ad8",
+      "content": {
+        "id": "d0e1f2a3-b4c5-6789-0123-abcdef012348",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues).",
+        "plain_text": "Zebracorp is relieved from all liability if the failure to consume products is not solely caused by Zebracorp (e.g., due to supplier quality or delivery issues).",
+        "expert_insight": "This is a crucial clause that protects Zebracorp from liability if the non-consumption is due to the supplier's own failures, aligning liability with fault.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp has agreed to take component liability AND the failure to consume products is not solely caused by Zebracorp.",
+        "justification": "This is a direct 'relieved from all liability' clause, which is critical for limiting Zebracorp's exposure based on fault.",
+        "implication_company": "Zebracorp is protected from liability if supplier issues contribute to non-consumption.",
+        "implication_supplier": "Suppliers bear the risk if their quality or delivery issues lead to Zebracorp not consuming products.",
+        "source_insight": "The 'not caused solely by Zebracorp' is key, meaning even partial fault by the supplier can relieve Zebracorp.",
+        "text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues)."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "c1de89bc-3176-429c-937c-0392c1651339",
+      "content": {
+        "id": "e1f2a3b4-c5d6-7890-1234-abcdef012349",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation.",
+        "plain_text": "The supplier must present claims within a short timeframe, otherwise, it forfeits its right to compensation.",
+        "expert_insight": "Strict claim periods are essential for Zebracorp to manage its financial obligations, prevent stale claims, and ensure timely resolution.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp has agreed to take component liability.",
+        "justification": "This imposes a strict deadline with a severe consequence ('foregoes its right'), making it a critical control for managing claims.",
+        "implication_company": "Zebracorp's liability is time-bound, preventing indefinite exposure to claims.",
+        "implication_supplier": "Suppliers must adhere to strict deadlines for submitting claims or lose their right to compensation.",
+        "source_insight": "The phrase 'failing which the supplier foregoes its right' clearly indicates a critical consequence.",
+        "text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "f01ac9a0-5ebe-4e64-8ff2-6ab7dbf61a55",
+      "content": {
+        "id": "f2a3b4c5-d6e7-8901-2345-abcdef012350",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product.",
+        "plain_text": "Zebracorp's liability has an overall maximum ceiling, defined as both a fixed dollar amount and a percentage of the sales price (excluding taxes) for each product.",
+        "expert_insight": "An absolute cap on liability is fundamental for managing financial risk and ensuring predictability of potential losses.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp has agreed to take component liability.",
+        "justification": "This establishes an 'overall maximum ceiling' on liability, which is a critical financial control.",
+        "implication_company": "Zebracorp's maximum financial exposure is capped and predictable.",
+        "implication_supplier": "Suppliers' potential compensation is limited by the maximum ceiling.",
+        "source_insight": "The dual expression (fixed amount and percentage) provides flexibility in defining the cap.",
+        "text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "cad73bcd-e393-4090-9c10-a96555cae1d9",
+      "content": {
+        "id": "a3b4c5d6-e7f8-9012-3456-abcdef012351",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only.",
+        "plain_text": "Ideally, Zebracorp's liability for unconsumed products should exclude the supplier's margin and be limited to actual, direct production cost only.",
+        "expert_insight": "This is a preferred position for Zebracorp to minimize its financial outlay, ensuring it only covers direct costs and not supplier profit.",
+        "confidence": 0.8,
+        "conditions": "Zebracorp has agreed to take component liability.",
+        "justification": "The use of 'Ideally' indicates a preferred but not strictly mandatory position, making it a MEDIUM classification.",
+        "implication_company": "Zebracorp aims to further reduce its liability by excluding profit margins and limiting to direct costs.",
+        "implication_supplier": "Suppliers may not recover their profit margin and will be limited to direct production costs.",
+        "source_insight": "The word 'Ideally' suggests this is a strong negotiation point or a goal, rather than a firm requirement.",
+        "text": "Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.8,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "3d559a7e-3fb4-4ebb-b5f5-3c8eaddc03b7",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Occasionally, our vendors are required to incur costs and liability (e.g., order components and materials) before they receive a firm order. A vendor may also need to take such action upon receipt of our order and the order can later be cancelled. Vendors may also build up stocks in anticipation of our orders based on the forecasts that Zebracorp has issued for the vendor. In each case, the vendor may incur costs that are not recoverable if the expected business fails to materialize.",
+        "plain_text": "Vendors often incur costs (e.g., for components, materials, or stock build-up based on forecasts) before a firm order or if an order is cancelled, leading to unrecoverable expenses if business doesn't materialize.",
+        "expert_insight": "This section provides essential background on the common scenarios where vendors face unrecoverable costs, setting the stage for Zebracorp's liability policies.",
+        "confidence": 0.95,
+        "subtype": "INFO",
+        "justification": "Describes the typical situations and risks faced by vendors, providing context for the subsequent policy statements.",
+        "implication_company": "Understand the inherent business risks vendors face, which informs Zebracorp's default position on liability.",
+        "implication_supplier": "Highlights the common situations where they incur costs that may not be recoverable, emphasizing their business risk.",
+        "source_insight": "Clearly outlines the problem statement that the rest of the document addresses.",
+        "text": "Occasionally, our vendors are required to incur costs and liability (e.g., order components and materials) before they receive a firm order. A vendor may also need to take such action upon receipt of our order and the order can later be cancelled. Vendors may also build up stocks in anticipation of our orders based on the forecasts that Zebracorp has issued for the vendor. In each case, the vendor may incur costs that are not recoverable if the expected business fails to materialize."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "274136c0-c5fb-4855-aded-1760e099ab71",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "verbatim_text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters). The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers. In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk.",
+        "plain_text": "Zebracorp's general policy is that vendors should bear costs related to order cancellations and unfulfilled forecasted demand, as this is considered a standard business risk for the selling party, especially for vendors with multiple customers.",
+        "expert_insight": "This establishes Zebracorp's strong default position: vendors are expected to absorb these costs. It provides a robust argument for negotiation, especially when the vendor serves multiple clients.",
+        "confidence": 0.98,
+        "subtype": "INFO",
+        "justification": "States Zebracorp's primary policy and rationale regarding vendor liability for unconsumed products and forecast misses.",
+        "implication_company": "Reinforces the default stance to push liability onto vendors, minimizing Zebracorp's financial exposure.",
+        "implication_supplier": "They are expected to manage the business risk of forecast inaccuracies and order cancellations as part of their standard operations.",
+        "source_insight": "The 'general rule' and 'typically the selling party’s business risk' phrases are key to understanding Zebracorp's baseline negotiation strategy.",
+        "text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters). The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers. In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.98,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "03916f46-fe92-46a7-9fcd-ae7a1abf3f55",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "verbatim_text": "From time to time, Zebracorp may nevertheless need to consider accepting certain liability for the components or other materials used to manufacture products. This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties.",
+        "plain_text": "Zebracorp may consider accepting liability for components or materials, but only for customized or non-standard products that the supplier cannot sell to other customers.",
+        "expert_insight": "This defines the narrow exception to Zebracorp's general rule. It's crucial to strictly adhere to these conditions to prevent unnecessary liability for standard, marketable components.",
+        "confidence": 0.97,
+        "subtype": "INFO",
+        "justification": "Outlines the specific, limited circumstances under which Zebracorp will deviate from its general policy and consider accepting liability.",
+        "implication_company": "Only consider liability for truly unique, custom items that have no alternative market for the supplier.",
+        "implication_supplier": "Liability consideration is contingent on the product being custom and unsellable to other parties, shifting the burden of proof to them.",
+        "source_insight": "The phrase 'generally acceptable only in cases where' highlights the strict conditions for this exception.",
+        "text": "From time to time, Zebracorp may nevertheless need to consider accepting certain liability for the components or other materials used to manufacture products. This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.97,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "8b384837-f25e-4337-a81f-9c3522bc8e45",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "OTHER",
+        "verbatim_text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses.",
+        "plain_text": "Ensure Zebracorp's liability is strictly limited to customized products that the supplier cannot use or sell in any of its other businesses.",
+        "expert_insight": "This is a critical protective clause. It prevents suppliers from claiming liability for items that, while custom for Zebracorp, might still have value or use in their broader operations or for other clients.",
+        "confidence": 0.98,
+        "subtype": "TACTIC",
+        "justification": "This is a specific limitation to impose when accepting liability, ensuring Zebracorp's exposure is minimized.",
+        "implication_company": "Minimizes financial exposure by ensuring liability is only for truly unique, unexploitable items.",
+        "implication_supplier": "They must demonstrate the product's complete lack of utility or marketability beyond Zebracorp to claim liability.",
+        "source_insight": "The 'cannot in any manner be used or exploited' phrase is a strong qualifier to include in contractual language.",
+        "text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.98,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "f2207bad-62b5-4d26-9317-358f4e0ef22a",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "OTHER",
+        "verbatim_text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted.",
+        "plain_text": "Require the supplier to have an affirmative obligation to mitigate costs and damages, such as immediately ceasing production or returning components to third-party vendors.",
+        "expert_insight": "Even when Zebracorp accepts liability, the supplier must actively work to reduce the financial impact. This shifts the burden of cost control and waste reduction back to the supplier.",
+        "confidence": 0.98,
+        "subtype": "TACTIC",
+        "justification": "This is a specific obligation to impose on the supplier to reduce potential losses.",
+        "implication_company": "Reduces the total amount of liability Zebracorp might ultimately incur by ensuring supplier's proactive mitigation.",
+        "implication_supplier": "They are legally bound to take immediate steps to minimize losses, even if Zebracorp is accepting liability.",
+        "source_insight": "The 'affirmative obligation' is a key legal concept to include, with concrete examples provided.",
+        "text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.98,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "7de5b988-3399-4b68-8315-7e0af3222418",
+      "content": {
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "type": "OTHER",
+        "verbatim_text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast.",
+        "plain_text": "Limit Zebracorp's liability in time, for example, to products included in its most recent forecast.",
+        "expert_insight": "This prevents liability for outdated forecasts or speculative production by the supplier. It ensures that Zebracorp is only responsible for its most current and relevant projections.",
+        "confidence": 0.97,
+        "subtype": "TACTIC",
+        "justification": "This is a specific temporal limitation to impose on Zebracorp's liability.",
+        "implication_company": "Avoids liability for old, superseded, or speculative forecasts, aligning liability with current business plans.",
+        "implication_supplier": "They must align their production and claims with Zebracorp's most recent forecast to be eligible for liability.",
+        "source_insight": "The 'limited in time' clause is crucial for managing dynamic forecasting environments.",
+        "text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.97,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "191f29ae-ede6-450d-a7cb-e4d7af1a73d8",
+      "content": {
+        "id": "a7b8c9d0-e1f2-3456-7890-abcdef012345",
+        "type": "OTHER",
+        "verbatim_text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises.",
+        "plain_text": "Require the supplier to regularly report Zebracorp's current material/component liability to prevent unforeseen surprises.",
+        "expert_insight": "This provides crucial transparency and allows Zebracorp to monitor and manage its potential financial exposure proactively, preventing large, unexpected claims.",
+        "confidence": 0.98,
+        "subtype": "TACTIC",
+        "justification": "This is a specific obligation to impose on the supplier for transparency and risk management.",
+        "implication_company": "Enables proactive financial management and avoids unexpected liability claims.",
+        "implication_supplier": "They are responsible for providing regular, accurate updates on Zebracorp's potential liability.",
+        "source_insight": "The 'regular intervals' and 'avoid any unforeseen surprises' highlight the importance of ongoing communication.",
+        "text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.98,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "0b9ac05c-1687-4f2e-8b8a-9eabf7c56b19",
+      "content": {
+        "id": "b8c9d0e1-f2a3-4567-8901-abcdef012346",
+        "type": "OTHER",
+        "verbatim_text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge.",
+        "plain_text": "Include an option for Zebracorp to require the supplier to store products, with Zebracorp paying a mutually agreed reasonable carrying charge.",
+        "expert_insight": "This provides flexibility. Instead of immediate disposal, Zebracorp can retain the option to store products, potentially for future use or to manage market timing, while compensating the supplier fairly for storage.",
+        "confidence": 0.96,
+        "subtype": "TACTIC",
+        "justification": "This is a specific option Zebracorp should retain to manage unconsumed products.",
+        "implication_company": "Provides flexibility for managing inventory, potentially allowing for future use or delayed disposal.",
+        "implication_supplier": "They may be required to store products, but will be compensated for the carrying charge.",
+        "source_insight": "The 'option to require' and 'mutually agreed reasonable carrying charge' are key negotiation points.",
+        "text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.96,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "e051226d-b60b-41f7-89aa-3de1b4382d7d",
+      "content": {
+        "id": "c9d0e1f2-a3b4-5678-9012-abcdef012347",
+        "type": "OTHER",
+        "verbatim_text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost.",
+        "plain_text": "Ensure Zebracorp obtains title to any materials/components it pays for, or has the option to instruct the supplier to dispose of them at no additional cost.",
+        "expert_insight": "This clarifies ownership and disposal responsibilities. It prevents Zebracorp from paying for items and then incurring further costs for their storage or disposal, or leaving them in a legal limbo.",
+        "confidence": 0.98,
+        "subtype": "TACTIC",
+        "justification": "This is a specific right Zebracorp should secure regarding ownership and disposal of paid materials.",
+        "implication_company": "Ensures control over assets it has paid for and avoids additional disposal costs.",
+        "implication_supplier": "They must transfer title or dispose of materials as instructed by Zebracorp without charging extra.",
+        "source_insight": "The dual options ('obtains the title' OR 'option to request the supplier to dispose') provide strong leverage.",
+        "text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.98,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "b53e3958-3e4b-4395-852b-d1029c1b7fcb",
+      "content": {
+        "id": "d0e1f2a3-b4c5-6789-0123-abcdef012348",
+        "type": "OTHER",
+        "verbatim_text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues).",
+        "plain_text": "Include a clause relieving Zebracorp from liability if the failure to consume products is not solely due to Zebracorp's actions, but rather due to supplier issues like quality or delivery problems.",
+        "expert_insight": "This is a crucial protection. It prevents Zebracorp from being held liable for costs arising from the supplier's own performance failures, such as defective products or late deliveries.",
+        "confidence": 0.99,
+        "subtype": "TACTIC",
+        "justification": "This is a specific condition for Zebracorp to be relieved of liability, protecting it from supplier-caused issues.",
+        "implication_company": "Avoids liability for issues stemming from supplier's performance, such as quality or delivery failures.",
+        "implication_supplier": "They bear the risk for their own performance issues, even if Zebracorp had initially committed to the products.",
+        "source_insight": "The 'not caused solely by Zebracorp' is a key legal distinction.",
+        "text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues)."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.99,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "79124523-93eb-48be-85cb-1dc6199be738",
+      "content": {
+        "id": "e1f2a3b4-c5d6-7890-1234-abcdef012349",
+        "type": "OTHER",
+        "verbatim_text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation.",
+        "plain_text": "Impose a short timeframe for the supplier to present any claims, with the consequence that failure to do so results in forfeiture of their right to compensation.",
+        "expert_insight": "This is a vital clause for managing claims efficiently. It encourages prompt action from the supplier and prevents stale or delayed claims from emerging long after the fact, providing certainty for Zebracorp.",
+        "confidence": 0.98,
+        "subtype": "TACTIC",
+        "justification": "This is a specific obligation to impose on the supplier to ensure timely claims and prevent indefinite liability.",
+        "implication_company": "Reduces uncertainty and prevents long-standing or unexpected claims from arising.",
+        "implication_supplier": "They must act quickly to present claims, or they lose their right to compensation.",
+        "source_insight": "The 'short time frame' and 'foregoes its right' are strong contractual terms to include.",
+        "text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.98,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "d25a60ac-272a-4fb5-bf1d-73bc9880c0cf",
+      "content": {
+        "id": "f2a3b4c5-d6e7-8901-2345-abcdef012350",
+        "type": "OTHER",
+        "verbatim_text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product. Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only.",
+        "plain_text": "Establish an overall maximum liability ceiling for Zebracorp, defined as both a fixed dollar amount and a percentage of the sales price (excluding taxes). Ideally, this liability should also exclude the supplier's margin and be limited to actual, direct production costs only.",
+        "expert_insight": "This is perhaps the most critical financial protection. Capping liability and limiting it to direct costs (excluding profit margins) prevents suppliers from using Zebracorp's liability as a profit center and provides clear financial boundaries.",
+        "confidence": 0.99,
+        "subtype": "TACTIC",
+        "justification": "This is a crucial financial limitation to impose on Zebracorp's liability, capping exposure and defining the scope of recoverable costs.",
+        "implication_company": "Caps financial exposure and ensures Zebracorp does not pay for the supplier's lost profit, only direct costs.",
+        "implication_supplier": "Their potential compensation is capped and limited to their direct production costs, excluding their profit margin.",
+        "source_insight": "The 'overall maximum ceiling' and 'expressly exclude the supplier’s margin and would be limited to actual, direct production cost only' are non-negotiable points for financial protection.",
+        "text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product. Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.99,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "993f2046-d6df-4414-9a6c-09d21f85cc79",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Occasionally, our vendors are required to incur costs and liability (e.g., order components and materials) before they receive a firm order. A vendor may also need to take such action upon receipt of our order and the order can later be cancelled. Vendors may also build up stocks in anticipation of our orders based on the forecasts that Zebracorp has issued for the vendor. In each case, the vendor may incur costs that are not recoverable if the expected business fails to materialize.",
+        "plain_text": "Vendors may incur costs and liability (e.g., for components and materials) before a firm order, upon order receipt if the order is later cancelled, or when building stock based on Zebracorp's forecasts. These costs may not be recoverable if the expected business does not materialize.",
+        "expert_insight": "This section sets the stage by describing common scenarios where suppliers bear upfront costs or risks related to anticipated orders or potential cancellations from Zebracorp.",
+        "confidence": 1.0,
+        "justification": "Describes common business scenarios involving vendor costs and liabilities.",
+        "implication_company": "Zebracorp benefits from vendors taking on these initial risks, allowing for flexibility in ordering and forecasting.",
+        "implication_supplier": "Suppliers face financial risk by incurring costs based on anticipated demand or orders that may be cancelled.",
+        "source_insight": "The text explicitly outlines these situations as 'occasionally' occurring.",
+        "text": "Occasionally, our vendors are required to incur costs and liability (e.g., order components and materials) before they receive a firm order. A vendor may also need to take such action upon receipt of our order and the order can later be cancelled. Vendors may also build up stocks in anticipation of our orders based on the forecasts that Zebracorp has issued for the vendor. In each case, the vendor may incur costs that are not recoverable if the expected business fails to materialize."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "e9784822-b85a-4559-b561-2efa5b4aa791",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters).",
+        "plain_text": "Zebracorp generally expects its vendors to bear costs associated with order cancellations and to meet forecasted demand, including additional drop-in orders as per flexibility parameters.",
+        "expert_insight": "This establishes a core expectation: suppliers are generally responsible for managing the financial impact of forecast inaccuracies and order cancellations, integrating this risk into their business model.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "Explicitly stated as 'As a general rule, Zebracorp expects'.",
+        "implication_company": "Zebracorp aims to transfer the risk of forecast variability and cancellations to its suppliers, reducing its own direct financial exposure.",
+        "implication_supplier": "Suppliers must account for and manage the financial risks associated with order cancellations and meeting fluctuating forecasted demand, potentially requiring robust inventory management and flexible production.",
+        "source_insight": "Directly from the 'general rule' statement.",
+        "text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters)."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "32b25d64-85f5-4960-b1dd-1e89e2c60205",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers.",
+        "plain_text": "The risk of unmaterialized forecasts or estimated demand is typically the selling party's business risk, a principle Zebracorp applies to its own sales to end customers.",
+        "expert_insight": "This provides the rationale behind Zebracorp's expectation for suppliers to bear risk, by drawing a parallel to Zebracorp's own business practices with its end customers.",
+        "confidence": 1.0,
+        "justification": "Explains the underlying business principle for risk allocation.",
+        "implication_company": "Zebracorp maintains consistency in its risk management philosophy across its supply chain and sales channels.",
+        "implication_supplier": "Suppliers are expected to understand that this risk allocation is a standard business practice, not unique to their relationship with Zebracorp.",
+        "source_insight": "The text explains 'this also applies to Zebracorp'.",
+        "text": "The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "303dbecb-77f4-478d-9445-60758f6ab8b9",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk.",
+        "plain_text": "Vendors with multiple customers for their products should not face significant issues in assuming the risk of unmaterialized forecasts.",
+        "expert_insight": "This suggests that the general rule of supplier-borne risk is particularly applicable and less burdensome for suppliers with diversified customer bases.",
+        "confidence": 1.0,
+        "justification": "Provides a specific scenario where the general rule is easily applicable.",
+        "implication_company": "Zebracorp's general rule is more easily justified and less likely to cause issues with suppliers who have diversified customer bases.",
+        "implication_supplier": "Suppliers with a broad customer base are expected to absorb these risks more readily due to their ability to reallocate or resell products.",
+        "source_insight": "The text explicitly states 'In cases where the vendor has many customers...'",
+        "text": "In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "7c2a7b04-e6be-431c-be09-e8149f6d5f1d",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a15",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "From time to time, Zebracorp may nevertheless need to consider accepting certain liability for the components or other materials used to manufacture products.",
+        "plain_text": "Zebracorp may occasionally need to consider accepting liability for components or materials used in manufacturing products.",
+        "expert_insight": "This acknowledges that while the general rule places risk on the supplier, there are circumstances where Zebracorp might deviate and accept some liability.",
+        "confidence": 1.0,
+        "justification": "Introduces the possibility of Zebracorp accepting liability as an exception to the general rule.",
+        "implication_company": "Zebracorp retains flexibility to negotiate and accept liability in specific situations, potentially to secure critical supply or manage strategic relationships.",
+        "implication_supplier": "Suppliers should be aware that there might be opportunities to negotiate component liability with Zebracorp under specific conditions.",
+        "source_insight": "The text uses 'From time to time, Zebracorp may nevertheless need to consider accepting...'",
+        "text": "From time to time, Zebracorp may nevertheless need to consider accepting certain liability for the components or other materials used to manufacture products."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "1b8a77a9-d42d-48f0-8fc1-c2028d803bc0",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a16",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties.",
+        "plain_text": "Zebracorp accepting liability for components is generally acceptable only when purchasing customized or non-standard products that the supplier cannot sell to other parties.",
+        "expert_insight": "This sets a strict condition for Zebracorp's acceptance of liability, focusing on products with limited marketability for the supplier.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp is purchasing customized products OR other non-standard products; AND the supplier is unable to sell these products to any third parties.",
+        "justification": "This defines the specific circumstances under which Zebracorp will consider taking on component liability.",
+        "implication_company": "Zebracorp limits its liability exposure to unique products that have no alternative market for the supplier, ensuring its financial responsibility is tied to its specific, non-standard needs.",
+        "implication_supplier": "Suppliers can only expect Zebracorp to consider component liability for highly specialized or custom products that they cannot repurpose or sell elsewhere.",
+        "source_insight": "The text explicitly states 'generally acceptable only in cases where...'",
+        "text": "This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "77d267d6-e9ad-48e0-85f1-dd3227f544ac",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a17",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses.",
+        "plain_text": "Zebracorp's liability is restricted solely to customized products that the supplier cannot use or exploit in any of its other businesses.",
+        "expert_insight": "This reinforces the narrow scope of Zebracorp's potential liability, ensuring it only covers truly unique items with no alternative use for the supplier.",
+        "confidence": 1.0,
+        "conditions": "The products are customized; AND the supplier cannot use or exploit them in any other business.",
+        "justification": "This is a key limitation on Zebracorp's liability when it agrees to take such liability.",
+        "implication_company": "Zebracorp protects itself from liability for components that could be repurposed or used by the supplier for other customers or products.",
+        "implication_supplier": "Suppliers must demonstrate that the components are specific to Zebracorp's customized products and have no other commercial value to them to claim liability.",
+        "source_insight": "Directly states 'Zebracorp’s liability is limited to...'",
+        "text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "ed64465b-759d-49cc-8e3a-6cd485b015c6",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a18",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted.",
+        "plain_text": "The supplier has a positive duty to reduce costs and damages, for example, by immediately stopping production once informed Zebracorp will not use the products, or by returning components and materials to their original vendors if allowed.",
+        "expert_insight": "Even when Zebracorp accepts liability, the supplier retains a fundamental legal duty to minimize the financial impact through proactive mitigation efforts.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "This outlines a clear obligation for the supplier.",
+        "implication_company": "Zebracorp ensures that even when it accepts liability, the supplier is still responsible for minimizing the financial impact, preventing inflated claims.",
+        "implication_supplier": "Suppliers must implement procedures for rapid production halts and material returns to fulfill their mitigation obligation and protect their claim for compensation.",
+        "source_insight": "The text explicitly states 'Supplier has an affirmative obligation to mitigate...'",
+        "text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "45adefe8-9152-43f5-950d-c5021881fef5",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a19",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast.",
+        "plain_text": "Zebracorp's liability is time-limited, for example, only covering products included in its most recent forecast.",
+        "expert_insight": "This imposes a temporal boundary on Zebracorp's liability, preventing claims for older forecasts or speculative production.",
+        "confidence": 1.0,
+        "conditions": "Liability applies only to products forecasted in Zebracorp's most recent forecast.",
+        "justification": "This sets a specific limitation on the scope of Zebracorp's liability.",
+        "implication_company": "Zebracorp avoids open-ended liability for past forecasts and encourages suppliers to align production closely with current demand signals.",
+        "implication_supplier": "Suppliers need to ensure their claims relate to recent forecasts and should not produce based on outdated information if they expect Zebracorp to bear liability.",
+        "source_insight": "Directly states 'Zebracorp’s liability is limited in time...'",
+        "text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "9df689c9-231e-4ff0-bc44-728350ece056",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a20",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises.",
+        "plain_text": "The supplier should be obligated to regularly report Zebracorp's current material/component liability to prevent unexpected issues.",
+        "expert_insight": "This emphasizes transparency and proactive communication from the supplier to manage Zebracorp's financial exposure effectively.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "This outlines a clear obligation for the supplier regarding reporting.",
+        "implication_company": "Zebracorp gains visibility into its potential liability, allowing for better financial planning and risk management.",
+        "implication_supplier": "Suppliers must establish a reporting mechanism to regularly update Zebracorp on its liability, ensuring compliance and maintaining good relations.",
+        "source_insight": "The text states 'Supplier should also have an obligation to report...'",
+        "text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "d92c74b7-189c-4873-95d4-6baeb045189d",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a21",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge.",
+        "plain_text": "Zebracorp has the option to require the supplier to store products, provided Zebracorp pays a mutually agreed reasonable carrying charge.",
+        "expert_insight": "This provides Zebracorp with a flexible option to manage excess inventory without immediately taking physical possession, while compensating the supplier for storage.",
+        "confidence": 1.0,
+        "conditions": "Payment of a mutually agreed reasonable carrying charge.",
+        "justification": "This describes an option available to Zebracorp.",
+        "implication_company": "Zebracorp can defer taking possession of materials while ensuring they are stored appropriately, offering flexibility in inventory management.",
+        "implication_supplier": "Suppliers may be required to store products for Zebracorp but will be compensated for the storage costs.",
+        "source_insight": "The text states 'Zebracorp has an option to require...'",
+        "text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "5978e98f-4d8f-4cac-b889-cad43b62f171",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost.",
+        "plain_text": "Upon payment, Zebracorp acquires ownership of the materials/components, or it can instruct the supplier to dispose of unused materials/components at no extra cost.",
+        "expert_insight": "This clarifies Zebracorp's rights regarding materials for which it has accepted liability and paid, offering control over their disposition.",
+        "confidence": 1.0,
+        "conditions": "Zebracorp has paid for the materials/components.",
+        "justification": "This outlines Zebracorp's rights concerning materials it has paid for.",
+        "implication_company": "Zebracorp gains control over the materials it has paid for, either by taking ownership or directing their disposal, preventing misuse or further costs.",
+        "implication_supplier": "Suppliers must transfer title to Zebracorp upon payment or dispose of materials as directed by Zebracorp without charging additional fees.",
+        "source_insight": "The text states 'Zebracorp obtains the title... or an option to request...'",
+        "text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "167ef311-6041-488a-992d-5e5a1bbe5d0a",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a23",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues).",
+        "plain_text": "Zebracorp is absolved of all liability if its failure to consume products is not solely its fault, such as when the supplier has quality or delivery problems.",
+        "expert_insight": "This is a crucial clause protecting Zebracorp from liability when the non-consumption of products is attributable, even partially, to supplier performance issues.",
+        "confidence": 1.0,
+        "conditions": "Failure to consume products is not caused solely by Zebracorp (e.g., due to supplier quality or delivery issues).",
+        "justification": "This defines a key condition for Zebracorp's relief from liability.",
+        "implication_company": "Zebracorp's liability is contingent on its own actions, protecting it from supplier-related performance failures.",
+        "implication_supplier": "Suppliers bear the risk of liability if their own quality or delivery issues contribute to Zebracorp's inability to consume products, even if Zebracorp had initially accepted some liability.",
+        "source_insight": "The text states 'Zebracorp’s is relieved from all liability in cases where...'",
+        "text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues)."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "b3cb104a-d469-4419-a942-1694bb982906",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a24",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation.",
+        "plain_text": "The supplier must submit its claims within a short timeframe, otherwise, it forfeits its right to compensation.",
+        "expert_insight": "This imposes a strict deadline on suppliers for making claims, ensuring timely resolution and preventing stale claims.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "This outlines a critical condition for the supplier to retain its right to claim compensation.",
+        "implication_company": "Zebracorp benefits from timely claim submissions, allowing for quicker assessment and resolution of liabilities.",
+        "implication_supplier": "Suppliers must be diligent in submitting claims promptly to avoid losing their right to compensation.",
+        "source_insight": "The text states 'Supplier has an a short time frame to present its claims...'",
+        "text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "c12f2d9c-3237-4f52-b9dc-7c447cfe2d24",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a25",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product.",
+        "plain_text": "Zebracorp's total liability is capped, specified as both a fixed dollar amount and a percentage of each product's sales price (excluding taxes).",
+        "expert_insight": "This sets clear financial limits on Zebracorp's exposure, providing predictability and preventing unlimited liability.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "This defines a critical limitation on Zebracorp's overall liability.",
+        "implication_company": "Zebracorp's financial risk is quantifiable and capped, allowing for better budgeting and risk management.",
+        "implication_supplier": "Suppliers must understand that Zebracorp's liability is not open-ended and will be subject to a maximum ceiling.",
+        "source_insight": "The text states 'Zebracorp’s liability has an overall maximum ceiling...'",
+        "text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "1bd7910d-575c-4a34-93f3-733979e51b0b",
+      "content": {
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a26",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only.",
+        "plain_text": "Ideally, Zebracorp's liability for unconsumed products would explicitly exclude the supplier's profit margin and be limited only to the actual, direct production cost.",
+        "expert_insight": "This expresses Zebracorp's preferred position on the calculation of liability, aiming to cover only the supplier's out-of-pocket costs, not their potential profit.",
+        "confidence": 1.0,
+        "conditions": "N/A",
+        "justification": "This states an ideal condition for the calculation of Zebracorp's liability.",
+        "implication_company": "Zebracorp seeks to minimize its financial outlay by covering only the direct costs incurred by the supplier, not their profit.",
+        "implication_supplier": "Suppliers should expect that any liability accepted by Zebracorp will likely be limited to their direct production costs, excluding their profit margin.",
+        "source_insight": "The text uses 'Ideally Zebracorp’s liability... would also expressly exclude... and would be limited to...'",
+        "text": "Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "3d9b0fd3-aeb2-48ab-a0b9-f2be7302a96d",
+      "content": {
+        "id": "217208d1-d226-4a0b-8d07-62291583526c",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Occasionally, our vendors are required to incur costs and liability (e.g., order components and materials) before they receive a firm order. A vendor may also need to take such action upon receipt of our order and the order can later be cancelled. Vendors may also build up stocks in anticipation of our orders based on the forecasts that Zebracorp has issued for the vendor. In each case, the vendor may incur costs that are not recoverable if the expected business fails to materialize.",
+        "plain_text": "Vendors sometimes incur costs for components, materials, or stock in anticipation of Zebracorp's orders or before a firm order, which may become unrecoverable if the expected business doesn't materialize or orders are cancelled.",
+        "expert_insight": "This section sets the stage by describing common scenarios where suppliers face unrecoverable costs due to Zebracorp's demand fluctuations or order cancellations. It highlights the inherent business risk suppliers often assume.",
+        "confidence": 1.0,
+        "justification": "Describes common situations leading to vendor costs.",
+        "implication_company": "Zebracorp benefits from vendors taking on initial risk, but this also creates a need for clear policies regarding liability.",
+        "implication_supplier": "Suppliers face financial exposure for materials and stock ordered based on forecasts or before firm orders, which may not be recovered.",
+        "source_insight": "The text explicitly outlines these scenarios as background.",
+        "text": "Occasionally, our vendors are required to incur costs and liability (e.g., order components and materials) before they receive a firm order. A vendor may also need to take such action upon receipt of our order and the order can later be cancelled. Vendors may also build up stocks in anticipation of our orders based on the forecasts that Zebracorp has issued for the vendor. In each case, the vendor may incur costs that are not recoverable if the expected business fails to materialize."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "717fbef1-8b19-4e67-8c3f-22382634da47",
+      "content": {
+        "id": "e9196b26-b82b-402a-9e1e-45037d8e8a69",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters).",
+        "plain_text": "Zebracorp generally expects its vendors to bear the costs associated with order cancellations and to meet forecasted demand, including additional drop-in orders, as defined by flexibility parameters.",
+        "expert_insight": "This establishes Zebracorp's default position: suppliers are expected to absorb the risks and costs of fluctuating demand and cancellations. Suppliers should factor this into their pricing and operational planning.",
+        "confidence": 1.0,
+        "conditions": "As a general rule; as set forth in the flexibility parameters.",
+        "justification": "States Zebracorp's general expectation and rule for vendor responsibility.",
+        "implication_company": "Zebracorp maintains a strong position regarding supplier responsibility for demand risk, minimizing its own liability in standard scenarios.",
+        "implication_supplier": "Suppliers must build in contingencies for order cancellations and demand fluctuations, potentially impacting their cost structure and risk management strategies.",
+        "source_insight": "The phrase 'As a general rule, Zebracorp expects...' clearly indicates a guideline.",
+        "text": "As a general rule, Zebracorp expects its vendors and supplier shoulder such costs and to be able to fully meet the occasional order cancellation and to meet our forecasted demand (as well as some additional drop-in orders as set forth in the flexibility parameters)."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "c81731d0-ead4-41bb-a9aa-ad8527f2c988",
+      "content": {
+        "id": "19b52479-7f72-466d-a162-85885c54d142",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers. In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk.",
+        "plain_text": "The risk of forecasts not materializing is typically a business risk for the selling party, a principle Zebracorp also applies to its own sales. Vendors with multiple customers for a product should generally manage this risk without significant issues.",
+        "expert_insight": "This provides the rationale behind Zebracorp's expectation, framing it as a standard business practice. It also suggests that suppliers with diversified customer bases are better positioned to absorb such risks.",
+        "confidence": 1.0,
+        "justification": "Explains the underlying business principle for risk allocation.",
+        "implication_company": "Reinforces Zebracorp's stance by aligning it with general business risk principles and supplier diversification.",
+        "implication_supplier": "Suppliers with niche products or single customers face higher risk, which might necessitate different terms, while diversified suppliers are expected to absorb this risk.",
+        "source_insight": "The text explains the 'typical' allocation of business risk.",
+        "text": "The risk that the forecast or estimated demand does not materialize is typically the selling party’s business risk and this also applies to Zebracorp in our sales towards our end customers. In cases where the vendor has many customers for its product, the vendor should have no great issues with assuming such risk."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "10cf4569-9461-4076-9648-51fbb55d2576",
+      "content": {
+        "id": "f516a858-294b-486a-8616-5e5890e0c96c",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "From time to time, Zebracorp may nevertheless need to consider accepting certain liability for the components or other materials used to manufacture products. This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties.",
+        "plain_text": "Zebracorp may, at times, consider accepting liability for components or materials, but typically only for customized or non-standard products that the supplier cannot sell to other parties.",
+        "expert_insight": "This clarifies the exception to the general rule. Zebracorp's willingness to assume liability is conditional, primarily for unique items that pose a higher, unmitigable risk to the supplier.",
+        "confidence": 1.0,
+        "justification": "Provides context on when Zebracorp might deviate from its general rule.",
+        "implication_company": "Zebracorp maintains control over when it accepts liability, limiting it to specific, high-risk product types.",
+        "implication_supplier": "Suppliers should only expect Zebracorp to consider liability for highly specialized, non-resalable products, not for standard components.",
+        "source_insight": "The text introduces the conditions under which Zebracorp 'may... consider accepting' liability.",
+        "text": "From time to time, Zebracorp may nevertheless need to consider accepting certain liability for the components or other materials used to manufacture products. This is generally acceptable only in cases where Zebracorp is purchasing customized products or other non-standard products which the supplier is unable to sell to any third parties."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "b10ba8fe-dcfe-44ce-8eb5-83c52b26fa25",
+      "content": {
+        "id": "62402927-995b-43d9-a311-536440f10c66",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "When agreeing to take such component liability it is important to consider that:",
+        "plain_text": "When Zebracorp agrees to assume component liability, several key factors must be considered.",
+        "expert_insight": "This serves as an introductory statement, signaling that the following points are crucial conditions and limitations when Zebracorp takes on component liability. It implies these are non-negotiable terms.",
+        "confidence": 1.0,
+        "justification": "Acts as a lead-in to a list of important considerations.",
+        "implication_company": "This highlights the need for careful due diligence and clear terms when Zebracorp accepts liability.",
+        "implication_supplier": "Suppliers should be aware that Zebracorp's acceptance of liability comes with strict conditions.",
+        "source_insight": "The phrase 'it is important to consider that:' explicitly indicates an instruction/preamble.",
+        "text": "When agreeing to take such component liability it is important to consider that:"
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "a794dbd8-adb1-4374-a755-3ea946fb06e3",
+      "content": {
+        "id": "2d140685-2a21-4f1b-857c-25d2042129e9",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses.",
+        "plain_text": "Zebracorp's liability is strictly confined to customized products that the supplier cannot utilize or sell in any other business context.",
+        "expert_insight": "This is a fundamental limitation. Zebracorp will only bear liability for truly unique, non-reusable items, preventing suppliers from passing on costs for standard or adaptable components.",
+        "confidence": 1.0,
+        "conditions": "Applies only to customized products; products cannot be used or exploited by the supplier in other businesses.",
+        "justification": "Explicitly states a limitation on Zebracorp's liability.",
+        "implication_company": "Zebracorp protects itself from assuming liability for general-purpose components or materials that the supplier could repurpose.",
+        "implication_supplier": "Suppliers must demonstrate that the components are specific to Zebracorp's customized product and have no alternative use to claim liability.",
+        "source_insight": "The text clearly states 'liability is limited to... only that cannot...'",
+        "text": "Zebracorp’s liability is limited to certain customized products only that cannot in any manner be used or exploited by the supplier in its other businesses."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "ac39ccf0-0a02-4d64-bb27-e7c72a420370",
+      "content": {
+        "id": "5222956f-f279-44b4-83b6-76495123927d",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted.",
+        "plain_text": "The supplier is obligated to actively mitigate costs and damages, for example, by stopping production immediately upon notice of non-consumption by Zebracorp, or by returning components to third-party vendors if feasible.",
+        "expert_insight": "This imposes a critical duty on the supplier to minimize Zebracorp's potential liability. Failure to actively mitigate could invalidate or reduce any claim for compensation.",
+        "confidence": 1.0,
+        "conditions": "Upon learning that Zebracorp will not consume the products; if returning components is permitted.",
+        "justification": "States an explicit obligation for the supplier.",
+        "implication_company": "Zebracorp expects suppliers to act responsibly and promptly to reduce potential losses, thereby limiting Zebracorp's financial exposure.",
+        "implication_supplier": "Suppliers must have processes in place for rapid cessation of production and material returns to comply with this obligation and protect their claim rights.",
+        "source_insight": "The phrase 'Supplier has an affirmative obligation to mitigate...' clearly defines a guideline.",
+        "text": "Supplier has an affirmative obligation to mitigate its costs and damages by way of in e.g. immediately ceasing the production upon learning that Zebracorp will not consume the products, or by returning any components and materials to their respective third party vendors if permitted."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "77eb442c-3198-4b22-a431-1d52bf58e6a8",
+      "content": {
+        "id": "6741b16c-1793-4a1b-9f6e-1f061b40209c",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast.",
+        "plain_text": "Zebracorp's liability is time-bound, typically limited to products included in its most recent forecast.",
+        "expert_insight": "This prevents suppliers from claiming liability for materials ordered based on outdated forecasts or speculative future demand. It emphasizes the importance of using the latest official forecasts.",
+        "confidence": 1.0,
+        "conditions": "Limited to products forecasted in its most recent forecast.",
+        "justification": "Explicitly states a limitation on Zebracorp's liability.",
+        "implication_company": "Zebracorp's liability is controlled and tied to current planning, avoiding claims based on historical or speculative demand.",
+        "implication_supplier": "Suppliers must ensure their material orders align with Zebracorp's most recent forecasts to be eligible for liability claims.",
+        "source_insight": "The text states 'Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast.'",
+        "text": "Zebracorp’s liability is limited in time in e.g. to products forecasted in its most recent forecast."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "d51aa96d-e408-459b-bbcf-28f8f6f8d7f3",
+      "content": {
+        "id": "9d901f4c-3c3b-417d-932c-73595f928e46",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises.",
+        "plain_text": "The supplier should have an obligation to regularly report Zebracorp's current material/component liability to prevent unexpected issues.",
+        "expert_insight": "This promotes transparency and proactive management of potential liabilities. Regular reporting helps Zebracorp track its exposure and plan accordingly.",
+        "confidence": 1.0,
+        "conditions": "On regular intervals; in order to avoid any unforeseen surprises.",
+        "justification": "States an obligation for the supplier.",
+        "implication_company": "Zebracorp gains visibility into its potential liability, allowing for better financial planning and risk management.",
+        "implication_supplier": "Suppliers need to establish a system for tracking and regularly reporting Zebracorp's material/component liability.",
+        "source_insight": "The text states 'Supplier should also have an obligation to report...'",
+        "text": "Supplier should also have an obligation to report ZEBRACORP’s then-current material/component liability on regular intervals in order to avoid any unforeseen surprises."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "1fb041c4-4a9d-4914-8934-dfbe89f318de",
+      "content": {
+        "id": "038317d7-1335-412f-924d-b94f09d592a8",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge.",
+        "plain_text": "Zebracorp has the option to require the supplier to store products, provided Zebracorp pays a mutually agreed reasonable carrying charge.",
+        "expert_insight": "This gives Zebracorp flexibility to defer consumption without incurring immediate disposal costs, while compensating the supplier for storage. It's a mechanism for managing inventory flow.",
+        "confidence": 1.0,
+        "conditions": "Against payment of a mutually agreed reasonable carrying charge.",
+        "justification": "States an option/right for Zebracorp.",
+        "implication_company": "Zebracorp can manage its inventory and consumption timeline more flexibly by utilizing supplier storage, paying only for the carrying cost.",
+        "implication_supplier": "Suppliers might need to provide storage facilities and track carrying charges, but they are compensated for this service.",
+        "source_insight": "The text states 'Zebracorp has an option to require...'",
+        "text": "Zebracorp has an option to require the supplier to maintain the products in storage against payment of a mutually agreed reasonable carrying charge."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "bc266681-45a9-481d-ac36-004a14641d88",
+      "content": {
+        "id": "89b52a71-6780-4966-9b68-e52230303b30",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost.",
+        "plain_text": "Zebracorp gains ownership (title) of materials/components it has paid for, or it has the option to instruct the supplier to dispose of unused materials/components at no additional cost.",
+        "expert_insight": "This protects Zebracorp's investment. If Zebracorp pays for materials, it either owns them or can direct their disposal without further charges, preventing the supplier from double-dipping or holding materials hostage.",
+        "confidence": 1.0,
+        "conditions": "For materials/components paid by Zebracorp; disposal without additional cost.",
+        "justification": "States a right/entitlement for Zebracorp.",
+        "implication_company": "Zebracorp secures its financial commitment by either taking ownership or ensuring cost-free disposal of paid-for materials.",
+        "implication_supplier": "Suppliers must transfer title for paid materials or dispose of them as directed by Zebracorp without charging extra.",
+        "source_insight": "The text states 'Zebracorp obtains the title... or an option to request...'",
+        "text": "Zebracorp obtains the title to the materials/components paid by it, or an option to request the supplier to dispose the unused materials/components without additional cost."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "3f72bb18-b88c-41bd-bf0d-4ecf173d9277",
+      "content": {
+        "id": "119e5c70-7b25-4c07-920f-560b71933c02",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues).",
+        "plain_text": "Zebracorp is absolved of all liability if the failure to consume products is not exclusively due to Zebracorp's actions, such as when the supplier has quality or delivery problems.",
+        "expert_insight": "This is a crucial clause protecting Zebracorp from liability when the non-consumption is due to supplier-side issues. It shifts the risk back to the supplier for their own performance failures.",
+        "confidence": 1.0,
+        "conditions": "Failure to consume products is not caused solely by Zebracorp (e.g., supplier quality or delivery issues).",
+        "justification": "States conditions under which Zebracorp is relieved from liability.",
+        "implication_company": "Zebracorp avoids liability for costs incurred due to supplier performance failures, reinforcing supplier accountability.",
+        "implication_supplier": "Suppliers must ensure their quality and delivery performance to avoid losing Zebracorp's liability coverage for unconsumed products.",
+        "source_insight": "The text states 'Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp...'",
+        "text": "Zebracorp’s is relieved from all liability in cases where failure to consume the products is not caused solely by Zebracorp (but in e.g. the supplier by having quality or delivery issues)."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "252f4567-657a-4ce6-af8f-68a95c3e4fb5",
+      "content": {
+        "id": "270a312c-c46b-4355-94a2-9a5585f958a7",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation.",
+        "plain_text": "The supplier must present its claims within a short, specified timeframe, or it forfeits its right to compensation.",
+        "expert_insight": "This imposes a strict deadline on suppliers for filing claims, preventing stale claims and ensuring timely resolution. Suppliers must be diligent in tracking and submitting claims.",
+        "confidence": 1.0,
+        "conditions": "Within a short time frame; failing which, right to claim compensation is foregone.",
+        "justification": "States an obligation and consequence for the supplier.",
+        "implication_company": "Zebracorp benefits from clear claim deadlines, reducing uncertainty and potential long-term liabilities.",
+        "implication_supplier": "Suppliers must be aware of and adhere to strict claim submission deadlines to protect their right to compensation.",
+        "source_insight": "The text states 'Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation.'",
+        "text": "Supplier has an a short time frame to present its claims, failing which the supplier foregoes its right to claim compensation."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "a05a004f-7676-4310-a45e-42c14806a289",
+      "content": {
+        "id": "29e9d690-3330-4e58-971c-43f140682283",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product. Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only.",
+        "plain_text": "Zebracorp's total liability is capped by an overall maximum ceiling, defined as both a fixed dollar amount and a percentage of the product's sales price (excluding taxes). Ideally, this liability would also exclude the supplier's profit margin and be limited solely to actual, direct production costs.",
+        "expert_insight": "This sets clear financial limits on Zebracorp's exposure, providing predictability. The 'ideally' clause indicates Zebracorp's preferred negotiation position to further minimize liability to only direct, out-of-pocket costs, excluding supplier profit.",
+        "confidence": 1.0,
+        "conditions": "Expressed as a fixed dollar amount and as a percentage of sales price (excluding taxes). Ideally, excludes supplier's margin and limited to actual, direct production cost.",
+        "justification": "States a limitation on Zebracorp's liability.",
+        "implication_company": "Zebracorp's financial risk is capped, providing budgetary certainty. The ideal conditions offer a strong negotiation stance to further reduce exposure.",
+        "implication_supplier": "Suppliers must understand that Zebracorp's liability is finite and may not cover their full potential losses, especially profit margins, in cases of unconsumed products.",
+        "source_insight": "The text states 'Zebracorp’s liability has an overall maximum ceiling...' and then details the ideal limitations.",
+        "text": "Zebracorp’s liability has an overall maximum ceiling, expressed both as a fixed dollar amount, and as percentage of the sales price (which should exclude taxes) of each product. Ideally Zebracorp’s liability for unconsumed products would also expressly exclude the supplier’s margin and would be limited to actual, direct production cost only."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

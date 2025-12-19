@@ -203,8 +203,22 @@ export default function AnnotateWrapper() {
                 // 1. Generate the clean, stitched structure (same as Export)
                 const stitchedContent = generateStitchedContent();
 
-                // 2. Save this clean structure to the FILE CONTENT
-                // We overwrite 'content' with the stitched list, effectively "baking" the annotation.
+                // 2. RE-INDEX CLAUSES TO MATCH BLOCKS
+                // Mirror the import logic: Each block is effectively a "line".
+                // We create a new clause array where coordinates are relative to the block indices.
+                const finalClauses = stitchedContent.map((block, index) => {
+                    // Skip internal structural blocks for clause definition
+                    if (block.type === 'SKIP' || block.type === 'HEADER') return null;
+
+                    return {
+                        ...block,
+                        text: undefined, // Remove text from clause object (it exists in content array)
+                        start: { line: index, ch: 0 },
+                        end: { line: index, ch: block.text.length }
+                    };
+                }).filter(Boolean);
+
+                // 3. Save this clean structure to the database
                 await updateFile(file.header.id, {
                     header: {
                         ...file.header,
@@ -213,8 +227,8 @@ export default function AnnotateWrapper() {
                         documentTags,
                         lastModified: new Date().toISOString()
                     },
-                    content: stitchedContent, // KEY FIX: Save stitched blocks, not raw lines
-                    clauses: clauses // Keep clauses for reference/re-edit if needed (though re-edit might need logic updates)
+                    content: stitchedContent,
+                    clauses: finalClauses
                 });
 
                 navigate('/workspace');

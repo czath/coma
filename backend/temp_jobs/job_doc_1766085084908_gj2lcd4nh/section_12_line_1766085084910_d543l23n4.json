@@ -1,0 +1,1417 @@
+{
+  "section_id": "line_1766085084910_d543l23n4",
+  "decisions": [
+    {
+      "id": "a0a2557b-0df2-410b-9158-fa6577a06e8c",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller.",
+        "plain_text": "Selling parties commonly exclude liability for indirect and consequential damages to prevent disproportionate financial exposure, even when such damages are caused by their actions.",
+        "expert_insight": "This describes a fundamental risk allocation strategy in commercial contracts. For sellers, excluding indirect and consequential damages is crucial to prevent exposure to potentially vast and unforeseeable losses (e.g., lost profits, business interruption) that can far exceed the contract value. For buyers, it means understanding that certain significant losses may not be recoverable, necessitating alternative risk mitigation strategies like insurance or specific performance clauses. This is a common and often heavily negotiated point in contracts.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "The text explicitly states that excluding indirect damages is a common practice done to avoid 'disproportionate liability,' which is a critical risk management concern for any selling party.",
+        "implication_company": "If the Company is the selling party, it should ensure its contracts include a robust exclusion of indirect and consequential damages to protect against excessive liability. If the Company is the buying party, it must be aware that its ability to recover indirect damages from suppliers will likely be contractually limited, requiring careful assessment of potential unrecoverable losses and consideration of alternative risk mitigation.",
+        "implication_supplier": "Suppliers typically benefit significantly from contractual clauses that exclude their liability for indirect damages, as this limits their financial risk exposure for breaches, even if they are at fault.",
+        "source_insight": "The text describes a common contractual practice and the underlying rationale for it, which is a strategic move in contract negotiation and risk management."
+      },
+      "rationale": "Consensus: Split between GUIDELINE (1 agent) and OTHER (3 agents). Evaluation: The source text states that 'Such indirect damages are often excluded...' and provides a justification ('as they would lead to disproportionate liability'). This phrasing describes a common contractual practice and its rationale, rather than imposing a direct obligation or specific instruction. Therefore, classifying it as 'OTHER' with subtype 'INFO' is most accurate, as it provides valuable information about a standard risk allocation strategy. The finding passes the Value and Utility checks as it is crucial for understanding liability limitations in commercial contracts for both buyers and sellers. The plain_text is self-sufficient and contextualized.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "8c111fad-34c9-4216-9299-c24e2b197312",
+      "supporting_evidence": [
+        "8c2202f4-9c3d-461a-9365-9b2935c8cc08",
+        "73adaca4-8801-45d8-a5a6-71cfb6eec3f5",
+        "30902c07-5c1d-406d-b06f-1ed0d87f2273",
+        "a24deeea-008d-47e2-87f3-77c629817122"
+      ]
+    },
+    {
+      "id": "4941b12f-b375-4421-849d-9e0ddaeda82b",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act.",
+        "plain_text": "Indirect damages are those that extend beyond direct damages and do not flow directly and immediately from an injurious act, but result indirectly from it.",
+        "expert_insight": "This foundational definition is critical for distinguishing between different types of liability and for drafting effective exclusion clauses. Often referred to as 'consequential damages', these typically include loss of profit or revenue or business and loss of goodwill, loss of anticipated savings and similar financial loss. In supply contracts, they frequently arise from the inability to use contracted products or services due to defects, deficiencies, or late delivery. These damages are often harder to quantify and prove, and are a common point of contention in commercial contracts, frequently excluded from liability due to their potential for disproportionate loss.",
+        "confidence": 1.0,
+        "implication_company": "Understanding this definition is key to limiting our liability exposure and negotiating exclusion clauses effectively, as these damages can lead to enormous losses.",
+        "implication_supplier": "This definition helps suppliers understand the scope of damages they might seek to exclude and the potential for disproportionate liability if not properly addressed in contracts.",
+        "source_insight": "The text clearly defines indirect damages as distinct from direct ones, emphasizing their non-immediate nature and the fact they go beyond direct damages. It also highlights their common exclusion in contracts due to the risk of disproportionate liability."
+      },
+      "rationale": "Consensus: Mixed (3 DEFINITION, 1 OTHER). Evaluation: The verbatim text explicitly defines 'Indirect damages' by stating 'Indirect damages are generally categorized as those damages that...'. This is a clear, self-sufficient, and necessary definition of a specific contractual term. It passed the Value and Utility checks, providing crucial context for liability discussions. Therefore, classified as DEFINITION.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "a1242fa9-bf0f-4670-a4fd-8488ed10beac",
+      "supporting_evidence": [
+        "547d24b8-9274-44d2-a79c-7f249e58deb6",
+        "e993d8e1-a9ca-47d9-b82e-798cff82a46f",
+        "d504f98d-ef9e-41de-9250-981c75aecd5f",
+        "a332a399-514f-4165-b254-dc658738488e"
+      ]
+    },
+    {
+      "id": "46f59852-311a-4783-95d5-958fe954f3e1",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "golden_record_indirect_damages_examples",
+        "verbatim_text": "These indirect damages, that are often also referred to as ‘consequential damages’, include loss of profit or revenue or business and loss of goodwill, loss of anticipated savings and similar financial loss.",
+        "plain_text": "Indirect damages, also known as consequential damages, include financial losses such as loss of profit, revenue, business, goodwill, or anticipated savings.",
+        "expert_insight": "This list provides common examples of what courts and contracts typically consider indirect or consequential damages. These specific examples are the primary financial risks that companies (especially sellers/suppliers) aim to exclude from their liability, as they can be disproportionately large and are crucial for drafting and interpreting limitation of liability clauses.",
+        "confidence": 1.0,
+        "justification": "The text explicitly lists types of losses that fall under indirect damages, clarifying the scope of the term.",
+        "implication_company": "Companies must actively seek to exclude these specific types of losses from their liability in contracts due to their potentially enormous value.",
+        "implication_supplier": "Suppliers often seek to exclude liability for these specific types of damages, while buyers might claim them as indirect damages.",
+        "source_insight": "The text provides a clear enumeration of what constitutes indirect damages, which is highly practical for contract drafting and understanding the scope of liability."
+      },
+      "rationale": "Consensus: Split between 'OTHER' (INFO) and 'DEFINITION'. Evaluation: The text explicitly lists what 'indirect damages' (also called 'consequential damages') 'include', thereby defining the scope and common examples of these specific legal terms. This is a clear definition of the term's content rather than just general information. Passed Value and Utility tests as it provides crucial examples for contract drafting and negotiation. Classified as a Critical Definition.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "db803e0e-bc9f-421a-a27b-d1b00f37ca89",
+      "supporting_evidence": [
+        "fff26749-5698-4d3f-8b4d-5fd6815ce1a1",
+        "be0eed7a-f7fe-4c75-8b60-9cc9d53895dd",
+        "d106c202-4a27-49d0-aa76-50d3c2a3ee26"
+      ]
+    },
+    {
+      "id": "8df7f22f-ed45-42fd-91e5-9889d5cb285d",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "In the context of supply contracts these indirect and or consequential damages typically arise from the inability to use the contracted products or services due to their defects or other deficiencies or as a result of late delivery.",
+        "plain_text": "In supply contracts, indirect or consequential damages typically arise from the inability to use contracted products or services due to defects, deficiencies, or late delivery.",
+        "expert_insight": "This highlights the common triggers for indirect or consequential damages in supply contracts, emphasizing the importance of product quality, defect prevention, and timely delivery for risk assessment and mitigation.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This explains the typical causes and manifestations of indirect or consequential damages specifically within the context of supply contracts.",
+        "implication_company": "Companies procuring goods/services should be aware that supplier failures related to product defects, deficiencies, or late delivery are common causes of significant indirect damages, necessitating robust quality control and delivery terms.",
+        "implication_supplier": "Suppliers must understand that their performance failures, such as product defects, deficiencies, or late delivery, are primary sources of indirect or consequential damages for their customers, requiring strict adherence to quality and delivery commitments.",
+        "source_insight": "The text directly provides specific contextual information on how indirect damages arise in supply contracts."
+      },
+      "rationale": "Consensus: All agents agreed on the type (OTHER) and subtype (INFO), and the verbatim text is identical across all candidates. Evaluation: The finding provides specific, self-sufficient contextual information about the typical causes of indirect damages in supply contracts. It passes the Value Assessment by clearly explaining how these damages manifest. It is highly actionable for risk assessment and contract drafting, thus passing the Utility Check. Classified as an 'INFO' type under 'OTHER' as it provides crucial contextual understanding rather than a direct rule or definition.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "4f27aa90-d478-43f8-aeaa-dcca9d315137",
+      "supporting_evidence": [
+        "469ccb6e-e8a7-458b-8410-4863ead79675",
+        "2d205250-de2f-4931-9dc3-fd7cca3017f9",
+        "d8a3c209-c17b-4e61-a937-801e358354aa"
+      ]
+    },
+    {
+      "id": "7d30871c-e967-4b32-9fcf-d3075de7782c",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "cluster_indirect_direct_damages_importance_rationale",
+        "verbatim_text": "The distinction between indirect and direct damages is of great importance in any commercial contract. Direct damages are often easily quantifiably and foreseeable at the time of entering into a contract, whereas liability for indirect damages could lead to accepting liability for an enormous loss.",
+        "plain_text": "The distinction between indirect and direct damages is crucial in any commercial contract. Direct damages are typically quantifiable and foreseeable at contract inception, while liability for indirect damages can result in immense, unpredictable losses.",
+        "expert_insight": "This statement underscores the fundamental importance of clearly defining and differentiating direct and indirect damages in contracts. It explains that direct damages are generally predictable, whereas indirect damages carry a risk of catastrophic, unforeseeable financial impact, which is the primary reason for their frequent exclusion or limitation in liability clauses.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This finding emphasizes the critical importance of distinguishing between direct and indirect damages and provides the rationale by contrasting their quantifiability, foreseeability, and potential financial exposure.",
+        "implication_company": "Companies must ensure this distinction is clearly defined in their contracts to effectively manage risk. Accepting liability for indirect damages can expose the company to significant, unpredictable financial risks, making their exclusion a strategic imperative.",
+        "implication_supplier": "This highlights a critical area for negotiation and risk allocation. Suppliers are keen to limit or exclude liability for indirect damages due to their unpredictable and potentially vast financial exposure, which could lead to disproportionate liability.",
+        "source_insight": "The text explicitly states the 'great importance' of this distinction and immediately follows with a comparative analysis that explains the differing risk profiles of direct and indirect damages, providing a strong justification for this importance."
+      },
+      "rationale": "Consensus: All agents correctly identified the findings as 'OTHER' with 'INFO' subtype. Value Assessment: The combined text is self-sufficient and provides crucial context by first stating the importance of distinguishing between direct and indirect damages, and then explaining the underlying rationale (quantifiability/foreseeability vs. potential for enormous loss). This information is vital for understanding liability limitations. Type-Specific Criteria: It is not a definition or a guideline, but rather an informational statement explaining the significance and implications of a key contractual concept. Utility Check: This finding is highly useful for contract negotiation and risk management, as it clarifies the 'why' behind common contractual clauses regarding damages. Therefore, the cluster is accepted and consolidated into a single, comprehensive 'OTHER' record.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "54b9e6da-1ef0-4895-a5a2-060f10a483df",
+      "supporting_evidence": [
+        "f93b724f-6300-4bd1-aecb-8d4521bf2d07",
+        "fc220892-70ca-4232-8626-f7739ed47854",
+        "b89ed897-57bf-4a94-8719-201f5eb5ca73",
+        "a5eaedd8-0141-4284-86b7-a24cfe175de7",
+        "f7c6a6d2-9094-42dd-9c35-104ee21ca102",
+        "493111a6-30ff-4d2a-b992-eed968c9adc5"
+      ]
+    },
+    {
+      "id": "4c245112-08cb-4061-9778-618877b51f92",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "verbatim_text": "As an example a late delivery of a critical software component or equipment may delay the entire industrial rollout and lead to substantial losses through lost future revenues or loss of profit.",
+        "plain_text": "For example, a late delivery of a critical software component or equipment can delay an entire industrial rollout, leading to substantial losses through lost future revenues or profits.",
+        "expert_insight": "This vivid example illustrates the 'domino effect' of indirect damages, making it easier to grasp why they are so feared and why their exclusion is a key negotiation point. It highlights how a seemingly minor breach can cascade into substantial financial losses.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "The text provides a concrete example of how indirect damages can arise and their potential impact, reinforcing the need for clear contractual terms regarding liability.",
+        "implication_company": "Companies relying on critical components must consider the potential for such indirect damages and include robust clauses for supplier delays to mitigate risk.",
+        "implication_supplier": "Suppliers of critical components face high exposure to indirect damages if their delays impact customer operations significantly, underscoring the importance of liability limitations.",
+        "source_insight": "The text uses a practical, relatable scenario to demonstrate the concept and potential magnitude of indirect damages."
+      },
+      "rationale": "Consensus: All agents agreed on the type 'OTHER' and subtype 'EXAMPLE'. Evaluation: The verbatim text provides a clear, self-sufficient, and highly relevant example of indirect damages, directly supporting the preceding definition in the source text. It passes the Value and Utility checks by offering concrete context for understanding the concept of indirect damages and their potential impact. The example is specific and helps in comprehending the 'so what' of indirect damages in commercial contracts. Therefore, classified as a valid 'OTHER' (EXAMPLE).",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "9b6015ee-11b9-4fd9-86b6-5fb9b802868f",
+      "supporting_evidence": [
+        "937b5272-fe72-444e-b940-858781eed841",
+        "eedb811f-32d0-4686-92e5-e28fff434605",
+        "0120c76f-e257-4766-9b31-f03f61383d06"
+      ]
+    },
+    {
+      "id": "ec5aee6b-fcee-4bc4-8bf1-19cd37bf5c98",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach.",
+        "plain_text": "Direct damages are generally those ordinary and reasonably likely losses that the non-breaching party suffers directly as a result of a breach.",
+        "expert_insight": "This definition clarifies what constitutes direct damages, emphasizing their ordinary, foreseeable, and direct nature. It is crucial for distinguishing them from indirect damages, which are often subject to liability exclusions. Examples provided in the broader text include the price difference paid for a covering purchase or the cost of expedited freight due to a seller's breach.",
+        "confidence": 1.0,
+        "implication_company": "Understanding this helps us identify what damages we can reasonably claim or what we might be liable for directly.",
+        "implication_supplier": "This defines the baseline level of damages a supplier is typically expected to cover.",
+        "source_insight": "The text offers a clear definition of direct damages, contrasting them with indirect damages."
+      },
+      "rationale": "Consensus: Mixed, with three agents classifying as 'DEFINITION' and one as 'OTHER' (but with a justification indicating it's a definition). Evaluation: The verbatim text provides a clear, self-sufficient definition of 'Direct damages', which is a specific and important contractual term. It passes the clarity, accuracy, necessity, and utility checks. The definition is crucial for distinguishing direct from indirect damages in a contract. Therefore, it is classified as a DEFINITION.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "008ac8d9-39aa-47b2-8a17-f13fe8674579",
+      "supporting_evidence": [
+        "3ab794aa-81a8-4d5a-b3b9-6291d22f85fd",
+        "ae21601b-392c-43d4-bb54-3bf14ba272df",
+        "6ed98787-e8ff-41d7-865e-745c4e2e6ab8",
+        "5becebfe-b2af-4b12-a9e2-abe7a50eb288"
+      ]
+    },
+    {
+      "id": "5635c7e9-ca0e-43fc-90cf-6586c990381a",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "consolidated_direct_damages_example_1",
+        "verbatim_text": "An example of direct damages would be the price difference paid by the buyer in those case where the buyer has been compelled to make a covering purchase from a third party supplier as a result of the seller’s breach.",
+        "plain_text": "An example of direct damages is the price difference a buyer pays when forced to make a covering purchase from a third-party supplier due to the original seller's breach.",
+        "expert_insight": "This is a classic example of direct damages, representing the immediate cost incurred to mitigate the breach, often referred to as 'cover' in contract law.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "The text provides a specific scenario demonstrating direct damages.",
+        "implication_company": "Companies, as buyers, can claim the price difference as direct damages if forced to buy from another supplier due to a seller's breach.",
+        "implication_supplier": "Suppliers should be aware that if they breach, they may be liable for the direct cost difference if their buyer has to source elsewhere.",
+        "source_insight": "The text offers a direct and common example of direct damages."
+      },
+      "rationale": "Consensus: All agents agreed on the type 'OTHER' and subtype 'EXAMPLE'. Value Assessment: The verbatim text is a clear, self-sufficient example of direct damages, providing essential context without needing external information. Type-Specific Criteria: It accurately serves as a concrete example to illustrate direct damages, which is crucial for understanding liability. Utility Check: This example is highly useful for clarifying the concept of direct damages and its practical application in commercial contracts. Therefore, it is a valid and valuable finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "639ae929-afe9-4a5f-bd8b-0816e4a30ce6",
+      "supporting_evidence": [
+        "120c9d86-5b85-4fe1-8b5d-0328832e2215",
+        "d6dfee95-2671-496e-b437-afc1cd3737a7",
+        "533cd812-0140-482d-80d7-49d9afbd5ded"
+      ]
+    },
+    {
+      "id": "78711fe4-54f5-47cc-b3f7-67c8e0708f90",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "d0e1f2a3-b4c5-6789-0123-abcdef012348",
+        "verbatim_text": "Another example would be the cost of expedited freight in case of delay in the seller’s performance.",
+        "plain_text": "The cost of expedited freight due to a seller's delayed performance is another example of direct damages.",
+        "expert_insight": "This illustrates that costs directly incurred to mitigate the immediate impact of a breach, such as expedited freight due to a seller's delay, are considered direct damages.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "Provides a specific, concrete example of direct damages.",
+        "implication_company": "Companies may incur and seek to recover expedited freight costs as direct damages if a supplier's delay necessitates faster shipping.",
+        "implication_supplier": "Suppliers could be liable for expedited freight costs if their delays force buyers to seek faster shipping options, as these are considered direct damages.",
+        "source_insight": "The text provides this as a second distinct example of direct damages, following the example of price difference for a covering purchase."
+      },
+      "rationale": "Consensus: All agents agreed on the type 'OTHER' and subtype 'EXAMPLE'. Evaluation: The verbatim text provides a clear and specific example of direct damages, which is essential for understanding the distinction between direct and indirect damages discussed in the source text. The plain_text correctly contextualizes the example, making it self-sufficient. It passes the clarity, value, and utility checks as it helps clarify a key concept.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "3199af12-3f9e-4ad5-b427-b3bea782a579",
+      "supporting_evidence": [
+        "e7ca12ee-adf2-493d-ab3c-08cb2b465c81",
+        "946b06cd-281e-4bb1-9f39-6c921a402b12",
+        "43f8d3f1-e35e-488d-a75e-106c71b20c27"
+      ]
+    },
+    {
+      "id": "2588b59f-a623-4c2e-a78d-73c35dcbb857",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "consolidated-difficulty-damages-distinction",
+        "verbatim_text": "Sometimes it can be difficult to draw clean lines between indirect and direct damages.",
+        "plain_text": "It can sometimes be challenging to clearly differentiate between indirect and direct damages.",
+        "expert_insight": "This crucial caveat highlights a common area of dispute in contract litigation, emphasizing the need for precise contractual definitions and careful drafting to avoid ambiguity and potential disputes.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "The text explicitly acknowledges the practical difficulty in distinguishing between direct and indirect damages, which is a significant point for contract interpretation and negotiation.",
+        "implication_company": "Companies must ensure their contract language is as precise as possible regarding damages to minimize ambiguity and potential disputes over classification.",
+        "implication_supplier": "Suppliers should be aware of this common difficulty and ensure their contracts clearly define what constitutes direct versus indirect damages to manage liability effectively.",
+        "source_insight": "The text directly states this difficulty, adding a layer of realism to the discussion of damages and underscoring the importance of clear contractual terms."
+      },
+      "rationale": "Consensus: All agents agree on 'OTHER' type with 'INFO' subtype and identical verbatim text. Evaluation: The statement is self-sufficient and highlights a critical practical difficulty in contract drafting and interpretation regarding damages. It provides valuable context and a warning about potential ambiguities, making it highly useful for negotiation and risk management. Passed all clarity, value, and utility checks. Classified as a highly relevant 'OTHER' (INFO) item.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "cb5fe347-ffea-426e-8774-80a7281128a7",
+      "supporting_evidence": [
+        "ddb657b1-6968-4acb-b189-6bd04f39e512",
+        "917e291d-8b71-4248-9fb6-cf9d45ef8a24",
+        "5961eacc-1f79-465a-b386-6fa36d785357"
+      ]
+    },
+    {
+      "id": "21393f5d-7b18-46b3-bf69-eb63d2da30dd",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "golden_record_indirect_damages_cross_ref",
+        "verbatim_text": "Please see more on indirect damages in the section titled ‘Limitation of Liability’ below.",
+        "plain_text": "Refer to the 'Limitation of Liability' section for further details on indirect damages.",
+        "expert_insight": "This instruction highlights that the topic of indirect damages is further elaborated within the 'Limitation of Liability' section, which is crucial for understanding contractual risk allocation and the full scope of liability limitations.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "This text explicitly directs the reader to another section of the document for additional information on indirect damages.",
+        "implication_company": "The company should review the 'Limitation of Liability' section to fully understand the contractual treatment and potential limitations related to indirect damages, as this section will contain the binding rules.",
+        "implication_supplier": "The supplier should consult the 'Limitation of Liability' section to understand how their exposure to indirect damages is contractually defined and managed.",
+        "source_insight": "The text provides a clear directive to consult another part of the document for more information, indicating a deeper dive into the topic elsewhere."
+      },
+      "rationale": "Consensus: All agents agreed on the verbatim text and classified it as 'OTHER'. Two agents specified 'INSTRUCTION' as the subtype, while one specified 'INFO'. Evaluation: The text is a clear directive to refer to another section of the document. 'INSTRUCTION' is a more precise classification than 'INFO' as it implies an action for the reader. The finding is self-sufficient and provides valuable navigational context within the document. Passed Utility Check as it guides the reader to critical related information.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "73eac951-c67c-4416-a201-dd6455cace6a",
+      "supporting_evidence": [
+        "e33dcf01-868d-47fd-b7d0-060a71cafd54",
+        "f2d9662b-1ae3-4d4a-afc2-de5e5faaac12",
+        "b274251a-bade-466e-aa50-121a79118e10"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "8c111fad-34c9-4216-9299-c24e2b197312",
+      "recommendation_ids": [
+        "8c2202f4-9c3d-461a-9365-9b2935c8cc08",
+        "73adaca4-8801-45d8-a5a6-71cfb6eec3f5",
+        "30902c07-5c1d-406d-b06f-1ed0d87f2273",
+        "a24deeea-008d-47e2-87f3-77c629817122"
+      ]
+    },
+    {
+      "id": "a1242fa9-bf0f-4670-a4fd-8488ed10beac",
+      "recommendation_ids": [
+        "547d24b8-9274-44d2-a79c-7f249e58deb6",
+        "e993d8e1-a9ca-47d9-b82e-798cff82a46f",
+        "d504f98d-ef9e-41de-9250-981c75aecd5f",
+        "a332a399-514f-4165-b254-dc658738488e"
+      ]
+    },
+    {
+      "id": "db803e0e-bc9f-421a-a27b-d1b00f37ca89",
+      "recommendation_ids": [
+        "fff26749-5698-4d3f-8b4d-5fd6815ce1a1",
+        "be0eed7a-f7fe-4c75-8b60-9cc9d53895dd",
+        "d106c202-4a27-49d0-aa76-50d3c2a3ee26"
+      ]
+    },
+    {
+      "id": "4f27aa90-d478-43f8-aeaa-dcca9d315137",
+      "recommendation_ids": [
+        "469ccb6e-e8a7-458b-8410-4863ead79675",
+        "2d205250-de2f-4931-9dc3-fd7cca3017f9",
+        "d8a3c209-c17b-4e61-a937-801e358354aa"
+      ]
+    },
+    {
+      "id": "54b9e6da-1ef0-4895-a5a2-060f10a483df",
+      "recommendation_ids": [
+        "f93b724f-6300-4bd1-aecb-8d4521bf2d07",
+        "fc220892-70ca-4232-8626-f7739ed47854",
+        "b89ed897-57bf-4a94-8719-201f5eb5ca73",
+        "a5eaedd8-0141-4284-86b7-a24cfe175de7",
+        "f7c6a6d2-9094-42dd-9c35-104ee21ca102",
+        "493111a6-30ff-4d2a-b992-eed968c9adc5"
+      ]
+    },
+    {
+      "id": "9b6015ee-11b9-4fd9-86b6-5fb9b802868f",
+      "recommendation_ids": [
+        "937b5272-fe72-444e-b940-858781eed841",
+        "eedb811f-32d0-4686-92e5-e28fff434605",
+        "0120c76f-e257-4766-9b31-f03f61383d06"
+      ]
+    },
+    {
+      "id": "008ac8d9-39aa-47b2-8a17-f13fe8674579",
+      "recommendation_ids": [
+        "3ab794aa-81a8-4d5a-b3b9-6291d22f85fd",
+        "ae21601b-392c-43d4-bb54-3bf14ba272df",
+        "6ed98787-e8ff-41d7-865e-745c4e2e6ab8",
+        "5becebfe-b2af-4b12-a9e2-abe7a50eb288"
+      ]
+    },
+    {
+      "id": "639ae929-afe9-4a5f-bd8b-0816e4a30ce6",
+      "recommendation_ids": [
+        "120c9d86-5b85-4fe1-8b5d-0328832e2215",
+        "d6dfee95-2671-496e-b437-afc1cd3737a7",
+        "533cd812-0140-482d-80d7-49d9afbd5ded"
+      ]
+    },
+    {
+      "id": "3199af12-3f9e-4ad5-b427-b3bea782a579",
+      "recommendation_ids": [
+        "e7ca12ee-adf2-493d-ab3c-08cb2b465c81",
+        "946b06cd-281e-4bb1-9f39-6c921a402b12",
+        "43f8d3f1-e35e-488d-a75e-106c71b20c27"
+      ]
+    },
+    {
+      "id": "cb5fe347-ffea-426e-8774-80a7281128a7",
+      "recommendation_ids": [
+        "ddb657b1-6968-4acb-b189-6bd04f39e512",
+        "917e291d-8b71-4248-9fb6-cf9d45ef8a24",
+        "5961eacc-1f79-465a-b386-6fa36d785357"
+      ]
+    },
+    {
+      "id": "73eac951-c67c-4416-a201-dd6455cace6a",
+      "recommendation_ids": [
+        "e33dcf01-868d-47fd-b7d0-060a71cafd54",
+        "f2d9662b-1ae3-4d4a-afc2-de5e5faaac12",
+        "b274251a-bade-466e-aa50-121a79118e10"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "8c2202f4-9c3d-461a-9365-9b2935c8cc08",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller.",
+        "plain_text": "Selling parties commonly exclude liability for indirect and consequential damages to prevent disproportionate financial exposure, even when such damages are caused by their actions.",
+        "expert_insight": "The exclusion of indirect and consequential damages is a fundamental risk allocation strategy in commercial contracts. For sellers, it is crucial to prevent exposure to potentially vast and unforeseeable losses (e.g., lost profits, business interruption) that can far exceed the contract value. For buyers, it means understanding that certain significant losses may not be recoverable, necessitating alternative risk mitigation strategies like insurance or specific performance clauses.",
+        "confidence": 1.0,
+        "conditions": "This is a common contractual practice, not an absolute legal requirement, but highly recommended for sellers.",
+        "justification": "The text explicitly states that excluding indirect damages is done to avoid 'disproportionate liability,' which is a critical risk management concern for any selling party.",
+        "implication_company": "If Company is the selling party, it should ensure its contracts include a robust exclusion of indirect and consequential damages to protect against excessive liability. If Company is the buying party, it must be aware that its ability to recover indirect damages from suppliers will likely be contractually limited, requiring careful assessment of potential unrecoverable losses.",
+        "implication_supplier": "Suppliers typically benefit from contractual clauses that exclude their liability for indirect damages, significantly limiting their financial risk exposure for breaches.",
+        "text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "547d24b8-9274-44d2-a79c-7f249e58deb6",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act.",
+        "plain_text": "Indirect damages are those that do not directly or immediately result from an injurious act but occur indirectly.",
+        "expert_insight": "This foundational definition is critical for distinguishing between different types of liability and for drafting effective exclusion clauses.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Provides a general definition of indirect damages.",
+        "implication_company": "Understanding this definition is key to limiting our liability exposure.",
+        "implication_supplier": "This definition helps suppliers understand the scope of damages they might seek to exclude.",
+        "source_insight": "The text clearly defines indirect damages as distinct from direct ones, emphasizing their non-immediate nature.",
+        "text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "fff26749-5698-4d3f-8b4d-5fd6815ce1a1",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "verbatim_text": "These indirect damages, that are often also referred to as ‘consequential damages’, include loss of profit or revenue or business and loss of goodwill, loss of anticipated savings and similar financial loss.",
+        "plain_text": "Indirect damages, also known as consequential damages, typically include losses such as lost profit, revenue, business, goodwill, or anticipated savings.",
+        "expert_insight": "These specific examples are the primary financial risks that companies (especially sellers/suppliers) aim to exclude from their liability, as they can be disproportionately large.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Lists common examples of indirect/consequential damages.",
+        "implication_company": "These are the types of losses we must actively seek to exclude from our liability in contracts.",
+        "implication_supplier": "These are the specific financial impacts that buyers might claim as indirect damages.",
+        "source_insight": "The text provides a clear enumeration of what constitutes indirect damages, which is highly practical for contract drafting.",
+        "text": "These indirect damages, that are often also referred to as ‘consequential damages’, include loss of profit or revenue or business and loss of goodwill, loss of anticipated savings and similar financial loss."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "469ccb6e-e8a7-458b-8410-4863ead79675",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "verbatim_text": "In the context of supply contracts these indirect and or consequential damages typically arise from the inability to use the contracted products or services due to their defects or other deficiencies or as a result of late delivery.",
+        "plain_text": "In supply contracts, indirect damages often stem from the inability to use products/services due to defects, deficiencies, or late delivery.",
+        "expert_insight": "This highlights the most common triggers for indirect damage claims against suppliers, allowing us to focus risk mitigation efforts on product quality and delivery timelines.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Explains the typical causes of indirect damages in supply contracts.",
+        "implication_company": "We need to be particularly vigilant about product quality and delivery schedules to avoid triggering claims for indirect damages.",
+        "implication_supplier": "This identifies key areas where a supplier's performance failure can lead to significant indirect damage claims.",
+        "source_insight": "The text contextualizes indirect damages specifically for supply contracts, making it highly relevant for this domain.",
+        "text": "In the context of supply contracts these indirect and or consequential damages typically arise from the inability to use the contracted products or services due to their defects or other deficiencies or as a result of late delivery."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "f93b724f-6300-4bd1-aecb-8d4521bf2d07",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "OTHER",
+        "verbatim_text": "The distinction between indirect and direct damages is of great importance in any commercial contract.",
+        "plain_text": "The difference between indirect and direct damages is crucial in all commercial contracts.",
+        "expert_insight": "This statement underscores the fundamental importance of clearly defining and differentiating these damage types in contract negotiations to manage risk effectively.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Emphasizes the significance of distinguishing between direct and indirect damages.",
+        "implication_company": "We must always ensure this distinction is clear in our contracts to protect our interests.",
+        "implication_supplier": "This highlights a critical area for negotiation and risk allocation in any commercial agreement.",
+        "source_insight": "The text explicitly states the 'great importance' of this distinction, signaling its strategic relevance.",
+        "text": "The distinction between indirect and direct damages is of great importance in any commercial contract."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "fc220892-70ca-4232-8626-f7739ed47854",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "OTHER",
+        "verbatim_text": "Direct damages are often easily quantifiably and foreseeable at the time of entering into a contract, whereas liability for indirect damages could lead to accepting liability for an enormous loss.",
+        "plain_text": "Direct damages are typically quantifiable and foreseeable, but indirect damages can result in enormous, unpredictable losses.",
+        "expert_insight": "This explains the core rationale for excluding indirect damages: their potential for catastrophic, unforeseeable financial impact, making them a primary target for liability limitation.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Explains why the distinction is important by contrasting the nature of direct vs. indirect damages.",
+        "implication_company": "This reinforces the strategic imperative to exclude indirect damages due to their unpredictable and potentially vast financial exposure.",
+        "implication_supplier": "This explains why suppliers are so keen to limit or exclude liability for indirect damages.",
+        "source_insight": "The text clearly articulates the risk profile difference between direct and indirect damages.",
+        "text": "Direct damages are often easily quantifiably and foreseeable at the time of entering into a contract, whereas liability for indirect damages could lead to accepting liability for an enormous loss."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "937b5272-fe72-444e-b940-858781eed841",
+      "content": {
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "type": "OTHER",
+        "verbatim_text": "As an example a late delivery of a critical software component or equipment may delay the entire industrial rollout and lead to substantial losses through lost future revenues or loss of profit.",
+        "plain_text": "For example, a late delivery of critical software or equipment could delay an industrial rollout, causing significant losses from lost future revenues or profits.",
+        "expert_insight": "This vivid example illustrates the 'domino effect' of indirect damages, making it easier to grasp why they are so feared and why their exclusion is a key negotiation point.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "Provides a concrete example of how indirect damages can arise and their potential impact.",
+        "implication_company": "This scenario highlights a specific risk we face if we are the supplier, or a potential claim we might have if we are the buyer.",
+        "implication_supplier": "This is a prime example of the disproportionate liability a supplier could face if indirect damages are not excluded.",
+        "source_insight": "The text uses a practical, relatable scenario to demonstrate indirect damages.",
+        "text": "As an example a late delivery of a critical software component or equipment may delay the entire industrial rollout and lead to substantial losses through lost future revenues or loss of profit."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "73adaca4-8801-45d8-a5a6-71cfb6eec3f5",
+      "content": {
+        "id": "a7b8c9d0-e1f2-3456-7890-abcdef012345",
+        "type": "OTHER",
+        "verbatim_text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller.",
+        "plain_text": "Indirect damages are frequently excluded from a seller's liability to prevent disproportionate exposure, even if the seller caused them.",
+        "expert_insight": "This is a core negotiation tactic for sellers: to exclude indirect damages regardless of fault, due to the principle of proportionality. Buyers should be aware of this common stance.",
+        "confidence": 1.0,
+        "subtype": "TACTIC",
+        "justification": "Describes a common strategic approach (exclusion) regarding indirect damages in commercial contracts.",
+        "implication_company": "When acting as a seller, we should always aim to exclude indirect damages. When acting as a buyer, we should anticipate this exclusion and consider its implications.",
+        "implication_supplier": "This is a standard and crucial clause for suppliers to include in their contracts to limit their financial risk.",
+        "source_insight": "The text describes a common contractual practice and the underlying rationale for it, which is a strategic move.",
+        "text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "3ab794aa-81a8-4d5a-b3b9-6291d22f85fd",
+      "content": {
+        "id": "b8c9d0e1-f2a3-4567-8901-abcdef012346",
+        "type": "OTHER",
+        "verbatim_text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach.",
+        "plain_text": "Direct damages are ordinary and reasonably foreseeable losses suffered directly by the non-breaching party due to a breach.",
+        "expert_insight": "This definition helps to clearly delineate what falls outside the scope of indirect damages, providing a counterpoint for negotiation and drafting.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Provides a general definition of direct damages.",
+        "implication_company": "Understanding this helps us identify what damages we can reasonably claim or what we might be liable for directly.",
+        "implication_supplier": "This defines the baseline level of damages a supplier is typically expected to cover.",
+        "source_insight": "The text offers a clear definition of direct damages, contrasting them with indirect damages.",
+        "text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "120c9d86-5b85-4fe1-8b5d-0328832e2215",
+      "content": {
+        "id": "c9d0e1f2-a3b4-5678-9012-abcdef012347",
+        "type": "OTHER",
+        "verbatim_text": "An example of direct damages would be the price difference paid by the buyer in those case where the buyer has been compelled to make a covering purchase from a third party supplier as a result of the seller’s breach.",
+        "plain_text": "An example of direct damages is the price difference a buyer pays for a substitute purchase from a third party due to the seller's breach.",
+        "expert_insight": "This is a classic, easily quantifiable example of direct damages, often used in contract law to illustrate immediate, measurable losses.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "Provides a concrete example of direct damages.",
+        "implication_company": "This is a clear type of damage we can claim if a supplier breaches and we need to source elsewhere.",
+        "implication_supplier": "This is a direct, quantifiable cost a supplier might be liable for in case of breach.",
+        "source_insight": "The text provides a common and clear example of direct damages.",
+        "text": "An example of direct damages would be the price difference paid by the buyer in those case where the buyer has been compelled to make a covering purchase from a third party supplier as a result of the seller’s breach."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "e7ca12ee-adf2-493d-ab3c-08cb2b465c81",
+      "content": {
+        "id": "d0e1f2a3-b4c5-6789-0123-abcdef012348",
+        "type": "OTHER",
+        "verbatim_text": "Another example would be the cost of expedited freight in case of delay in the seller’s performance.",
+        "plain_text": "Another example of direct damages is the cost of expedited freight due to a seller's delayed performance.",
+        "expert_insight": "This further illustrates direct damages as immediate, necessary costs incurred to mitigate the direct impact of a breach.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "Provides another concrete example of direct damages.",
+        "implication_company": "This is another type of direct cost we might incur and claim if a supplier causes delays.",
+        "implication_supplier": "This is a direct, quantifiable cost a supplier might be liable for in case of delay.",
+        "source_insight": "The text offers a second, distinct example of direct damages.",
+        "text": "Another example would be the cost of expedited freight in case of delay in the seller’s performance."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "ddb657b1-6968-4acb-b189-6bd04f39e512",
+      "content": {
+        "id": "e1f2a3b4-c5d6-7890-1234-abcdef012349",
+        "type": "OTHER",
+        "verbatim_text": "Sometimes it can be difficult to draw clean lines between indirect and direct damages.",
+        "plain_text": "It can sometimes be challenging to clearly differentiate between indirect and direct damages.",
+        "expert_insight": "This crucial caveat highlights a common area of dispute in contract litigation, emphasizing the need for precise contractual definitions and careful drafting to avoid ambiguity.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Points out a common difficulty in practice regarding the distinction.",
+        "implication_company": "We must ensure our contract language is as precise as possible to minimize ambiguity and potential disputes.",
+        "implication_supplier": "This indicates a potential area of contention where legal interpretation might be required.",
+        "source_insight": "The text acknowledges the practical difficulty in applying the distinction, adding a layer of realism.",
+        "text": "Sometimes it can be difficult to draw clean lines between indirect and direct damages."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "e33dcf01-868d-47fd-b7d0-060a71cafd54",
+      "content": {
+        "id": "f2a3b4c5-d6e7-8901-2345-abcdef012350",
+        "type": "OTHER",
+        "verbatim_text": "Please see more on indirect damages in the section titled ‘Limitation of Liability’ below.",
+        "plain_text": "Refer to the 'Limitation of Liability' section for further details on indirect damages.",
+        "expert_insight": "This instruction indicates that the topic of indirect damages is integral to the broader 'Limitation of Liability' clause, which is a critical section for risk management in any contract.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "Directs the reader to another section for more information.",
+        "implication_company": "We should review the 'Limitation of Liability' section carefully as it will contain the binding rules related to indirect damages.",
+        "implication_supplier": "This points to the contractual section where the actual liability limits for indirect damages will be defined.",
+        "source_insight": "The text provides a clear directive to consult another part of the document for more information.",
+        "text": "Please see more on indirect damages in the section titled ‘Limitation of Liability’ below."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "e993d8e1-a9ca-47d9-b82e-798cff82a46f",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "DEFINITION",
+        "verbatim_text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act.",
+        "plain_text": "Indirect damages are those that extend beyond direct damages and do not directly or immediately result from an injurious act, but rather indirectly.",
+        "expert_insight": "Standard. Often referred to as 'consequential damages', these typically include loss of profit, revenue, business, goodwill, or anticipated savings. In supply contracts, they frequently arise from the inability to use contracted products or services due to defects, deficiencies, or late delivery. These are often excluded from liability due to their potential for disproportionate loss.",
+        "confidence": 0.95,
+        "text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "ae21601b-392c-43d4-bb54-3bf14ba272df",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "DEFINITION",
+        "verbatim_text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach.",
+        "plain_text": "Direct damages are typically those ordinary and reasonably foreseeable damages that a non-breaching party suffers directly as a result of a breach.",
+        "expert_insight": "Standard. These damages are often easily quantifiable and foreseeable at the time of contract formation. Examples include the price difference paid by a buyer for a covering purchase due to a seller's breach, or the cost of expedited freight due to a delay in performance.",
+        "confidence": 0.95,
+        "text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "d504f98d-ef9e-41de-9250-981c75aecd5f",
+      "content": {
+        "id": "1a0b5c1e-7d8f-4a9b-8c0d-1e2f3a4b5c6d",
+        "type": "DEFINITION",
+        "verbatim_text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act.",
+        "plain_text": "Indirect damages are those that do not directly or immediately result from an injurious act but are a consequence of it, extending beyond direct damages.",
+        "expert_insight": "These are often harder to quantify and prove, and are frequently a point of contention in contract negotiations.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "be0eed7a-f7fe-4c75-8b60-9cc9d53895dd",
+      "content": {
+        "id": "2b1c6d2f-8e9a-4b0c-9d1e-2f3a4b5c6d7e",
+        "type": "DEFINITION",
+        "verbatim_text": "These indirect damages, that are often also referred to as ‘consequential damages’, include loss of profit or revenue or business and loss of goodwill, loss of anticipated savings and similar financial loss.",
+        "plain_text": "Indirect damages, also known as consequential damages, typically include financial losses such as loss of profit, revenue, business, goodwill, or anticipated savings.",
+        "expert_insight": "This list provides common examples of what courts and contracts typically consider indirect or consequential, which is crucial for drafting exclusion clauses.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "These indirect damages, that are often also referred to as ‘consequential damages’, include loss of profit or revenue or business and loss of goodwill, loss of anticipated savings and similar financial loss."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "2d205250-de2f-4931-9dc3-fd7cca3017f9",
+      "content": {
+        "id": "3c2d7e3a-9f0b-4c1d-a02f-3a4b5c6d7e8f",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "In the context of supply contracts these indirect and or consequential damages typically arise from the inability to use the contracted products or services due to their defects or other deficiencies or as a result of late delivery.",
+        "plain_text": "In supply contracts, indirect or consequential damages commonly arise from the inability to use products or services due to defects, deficiencies, or late delivery.",
+        "expert_insight": "This highlights common triggers for indirect damages in a specific contractual setting, which helps in risk assessment and contract drafting for suppliers and buyers.",
+        "confidence": 1.0,
+        "justification": "This provides specific context for how indirect damages manifest in supply contracts.",
+        "implication_company": "Companies procuring goods/services should consider these scenarios when assessing potential indirect damages from supplier non-performance.",
+        "implication_supplier": "Suppliers should be aware that product defects, deficiencies, or late delivery are common causes of indirect damages for their customers.",
+        "source_insight": "The text directly provides this contextual information.",
+        "text": "In the context of supply contracts these indirect and or consequential damages typically arise from the inability to use the contracted products or services due to their defects or other deficiencies or as a result of late delivery."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "b89ed897-57bf-4a94-8719-201f5eb5ca73",
+      "content": {
+        "id": "4d3e8f4b-a10c-4d2e-b13a-4b5c6d7e8f90",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The distinction between indirect and direct damages is of great importance in any commercial contract.",
+        "plain_text": "The differentiation between indirect and direct damages is highly important in all commercial contracts.",
+        "expert_insight": "This distinction is fundamental because it directly impacts liability exposure and the scope of potential financial recovery for both parties.",
+        "confidence": 1.0,
+        "justification": "This statement emphasizes the significance of the distinction.",
+        "implication_company": "Companies must understand this distinction to effectively manage risk and negotiate liability clauses in their contracts.",
+        "implication_supplier": "Suppliers need to grasp this distinction to limit their potential liability for indirect damages.",
+        "source_insight": "The text explicitly states the importance.",
+        "text": "The distinction between indirect and direct damages is of great importance in any commercial contract."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "a5eaedd8-0141-4284-86b7-a24cfe175de7",
+      "content": {
+        "id": "5e4f9a5c-b21d-4e3f-c24b-5c6d7e8f90a1",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Direct damages are often easily quantifiably and foreseeable at the time of entering into a contract, whereas liability for indirect damages could lead to accepting liability for an enormous loss.",
+        "plain_text": "Direct damages are typically quantifiable and foreseeable at contract inception, while liability for indirect damages can result in immense, unpredictable losses.",
+        "expert_insight": "This explains *why* the distinction between direct and indirect damages is important for risk management and why parties often seek to limit or exclude indirect damages.",
+        "confidence": 1.0,
+        "justification": "This provides a comparative analysis of direct vs. indirect damages regarding quantifiability and potential loss.",
+        "implication_company": "Companies should be aware that accepting liability for indirect damages can expose them to significant, potentially unmanageable financial risks.",
+        "implication_supplier": "Suppliers face substantial risk if they do not limit their liability for indirect damages, as these can be disproportionately large.",
+        "source_insight": "The text directly provides this comparative information.",
+        "text": "Direct damages are often easily quantifiably and foreseeable at the time of entering into a contract, whereas liability for indirect damages could lead to accepting liability for an enormous loss."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "eedb811f-32d0-4686-92e5-e28fff434605",
+      "content": {
+        "id": "6f5a0b6d-c32e-4f4a-d35c-6d7e8f90a1b2",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "As an example a late delivery of a critical software component or equipment may delay the entire industrial rollout and lead to substantial losses through lost future revenues or loss of profit.",
+        "plain_text": "For instance, a late delivery of a critical software component or equipment could delay an entire industrial rollout, causing significant losses in future revenues or profits.",
+        "expert_insight": "This practical example illustrates the cascading effect of indirect damages and their potential magnitude, reinforcing the need for clear contractual terms.",
+        "confidence": 1.0,
+        "justification": "This is presented as a clear example of indirect damages.",
+        "implication_company": "Companies relying on critical components must consider the potential for such indirect damages and include robust clauses for supplier delays.",
+        "implication_supplier": "Suppliers of critical components face high exposure to indirect damages if their delays impact customer operations significantly.",
+        "source_insight": "The text provides this as an example.",
+        "text": "As an example a late delivery of a critical software component or equipment may delay the entire industrial rollout and lead to substantial losses through lost future revenues or loss of profit."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "30902c07-5c1d-406d-b06f-1ed0d87f2273",
+      "content": {
+        "id": "7a6b1c7e-d43f-4a5b-e46d-7e8f90a1b2c3",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller.",
+        "plain_text": "Indirect damages are frequently excluded from a seller's liability due to the risk of disproportionate financial exposure, even if the seller caused them.",
+        "expert_insight": "This is a common contractual practice (limitation of liability clauses) to manage risk, especially for sellers, and is often a heavily negotiated point.",
+        "confidence": 1.0,
+        "justification": "This describes a common practice regarding liability for indirect damages.",
+        "implication_company": "Companies purchasing goods/services should be aware that sellers commonly seek to exclude liability for indirect damages, requiring careful negotiation.",
+        "implication_supplier": "Suppliers typically benefit from excluding indirect damages from their liability to prevent disproportionate financial burdens.",
+        "source_insight": "The text describes this common exclusion practice.",
+        "text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "6ed98787-e8ff-41d7-865e-745c4e2e6ab8",
+      "content": {
+        "id": "8b7c2d8f-e54a-4b6c-f57e-8f90a1b2c3d4",
+        "type": "DEFINITION",
+        "verbatim_text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach.",
+        "plain_text": "Direct damages are typically those ordinary and reasonably likely losses that the non-breaching party suffers directly due to a breach.",
+        "expert_insight": "This definition emphasizes the direct causal link and the foreseeability of the loss, distinguishing them from the more remote indirect damages.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "d6dfee95-2671-496e-b437-afc1cd3737a7",
+      "content": {
+        "id": "9c8d3e9a-f65b-4c7d-068f-90a1b2c3d4e5",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "An example of direct damages would be the price difference paid by the buyer in those case where the buyer has been compelled to make a covering purchase from a third party supplier as a result of the seller’s breach.",
+        "plain_text": "An example of direct damages is the price difference a buyer pays when forced to make a covering purchase from a third-party supplier due to the original seller's breach.",
+        "expert_insight": "This is a classic example of direct damages, representing the immediate cost incurred to mitigate the breach.",
+        "confidence": 1.0,
+        "justification": "This is presented as a clear example of direct damages.",
+        "implication_company": "Companies can expect to recover such price differences as direct damages if a supplier breaches a contract and a covering purchase is necessary.",
+        "implication_supplier": "Suppliers should be aware that breaching a contract may result in liability for the price difference if the buyer procures goods elsewhere.",
+        "source_insight": "The text provides this as an example.",
+        "text": "An example of direct damages would be the price difference paid by the buyer in those case where the buyer has been compelled to make a covering purchase from a third party supplier as a result of the seller’s breach."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "946b06cd-281e-4bb1-9f39-6c921a402b12",
+      "content": {
+        "id": "0d9e4f0b-076c-4d8e-179a-0a1b2c3d4e5f",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "Another example would be the cost of expedited freight in case of delay in the seller’s performance.",
+        "plain_text": "The cost of expedited freight due to a seller's delayed performance is another example of direct damages.",
+        "expert_insight": "This shows direct costs incurred to remedy or minimize the immediate impact of a breach.",
+        "confidence": 1.0,
+        "justification": "This is presented as a clear example of direct damages.",
+        "implication_company": "Companies may incur and seek to recover expedited freight costs as direct damages if a supplier's delay necessitates faster shipping.",
+        "implication_supplier": "Suppliers could be liable for expedited freight costs if their delays force buyers to seek faster shipping options.",
+        "source_insight": "The text provides this as another example.",
+        "text": "Another example would be the cost of expedited freight in case of delay in the seller’s performance."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "917e291d-8b71-4248-9fb6-cf9d45ef8a24",
+      "content": {
+        "id": "1e0f5a1c-187d-4e9f-280b-1b2c3d4e5f60",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Sometimes it can be difficult to draw clean lines between indirect and direct damages.",
+        "plain_text": "It can sometimes be challenging to clearly differentiate between indirect and direct damages.",
+        "expert_insight": "This acknowledges the practical complexities and potential for disputes, highlighting the need for precise contractual language.",
+        "confidence": 1.0,
+        "justification": "This statement highlights a common difficulty in practice.",
+        "implication_company": "Companies should strive for clear contractual definitions of direct and indirect damages to avoid disputes.",
+        "implication_supplier": "Suppliers should ensure their contracts clearly define what constitutes direct versus indirect damages to manage liability effectively.",
+        "source_insight": "The text directly states this difficulty.",
+        "text": "Sometimes it can be difficult to draw clean lines between indirect and direct damages."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "f2d9662b-1ae3-4d4a-afc2-de5e5faaac12",
+      "content": {
+        "id": "2f1a6b2d-298e-4f0a-391c-2c3d4e5f6071",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "Please see more on indirect damages in the section titled ‘Limitation of Liability’ below.",
+        "plain_text": "Further information on indirect damages can be found in the section titled 'Limitation of Liability'.",
+        "expert_insight": "This indicates that the topic of indirect damages is often intertwined with limitation of liability clauses in contracts, which are critical for risk management.",
+        "confidence": 1.0,
+        "justification": "This is an instruction to refer to another section.",
+        "implication_company": "Companies should review the 'Limitation of Liability' section for a comprehensive understanding of how indirect damages are addressed contractually.",
+        "implication_supplier": "Suppliers should consult the 'Limitation of Liability' section to understand how their exposure to indirect damages is typically managed.",
+        "source_insight": "The text provides this cross-reference.",
+        "text": "Please see more on indirect damages in the section titled ‘Limitation of Liability’ below."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "a332a399-514f-4165-b254-dc658738488e",
+      "content": {
+        "id": "1e2f3g4h-5i6j-7k8l-9m0n-1o2p3q4r5s6t",
+        "type": "DEFINITION",
+        "verbatim_text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act.",
+        "plain_text": "Indirect damages are those that do not directly or immediately result from an injurious act but are an indirect consequence.",
+        "expert_insight": "These damages are often harder to quantify and prove, and are a common point of contention in commercial contracts.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Indirect damages are generally categorized as those damages that go beyond direct damages and that do not flow directly and immediately from the injurious act but result indirectly from the act."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "d106c202-4a27-49d0-aa76-50d3c2a3ee26",
+      "content": {
+        "id": "2a3b4c5d-6e7f-8g9h-0i1j-2k3l4m5n6o7p",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "These indirect damages, that are often also referred to as ‘consequential damages’, include loss of profit or revenue or business and loss of goodwill, loss of anticipated savings and similar financial loss.",
+        "plain_text": "Indirect damages are also known as 'consequential damages' and typically include financial losses such as loss of profit, revenue, business, goodwill, or anticipated savings.",
+        "expert_insight": "This list provides common examples of what constitutes indirect or consequential damages, which is crucial for drafting and interpreting limitation of liability clauses.",
+        "confidence": 1.0,
+        "justification": "The text explicitly lists types of losses that fall under indirect damages.",
+        "implication_company": "Companies should be aware that these types of losses are generally considered indirect and may be excluded from liability in contracts.",
+        "implication_supplier": "Suppliers often seek to exclude liability for these specific types of damages due to their potentially enormous value.",
+        "source_insight": "The text provides a direct enumeration of examples.",
+        "text": "These indirect damages, that are often also referred to as ‘consequential damages’, include loss of profit or revenue or business and loss of goodwill, loss of anticipated savings and similar financial loss."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "d8a3c209-c17b-4e61-a937-801e358354aa",
+      "content": {
+        "id": "3x4y5z6a-7b8c-9d0e-1f2g-3h4i5j6k7l8m",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "In the context of supply contracts these indirect and or consequential damages typically arise from the inability to use the contracted products or services due to their defects or other deficiencies or as a result of late delivery.",
+        "plain_text": "In supply contracts, indirect/consequential damages frequently result from product defects, deficiencies, or late delivery, leading to an inability to use the contracted goods or services.",
+        "expert_insight": "This highlights common triggers for indirect damages in a supply chain context, emphasizing the importance of quality control and timely delivery.",
+        "confidence": 1.0,
+        "justification": "The text specifies the typical causes of indirect damages within supply contracts.",
+        "implication_company": "Companies relying on suppliers should understand that issues like defects or late delivery can cause significant indirect damages to their operations.",
+        "implication_supplier": "Suppliers must be acutely aware that their failure to deliver conforming products or services on time is a primary source of indirect damages for their customers.",
+        "source_insight": "The text directly states the typical causes in supply contracts.",
+        "text": "In the context of supply contracts these indirect and or consequential damages typically arise from the inability to use the contracted products or services due to their defects or other deficiencies or as a result of late delivery."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "f7c6a6d2-9094-42dd-9c35-104ee21ca102",
+      "content": {
+        "id": "4q5r6s7t-8u9v-0w1x-2y3z-4a5b6c7d8e9f",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The distinction between indirect and direct damages is of great importance in any commercial contract.",
+        "plain_text": "Differentiating between indirect and direct damages is crucial in all commercial contracts.",
+        "expert_insight": "This distinction is fundamental for risk allocation and drafting effective limitation of liability clauses.",
+        "confidence": 1.0,
+        "justification": "The text explicitly states the importance of the distinction.",
+        "implication_company": "Companies must understand this distinction to properly assess and manage contractual risks and liabilities.",
+        "implication_supplier": "Suppliers need to understand this distinction to negotiate appropriate liability caps and exclusions.",
+        "source_insight": "The text directly states the importance.",
+        "text": "The distinction between indirect and direct damages is of great importance in any commercial contract."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "493111a6-30ff-4d2a-b992-eed968c9adc5",
+      "content": {
+        "id": "5j6k7l8m-9n0o-1p2q-3r4s-5t6u7v8w9x0y",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Direct damages are often easily quantifiably and foreseeable at the time of entering into a contract, whereas liability for indirect damages could lead to accepting liability for an enormous loss.",
+        "plain_text": "Direct damages are typically quantifiable and foreseeable when a contract is made, but liability for indirect damages can result in immense losses.",
+        "expert_insight": "This explains why parties, especially sellers, are keen to limit or exclude indirect damages due to their unpredictable and potentially catastrophic financial impact.",
+        "confidence": 1.0,
+        "justification": "The text contrasts the nature and potential impact of direct vs. indirect damages.",
+        "implication_company": "Companies should recognize that indirect damages pose a much greater, often unquantifiable, financial risk compared to direct damages.",
+        "implication_supplier": "Suppliers face disproportionately high risks from indirect damages, making their exclusion a critical negotiation point.",
+        "source_insight": "The text directly compares the characteristics and implications.",
+        "text": "Direct damages are often easily quantifiably and foreseeable at the time of entering into a contract, whereas liability for indirect damages could lead to accepting liability for an enormous loss."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "0120c76f-e257-4766-9b31-f03f61383d06",
+      "content": {
+        "id": "6a7b8c9d-0e1f-2g3h-4i5j-6k7l8m9n0o1p",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "As an example a late delivery of a critical software component or equipment may delay the entire industrial rollout and lead to substantial losses through lost future revenues or loss of profit.",
+        "plain_text": "A late delivery of a crucial software component or equipment can delay an entire industrial rollout, causing significant losses from lost future revenues or profits.",
+        "expert_insight": "This example clearly illustrates how a seemingly minor breach (late delivery) can cascade into substantial indirect financial losses.",
+        "confidence": 1.0,
+        "justification": "The text provides a specific scenario demonstrating indirect damages.",
+        "implication_company": "Companies should consider the potential for such cascading effects when assessing the criticality of supplies and services.",
+        "implication_supplier": "Suppliers must understand that delays, especially for critical components, can trigger substantial indirect damages for their customers.",
+        "source_insight": "The text offers a direct example.",
+        "text": "As an example a late delivery of a critical software component or equipment may delay the entire industrial rollout and lead to substantial losses through lost future revenues or loss of profit."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "a24deeea-008d-47e2-87f3-77c629817122",
+      "content": {
+        "id": "7x8y9z0a-1b2c-3d4e-5f6g-7h8i9j0k1l2m",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller.",
+        "plain_text": "Indirect damages are frequently excluded from the seller's liability, even if caused by the seller, because they can result in disproportionate financial responsibility.",
+        "expert_insight": "This is a standard commercial practice, often implemented through 'limitation of liability' clauses, to protect sellers from potentially ruinous claims.",
+        "confidence": 1.0,
+        "justification": "The text describes a common contractual practice regarding indirect damages.",
+        "implication_company": "Companies, as buyers, should be aware that their suppliers will likely seek to exclude liability for indirect damages, which shifts this risk to the buyer.",
+        "implication_supplier": "Suppliers typically push for the exclusion of indirect damages to cap their exposure and avoid disproportionate liability.",
+        "source_insight": "The text states a common practice in commercial contracts.",
+        "text": "Such indirect damages are often excluded from the selling party’s liability as they would lead to disproportionate liability, even if such indirect damages are caused by the seller."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "5becebfe-b2af-4b12-a9e2-abe7a50eb288",
+      "content": {
+        "id": "8m9n0o1p-2q3r-4s5t-6u7v-8w9x0y1z2a3b",
+        "type": "DEFINITION",
+        "verbatim_text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach.",
+        "plain_text": "Direct damages are the ordinary and reasonably foreseeable losses suffered by the non-breaching party directly due to the breach.",
+        "expert_insight": "These are the 'straightforward' losses that directly arise from a contract breach, making them easier to calculate and attribute.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Direct damages on the other hand are generally those damages that are ordinary, and reasonably likely for the non‑breaching party to suffer directly as a result of the breach."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "533cd812-0140-482d-80d7-49d9afbd5ded",
+      "content": {
+        "id": "9c0d1e2f-3g4h-5i6j-7k8l-9m0n1o2p3q4r",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "An example of direct damages would be the price difference paid by the buyer in those case where the buyer has been compelled to make a covering purchase from a third party supplier as a result of the seller’s breach.",
+        "plain_text": "An example of direct damages is when a buyer pays a higher price for a replacement purchase from a third party due to the seller's breach.",
+        "expert_insight": "This illustrates the concept of 'cover' in contract law, where the breaching party is responsible for the direct cost difference incurred by the non-breaching party.",
+        "confidence": 1.0,
+        "justification": "The text provides a specific scenario demonstrating direct damages.",
+        "implication_company": "Companies, as buyers, can claim the price difference as direct damages if forced to buy from another supplier due to a seller's breach.",
+        "implication_supplier": "Suppliers should be aware that if they breach, they may be liable for the direct cost difference if their buyer has to source elsewhere.",
+        "source_insight": "The text offers a direct example.",
+        "text": "An example of direct damages would be the price difference paid by the buyer in those case where the buyer has been compelled to make a covering purchase from a third party supplier as a result of the seller’s breach."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "43f8d3f1-e35e-488d-a75e-106c71b20c27",
+      "content": {
+        "id": "0s1t2u3v-4w5x-6y7z-8a9b-0c1d2e3f4g5h",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "Another example would be the cost of expedited freight in case of delay in the seller’s performance.",
+        "plain_text": "The cost of expedited freight due to a seller's delayed performance is another example of direct damages.",
+        "expert_insight": "This shows that costs directly incurred to mitigate the immediate impact of a breach (like speeding up delivery) are considered direct damages.",
+        "confidence": 1.0,
+        "justification": "The text provides a specific scenario demonstrating direct damages.",
+        "implication_company": "Companies can claim costs like expedited freight as direct damages if incurred due to a supplier's delay.",
+        "implication_supplier": "Suppliers should be aware that if their delay causes a buyer to incur extra costs for expedited shipping, these are direct damages they may be liable for.",
+        "source_insight": "The text offers a direct example.",
+        "text": "Another example would be the cost of expedited freight in case of delay in the seller’s performance."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "5961eacc-1f79-465a-b386-6fa36d785357",
+      "content": {
+        "id": "1i2j3k4l-5m6n-7o8p-9q0r-1s2t3u4v5w6x",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Sometimes it can be difficult to draw clean lines between indirect and direct damages.",
+        "plain_text": "Distinguishing clearly between indirect and direct damages can sometimes be challenging.",
+        "expert_insight": "This highlights a common legal ambiguity, leading to disputes and emphasizing the need for clear contractual definitions and examples.",
+        "confidence": 1.0,
+        "justification": "The text acknowledges the difficulty in distinguishing between the two types of damages.",
+        "implication_company": "Companies should anticipate potential disputes over the classification of damages and aim for clear contractual language.",
+        "implication_supplier": "Suppliers should be prepared for potential arguments from customers regarding whether certain damages are direct or indirect.",
+        "source_insight": "The text directly states the difficulty.",
+        "text": "Sometimes it can be difficult to draw clean lines between indirect and direct damages."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "b274251a-bade-466e-aa50-121a79118e10",
+      "content": {
+        "id": "2y3z4a5b-6c7d-8e9f-0g1h-2i3j4k5l6m7n",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Please see more on indirect damages in the section titled ‘Limitation of Liability’ below.",
+        "plain_text": "Further information on indirect damages can be found in the 'Limitation of Liability' section.",
+        "expert_insight": "This indicates that the concept of indirect damages is intrinsically linked to contractual clauses that limit or exclude liability.",
+        "confidence": 1.0,
+        "justification": "The text refers to another section for more information.",
+        "implication_company": "Companies should review the 'Limitation of Liability' section to understand how indirect damages are contractually addressed.",
+        "implication_supplier": "Suppliers should refer to the 'Limitation of Liability' section for details on how their exposure to indirect damages is managed.",
+        "source_insight": "The text provides a cross-reference.",
+        "text": "Please see more on indirect damages in the section titled ‘Limitation of Liability’ below."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

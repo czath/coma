@@ -1,0 +1,172 @@
+[
+  {
+    "section_id": "g_1",
+    "decisions": [],
+    "clusters": [],
+    "recommendations": []
+  },
+  {
+    "section_id": "g_2",
+    "decisions": [
+      {
+        "id": "44d39d8c-b055-4a07-94f6-be66dc6b9e8c",
+        "is_valid": false,
+        "decision_content": {},
+        "rationale": "Rejected: The source text 'ACCEPTANCE' is a common legal term. The candidate provides a generic definition of this term, not a specific or unique definition provided *by the source document itself*. For a definition to be a valid finding, the document must explicitly define the term or use it in a way that requires clarification beyond its common understanding. This candidate merely defines a common word, which does not constitute a specific finding from the document.",
+        "decision_confidence": 1.0,
+        "source_cluster_id": "22904635-43c8-499d-8c7d-6a2119996091",
+        "supporting_evidence": [
+          "823b358e-5e62-420c-8065-64823477086a"
+        ]
+      }
+    ],
+    "clusters": [
+      {
+        "id": "22904635-43c8-499d-8c7d-6a2119996091",
+        "recommendation_ids": [
+          "823b358e-5e62-420c-8065-64823477086a"
+        ]
+      }
+    ],
+    "recommendations": [
+      {
+        "id": "823b358e-5e62-420c-8065-64823477086a",
+        "content": {
+          "id": "a2b3c4d5-e6f7-89a0-1234-567890abcdef",
+          "type": "DEFINITION",
+          "verbatim_text": "ACCEPTANCE",
+          "plain_text": "The act of agreeing to an offer or contract.",
+          "expert_insight": "In contract law, acceptance is a final and unqualified assent to the terms of an offer. It must be communicated to the offeror and mirror the terms of the offer (mirror image rule) to form a binding contract. Silence generally does not constitute acceptance, and it must be clear and unambiguous.",
+          "confidence": 1.0,
+          "justification": "N/A",
+          "implication_company": "N/A",
+          "implication_supplier": "N/A",
+          "source_insight": "N/A",
+          "text": "ACCEPTANCE"
+        },
+        "source_agent": "AGENT_4",
+        "confidence": 1.0,
+        "config_snapshot": {
+          "name": "General Scout A",
+          "model": "gemini-2.5-flash",
+          "temperature": 0.5,
+          "top_p": 0.95,
+          "max_output_tokens": 65536,
+          "prompt_file": "prompts/agent_4_prompt.txt"
+        }
+      }
+    ]
+  },
+  {
+    "section_id": "g_3",
+    "decisions": [],
+    "clusters": [],
+    "recommendations": []
+  },
+  {
+    "section_id": "g_4",
+    "decisions": [],
+    "clusters": [],
+    "recommendations": []
+  },
+  {
+    "section_id": "g_5",
+    "decisions": [],
+    "clusters": [],
+    "recommendations": []
+  },
+  {
+    "section_id": "g_6",
+    "decisions": [
+      {
+        "id": "6d2e306d-a5f4-473e-87a4-655c19b7526f",
+        "is_valid": true,
+        "decision_content": {
+          "type": "OTHER",
+          "id": "cluster_component_materials_liability",
+          "verbatim_text": "COMPONENT/MATERIALS LIABILITY",
+          "plain_text": "This phrase identifies a specific area of legal concern regarding liability for components and materials.",
+          "expert_insight": "This topic is crucial for understanding the allocation of risk and responsibility in manufacturing and supply chain agreements. It addresses who bears the financial and legal burden for defects, non-conformity, or failures originating from raw materials or sub-components. It indicates a section or discussion focused on the legal responsibilities and obligations concerning components and materials used in products or services.",
+          "confidence": 1.0,
+          "subtype": "INFO",
+          "justification": "The input explicitly names a significant legal and contractual area, serving as a heading or topic identifier.",
+          "implication_company": "Companies must clearly define component and material liability in their contracts to protect themselves against potential financial and reputational damage stemming from faulty inputs.",
+          "implication_supplier": "Suppliers are typically held accountable for the quality and conformity of the components and materials they provide, necessitating stringent quality control measures and precise contractual terms.",
+          "source_insight": "N/A"
+        },
+        "rationale": "Consensus: Both agents correctly identified the text as 'OTHER' with 'INFO' subtype, indicating it's a heading or topic identifier. Evaluation: The verbatim text 'COMPONENT/MATERIALS LIABILITY' clearly functions as a heading, introducing a specific legal area. It passes the Value Assessment as it is self-sufficient and clearly defines a topic. It passes the Type-Specific Criteria for 'OTHER' by providing essential contextualization for a significant section of a legal document. It passes the Utility Check as it helps in understanding the document's structure and the critical areas it addresses. The consolidated record combines the best insights from both agents.",
+        "decision_confidence": 1.0,
+        "source_cluster_id": "39ea745e-4c0b-4ce8-bc6c-7ff9cfb21d70",
+        "supporting_evidence": [
+          "09fa10cd-fd33-494d-9c09-fa0ac774a61b",
+          "fe06884b-adfc-4ed9-9113-f4796cff246a"
+        ]
+      }
+    ],
+    "clusters": [
+      {
+        "id": "39ea745e-4c0b-4ce8-bc6c-7ff9cfb21d70",
+        "recommendation_ids": [
+          "09fa10cd-fd33-494d-9c09-fa0ac774a61b",
+          "fe06884b-adfc-4ed9-9113-f4796cff246a"
+        ]
+      }
+    ],
+    "recommendations": [
+      {
+        "id": "09fa10cd-fd33-494d-9c09-fa0ac774a61b",
+        "content": {
+          "id": "787c95a4-22b5-4422-921d-93d395a04e9c",
+          "type": "OTHER",
+          "subtype": "INFO",
+          "verbatim_text": "COMPONENT/MATERIALS LIABILITY",
+          "plain_text": "This phrase identifies the topic of liability concerning components and materials.",
+          "expert_insight": "This heading indicates a section or discussion focused on the legal responsibilities and obligations concerning components and materials used in products or services. It typically covers aspects like defects, non-conformity, and quality assurance.",
+          "confidence": 0.9,
+          "justification": "N/A",
+          "implication_company": "N/A",
+          "implication_supplier": "N/A",
+          "source_insight": "N/A",
+          "text": "COMPONENT/MATERIALS LIABILITY"
+        },
+        "source_agent": "AGENT_4",
+        "confidence": 0.9,
+        "config_snapshot": {
+          "name": "General Scout A",
+          "model": "gemini-2.5-flash",
+          "temperature": 0.5,
+          "top_p": 0.95,
+          "max_output_tokens": 65536,
+          "prompt_file": "prompts/agent_4_prompt.txt"
+        }
+      },
+      {
+        "id": "fe06884b-adfc-4ed9-9113-f4796cff246a",
+        "content": {
+          "id": "27083049-573e-4d40-b472-88f572111100",
+          "type": "OTHER",
+          "subtype": "INFO",
+          "verbatim_text": "COMPONENT/MATERIALS LIABILITY",
+          "plain_text": "This phrase identifies a specific area of legal concern regarding liability for components and materials.",
+          "expert_insight": "This topic is crucial for understanding the allocation of risk and responsibility in manufacturing and supply chain agreements. It addresses who bears the financial and legal burden for defects, non-conformity, or failures originating from raw materials or sub-components.",
+          "confidence": 1.0,
+          "justification": "The input explicitly names a significant legal and contractual area.",
+          "implication_company": "Companies must clearly define component and material liability in their contracts to protect themselves against potential financial and reputational damage stemming from faulty inputs.",
+          "implication_supplier": "Suppliers are typically held accountable for the quality and conformity of the components and materials they provide, necessitating stringent quality control measures and precise contractual terms.",
+          "source_insight": "N/A",
+          "text": "COMPONENT/MATERIALS LIABILITY"
+        },
+        "source_agent": "AGENT_5",
+        "confidence": 1.0,
+        "config_snapshot": {
+          "name": "General Scout B",
+          "model": "gemini-2.5-flash",
+          "temperature": 0.5,
+          "top_p": 0.95,
+          "max_output_tokens": 65536,
+          "prompt_file": "prompts/agent_5_prompt.txt"
+        }
+      }
+    ]
+  }
+]

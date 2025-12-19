@@ -1,0 +1,51 @@
+[
+  {
+    "section_id": "g_1",
+    "title": "ACCEPTANCE",
+    "decisions": []
+  },
+  {
+    "section_id": "g_2",
+    "title": "ARBITRATION",
+    "decisions": []
+  },
+  {
+    "section_id": "g_3",
+    "title": "ASSIGNMENT",
+    "decisions": [
+      {
+        "id": "6a596d07-2e33-4711-897b-58eb7e11096f",
+        "is_valid": true,
+        "decision_content": {
+          "type": "OTHER",
+          "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+          "verbatim_text": "ASSIGNMENT",
+          "plain_text": "The term 'Assignment' is presented, indicating that the subsequent discussion or document section will pertain to the transfer of contractual rights or obligations.",
+          "expert_insight": "This term is foundational in contract law, defining the ability of parties to transfer their interests. Its presence signals a critical area for negotiation, as restrictions or permissions around assignment can significantly impact a company's operational flexibility, especially in mergers, acquisitions, or outsourcing scenarios. Understanding the default legal position and any proposed contractual deviations is paramount.",
+          "confidence": 0.8,
+          "subtype": "INFO",
+          "justification": "The word 'ASSIGNMENT' serves as a topic or label, providing general information about the subject matter that will be discussed. It sets the context for potential clauses, tactics, or instructions related to the transfer of contractual rights and obligations.",
+          "implication_company": "We need to ensure the assignment clause allows for necessary operational flexibility, such as transferring contracts in the event of a merger, acquisition, or internal restructuring, without undue burden or consent requirements.",
+          "implication_supplier": "The supplier will be concerned about who they are contracting with and to whom their obligations might be transferred. They may seek to restrict our ability to assign, or conversely, ensure they have the right to assign their own obligations (e.g., to a subcontractor or successor entity).",
+          "source_insight": "As a standalone term, 'ASSIGNMENT' lacks specific tactical or instructional content. Its value is purely as a contextual indicator of the subject matter. Further text would be required to extract specific strategic advice or process steps."
+        },
+        "rationale": "Consensus: Single candidate classified 'OTHER' (INFO). Evaluation: The verbatim text 'ASSIGNMENT' is a section heading, which serves as a contextual indicator for a critical contractual topic. The plain_text and expert_insight accurately describe its function and importance, highlighting its significance for negotiation and document navigation. Passed Value and Utility checks as it helps in understanding the document structure and flags a key area for review.",
+        "decision_confidence": 0.95,
+        "source_cluster_id": "9d5e2f83-90e0-48db-a9a4-b98e439616f6",
+        "supporting_evidence": [
+          "e0e78f43-2f9b-4ae8-aa3a-dfd86a8841f8"
+        ]
+      }
+    ]
+  },
+  {
+    "section_id": "g_4",
+    "title": "\u2018BEST EFFORTS\u2019 PROVISIONS",
+    "decisions": []
+  },
+  {
+    "section_id": "g_5",
+    "title": "COMPONENT/MATERIALS LIABILITY",
+    "decisions": []
+  }
+]

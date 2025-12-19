@@ -1,0 +1,578 @@
+{
+  "section_id": "line_1766085084910_ck0ebdin7",
+  "decisions": [
+    {
+      "id": "7e5502b0-f522-4af9-b6f1-3d112ab542be",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "f8e7d6c5-b4a3-2109-fedc-ba9876543210",
+        "verbatim_text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract. ... They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract.",
+        "plain_text": "Always include a severability clause in contracts to ensure that if any provision is declared invalid or unenforceable by a court, the remaining valid provisions of the contract remain effective and enforceable.",
+        "expert_insight": "A severability clause is a fundamental protective measure. Without it, a minor legal issue with one provision could unravel the entire agreement, leading to significant commercial disruption and potential loss of rights or obligations that were otherwise valid. It's a standard clause that safeguards the overall intent and enforceability of the contract, especially across different jurisdictions with varying legal interpretations. Its core function is to preserve the enforceability of a contract's valid provisions, preventing the invalidation of the entire agreement due to a defect in one part.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Applies to all commercial contracts, particularly those with international scope or where specific clauses might be subject to legal challenge.",
+        "justification": "The text explicitly states that severability clauses 'are important to be included' and warns that 'without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract.' This highlights a critical risk to contract enforceability, making its inclusion mandatory for risk mitigation.",
+        "implication_company": "Ensures the company's contracts remain largely enforceable even if specific provisions are challenged or invalidated, protecting the overall commercial agreement and reducing legal risk and potential business disruption.",
+        "implication_supplier": "Ensures that their obligations and rights under the valid parts of the contract remain in force, even if other parts are deemed invalid, providing clarity and continuity of the commercial relationship.",
+        "source_insight": "The source text explicitly defines a severability clause and then highlights the critical risk of entire contract invalidation without such a clause. It explicitly states they 'are important to be included' and are 'standard fare and rarely negotiated,' reinforcing their universal applicability and importance. The example provided further illustrates the desired wording."
+      },
+      "rationale": "Consensus Check: The cluster shows a mix of types, with some agents identifying a 'DEFINITION' (Candidates 2, 4, 5, 7), others an 'OTHER' (INFO) regarding the consequence of omission (Candidates 3, 6, 8), and one agent identifying a 'GUIDELINE' (Candidate 1). \n\nValue Assessment: The source text clearly defines a severability clause, explains the risk of its absence, and explicitly states its importance for inclusion. The most actionable and comprehensive finding is the imperative to include the clause, which is a GUIDELINE. The definition and the explanation of risk serve as crucial context and justification for this guideline. The 'plain_text' for the guideline is self-sufficient, implicitly covering the clause's function.\n\nType-Specific Criteria: The consolidated record is classified as a GUIDELINE because the source text states severability clauses 'are important to be included' and details the critical negative consequences of their absence. This creates a specific, actionable obligation for contract drafting. It is not generic advice. The definition is integrated into the 'plain_text' and 'expert_insight' for completeness.\n\nUtility Check: This finding is highly specific and directly helps in contract drafting and negotiation by highlighting a critical protective measure and its rationale. It clarifies a key contractual term and protects the company from significant legal risks.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "96228da1-a423-4597-8f68-29bc81e9253c",
+      "supporting_evidence": [
+        "1c43b0cc-c92d-4709-bedc-fbfbd2eb008d",
+        "f03bba65-c980-4731-b411-91bfb1a02a77",
+        "eeaf682f-0f77-4f00-9e4f-e5555a8e5b11",
+        "be1f4996-d474-45f5-b4d0-c013d6e85e8e",
+        "0b2436fa-7934-41e5-8f7e-44e12465c80f",
+        "04aac58c-31e4-4307-8f82-143fc0d09208",
+        "f6cf6300-966e-4779-b842-04d24151fde9",
+        "bb6f5a96-674b-46a6-bfaf-c099e0a01190"
+      ]
+    },
+    {
+      "id": "0973cc84-88b8-4e70-a390-e6f89ebb2cb1",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "verbatim_text": "A typical example of a severability clause would be: “If any provision or provisions of this [Agreement] shall be held to be invalid, illegal, unenforceable or in conflict with the law of any jurisdiction, the validity, legality and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.”",
+        "plain_text": "A typical severability clause example states that if any provision of an agreement is found invalid, illegal, unenforceable, or in conflict with the law of any jurisdiction, the validity, legality, and enforceability of the remaining provisions will not be affected or impaired.",
+        "expert_insight": "This provides a concrete, ready-to-use template for a severability clause, which can be directly incorporated into contracts or used as a benchmark during review, ensuring the enforceability of the agreement's valid parts even if some provisions are challenged.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "The text explicitly presents this as a 'typical example' of a severability clause.",
+        "implication_company": "Provides a direct example for legal teams to use or adapt when drafting contracts, ensuring the enforceability of the agreement's valid parts.",
+        "implication_supplier": "Offers clarity on the type of language to expect or propose in contractual agreements, demonstrating the common legal approach to severability.",
+        "source_insight": "The text clearly labels and quotes a sample clause."
+      },
+      "rationale": "Consensus: All agents correctly identified the finding as an 'OTHER' type with 'EXAMPLE' subtype. Value Assessment: The verbatim text, including the introductory phrase, provides complete context for the example. The plain text and expert insight are clear, self-sufficient, and add significant value by offering a direct template. Type-Specific Criteria: This perfectly fits the 'EXAMPLE' subtype, providing a concrete illustration of a severability clause. Utility Check: This is highly useful for drafting and understanding severability clauses, making it a valuable finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "2658ef6f-74a7-4d11-9037-199d27eb0ba1",
+      "supporting_evidence": [
+        "ec1f99bf-a8e7-4e3e-aa88-7a5e644a78de",
+        "ae09ca9f-0189-4b7e-a452-965a026d6fce",
+        "05f109ef-1e6d-4a06-b2c4-aa83fcef3a2e"
+      ]
+    },
+    {
+      "id": "580f3e0b-c98f-4da4-8b0c-e8d9ee55417c",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "674127c5-593b-4861-a083-d933e1444265",
+        "verbatim_text": "These severability clause are standard fare and rarely negotiated. They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract.",
+        "plain_text": "Severability clauses are standard provisions and are typically not negotiated. Their inclusion is crucial because contracts may be enforced in jurisdictions where laws differ from those originally intended by the parties.",
+        "expert_insight": "Severability clauses are boilerplate and rarely negotiated, suggesting that legal teams should generally not expend significant negotiation capital on them. Despite their standard nature, their inclusion is critically important, especially in international contracts, as they protect the enforceability of the agreement across varying legal systems and interpretations.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Describes the common status of severability clauses (standard, rarely negotiated) and provides the critical reason for their inclusion (protection against differing laws in various jurisdictions).",
+        "implication_company": "The company should routinely include severability clauses in contracts, recognizing their vital role in maintaining contract enforceability across different legal environments. Given they are rarely negotiated, the company should generally not initiate negotiation on this clause, saving resources for more material terms.",
+        "implication_supplier": "Suppliers should expect severability clauses to be present and generally accept them without extensive negotiation, understanding their purpose in safeguarding the contract's validity, particularly in multi-jurisdictional contexts.",
+        "source_insight": "The text explicitly states that these clauses are 'standard fare and rarely negotiated' and explains their importance due to potential enforcement in countries with differing laws."
+      },
+      "rationale": "Consensus: All agents classified the finding as 'OTHER'. Subtype was split between 'TACTIC' (Agent 1) and 'INFO' (Agents 2 & 3). The primary nature of the source text is descriptive information about the clause's common status and its importance, from which tactical implications can be derived. Therefore, 'INFO' is the most appropriate subtype. Candidate 3 provided the most complete verbatim text, capturing both the commonality and the critical justification for inclusion, making it self-sufficient and highly valuable. The plain text is clear and contextualized. Passed Value and Utility tests.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "8a34e9d6-042a-45ee-abb7-f3cd9cfdca64",
+      "supporting_evidence": [
+        "5367cb98-4508-4154-917d-e97248d5c6a9",
+        "b69d2529-8e15-46fb-8118-41db91d472a4",
+        "74d3a726-9aa3-468c-bbc7-7d1f9ca23cd9"
+      ]
+    },
+    {
+      "id": "93905fad-7dd7-48eb-be2b-e91d25e15847",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
+        "verbatim_text": "They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract.",
+        "plain_text": "Severability clauses are important to include in contracts because agreements may be enforced in jurisdictions with different laws than those originally intended by the parties.",
+        "expert_insight": "This highlights a critical reason for including severability clauses, particularly in international or multi-jurisdictional contracts. It acts as a safeguard against unforeseen legal conflicts arising from differing national laws, ensuring the core intent of the contract remains enforceable and preventing the entire contract from being invalidated.",
+        "confidence": 1.0,
+        "classification": "HIGH",
+        "conditions": "Contracts that may be enforced in countries with differing legal systems from the intended governing law.",
+        "justification": "The clause protects the contract's enforceability when laws differ across jurisdictions, preventing the entire contract from being invalidated due to a conflict in one part.",
+        "implication_company": "Inclusion protects the company's contractual agreements from being entirely invalidated by foreign laws, preserving business relationships and obligations across various legal environments.",
+        "implication_supplier": "Ensures that the supplier's contractual rights and obligations remain largely intact even if parts are challenged under different legal frameworks, promoting stability for both parties.",
+        "source_insight": "The text explicitly states the importance and provides the rationale related to differing international laws for including severability clauses."
+      },
+      "rationale": "Consensus: Split between 'OTHER' (INFO) and 'GUIDELINE'. Evaluation: The source text states, 'They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract.' The phrase 'important to be included' constitutes a clear recommendation or obligation for action, making it a 'GUIDELINE'. The text itself provides the justification for this guideline. The finding passes the Clarity, Value, Necessity, and Utility checks. It is specific, actionable, and protects the company by ensuring contract stability across different legal jurisdictions. Therefore, classified as a 'GUIDELINE' with 'HIGH' classification.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "49d9e541-ae0c-458a-9da0-903695d81b5b",
+      "supporting_evidence": [
+        "4119a734-dfd2-4c3a-93f5-e3663eec5a13",
+        "4ba7f7bc-010e-49b9-b4df-9fc69e0d5955"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "96228da1-a423-4597-8f68-29bc81e9253c",
+      "recommendation_ids": [
+        "1c43b0cc-c92d-4709-bedc-fbfbd2eb008d",
+        "f03bba65-c980-4731-b411-91bfb1a02a77",
+        "eeaf682f-0f77-4f00-9e4f-e5555a8e5b11",
+        "be1f4996-d474-45f5-b4d0-c013d6e85e8e",
+        "0b2436fa-7934-41e5-8f7e-44e12465c80f",
+        "04aac58c-31e4-4307-8f82-143fc0d09208",
+        "f6cf6300-966e-4779-b842-04d24151fde9",
+        "bb6f5a96-674b-46a6-bfaf-c099e0a01190"
+      ]
+    },
+    {
+      "id": "2658ef6f-74a7-4d11-9037-199d27eb0ba1",
+      "recommendation_ids": [
+        "ec1f99bf-a8e7-4e3e-aa88-7a5e644a78de",
+        "ae09ca9f-0189-4b7e-a452-965a026d6fce",
+        "05f109ef-1e6d-4a06-b2c4-aa83fcef3a2e"
+      ]
+    },
+    {
+      "id": "8a34e9d6-042a-45ee-abb7-f3cd9cfdca64",
+      "recommendation_ids": [
+        "5367cb98-4508-4154-917d-e97248d5c6a9",
+        "b69d2529-8e15-46fb-8118-41db91d472a4",
+        "74d3a726-9aa3-468c-bbc7-7d1f9ca23cd9"
+      ]
+    },
+    {
+      "id": "49d9e541-ae0c-458a-9da0-903695d81b5b",
+      "recommendation_ids": [
+        "4119a734-dfd2-4c3a-93f5-e3663eec5a13",
+        "4ba7f7bc-010e-49b9-b4df-9fc69e0d5955"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "1c43b0cc-c92d-4709-bedc-fbfbd2eb008d",
+      "content": {
+        "id": "f8e7d6c5-b4a3-2109-fedc-ba9876543210",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract. ... They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract.",
+        "plain_text": "Always include a severability clause in contracts to ensure that if any provision is declared invalid or unenforceable, the remaining provisions of the contract remain effective and enforceable.",
+        "expert_insight": "A severability clause is a fundamental protective measure. Without it, a minor legal issue with one provision could unravel the entire agreement, leading to significant commercial disruption and potential loss of rights or obligations that were otherwise valid. It's a standard clause that safeguards the overall intent and enforceability of the contract, especially across different jurisdictions with varying legal interpretations.",
+        "confidence": 1.0,
+        "conditions": "Applies to all commercial contracts, particularly those with international scope or where specific clauses might be subject to legal challenge.",
+        "justification": "The text explicitly states that severability clauses 'are important to be included' and warns that 'without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract.' This highlights a critical risk to contract enforceability, making its inclusion mandatory for risk mitigation.",
+        "implication_company": "Ensures the company's contracts remain largely enforceable even if specific provisions are challenged or invalidated, protecting the overall commercial agreement and reducing legal risk and potential business disruption.",
+        "implication_supplier": "Ensures that their obligations and rights under the valid parts of the contract remain in force, even if other parts are deemed invalid, providing clarity and continuity of the commercial relationship.",
+        "source_insight": "The text emphasizes that these clauses are 'standard fare and rarely negotiated,' reinforcing their universal applicability and importance rather than being a point of contention. The example provided clearly illustrates the desired wording.",
+        "text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract. ... They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "f03bba65-c980-4731-b411-91bfb1a02a77",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "A severability clause is essentially a provision where the parties to a contract agree that the contract’s valid part(s) remain effective and enforceable even if some part(s) of the contract are declared void or invalid by a court.",
+        "plain_text": "A severability clause ensures that the valid parts of a contract remain enforceable even if other parts are deemed invalid by a court.",
+        "expert_insight": "This foundational definition clarifies the core protective function of a severability clause, which is to maintain the integrity of the agreement despite potential legal challenges to specific provisions.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This sentence provides a clear definition and explanation of what a severability clause is.",
+        "implication_company": "Understanding this clause helps ensure that our agreements remain largely intact even if minor provisions are legally challenged or invalidated.",
+        "implication_supplier": "The supplier also benefits from this clause as it prevents the entire contract from being voided due to an issue with a single provision.",
+        "source_insight": "The text directly defines the clause's purpose.",
+        "text": "A severability clause is essentially a provision where the parties to a contract agree that the contract’s valid part(s) remain effective and enforceable even if some part(s) of the contract are declared void or invalid by a court."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "eeaf682f-0f77-4f00-9e4f-e5555a8e5b11",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "verbatim_text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract.",
+        "plain_text": "The absence of a severability clause carries the risk that a court finding one part of the contract unenforceable could invalidate the entire agreement.",
+        "expert_insight": "This highlights the critical risk mitigation aspect of including a severability clause. Its absence creates significant vulnerability for the entire contractual relationship, making its inclusion a strategic imperative.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This explains the crucial consequence of *not* having a severability clause, providing context for its importance.",
+        "implication_company": "This underscores the necessity of including a severability clause in all our contracts to protect the enforceability of the entire agreement.",
+        "implication_supplier": "The supplier faces the same risk of total contract invalidation if this clause is omitted.",
+        "source_insight": "The text explicitly states the negative outcome of omission.",
+        "text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "ec1f99bf-a8e7-4e3e-aa88-7a5e644a78de",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "verbatim_text": "A typical example of a severability clause would be: “If any provision or provisions of this [Agreement] shall be held to be invalid, illegal, unenforceable or in conflict with the law of any jurisdiction, the validity, legality and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.”",
+        "plain_text": "A standard example of a severability clause states that if any provision is found invalid or unenforceable, the remaining provisions' validity and enforceability will not be affected.",
+        "expert_insight": "This provides a concrete, ready-to-use template for a severability clause, which can be directly incorporated into contracts or used as a benchmark during review.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "The text explicitly presents this as a 'typical example' of the clause.",
+        "implication_company": "We can use this exact wording as a standard clause in our contracts.",
+        "implication_supplier": "This is the common language they would expect to see for such a clause.",
+        "source_insight": "The text clearly labels this as an example.",
+        "text": "A typical example of a severability clause would be: “If any provision or provisions of this [Agreement] shall be held to be invalid, illegal, unenforceable or in conflict with the law of any jurisdiction, the validity, legality and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.”"
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "5367cb98-4508-4154-917d-e97248d5c6a9",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "OTHER",
+        "verbatim_text": "These severability clause are standard fare and rarely negotiated.",
+        "plain_text": "Severability clauses are standard provisions and are typically not subject to negotiation.",
+        "expert_insight": "This is a key tactical insight: legal teams should generally not expend negotiation capital on severability clauses, as they are widely accepted and considered boilerplate. Focus resources on more contentious or material terms.",
+        "confidence": 1.0,
+        "subtype": "TACTIC",
+        "justification": "This statement provides strategic advice on how to approach negotiation regarding this clause.",
+        "implication_company": "We should not anticipate or initiate negotiation on this clause, saving time and effort for more critical terms.",
+        "implication_supplier": "They will likely expect this clause to be accepted without discussion, aligning with industry practice.",
+        "source_insight": "The text describes the common negotiation status of the clause.",
+        "text": "These severability clause are standard fare and rarely negotiated."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "4119a734-dfd2-4c3a-93f5-e3663eec5a13",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "OTHER",
+        "verbatim_text": "They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract.",
+        "plain_text": "Severability clauses are crucial for inclusion, especially given that contracts may be enforced in jurisdictions with laws different from those originally intended by the parties.",
+        "expert_insight": "This emphasizes the global and cross-jurisdictional importance of the clause, reinforcing its mandatory inclusion, particularly for international agreements where legal frameworks can vary significantly.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This explains a specific, critical reason for the clause's importance, particularly in an international context.",
+        "implication_company": "This highlights the necessity of always including this clause, especially in contracts with international implications, to safeguard against unforeseen legal conflicts.",
+        "implication_supplier": "The supplier also benefits from this protection, ensuring contract stability across different legal environments.",
+        "source_insight": "The text provides a specific rationale for the clause's importance.",
+        "text": "They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "be1f4996-d474-45f5-b4d0-c013d6e85e8e",
+      "content": {
+        "id": "a0e1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5",
+        "type": "DEFINITION",
+        "verbatim_text": "A severability clause is essentially a provision where the parties to a contract agree that the contract’s valid part(s) remain effective and enforceable even if some part(s) of the contract are declared void or invalid by a court.",
+        "plain_text": "A severability clause is a contract provision where parties agree that the valid parts of the contract remain effective and enforceable even if some parts are declared void or invalid by a court.",
+        "expert_insight": "Standard.",
+        "confidence": 1.0,
+        "text": "A severability clause is essentially a provision where the parties to a contract agree that the contract’s valid part(s) remain effective and enforceable even if some part(s) of the contract are declared void or invalid by a court."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "0b2436fa-7934-41e5-8f7e-44e12465c80f",
+      "content": {
+        "id": "2d1a3e5c-9b8f-4d7e-8c1a-0b2f3e4d5a6b",
+        "type": "DEFINITION",
+        "verbatim_text": "A severability clause is essentially a provision where the parties to a contract agree that the contract’s valid part(s) remain effective and enforceable even if some part(s) of the contract are declared void or invalid by a court.",
+        "plain_text": "A severability clause is a contractual provision where parties agree that valid parts of a contract remain enforceable even if other parts are deemed void or invalid by a court.",
+        "expert_insight": "This definition highlights the core function of a severability clause: to preserve the enforceability of a contract's valid provisions, preventing the invalidation of the entire agreement due to a defect in one part.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "A severability clause is essentially a provision where the parties to a contract agree that the contract’s valid part(s) remain effective and enforceable even if some part(s) of the contract are declared void or invalid by a court."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "04aac58c-31e4-4307-8f82-143fc0d09208",
+      "content": {
+        "id": "7f0e9d8c-1b2a-3c4d-5e6f-7a8b9c0d1e2f",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract.",
+        "plain_text": "If a contract lacks a severability clause, a court's decision to invalidate one part could lead to the invalidation of the entire contract.",
+        "expert_insight": "This underscores the significant risk of not including a severability clause. Companies could find their entire agreement nullified, even if only a minor provision was problematic, leading to substantial legal and operational disruption.",
+        "confidence": 1.0,
+        "justification": "Explains the critical consequence of omitting a severability clause, providing context for its importance.",
+        "implication_company": "Potential for entire contract invalidation, leading to loss of legal protection and business certainty.",
+        "implication_supplier": "Similar risk of entire contract invalidation, impacting agreements and business relationships.",
+        "source_insight": "The text explicitly states the 'without' condition and its potential outcome.",
+        "text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "ae09ca9f-0189-4b7e-a452-965a026d6fce",
+      "content": {
+        "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "“If any provision or provisions of this [Agreement] shall be held to be invalid, illegal, unenforceable or in conflict with the law of any jurisdiction, the validity, legality and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.”",
+        "plain_text": "A typical severability clause states that if any part of the agreement is found invalid, illegal, unenforceable, or in conflict with law, the rest of the agreement's validity and enforceability will not be affected.",
+        "expert_insight": "This provides a standard template for a severability clause, demonstrating the common legal language used to achieve its purpose. It's a useful reference for drafting contracts.",
+        "confidence": 1.0,
+        "justification": "The text explicitly presents this as a 'typical example' of a severability clause.",
+        "implication_company": "Provides a direct example for legal teams to use or adapt when drafting contracts.",
+        "implication_supplier": "Offers clarity on the type of language to expect or propose in contractual agreements.",
+        "source_insight": "The text directly quotes a sample clause.",
+        "text": "“If any provision or provisions of this [Agreement] shall be held to be invalid, illegal, unenforceable or in conflict with the law of any jurisdiction, the validity, legality and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.”"
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "b69d2529-8e15-46fb-8118-41db91d472a4",
+      "content": {
+        "id": "3e4f5a6b-7c8d-9e0f-1a2b-3c4d5e6f7a8b",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "These severability clause are standard fare and rarely negotiated.",
+        "plain_text": "Severability clauses are common and typically not subject to negotiation.",
+        "expert_insight": "This insight is practical for contract negotiation. It suggests that parties generally accept these clauses without extensive discussion, streamlining the negotiation process for this particular provision.",
+        "confidence": 0.9,
+        "justification": "Provides general information about the commonality and negotiability of severability clauses.",
+        "implication_company": "Indicates that this clause is usually accepted without contention, saving negotiation time.",
+        "implication_supplier": "Suggests that attempting to negotiate this clause is often unnecessary and may be met with resistance.",
+        "source_insight": "The text explicitly states they are 'standard fare' and 'rarely negotiated'.",
+        "text": "These severability clause are standard fare and rarely negotiated."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "4ba7f7bc-010e-49b9-b4df-9fc69e0d5955",
+      "content": {
+        "id": "8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract.",
+        "plain_text": "Severability clauses are important to include in contracts because agreements may be enforced in jurisdictions with different laws than those originally intended by the parties.",
+        "expert_insight": "This highlights a critical reason for including severability clauses, particularly in international or multi-jurisdictional contracts. It acts as a safeguard against unforeseen legal conflicts arising from differing national laws, ensuring the core intent of the contract remains enforceable.",
+        "confidence": 1.0,
+        "conditions": "Contracts that may be enforced in countries with differing legal systems from the intended governing law.",
+        "justification": "The clause protects the contract's enforceability when laws differ across jurisdictions, preventing the entire contract from being invalidated due to a conflict in one part.",
+        "implication_company": "Inclusion protects the company's contractual agreements from being entirely invalidated by foreign laws, preserving business relationships and obligations.",
+        "implication_supplier": "Ensures that the supplier's contractual rights and obligations remain largely intact even if parts are challenged under different legal frameworks.",
+        "source_insight": "The text explicitly states the importance and provides the rationale related to differing international laws.",
+        "text": "They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "f6cf6300-966e-4779-b842-04d24151fde9",
+      "content": {
+        "id": "7616f722-e1b9-4674-8842-1e967a5b1875",
+        "type": "DEFINITION",
+        "verbatim_text": "A severability clause is essentially a provision where the parties to a contract agree that the contract’s valid part(s) remain effective and enforceable even if some part(s) of the contract are declared void or invalid by a court.",
+        "plain_text": "A severability clause is a contractual provision where parties agree that valid parts of a contract remain enforceable even if other parts are declared void or invalid by a court.",
+        "expert_insight": "This clause is crucial for maintaining the integrity of a contract, ensuring that minor legal issues with specific provisions do not lead to the invalidation of the entire agreement.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "A severability clause is essentially a provision where the parties to a contract agree that the contract’s valid part(s) remain effective and enforceable even if some part(s) of the contract are declared void or invalid by a court."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "bb6f5a96-674b-46a6-bfaf-c099e0a01190",
+      "content": {
+        "id": "18f080d8-07b6-455b-802c-7b6134a66a3d",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract.",
+        "plain_text": "If a contract lacks a severability clause, a court's decision to invalidate one part could lead to the invalidation of the entire contract.",
+        "expert_insight": "This highlights the protective nature of severability clauses, preventing a single flawed provision from collapsing the entire contractual arrangement. Companies should always include one to mitigate risk.",
+        "confidence": 1.0,
+        "justification": "Explains the consequence of not having a severability clause.",
+        "implication_company": "Risk of entire contract invalidation if one part is unenforceable.",
+        "implication_supplier": "Risk of entire contract invalidation if one part is unenforceable.",
+        "source_insight": "The text directly states the implication of absence.",
+        "text": "Without a severability clause, a decision by the court finding one part of the contract unenforceable might invalidate the entire contract."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "05f109ef-1e6d-4a06-b2c4-aa83fcef3a2e",
+      "content": {
+        "id": "ad60c329-3738-4e86-90c7-1d57f05359a3",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "“If any provision or provisions of this [Agreement] shall be held to be invalid, illegal, unenforceable or in conflict with the law of any jurisdiction, the validity, legality and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.”",
+        "plain_text": "A common severability clause states that if any provision of the agreement is found invalid, illegal, unenforceable, or in conflict with law, the validity and enforceability of the remaining provisions will not be affected.",
+        "expert_insight": "This provides a standard template for drafting such clauses. It's important to use precise legal language to ensure the clause is effective across different jurisdictions.",
+        "confidence": 1.0,
+        "justification": "This is explicitly presented as a 'typical example' of the clause.",
+        "implication_company": "Provides a model for drafting effective severability clauses.",
+        "implication_supplier": "Provides a model for understanding the scope of severability clauses.",
+        "source_insight": "The text provides this as a direct example.",
+        "text": "“If any provision or provisions of this [Agreement] shall be held to be invalid, illegal, unenforceable or in conflict with the law of any jurisdiction, the validity, legality and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.”"
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "74d3a726-9aa3-468c-bbc7-7d1f9ca23cd9",
+      "content": {
+        "id": "674127c5-593b-4861-a083-d933e1444265",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "These severability clause are standard fare and rarely negotiated. They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract.",
+        "plain_text": "Severability clauses are standard and typically not negotiated. Their inclusion is vital because contracts may be enforced in jurisdictions with laws different from those originally intended by the parties.",
+        "expert_insight": "Despite being standard, their importance cannot be overstated, especially in international contracts where legal systems and interpretations can vary significantly. Companies should ensure they are always present, even if not a point of negotiation.",
+        "confidence": 1.0,
+        "justification": "Provides context on the commonality and importance of these clauses.",
+        "implication_company": "Companies should routinely include severability clauses, recognizing their importance in multi-jurisdictional contexts, even if they are not a point of negotiation.",
+        "implication_supplier": "Suppliers should expect severability clauses in contracts and understand their purpose in protecting the agreement across different legal environments.",
+        "source_insight": "The text explicitly states these facts about the clauses.",
+        "text": "These severability clause are standard fare and rarely negotiated. They are however important to be included due to the fact that contracts can be enforced in countries where the laws differ from those laws that the parties intended to be applied to the contract."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

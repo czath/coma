@@ -1,0 +1,1156 @@
+{
+  "section_id": "line_1766085084910_22fd6loeh",
+  "decisions": [
+    {
+      "id": "4e50e6be-20c5-4cbf-b6e3-28dcbbefcb97",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "golden-record-gross-negligence-liability-001",
+        "verbatim_text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct. The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence.",
+        "plain_text": "Commercial contracts should generally prevent a party from limiting its liability for damages caused by its gross negligence. Specifically, limitation of liability clauses should explicitly state that liability caps do not apply to damages caused by gross negligence, as this is the prevailing norm in commercial contracts.",
+        "expert_insight": "This guideline reflects a standard commercial practice and a fundamental principle in contract law, ensuring accountability for severe misconduct. Explicitly carving out gross negligence from liability caps is crucial for clarity, enforceability, and strengthens the company's position in case of a claim involving severe misconduct. This aligns with prevailing industry norms and provides a strong basis for Zebracorp's negotiation position.",
+        "confidence": 1.0,
+        "classification": "HIGH",
+        "conditions": "Applies to standard commercial contracts, particularly when drafting or reviewing limitation of liability clauses.",
+        "justification": "The practice of preventing parties from limiting liability for gross negligence is a widely accepted norm in commercial contracts ('usually prevent', 'still the norm'). This is further supported by the fact that Zebracorp already incorporates similar language in its subcontracting agreements, which is often non-contentious, and aligns with legal principles in many countries that do not permit disclaiming liability for grossly negligent acts.",
+        "implication_company": "Zebracorp should ensure its contracts reflect this standard practice, explicitly stating that liability caps do not apply to damages caused by gross negligence. This protects the company's ability to claim full damages for severe misconduct, aligning with industry norms and strengthening its negotiation position.",
+        "implication_supplier": "Suppliers should expect that their liability for damages caused by gross negligence will remain uncapped, as this is a standard and often non-contentious term in commercial contracts.",
+        "source_insight": "The text uses 'usually prevent' and 'still the norm' to describe a strong, widely accepted practice, reinforced by examples of implementation and Zebracorp's own existing contract language."
+      },
+      "rationale": "Consensus: Mixed, with some agents classifying as GUIDELINE and others as OTHER (INFO). Decision: The core statements describe a strong normative practice and provide specific advice on how to structure limitation of liability clauses, making them actionable for Zebracorp. The additional context about Zebracorp's existing agreements and industry norms serves as strong justification for this GUIDELINE. Therefore, consolidated as a GUIDELINE. Passed Clarity, Value, Actionability, and Utility checks. Classified as High priority due to its critical impact on liability.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "f2947d60-9f27-40f3-a22a-68ed6744dbe2",
+      "supporting_evidence": [
+        "aad8dc2c-7dca-4792-be51-c5a73a9884b8",
+        "7194e819-e2bd-43a3-ba13-81c88060925b",
+        "a1acf489-c7c3-42ee-bba3-ce91ad6ad81e",
+        "f17425af-7fca-4787-9677-f699d36d7ce5",
+        "8cee7b15-65e9-4cac-82d0-b037e8f1576b"
+      ]
+    },
+    {
+      "id": "aa6f205d-2030-4e90-9e82-8233b9717de8",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "verbatim_text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations.",
+        "plain_text": "Consult with the Legal team before agreeing to any contract terms that would apply liability caps or limitations to grossly negligent conduct.",
+        "expert_insight": "This is a critical internal process guideline. Deviating from the norm of uncapped gross negligence liability carries significant legal and financial risks, necessitating expert legal review to assess enforceability, potential consequences, and ensure Zebracorp's interests are protected.",
+        "confidence": 1.0,
+        "classification": "HIGH",
+        "conditions": "Applies during contract negotiation when a counterparty proposes capping liability for gross negligence.",
+        "justification": "Gross negligence is typically excluded from liability caps due to its severe nature and legal implications. Deviating from this norm requires careful legal review to protect Zebracorp's interests and ensure compliance with legal requirements.",
+        "implication_company": "Ensures internal compliance, mitigates significant legal and financial risks, and facilitates informed decision-making regarding high-risk contractual terms.",
+        "implication_supplier": "N/A directly, but indicates Zebracorp's strong stance on this issue, affecting negotiation outcomes.",
+        "source_insight": "The use of 'advisable' signals a strong recommendation due to the potential legal complexities and risks involved in capping liability for gross negligence, which is often not permitted by law."
+      },
+      "rationale": "Consensus Check: Agents were split between 'GUIDELINE' (2 agents) and 'OTHER' (Instruction) (2 agents). Tie-Breaker: The phrase 'It is advisable to speak to...' functions as a strong recommendation for internal conduct in a specific, high-risk contractual scenario, which aligns best with a 'GUIDELINE' providing direction or advice for action. Value Assessment: The verbatim text is clear, self-sufficient, and provides actionable advice regarding a critical negotiation point. Type-Specific Criteria (GUIDELINE): It creates a specific, actionable obligation/recommendation to consult legal counsel. The information is complete, and the 'HIGH' classification is appropriate given the significant legal and financial risks associated with gross negligence liability. Utility Check: This item is crucial for risk mitigation and informed decision-making in contract negotiations, making it highly valuable.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "b16c3a10-cd19-4856-8dd1-0d146ee5d560",
+      "supporting_evidence": [
+        "3e9173d8-fb3f-4767-8ad1-9250408be217",
+        "29b7c5d5-8ef7-43c7-af34-783ec9a72d2e",
+        "a6a8f223-3ef7-4ec1-b26d-02d1fdfd2cc4",
+        "29c45d7c-c870-4181-b0a4-ff304bc829f3"
+      ]
+    },
+    {
+      "id": "84fef9fe-8633-4f35-ac35-f904f03cabe8",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "consolidated-gross-negligence-liability-prohibition",
+        "verbatim_text": "In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions.",
+        "plain_text": "Be aware that the laws of many countries prohibit parties from disclaiming or limiting liability for grossly negligent acts or omissions, reinforcing the commercial norm of excluding gross negligence from liability caps.",
+        "expert_insight": "This is a fundamental legal constraint that dictates what can and cannot be contractually agreed upon. Any attempt to disclaim or limit liability for gross negligence in such jurisdictions would likely be void and unenforceable, exposing the company to unexpected liabilities. This legal reality strongly supports the prevailing commercial norm of excluding gross negligence from general liability caps.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Applies to all commercial contracts, especially those with international scope, where local laws may override contractual terms.",
+        "justification": "This is a non-negotiable legal prohibition that often overrides party intent, making it a critical consideration in contract drafting. It also aligns with and reinforces the established commercial practice of excluding gross negligence from liability limitations.",
+        "implication_company": "ZEBRACORP must ensure its contracts comply with these legal prohibitions to avoid unenforceable clauses and potential legal challenges. It provides strong backing to maintain uncapped liability for gross negligence.",
+        "implication_supplier": "Suppliers cannot legally disclaim or limit liability for their gross negligence in many jurisdictions, regardless of contractual terms, and should expect this exclusion in commercial agreements.",
+        "source_insight": "The source explicitly states a legal mandate ('will not in any event permit') that underpins and reinforces the commercial norm regarding gross negligence liability."
+      },
+      "rationale": "Consensus: Mixed on type and scope. Agents 1 and 5 correctly identified the legal prohibition as a GUIDELINE, while Agents 2, 3, and 4 included the preceding statement about commercial norms and classified the combined text as OTHER (INFO). Evaluation: The core statement, 'In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions,' constitutes a direct legal constraint on contractual freedom. This makes it an actionable and critical GUIDELINE, as it dictates what cannot be contractually agreed upon. The preceding sentence, 'Having gross negligence outside the liability caps is still the norm in commercial contracts,' provides essential context and justification for this legal stance. To ensure the GUIDELINE is self-sufficient and fully contextualized, the 'plain_text', 'expert_insight', and 'justification' fields integrate both the legal prohibition and the commercial norm, as the source text links them with 'In fact'. This approach ensures clarity, completeness, and actionability. Passed Value, Clarity, Actionability, and Utility tests. Classified as Critical Guideline.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "ace6ae71-551b-4398-86f4-ccc211be1699",
+      "supporting_evidence": [
+        "99c92227-eefa-4b16-9a6f-a4978acf9e26",
+        "60ee2a50-dc0b-4c7a-a6f6-58fa936f196a",
+        "1390ecfd-e11e-4b30-b382-1da4265d480f",
+        "28aa9b32-794b-4897-b974-272975bc662a",
+        "edd9f6df-8027-4633-9496-398cdf9b845d"
+      ]
+    },
+    {
+      "id": "132eeb8d-08a8-462e-8b5c-7995855ca578",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "b8c9d0e1-f2a3-4567-8901-abcdef0123456",
+        "verbatim_text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct. Having this type of limitation, would put an obligation on ZEBRACORP to, not only prove that the supplier has breached the contract, but to also prove that the supplier has been careless in its conduct. Such increased burden of proof would not be acceptable or reasonable.",
+        "plain_text": "ZEBRACORP should generally not accept contract conditions that limit a supplier's or subcontractor's liability solely to negligent or grossly negligent acts or omissions or conduct. Such a limitation would impose an unacceptable and unreasonable burden on ZEBRACORP to prove carelessness in addition to contract breach.",
+        "expert_insight": "This is a critical negotiation point. Accepting such a limitation would significantly increase ZEBRACORP's burden of proof, requiring the company to prove carelessness in addition to breach of contract. This makes it much harder and more costly to enforce contractual rights and shifts an undue risk to ZEBRACORP.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Applies during contract negotiation with suppliers/subcontractors, specifically regarding liability clauses.",
+        "justification": "The text explicitly states that accepting such a limitation would create an 'unacceptable or unreasonable' increased burden of proof for ZEBRACORP, requiring proof of carelessness in addition to contract breach.",
+        "implication_company": "ZEBRACORP avoids an increased and unreasonable burden of proof in breach of contract claims, simplifying enforcement and reducing legal costs. Accepting such terms would significantly increase the difficulty and cost for ZEBRACORP to pursue claims.",
+        "implication_supplier": "Suppliers/subcontractors should expect their liability not to be limited solely to negligent or grossly negligent acts. ZEBRACORP will resist such limitations, meaning suppliers are liable for any breach of contract, not just those caused by fault.",
+        "source_insight": "The strong prescriptive language ('should generally not accept') combined with the explicit rationale ('unacceptable or unreasonable increased burden of proof') underscores the critical nature of this guideline."
+      },
+      "rationale": "Consensus: Mixed between GUIDELINE (3 agents) and OTHER/TACTIC (1 agent). The text 'Note that we should generally not accept...' is a direct instruction on a contractual stance, making GUIDELINE the most appropriate classification. Value Assessment: The chosen verbatim_text includes both the rule and its immediate justification, making it self-sufficient and clear. Type-Specific Criteria: The guideline is highly actionable, complete, and classified as CRITICAL due to the explicit statement that the increased burden of proof 'would not be acceptable or reasonable'. Utility Check: The finding provides specific, actionable advice that protects ZEBRACORP by preventing an unreasonable burden of proof in contract enforcement.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "f1406c3b-2160-4628-a08d-4ba84c5b30c2",
+      "supporting_evidence": [
+        "7d50673c-d85d-4417-aadc-f07b39d5abfb",
+        "860f3af4-0b1c-42d4-8743-c3c558198a7e",
+        "42764cb0-5007-4e26-922b-3b625821b5c0",
+        "408512b5-e3bf-4934-ae55-057d94498177"
+      ]
+    },
+    {
+      "id": "ee2969c2-24fe-4726-86af-7253b46873c3",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "GROSS NEGLIGENCE\nGross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care.",
+        "plain_text": "Gross negligence is a qualified form of negligence, often termed 'wilful negligence'. It is defined as a conscious, voluntary act or omission demonstrating reckless disregard for consequences, involving a higher level of misconduct than ordinary negligence and requiring proof beyond a mere lack of ordinary care.",
+        "expert_insight": "This definition establishes gross negligence as a qualified, higher form of negligence. It involves a conscious, voluntary act or omission demonstrating reckless disregard for consequences, requiring proof beyond a mere lack of ordinary care. This distinction is crucial for interpreting contractual liability clauses, as gross negligence typically bypasses liability caps and has significant legal implications.",
+        "confidence": 1.0,
+        "implication_company": "Helps in accurately identifying and evaluating instances of gross negligence by suppliers, which typically leads to uncapped liability.",
+        "implication_supplier": "Clarifies the high standard of misconduct that constitutes gross negligence, indicating a higher threshold for liability.",
+        "source_insight": "The definition highlights the 'reckless disregard' element, which is crucial for distinguishing it from ordinary negligence and understanding its legal ramifications."
+      },
+      "rationale": "Consensus: Mixed (1 OTHER, 3 DEFINITION). Evaluation: The source text provides a clear and explicit definition of 'Gross negligence', making 'DEFINITION' the appropriate type. The finding is self-sufficient, accurate, and defines a specific legal term crucial for contract interpretation. It passes the Utility Check as it is essential for understanding liability clauses and negotiating contracts. Therefore, classified as a valid and critical Definition.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "5768d753-6ea5-40c6-ac2f-26234508ad97",
+      "supporting_evidence": [
+        "a74169b2-b86e-409a-b9f5-2999e4b25b82",
+        "b56cceb9-7677-4dc7-b2e0-7f50f663f1df",
+        "8638085a-998d-4b64-a1f3-d55a10b9b84f",
+        "0688007a-0e75-43f8-9236-401d68299e09"
+      ]
+    },
+    {
+      "id": "f9ce9ecc-5e45-41f5-b988-6409791300f7",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "consolidated-gross-negligence-example",
+        "verbatim_text": "An example of grossly negligent conduct would be a company permitting a product to be sold for a particular end-use despite knowing that the product is unsafe or unsuitable for such specific purpose.",
+        "plain_text": "An example of gross negligence is a company knowingly permitting a product to be sold for a specific end-use despite it being unsafe or unsuitable for that purpose.",
+        "expert_insight": "This concrete example helps in visualizing and identifying real-world scenarios where a supplier's actions could be deemed grossly negligent. It clearly illustrates the 'reckless disregard' element, where knowledge of a defect or risk combined with permission to sell constitutes a high level of misconduct.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "Illustrates the definition of gross negligence with a practical, relatable scenario, making the abstract concept more tangible.",
+        "implication_company": "Provides a clear benchmark for ZEBRACORP to assess supplier conduct and ensure its own product safety protocols prevent knowingly selling unsafe products, thereby avoiding claims of gross negligence.",
+        "implication_supplier": "Highlights a specific type of conduct that could lead to uncapped liability for suppliers, emphasizing their responsibility to ensure product safety and suitability, especially when aware of specific end-uses.",
+        "source_insight": "The example focuses on 'knowing' about the unsafety/unsuitability, which aligns with the 'conscious, voluntary act or omission which shows reckless disregard of the consequences' aspect of gross negligence mentioned earlier in the text."
+      },
+      "rationale": "Consensus: All agents agreed on the 'OTHER' type with 'EXAMPLE' subtype and identical verbatim text. Evaluation: The finding provides a clear, self-sufficient, and highly relevant example of grossly negligent conduct directly from the source text. It passes the Value and Utility checks by offering practical insight into identifying and avoiding such conduct, making it valuable for understanding the concept in a commercial context. Classified as OTHER (EXAMPLE).",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "85c6d3dd-028f-4408-9697-e1183bf72570",
+      "supporting_evidence": [
+        "51191792-08b2-483b-aa3b-99bd742a075d",
+        "a4ffa548-9e26-410e-86b4-16d0fd0ad47a",
+        "04084b25-0a0b-4781-be19-0217e9058288"
+      ]
+    },
+    {
+      "id": "ee6a1a06-c5e7-4abb-95bb-677ec6c8aac1",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "c138090b-6025-46aa-9a57-7977a419409d",
+        "verbatim_text": "The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence. Zebracorp has similar language in many of its subcontracting agreements, and this is often fairly non-contentious.",
+        "plain_text": "Limitation of liability clauses often explicitly exclude gross negligence from liability caps. ZEBRACORP's subcontracting agreements commonly include such language, which is generally accepted.",
+        "expert_insight": "This practice reinforces the principle that gross negligence is treated differently from ordinary negligence, ensuring that the most serious forms of misconduct are not shielded by contractual caps.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Provides context on how gross negligence is typically handled in liability clauses and ZEBRACORP's current practice.",
+        "implication_company": "ZEBRACORP's current practice aligns with industry norms, reducing potential disputes regarding liability for gross negligence and strengthening its negotiating position.",
+        "implication_supplier": "Suppliers contracting with ZEBRACORP should expect gross negligence to be excluded from liability caps, as this is a standard and generally accepted practice.",
+        "source_insight": "The phrase 'often fairly non-contentious' suggests that while generally accepted, some pushback can occasionally occur, requiring preparedness during negotiations."
+      },
+      "rationale": "Consensus: Agents agreed on 'OTHER' type with 'INFO' subtype. Value Assessment: The finding provides crucial context regarding Zebracorp's existing contractual practices and market norms concerning gross negligence exclusions from liability caps. Candidate 2's 'verbatim_text' was chosen for its superior self-sufficiency, as it includes the preceding sentence that clarifies the 'similar language' reference. The 'plain_text' and 'expert_insight' from Candidate 2 were selected for their clarity and focus on the underlying principle. The 'source_insight' from Candidate 1 was incorporated for its valuable nuance regarding potential, albeit infrequent, pushback. Type-Specific Criteria: As 'OTHER' (INFO), it accurately describes a factual situation and its implications. Utility Check: This information is highly useful for understanding Zebracorp's negotiation position and standard practices.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "3e883556-596b-40b2-b8e2-39d38b06e5b7",
+      "supporting_evidence": [
+        "391220f1-0cb0-4c62-97af-1af2444c62d6",
+        "c864aa26-b6cf-46e9-a500-2ebce2a9652c"
+      ]
+    },
+    {
+      "id": "b6dbd020-04e0-4b83-987d-aa4e50b13512",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "verbatim_text": "However, some vendors will prefer to apply to liability cap to any type of conduct.",
+        "plain_text": "Some vendors prefer to apply liability caps to all types of conduct, including gross negligence.",
+        "expert_insight": "This highlights a common counter-negotiation position from suppliers, indicating a potential point of negotiation in contracts where vendors may attempt to broaden liability caps to cover even gross negligence. This often conflicts with standard practice and legal enforceability. Zebracorp should anticipate and be prepared to address such requests and uphold their position on excluding gross negligence from caps.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Informs Zebracorp about potential supplier negotiation tactics and common points of contention regarding liability caps, specifically for gross negligence.",
+        "implication_company": "Zebracorp should be prepared for pushback from suppliers on the exclusion of gross negligence from liability caps and may encounter vendors who push back on standard gross negligence carve-outs in liability clauses. Zebracorp should be aware of this vendor preference and be prepared to negotiate or refuse such terms.",
+        "implication_supplier": "Indicates their potential negotiation stance to limit their exposure by attempting to negotiate broader liability caps, but this is often resisted by companies for gross negligence.",
+        "source_insight": "This is a key area where negotiation leverage and legal backing become important."
+      },
+      "rationale": "Consensus: All agents agreed on the type (OTHER) and subtype (INFO), and the verbatim text. Evaluation: The finding provides crucial context regarding common vendor negotiation tactics concerning liability caps and gross negligence. The plain text and expert insights are clear, self-sufficient, and actionable for negotiation preparation. It passes the Value and Utility checks as it directly helps Zebracorp anticipate and prepare for contract discussions. Therefore, classified as a valuable 'OTHER' (INFO) finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "e416d942-6cdb-48cb-8065-d71ca484229e",
+      "supporting_evidence": [
+        "a42d11bb-ad01-4204-a8d0-cbf72c656abc",
+        "726c7817-5bec-4b2b-a05e-283a175577b1",
+        "99f31556-600f-44bd-b5a0-c793ac4730f5"
+      ]
+    },
+    {
+      "id": "39f22a21-f294-491c-b00f-fc6161276f7a",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "673f324c-220d-44b2-a400-98387063412a",
+        "verbatim_text": "Having this type of limitation, would put an obligation on ZEBRACORP to, not only prove that the supplier has breached the contract, but to also prove that the supplier has been careless in its conduct. Such increased burden of proof would not be acceptable or reasonable.",
+        "plain_text": "Limiting supplier liability solely to negligence would obligate ZEBRACORP to prove both contract breach and supplier carelessness, an unacceptable and unreasonable increase in the burden of proof.",
+        "expert_insight": "This justification clearly explains why the preceding guideline is important. It shifts the focus from a simple breach of contract to proving intent or fault, which is a much higher legal hurdle.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Explains the rationale behind the guideline to not accept limitations of liability solely to negligent acts.",
+        "implication_company": "ZEBRACORP would incur significantly higher legal costs and face greater difficulty in enforcing contracts if such limitations were accepted.",
+        "implication_supplier": "Suppliers would benefit from a higher evidentiary standard for ZEBRACORP to prove liability, but this is deemed unreasonable.",
+        "source_insight": "N/A"
+      },
+      "rationale": "Consensus: Single candidate, type OTHER (INFO) is appropriate. Evaluation: The text provides a clear and self-sufficient justification for a preceding guideline, explaining the increased burden of proof on ZEBRACORP if certain liability limitations are accepted. The 'plain_text' effectively contextualizes 'this type of limitation' to 'Limiting supplier liability solely to negligence', making it self-standing. Passed Value and Utility tests as it offers critical insight into the rationale behind a contractual stance.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "3cbd93ad-1128-42d6-ae7a-31e86b0fb726",
+      "supporting_evidence": [
+        "73067150-78dd-4f62-8edf-76d6c0c92b20"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "f2947d60-9f27-40f3-a22a-68ed6744dbe2",
+      "recommendation_ids": [
+        "aad8dc2c-7dca-4792-be51-c5a73a9884b8",
+        "7194e819-e2bd-43a3-ba13-81c88060925b",
+        "a1acf489-c7c3-42ee-bba3-ce91ad6ad81e",
+        "f17425af-7fca-4787-9677-f699d36d7ce5",
+        "8cee7b15-65e9-4cac-82d0-b037e8f1576b"
+      ]
+    },
+    {
+      "id": "b16c3a10-cd19-4856-8dd1-0d146ee5d560",
+      "recommendation_ids": [
+        "3e9173d8-fb3f-4767-8ad1-9250408be217",
+        "29b7c5d5-8ef7-43c7-af34-783ec9a72d2e",
+        "a6a8f223-3ef7-4ec1-b26d-02d1fdfd2cc4",
+        "29c45d7c-c870-4181-b0a4-ff304bc829f3"
+      ]
+    },
+    {
+      "id": "ace6ae71-551b-4398-86f4-ccc211be1699",
+      "recommendation_ids": [
+        "99c92227-eefa-4b16-9a6f-a4978acf9e26",
+        "60ee2a50-dc0b-4c7a-a6f6-58fa936f196a",
+        "1390ecfd-e11e-4b30-b382-1da4265d480f",
+        "28aa9b32-794b-4897-b974-272975bc662a",
+        "edd9f6df-8027-4633-9496-398cdf9b845d"
+      ]
+    },
+    {
+      "id": "f1406c3b-2160-4628-a08d-4ba84c5b30c2",
+      "recommendation_ids": [
+        "7d50673c-d85d-4417-aadc-f07b39d5abfb",
+        "860f3af4-0b1c-42d4-8743-c3c558198a7e",
+        "42764cb0-5007-4e26-922b-3b625821b5c0",
+        "408512b5-e3bf-4934-ae55-057d94498177"
+      ]
+    },
+    {
+      "id": "5768d753-6ea5-40c6-ac2f-26234508ad97",
+      "recommendation_ids": [
+        "a74169b2-b86e-409a-b9f5-2999e4b25b82",
+        "b56cceb9-7677-4dc7-b2e0-7f50f663f1df",
+        "8638085a-998d-4b64-a1f3-d55a10b9b84f",
+        "0688007a-0e75-43f8-9236-401d68299e09"
+      ]
+    },
+    {
+      "id": "85c6d3dd-028f-4408-9697-e1183bf72570",
+      "recommendation_ids": [
+        "51191792-08b2-483b-aa3b-99bd742a075d",
+        "a4ffa548-9e26-410e-86b4-16d0fd0ad47a",
+        "04084b25-0a0b-4781-be19-0217e9058288"
+      ]
+    },
+    {
+      "id": "3e883556-596b-40b2-b8e2-39d38b06e5b7",
+      "recommendation_ids": [
+        "391220f1-0cb0-4c62-97af-1af2444c62d6",
+        "c864aa26-b6cf-46e9-a500-2ebce2a9652c"
+      ]
+    },
+    {
+      "id": "e416d942-6cdb-48cb-8065-d71ca484229e",
+      "recommendation_ids": [
+        "a42d11bb-ad01-4204-a8d0-cbf72c656abc",
+        "726c7817-5bec-4b2b-a05e-283a175577b1",
+        "99f31556-600f-44bd-b5a0-c793ac4730f5"
+      ]
+    },
+    {
+      "id": "3cbd93ad-1128-42d6-ae7a-31e86b0fb726",
+      "recommendation_ids": [
+        "73067150-78dd-4f62-8edf-76d6c0c92b20"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "aad8dc2c-7dca-4792-be51-c5a73a9884b8",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct.",
+        "plain_text": "Commercial contracts should generally prevent a party from limiting its liability for damages caused by its gross negligence.",
+        "expert_insight": "This guideline reflects a standard commercial practice aimed at ensuring accountability for severe misconduct. It protects the company from a counterparty attempting to escape responsibility for highly reckless actions.",
+        "confidence": 0.95,
+        "conditions": "Applies to standard commercial contracts.",
+        "justification": "The text states 'usually prevent' and 'still the norm', indicating a strong, widely accepted practice.",
+        "implication_company": "Company retains the right to claim full damages for gross negligence, ensuring stronger protection.",
+        "implication_supplier": "Supplier cannot limit liability for damages caused by its gross negligence.",
+        "source_insight": "The term 'usually' suggests a strong preference rather than an absolute mandate, but it is reinforced by later statements.",
+        "text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "7194e819-e2bd-43a3-ba13-81c88060925b",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence.",
+        "plain_text": "Limitation of liability clauses should explicitly state that liability caps do not apply to damages caused by gross negligence.",
+        "expert_insight": "Explicitly carving out gross negligence from liability caps is crucial for clarity and enforceability. This prevents ambiguity and strengthens the company's position in case of a claim involving severe misconduct.",
+        "confidence": 0.95,
+        "conditions": "Applies when drafting or reviewing limitation of liability clauses.",
+        "justification": "This is presented as a common and advisable way to implement the broader principle of not capping gross negligence.",
+        "implication_company": "Company's ability to recover full damages for gross negligence is clearly protected contractually.",
+        "implication_supplier": "Supplier's liability for gross negligence remains uncapped, as explicitly stated in the contract.",
+        "source_insight": "The phrase 'may in e.g. state' provides an example of how the principle is typically implemented in contract language.",
+        "text": "The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "3e9173d8-fb3f-4767-8ad1-9250408be217",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations.",
+        "plain_text": "Consult with the Legal team before agreeing to apply liability caps or limitations to grossly negligent conduct.",
+        "expert_insight": "This is a critical internal process guideline. Deviating from the norm of uncapped gross negligence liability carries significant legal and financial risks, necessitating expert legal review to assess enforceability and potential consequences.",
+        "confidence": 0.98,
+        "conditions": "Applies during contract negotiation when a counterparty proposes capping liability for gross negligence.",
+        "justification": "The text explicitly states 'It is advisable' and highlights the importance of the issue, indicating a strong recommendation.",
+        "implication_company": "Ensures internal compliance, risk mitigation, and informed decision-making regarding high-risk contractual terms.",
+        "implication_supplier": "N/A directly, but affects the negotiation process and the company's willingness to accept such terms.",
+        "source_insight": "The use of 'advisable' signals a strong recommendation due to the potential legal complexities and risks involved.",
+        "text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.98,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "99c92227-eefa-4b16-9a6f-a4978acf9e26",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions.",
+        "plain_text": "Be aware that the laws of many countries prohibit disclaiming or limiting liability for grossly negligent acts or omissions.",
+        "expert_insight": "This is a fundamental legal constraint. Any contractual attempt to disclaim or limit liability for gross negligence in such jurisdictions would likely be void and unenforceable, exposing the company to unexpected liabilities or rendering its protective clauses ineffective.",
+        "confidence": 0.99,
+        "conditions": "Applies to all commercial contracts, especially those with international scope.",
+        "justification": "The phrase 'will not in any event permit' indicates an absolute legal prohibition, making this a non-negotiable, critical point.",
+        "implication_company": "Company must ensure its contracts comply with these legal prohibitions to avoid unenforceable clauses and potential legal challenges.",
+        "implication_supplier": "Supplier cannot legally disclaim or limit liability for gross negligence in many jurisdictions, regardless of contractual terms.",
+        "source_insight": "This statement highlights a legal reality that overrides contractual freedom in many jurisdictions, making it a paramount consideration.",
+        "text": "In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.99,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "7d50673c-d85d-4417-aadc-f07b39d5abfb",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct.",
+        "plain_text": "Do not accept conditions that limit a supplier's or subcontractor's liability solely to negligent or grossly negligent acts or omissions.",
+        "expert_insight": "Accepting such a limitation would significantly increase ZEBRACORP's burden of proof. Instead of merely proving a breach of contract, the company would also have to prove carelessness, making it much harder and more costly to enforce contractual rights.",
+        "confidence": 0.99,
+        "conditions": "Applies during contract negotiation with suppliers/subcontractors.",
+        "justification": "The text uses 'should generally not accept' and explicitly states that the increased burden of proof 'would not be acceptable or reasonable', indicating a critical prohibition.",
+        "implication_company": "Company avoids an increased and unreasonable burden of proof in breach of contract claims, simplifying enforcement.",
+        "implication_supplier": "Supplier's liability is not restricted to only negligent or grossly negligent acts, meaning they are liable for any breach of contract.",
+        "source_insight": "The justification provided ('increased burden of proof would not be acceptable or reasonable') strongly supports the critical classification of this prohibition.",
+        "text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.99,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "a74169b2-b86e-409a-b9f5-2999e4b25b82",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Gross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care.",
+        "plain_text": "Gross negligence is a higher form of negligence, involving conscious, voluntary acts or omissions with reckless disregard for consequences, requiring proof beyond ordinary lack of care.",
+        "expert_insight": "Understanding the precise legal definition of gross negligence is fundamental for interpreting contractual liability clauses and assessing potential claims.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Provides foundational knowledge and definition of a key legal term relevant to contract negotiations.",
+        "implication_company": "Helps in accurately identifying and evaluating instances of gross negligence by suppliers, which typically leads to uncapped liability.",
+        "implication_supplier": "Clarifies the high standard of misconduct that constitutes gross negligence, indicating a higher threshold for liability.",
+        "source_insight": "The definition highlights the 'reckless disregard' element, which is crucial for distinguishing it from ordinary negligence.",
+        "text": "Gross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "51191792-08b2-483b-aa3b-99bd742a075d",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "verbatim_text": "An example of grossly negligent conduct would be a company permitting a product to be sold for a particular end-use despite knowing that the product is unsafe or unsuitable for such specific purpose.",
+        "plain_text": "An example of gross negligence is selling a product for an end-use despite knowing it's unsafe or unsuitable for that purpose.",
+        "expert_insight": "This concrete example helps in visualizing and identifying real-world scenarios where a supplier's actions could be deemed grossly negligent.",
+        "confidence": 1.0,
+        "subtype": "EXAMPLE",
+        "justification": "Illustrates the concept of gross negligence with a practical, relatable scenario.",
+        "implication_company": "Provides a clear benchmark for assessing supplier conduct, particularly in product safety and suitability contexts.",
+        "implication_supplier": "Highlights a specific type of conduct that could lead to uncapped liability due to gross negligence.",
+        "source_insight": "The example focuses on 'knowing' about the unsafety/unsuitability, which aligns with the 'reckless disregard' aspect of gross negligence.",
+        "text": "An example of grossly negligent conduct would be a company permitting a product to be sold for a particular end-use despite knowing that the product is unsafe or unsuitable for such specific purpose."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "a1acf489-c7c3-42ee-bba3-ce91ad6ad81e",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "verbatim_text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct. The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence.",
+        "plain_text": "Commercial contracts typically exclude gross negligence from liability caps, meaning parties are fully liable for damages caused by it.",
+        "expert_insight": "This establishes the prevailing industry norm, providing a strong basis for Zebracorp's negotiation position to ensure uncapped liability for gross negligence.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Provides context on standard contractual practice regarding gross negligence and liability limitations.",
+        "implication_company": "Reinforces Zebracorp's standard position to exclude gross negligence from liability caps, aligning with industry best practices.",
+        "implication_supplier": "Informs suppliers that uncapped liability for gross negligence is a common and expected contractual term.",
+        "source_insight": "The use of 'usually' implies that while it's the norm, some parties might attempt to deviate, requiring vigilance.",
+        "text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct. The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "391220f1-0cb0-4c62-97af-1af2444c62d6",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "OTHER",
+        "verbatim_text": "Zebracorp has similar language in many of its subcontracting agreements, and this is often fairly non-contentious.",
+        "plain_text": "Zebracorp's subcontracting agreements typically include language that excludes gross negligence from liability caps, and this is generally accepted by partners.",
+        "expert_insight": "This confirms Zebracorp's established internal standard and its general acceptance in the market, strengthening the company's negotiating stance.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Provides internal context on Zebracorp's existing contractual approach and its market acceptance.",
+        "implication_company": "Confirms that current practice aligns with industry norms and is generally accepted, reducing negotiation friction.",
+        "implication_supplier": "Indicates that Zebracorp consistently applies this standard across its agreements.",
+        "source_insight": "The phrase 'often fairly non-contentious' suggests that while generally accepted, some pushback can occasionally occur, requiring preparedness.",
+        "text": "Zebracorp has similar language in many of its subcontracting agreements, and this is often fairly non-contentious."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "a42d11bb-ad01-4204-a8d0-cbf72c656abc",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "OTHER",
+        "verbatim_text": "However, some vendors will prefer to apply to liability cap to any type of conduct.",
+        "plain_text": "Some vendors will attempt to include gross negligence within the overall liability caps.",
+        "expert_insight": "This highlights a common counter-negotiation position from suppliers, which Zebracorp should anticipate and be prepared to address.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Informs Zebracorp about potential supplier negotiation tactics and common points of contention.",
+        "implication_company": "Be prepared for pushback from suppliers on the exclusion of gross negligence from liability caps.",
+        "implication_supplier": "Indicates their potential negotiation stance to limit their exposure.",
+        "source_insight": "This is a key area where negotiation leverage and legal backing become important.",
+        "text": "However, some vendors will prefer to apply to liability cap to any type of conduct."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "29b7c5d5-8ef7-43c7-af34-783ec9a72d2e",
+      "content": {
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "type": "OTHER",
+        "verbatim_text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations.",
+        "plain_text": "Consult with the Legal team before agreeing to any terms that would cap liability for gross negligence.",
+        "expert_insight": "This is a critical internal process instruction, ensuring that any deviation from the standard practice of uncapped liability for gross negligence is thoroughly reviewed and approved by legal experts.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "Ensures that any potential concession on a critical liability point is vetted by legal counsel to protect Zebracorp's interests.",
+        "implication_company": "Mandates internal consultation to safeguard Zebracorp from undue risk and ensure legal compliance.",
+        "implication_supplier": "Indicates that Zebracorp will not easily concede on this point without significant internal review and justification.",
+        "source_insight": "The 'advisable' phrasing strongly suggests this is a mandatory step for any such negotiation.",
+        "text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "60ee2a50-dc0b-4c7a-a6f6-58fa936f196a",
+      "content": {
+        "id": "a7b8c9d0-e1f2-3456-7890-abcdef012345",
+        "type": "OTHER",
+        "verbatim_text": "Having gross negligence outside the liability caps is still the norm in commercial contracts. In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions.",
+        "plain_text": "Excluding gross negligence from liability caps is standard commercial practice and is often legally mandated in many jurisdictions.",
+        "expert_insight": "This provides strong commercial and legal backing for Zebracorp's position, making it very difficult for suppliers to successfully argue for capping liability for gross negligence.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Reinforces the importance and often legal necessity of excluding gross negligence from liability caps, providing strong arguments against supplier pushback.",
+        "implication_company": "Provides robust arguments to maintain uncapped liability for gross negligence, aligning with legal requirements and industry standards.",
+        "implication_supplier": "Informs suppliers that their attempts to cap liability for gross negligence may be legally unenforceable or against prevailing commercial norms.",
+        "source_insight": "The dual justification (commercial norm + legal mandate) makes this a very firm and defensible position.",
+        "text": "Having gross negligence outside the liability caps is still the norm in commercial contracts. In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "860f3af4-0b1c-42d4-8743-c3c558198a7e",
+      "content": {
+        "id": "b8c9d0e1-f2a3-4567-8901-abcdef0123456",
+        "type": "OTHER",
+        "verbatim_text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct. Having this type of limitation, would put an obligation on ZEBRACORP to, not only prove that the supplier has breached the contract, but to also prove that the supplier has been careless in its conduct. Such increased burden of proof would not be acceptable or reasonable.",
+        "plain_text": "Zebracorp should generally not accept terms that limit a supplier's liability solely to negligent or grossly negligent acts, as this would unreasonably increase Zebracorp's burden of proof to include proving carelessness in addition to breach.",
+        "expert_insight": "This is a critical negotiation tactic to protect Zebracorp from an onerous burden of proof, ensuring that liability for breach of contract does not hinge on proving fault.",
+        "confidence": 1.0,
+        "subtype": "TACTIC",
+        "justification": "Accepting such a limitation would impose an unacceptable and unreasonable burden on Zebracorp to prove both contract breach and supplier carelessness, complicating and hindering claims.",
+        "implication_company": "Protects Zebracorp from having to prove fault (negligence) in addition to breach of contract, simplifying the process of making claims against suppliers.",
+        "implication_supplier": "Suppliers should expect to be liable for breach of contract regardless of fault, not just for negligent conduct, as Zebracorp will resist such limitations.",
+        "source_insight": "The phrase 'generally not accept' implies a strong, almost non-negotiable stance, with the justification providing the rationale for this firmness.",
+        "text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct. Having this type of limitation, would put an obligation on ZEBRACORP to, not only prove that the supplier has breached the contract, but to also prove that the supplier has been careless in its conduct. Such increased burden of proof would not be acceptable or reasonable."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "b56cceb9-7677-4dc7-b2e0-7f50f663f1df",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "DEFINITION",
+        "verbatim_text": "GROSS NEGLIGENCE Gross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care.",
+        "plain_text": "Gross negligence is a qualified form of negligence, often viewed in many jurisdictions as a conscious, voluntary act or omission demonstrating reckless disregard for the consequences. It is also known as wilful negligence and represents a higher level of misconduct than ordinary negligence, requiring proof beyond a mere lack of ordinary care.",
+        "expert_insight": "Standard. This definition establishes a higher bar for misconduct than ordinary negligence, often critical for determining the applicability of liability caps in commercial contracts. The emphasis on 'reckless disregard' or 'conscious, voluntary act' differentiates it.",
+        "confidence": 1.0,
+        "text": "GROSS NEGLIGENCE Gross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "8638085a-998d-4b64-a1f3-d55a10b9b84f",
+      "content": {
+        "id": "a9a7a9a7-a9a7-4a97-8a97-a9a7a9a7a9a7",
+        "type": "DEFINITION",
+        "verbatim_text": "Gross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care.",
+        "plain_text": "Gross negligence is a more severe form of negligence, often termed 'wilful negligence'. It involves a conscious, voluntary act or omission that demonstrates reckless disregard for consequences, requiring a higher level of misconduct and proof beyond a lack of ordinary care.",
+        "expert_insight": "This definition highlights that gross negligence is not merely carelessness but involves a deliberate or extremely reckless disregard for potential harm, which is a critical distinction in legal contexts, especially concerning liability limitations.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Gross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "a4ffa548-9e26-410e-86b4-16d0fd0ad47a",
+      "content": {
+        "id": "b8b8b8b8-b8b8-4b88-8b88-b8b8b8b8b8b8",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "An example of grossly negligent conduct would be a company permitting a product to be sold for a particular end-use despite knowing that the product is unsafe or unsuitable for such specific purpose.",
+        "plain_text": "An example of gross negligence is a company knowingly selling an unsafe or unsuitable product for a specific end-use.",
+        "expert_insight": "This example clearly illustrates the 'reckless disregard' element of gross negligence, where knowledge of a defect combined with permission to sell constitutes a high level of misconduct.",
+        "confidence": 1.0,
+        "justification": "This provides a concrete scenario to understand the abstract definition of gross negligence.",
+        "implication_company": "Companies must ensure they do not knowingly allow unsafe products to be sold for specific uses, as this can be deemed grossly negligent.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "An example of grossly negligent conduct would be a company permitting a product to be sold for a particular end-use despite knowing that the product is unsafe or unsuitable for such specific purpose."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "f17425af-7fca-4787-9677-f699d36d7ce5",
+      "content": {
+        "id": "c7c7c7c7-c7c7-4c77-8c77-c7c7c7c7c7c7",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct. The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence. Zebracorp has similar language in many of its subcontracting agreements, and this is often fairly non-contentious.",
+        "plain_text": "Commercial contracts typically prevent parties from avoiding liability for damages caused by their gross negligence. Limitation of liability clauses often explicitly exclude gross negligence. Zebracorp's subcontracting agreements commonly include such language, which is generally accepted.",
+        "expert_insight": "This highlights a standard practice in commercial contracting where gross negligence is often carved out from liability limitations, reflecting a general legal principle and risk allocation strategy.",
+        "confidence": 1.0,
+        "justification": "This describes common contractual practices regarding gross negligence.",
+        "implication_company": "Zebracorp's current contract language aligns with industry norms, ensuring suppliers cannot limit liability for gross negligence.",
+        "implication_supplier": "Suppliers typically cannot limit their liability for damages caused by their gross negligence in commercial contracts.",
+        "source_insight": "N/A",
+        "text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct. The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence. Zebracorp has similar language in many of its subcontracting agreements, and this is often fairly non-contentious."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "726c7817-5bec-4b2b-a05e-283a175577b1",
+      "content": {
+        "id": "d6d6d6d6-d6d6-4d66-8d66-d6d6d6d6d6d6",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "However, some vendors will prefer to apply to liability cap to any type of conduct.",
+        "plain_text": "Some vendors prefer to apply liability caps to all types of conduct, including gross negligence.",
+        "expert_insight": "This indicates a potential point of negotiation in contracts, where vendors may attempt to broaden liability caps to cover even gross negligence, which often conflicts with standard practice and legal enforceability.",
+        "confidence": 1.0,
+        "justification": "This provides context on vendor negotiation preferences.",
+        "implication_company": "Zebracorp may encounter vendors who push back on standard gross negligence carve-outs in liability clauses.",
+        "implication_supplier": "Suppliers may attempt to negotiate broader liability caps, but this is often not accepted for gross negligence.",
+        "source_insight": "N/A",
+        "text": "However, some vendors will prefer to apply to liability cap to any type of conduct."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "a6a8f223-3ef7-4ec1-b26d-02d1fdfd2cc4",
+      "content": {
+        "id": "e5e5e5e5-e5e5-4e55-8e55-e5e5e5e5e5e5",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations.",
+        "plain_text": "Consult with the Legal team before agreeing to any contract terms that would allow gross negligence to be covered by general liability caps or limitations.",
+        "expert_insight": "This is a critical internal control. Allowing gross negligence to fall under liability caps significantly increases Zebracorp's risk exposure and deviates from industry best practices and legal enforceability.",
+        "confidence": 1.0,
+        "conditions": "Before finalizing any contract where gross negligence might be included within liability caps.",
+        "justification": "Gross negligence is typically excluded from liability caps due to its severe nature and legal implications. Deviating from this norm requires careful legal review.",
+        "implication_company": "Failure to consult legal could lead to contracts where Zebracorp bears undue risk from a supplier's gross negligence.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "1390ecfd-e11e-4b30-b382-1da4265d480f",
+      "content": {
+        "id": "f4f4f4f4-f4f4-4f44-8f44-f4f4f4f4f4f4",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Having gross negligence outside the liability caps is still the norm in commercial contracts. In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions.",
+        "plain_text": "Excluding gross negligence from liability caps remains standard in commercial contracts. Furthermore, many countries' laws prohibit parties from disclaiming liability for grossly negligent acts.",
+        "expert_insight": "This reinforces the legal and commercial imperative to exclude gross negligence from liability caps, indicating that such exclusions are not just best practice but often a legal requirement.",
+        "confidence": 1.0,
+        "justification": "This provides context on the prevalence and legal basis for excluding gross negligence from liability caps.",
+        "implication_company": "Zebracorp should continue to enforce the exclusion of gross negligence from liability caps, aligning with legal requirements and industry norms.",
+        "implication_supplier": "Suppliers should be aware that disclaiming liability for gross negligence is often legally unenforceable and against commercial norms.",
+        "source_insight": "N/A",
+        "text": "Having gross negligence outside the liability caps is still the norm in commercial contracts. In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "42764cb0-5007-4e26-922b-3b625821b5c0",
+      "content": {
+        "id": "g3g3g3g3-g3g3-4g33-8g33-g3g3g3g3g3g3",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct. Having this type of limitation, would put an obligation on ZEBRACORP to, not only prove that the supplier has breached the contract, but to also prove that the supplier has been careless in its conduct. Such increased burden of proof would not be acceptable or reasonable.",
+        "plain_text": "Zebracorp should generally not accept contract conditions that limit a supplier's or subcontractor's liability solely to negligent or grossly negligent acts. This is because such a limitation would impose an unreasonable burden on Zebracorp to prove carelessness in addition to contract breach.",
+        "expert_insight": "This is a crucial negotiation point. Limiting liability solely to negligence shifts the burden of proof to Zebracorp, making it significantly harder to enforce contract breaches. Zebracorp's focus should be on proving breach, not the supplier's state of mind.",
+        "confidence": 1.0,
+        "conditions": "When negotiating liability clauses with suppliers/subcontractors.",
+        "justification": "Limiting liability solely to negligence or gross negligence creates an unacceptable and unreasonable increased burden of proof for Zebracorp, requiring proof of carelessness in addition to contract breach.",
+        "implication_company": "Accepting such conditions would significantly increase the difficulty and cost for Zebracorp to pursue claims against suppliers for contract breaches.",
+        "implication_supplier": "Suppliers may attempt to include such limitations to reduce their exposure, but Zebracorp should resist these terms.",
+        "source_insight": "N/A",
+        "text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct. Having this type of limitation, would put an obligation on ZEBRACORP to, not only prove that the supplier has breached the contract, but to also prove that the supplier has been careless in its conduct. Such increased burden of proof would not be acceptable or reasonable."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "0688007a-0e75-43f8-9236-401d68299e09",
+      "content": {
+        "id": "1198f121-6d75-4700-942f-0447387340d8",
+        "type": "DEFINITION",
+        "verbatim_text": "Gross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care.",
+        "plain_text": "Gross negligence is a more severe form of negligence, often called wilful negligence. It involves a conscious, voluntary act or omission demonstrating reckless disregard for consequences, requiring proof beyond a lack of ordinary care.",
+        "expert_insight": "Gross negligence signifies a significant departure from the standard of care, implying a deliberate indifference or recklessness. It's crucial to distinguish it from ordinary negligence, as legal and contractual implications, especially regarding liability limitations, often differ significantly.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Gross negligence is a qualified form of negligence. In many jurisdictions gross negligence is seen as conscious, voluntary act or omission which shows reckless disregard of the consequences of such act or omission. Gross negligence is often also termed as wilful negligence. It involves a higher level of misconduct than ordinary negligence and requires proof of something more than the lack of ordinary care."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "04084b25-0a0b-4781-be19-0217e9058288",
+      "content": {
+        "id": "e0b17169-2f22-4876-9289-e265939223e7",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "An example of grossly negligent conduct would be a company permitting a product to be sold for a particular end-use despite knowing that the product is unsafe or unsuitable for such specific purpose.",
+        "plain_text": "An example of gross negligence is a company knowingly selling an unsafe or unsuitable product for a specific end-use.",
+        "expert_insight": "This example highlights the 'reckless disregard' element of gross negligence, where knowledge of a risk is present but ignored, leading to potential harm.",
+        "confidence": 1.0,
+        "justification": "Illustrates the definition of gross negligence with a practical scenario.",
+        "implication_company": "ZEBRACORP should ensure its product safety protocols and sales practices prevent such conduct to avoid claims of gross negligence.",
+        "implication_supplier": "Suppliers must ensure their products are safe and suitable for their intended use, especially when aware of specific end-uses, to avoid liability for gross negligence.",
+        "source_insight": "N/A",
+        "text": "An example of grossly negligent conduct would be a company permitting a product to be sold for a particular end-use despite knowing that the product is unsafe or unsuitable for such specific purpose."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "8cee7b15-65e9-4cac-82d0-b037e8f1576b",
+      "content": {
+        "id": "9d901b0f-135e-4363-9556-99238865615d",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct.",
+        "plain_text": "Commercial contracts typically prevent parties from avoiding liability for damages caused by their gross negligence.",
+        "expert_insight": "This is a fundamental principle in contract law, reflecting a policy against allowing parties to contractually escape responsibility for severe misconduct. It ensures accountability for egregious acts.",
+        "confidence": 1.0,
+        "conditions": "Applies to standard commercial contracts.",
+        "justification": "To ensure accountability for severe misconduct and maintain fairness in contractual relationships.",
+        "implication_company": "ZEBRACORP should ensure its contracts reflect this standard, holding both itself and its counterparties accountable for gross negligence.",
+        "implication_supplier": "Suppliers should expect to remain liable for damages caused by their gross negligence, even if other liabilities are capped.",
+        "source_insight": "N/A",
+        "text": "Commercial contracts usually prevent a party from insulating itself from paying damages caused by its grossly negligent conduct."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "c864aa26-b6cf-46e9-a500-2ebce2a9652c",
+      "content": {
+        "id": "c138090b-6025-46aa-9a57-7977a419409d",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence. Zebracorp has similar language in many of its subcontracting agreements, and this is often fairly non-contentious.",
+        "plain_text": "Limitation of liability clauses often explicitly exclude gross negligence from liability caps. ZEBRACORP's subcontracting agreements commonly include such language, which is generally accepted.",
+        "expert_insight": "This practice reinforces the principle that gross negligence is treated differently from ordinary negligence, ensuring that the most serious forms of misconduct are not shielded by contractual caps.",
+        "confidence": 1.0,
+        "justification": "Provides context on how gross negligence is typically handled in liability clauses and ZEBRACORP's current practice.",
+        "implication_company": "ZEBRACORP's current practice aligns with industry norms, reducing potential disputes regarding liability for gross negligence.",
+        "implication_supplier": "Suppliers contracting with ZEBRACORP should expect gross negligence to be excluded from liability caps.",
+        "source_insight": "N/A",
+        "text": "The limitation of liability clause may in e.g. state that the limits on liability do not apply to damages caused through gross negligence. Zebracorp has similar language in many of its subcontracting agreements, and this is often fairly non-contentious."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "99f31556-600f-44bd-b5a0-c793ac4730f5",
+      "content": {
+        "id": "e0e3776b-9c60-466d-8854-46c927c9d690",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "However, some vendors will prefer to apply to liability cap to any type of conduct.",
+        "plain_text": "Some vendors may try to apply liability caps to all types of conduct, including gross negligence.",
+        "expert_insight": "This highlights a common point of negotiation in commercial contracts. Companies like ZEBRACORP should be prepared to address such requests and uphold their position on excluding gross negligence from caps.",
+        "confidence": 1.0,
+        "justification": "Describes a potential point of contention in contract negotiations.",
+        "implication_company": "ZEBRACORP should be aware of this vendor preference and be prepared to negotiate or refuse such terms.",
+        "implication_supplier": "Suppliers may attempt to broaden liability caps, but this is often resisted by companies.",
+        "source_insight": "N/A",
+        "text": "However, some vendors will prefer to apply to liability cap to any type of conduct."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "29c45d7c-c870-4181-b0a4-ff304bc829f3",
+      "content": {
+        "id": "6735e263-5491-4566-a320-f46395b0616b",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations.",
+        "plain_text": "It is advisable to consult with the Legal team before agreeing to terms that would allow liability caps to apply to gross negligence.",
+        "expert_insight": "This is a critical piece of advice, as deviating from the norm of excluding gross negligence from liability caps carries significant legal and financial risks. Legal counsel is essential to understand the full implications.",
+        "confidence": 1.0,
+        "justification": "Emphasizes the importance of legal review for clauses related to gross negligence liability.",
+        "implication_company": "ZEBRACORP personnel should always involve the Legal team when negotiating liability caps, especially concerning gross negligence.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "It is advisable to speak to member of the Legal team before allowing grossly negligent conduct to benefit from the overall liability caps and limitations."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "28aa9b32-794b-4897-b974-272975bc662a",
+      "content": {
+        "id": "8b51d382-f38b-4f7f-8559-009695029304",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Having gross negligence outside the liability caps is still the norm in commercial contracts.",
+        "plain_text": "Excluding gross negligence from liability caps remains the standard practice in commercial contracts.",
+        "expert_insight": "This reinforces the expectation that gross negligence will not be shielded by general liability limits, aligning with both legal principles and industry standards.",
+        "confidence": 1.0,
+        "justification": "Provides context on the prevailing industry standard for handling gross negligence in contracts.",
+        "implication_company": "ZEBRACORP's current contractual approach for gross negligence aligns with industry norms.",
+        "implication_supplier": "Suppliers should expect this standard practice in their commercial agreements.",
+        "source_insight": "N/A",
+        "text": "Having gross negligence outside the liability caps is still the norm in commercial contracts."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "edd9f6df-8027-4633-9496-398cdf9b845d",
+      "content": {
+        "id": "4220377e-9669-42b7-873d-718227092120",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions.",
+        "plain_text": "The laws of many countries prohibit parties from disclaiming liability for grossly negligent acts or omissions.",
+        "expert_insight": "This is a critical legal constraint. Even if parties agree contractually to disclaim liability for gross negligence, such clauses may be unenforceable under the laws of many jurisdictions, rendering them void.",
+        "confidence": 1.0,
+        "conditions": "Applies under the laws of many countries.",
+        "justification": "Legal frameworks often prioritize public policy against allowing parties to escape responsibility for severe misconduct.",
+        "implication_company": "ZEBRACORP cannot legally disclaim liability for its own gross negligence in many jurisdictions, regardless of contractual terms.",
+        "implication_supplier": "Suppliers cannot legally disclaim liability for their gross negligence in many jurisdictions, regardless of contractual terms.",
+        "source_insight": "N/A",
+        "text": "In fact, the laws of many countries will not in any event permit parties to disclaim or liability from grossly negligent acts or omissions."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "408512b5-e3bf-4934-ae55-057d94498177",
+      "content": {
+        "id": "71b0b57e-324c-442e-a579-3734a787313a",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct.",
+        "plain_text": "ZEBRACORP should generally not accept contract conditions that limit a supplier's liability solely to negligent or grossly negligent acts or omissions.",
+        "expert_insight": "This guideline is crucial for risk allocation. Limiting liability solely to negligence places an undue burden on ZEBRACORP to prove fault, which can be difficult and costly, rather than focusing on breach of contract.",
+        "confidence": 1.0,
+        "conditions": "When a supplier/subcontractor attempts to limit their liability exclusively to negligent or grossly negligent acts.",
+        "justification": "Such a limitation would impose an unacceptable and unreasonable increased burden of proof on ZEBRACORP, requiring proof of carelessness in addition to contract breach.",
+        "implication_company": "ZEBRACORP would face a significantly higher burden of proof to claim damages, potentially making it harder to recover losses.",
+        "implication_supplier": "Suppliers attempting this limitation would benefit from a higher burden of proof on ZEBRACORP, but ZEBRACORP is advised not to accept such terms.",
+        "source_insight": "N/A",
+        "text": "Note that we should generally not accept any conditions that limit the liability of the supplier/subcontractor solely to negligent or grossly negligent acts or omissions or conduct."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "73067150-78dd-4f62-8edf-76d6c0c92b20",
+      "content": {
+        "id": "673f324c-220d-44b2-a400-98387063412a",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Having this type of limitation, would put an obligation on ZEBRACORP to, not only prove that the supplier has breached the contract, but to also prove that the supplier has been careless in its conduct. Such increased burden of proof would not be acceptable or reasonable.",
+        "plain_text": "Limiting supplier liability solely to negligence would obligate ZEBRACORP to prove both contract breach and supplier carelessness, an unacceptable and unreasonable increase in the burden of proof.",
+        "expert_insight": "This justification clearly explains why the preceding guideline is important. It shifts the focus from a simple breach of contract to proving intent or fault, which is a much higher legal hurdle.",
+        "confidence": 1.0,
+        "justification": "Explains the rationale behind the guideline to not accept limitations of liability solely to negligent acts.",
+        "implication_company": "ZEBRACORP would incur significantly higher legal costs and face greater difficulty in enforcing contracts if such limitations were accepted.",
+        "implication_supplier": "Suppliers would benefit from a higher evidentiary standard for ZEBRACORP to prove liability, but this is deemed unreasonable.",
+        "source_insight": "N/A",
+        "text": "Having this type of limitation, would put an obligation on ZEBRACORP to, not only prove that the supplier has breached the contract, but to also prove that the supplier has been careless in its conduct. Such increased burden of proof would not be acceptable or reasonable."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useWorkspace } from '../../hooks/useWorkspace';
-import { Upload, Plus, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces } from 'lucide-react';
+import { Upload, Plus, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function FileManager() {
@@ -468,6 +468,7 @@ export default function FileManager() {
             analyzed: 'bg-green-100 text-green-700',
             ingesting: 'bg-yellow-100 text-yellow-700',
             analyzing: 'bg-purple-100 text-purple-700',
+            paused: 'bg-amber-50 text-amber-600 border border-amber-200',
         };
         const icons = {
             uploaded: <Upload size={12} />,
@@ -476,6 +477,7 @@ export default function FileManager() {
             analyzed: <FileSearch size={12} />,
             ingesting: <Loader size={12} className="animate-spin" />,
             analyzing: <Loader size={12} className="animate-spin" />,
+            paused: <PauseCircle size={12} />,
         };
 
         const isProcessing = status === 'ingesting' || status === 'analyzing';
@@ -522,7 +524,9 @@ export default function FileManager() {
                     {isProcessing && (
                         <span className="flex items-center gap-1">
                             <span className="capitalize">{currentMessage || displayStatus}</span>
-                            <span className="font-bold opacity-80">{currentProgress}%</span>
+                            {!currentMessage?.includes('%') && (
+                                <span className="font-bold opacity-80">{currentProgress}%</span>
+                            )}
                         </span>
                     )}
                 </span>
@@ -659,7 +663,7 @@ export default function FileManager() {
                                                             className="text-indigo-600 hover:text-indigo-900 p-1"
                                                             title="Run Auto-Annotation"
                                                         >
-                                                            <Braces size={18} />
+                                                            <FilePen size={18} />
                                                         </button>
                                                     </>
                                                 )}
@@ -681,8 +685,69 @@ export default function FileManager() {
                                                     </>
                                                 )}
 
+                                                {/* Processing / Active Job Controls */}
+                                                {(file.header.status === 'analyzing' || file.header.status === 'paused') && (
+                                                    <>
+                                                        {file.header.status === 'paused' ? (
+                                                            <button
+                                                                onClick={() => {
+                                                                    // Optimistic Resume
+                                                                    const prevStatus = file.header.status_before_pause || 'analyzing';
+                                                                    updateFile(file.header.id, {
+                                                                        header: { ...file.header, status: prevStatus }
+                                                                    });
+                                                                }}
+                                                                className="text-emerald-600 hover:text-emerald-900 p-1"
+                                                                title="Resume"
+                                                            >
+                                                                <Play size={18} />
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                onClick={() => {
+                                                                    // Optimistic Pause
+                                                                    updateFile(file.header.id, {
+                                                                        header: { ...file.header, status: 'paused', status_before_pause: file.header.status }
+                                                                    });
+                                                                }}
+                                                                className="text-amber-600 hover:text-amber-900 p-1"
+                                                                title="Pause"
+                                                            >
+                                                                <PauseCircle size={18} />
+                                                            </button>
+                                                        )}
+
+                                                        <button
+                                                            onClick={() => {
+                                                                if (window.confirm("Stop and Cancel this job?")) {
+                                                                    // Optimistic Cancel
+                                                                    // Clear interval
+                                                                    if (intervalsRef.current[file.header.id]) {
+                                                                        clearInterval(intervalsRef.current[file.header.id]);
+                                                                        delete intervalsRef.current[file.header.id];
+                                                                    }
+                                                                    localStorage.removeItem(`job_${file.header.id}`);
+
+                                                                    const revertStatus = file.header.documentType === 'master' ? 'uploaded' : 'annotated';
+                                                                    updateFile(file.header.id, {
+                                                                        header: { ...file.header, status: revertStatus },
+                                                                        progress: 0
+                                                                    });
+                                                                }
+                                                            }}
+                                                            className="text-red-500 hover:text-red-700 p-1"
+                                                            title="Stop / Cancel"
+                                                        >
+                                                            <StopCircle size={18} />
+                                                        </button>
+                                                    </>
+                                                )}
+
                                                 {file.header.status === 'analyzed' && (
                                                     <>
+                                                        <button onClick={() => handleAction('annotate', file)} className="text-gray-400 hover:text-gray-600 p-1" title="View Annotation">
+                                                            <FileText size={18} />
+                                                        </button>
                                                         <button onClick={() => handleAction('view-analysis', file)} className="text-indigo-600 hover:text-indigo-900 p-1" title="View Analysis">
                                                             <Eye size={18} />
                                                         </button>

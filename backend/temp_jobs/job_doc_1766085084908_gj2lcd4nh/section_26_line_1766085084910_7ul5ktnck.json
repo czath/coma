@@ -1,0 +1,719 @@
+{
+  "section_id": "line_1766085084910_7ul5ktnck",
+  "decisions": [
+    {
+      "id": "0d3c5b30-16c9-4743-a49a-9b2ffc4760fb",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "punitive-damages-not-recoverable-breach-contract",
+        "verbatim_text": "Punitive damages are generally not recoverable for breach of contract.",
+        "plain_text": "Punitive damages are typically not recoverable for a breach of contract.",
+        "expert_insight": "This is a foundational principle in contract law, distinguishing it from tort law. It significantly limits financial exposure for contractual breaches to actual, foreseeable damages, preventing speculative or excessive awards. Understanding this principle is crucial for assessing potential claims and liabilities, and it informs negotiation strategy regarding liability caps or exclusions. Contract law primarily aims to compensate for losses, not to punish.",
+        "confidence": 1.0,
+        "classification": "HIGH",
+        "conditions": "This is a general rule applying to 'breach of contract'. The term 'generally' implies that while this is the default rule, extremely rare exceptions might exist where a breach of contract also constitutes an independent tort (e.g., fraud) that would warrant punitive damages.",
+        "justification": "This statement outlines a fundamental legal rule that directly impacts the scope of recoverable damages in contractual disputes, affecting both potential claims and liabilities.",
+        "implication_company": "Limits our ability to claim punitive damages from a breaching party for contract breach. Conversely, it limits our liability for punitive damages if we breach a contract. Companies should understand that their exposure to punitive damages is generally limited in contract disputes, focusing instead on actual damages. However, they must be cautious if their contractual breach involves elements of fraud or other tortious conduct.",
+        "implication_supplier": "Limits their liability for punitive damages if they breach a contract. Suppliers can generally expect that a breach of contract on their part will not typically result in punitive damages, unless the breach also involves tortious conduct or extreme malice. Their primary liability will typically be for actual damages incurred by the client.",
+        "source_insight": "The text explicitly states this as a general rule, highlighting the prevailing legal principle that punitive damages are generally not recoverable for breach of contract, though specific circumstances or jurisdictions might have nuances."
+      },
+      "rationale": "Consensus: Mixed, with a strong majority (4 out of 5 agents) classifying the finding as a GUIDELINE, and one as OTHER (INFO). Evaluation: The statement 'Punitive damages are generally not recoverable for breach of contract' describes a fundamental legal principle that dictates the scope of recoverable damages in contractual disputes. This principle directly impacts risk assessment, negotiation strategy, and potential liabilities/claims, making it an actionable rule rather than mere information. It passes the clarity, value, and utility tests, providing crucial guidance for legal and commercial teams. Therefore, it is classified as a GUIDELINE with HIGH priority.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "7ac0f796-5761-42cd-83f8-4bb5902c5a20",
+      "supporting_evidence": [
+        "bd24dc96-a987-4784-8c71-74b013f58323",
+        "fb4e84ee-cee0-4a67-bb00-cade02466f17",
+        "369c9d56-ecab-4909-8dfd-2bdff067dad7",
+        "8db48e9c-b2b9-424f-bce9-66db20c9bf76"
+      ]
+    },
+    {
+      "id": "4b1c0acd-617f-4f50-bdb8-392dcb925be6",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "verbatim_text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded.",
+        "plain_text": "Most US vendors typically include clauses to limit their liability for punitive damages, even when the likelihood of such damages being awarded is low.",
+        "expert_insight": "This highlights a common defensive tactic by US vendors. They often include this limitation as a boilerplate or out of an abundance of caution, even when the legal exposure for contract breaches is minimal. Anticipating this common vendor stance allows the company to prepare for such clauses during contract negotiations, potentially streamlining the process.",
+        "confidence": 0.95,
+        "subtype": "TACTIC",
+        "justification": "This describes a common business practice or strategy adopted by US-based vendors, providing insight into their negotiation tactics.",
+        "implication_company": "Companies contracting with US vendors should anticipate and be prepared to address clauses limiting liability for punitive damages during contract negotiations, understanding that this is a standard vendor practice.",
+        "implication_supplier": "US-based suppliers will actively seek to include specific limitations on punitive damages in their contracts as a standard risk mitigation practice.",
+        "source_insight": "The text describes the observed behavior of 'most US based vendors', indicating a common commercial negotiation practice."
+      },
+      "rationale": "Consensus: Split between 'GUIDELINE' (1 agent) and 'OTHER' (3 agents). Evaluation: The verbatim text describes a common commercial practice or behavior of US-based vendors ('will seek to limit'), rather than a direct contractual obligation or a rule for the company to follow. Therefore, 'OTHER' is the appropriate classification. Specifically, it functions as a 'TACTIC' or 'INFO' as it informs about a common negotiation strategy employed by vendors. It passes the clarity, value, and utility checks as it provides actionable intelligence for contract negotiation. The plain text is self-sufficient and the implications are clear.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "e3e681e2-fb18-4509-951c-427fb6205f9f",
+      "supporting_evidence": [
+        "f68355ee-d879-42b8-adda-43fafbbceeba",
+        "1b148f10-ed78-4dbf-9a8f-a9233c4bf542",
+        "8675c3b5-7b46-43b8-9690-4b0399689bcb",
+        "7e82c3fd-60f5-45b8-9041-a8609b795419"
+      ]
+    },
+    {
+      "id": "5b3f23a2-51da-4f6d-97a5-b96805996341",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "cluster_punitive_damages_limitations",
+        "verbatim_text": "Such limitations can be generally accepted.",
+        "plain_text": "Contractual limitations on liability for punitive damages, which US-based vendors often seek, can be generally accepted.",
+        "expert_insight": "Given that punitive damages are generally not recoverable for breach of contract and are unlikely to be awarded, agreeing to clauses that limit liability for such damages is a pragmatic and low-risk commercial decision. This aligns with standard contract law principles and can streamline negotiations, as such limitations are widely considered reasonable and acceptable.",
+        "confidence": 0.95,
+        "classification": "MEDIUM",
+        "conditions": "This refers to limitations on liability for punitive damages.",
+        "justification": "This provides direct guidance on the company's stance regarding the acceptability of a common contractual clause, influencing negotiation outcomes and reflecting a pragmatic approach to contract terms.",
+        "implication_company": "The company can generally agree to such clauses without incurring significant additional risk, as punitive damages are unlikely to be awarded for contract breach, potentially speeding up contract finalization.",
+        "implication_supplier": "Suppliers can expect their request for limitations on punitive damages to be generally accepted, making this a straightforward negotiation point for them.",
+        "source_insight": "The phrase 'can be generally accepted' indicates that this is a common and commercially reasonable practice, suggesting that resistance to such clauses might be unwarranted in most cases, especially given the preceding context that punitive damages are generally not recoverable for breach of contract."
+      },
+      "rationale": "Consensus Check: Agents were split between 'GUIDELINE' (1 agent) and 'OTHER' (3 agents, with subtypes 'INSTRUCTION' and 'INFO'). \nValue Assessment: The verbatim text 'Such limitations can be generally accepted' refers to the preceding sentence in the source text, which discusses vendors seeking to limit liability for punitive damages. The plain_text has been contextualized to make it self-sufficient by explicitly linking 'Such limitations' to 'contractual limitations on liability for punitive damages'.\nType-Specific Criteria: While not a strict obligation, the phrase 'can be generally accepted' provides strong guidance on a recommended commercial stance and negotiation strategy regarding a specific contractual clause. It is more than mere information; it advises on permissible action. Therefore, it is best classified as a 'GUIDELINE'.\nUtility Check: This finding is highly specific and actionable, providing valuable insight for negotiators on how to approach clauses limiting punitive damages, given their low likelihood in breach of contract scenarios.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "bdb2893d-dbe6-4e4c-82f4-a25aa1d35199",
+      "supporting_evidence": [
+        "a7ec50ca-f330-4285-b9e0-22aa8e8ca691",
+        "435a23bc-d482-4767-81f1-c4864d7cbcfc",
+        "39e68a80-478b-42f1-b930-7011c13a3f8b",
+        "95e0f51d-258d-4697-af4c-6381ae860d1e"
+      ]
+    },
+    {
+      "id": "5c08ad2c-0dd2-4b96-88fd-4970d5bde86c",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "punitive_damages_definition_golden_record",
+        "verbatim_text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit. Punitive damages are used particularly in the United States to penalize and thereby to deter blameworthy conduct. Punitive damages are also known as exemplary damages.",
+        "plain_text": "Punitive damages are additional damages awarded when a breaching party acts with recklessness, malice, or deceit. They are primarily used in the United States to penalize and deter blameworthy conduct and are also known as exemplary damages.",
+        "expert_insight": "Punitive damages are not meant to compensate the victim but rather to punish the wrongdoer for egregious conduct and deter similar future actions. This definition highlights the specific intent-based criteria (recklessness, malice, deceit) required for their award, distinguishing them from compensatory damages. Understanding this definition and purpose is foundational for any discussion around liability, especially in US-based contracts where they are more prevalent.",
+        "confidence": 1.0,
+        "implication_company": "Provides essential background knowledge for evaluating liability clauses and potential risks related to egregious conduct.",
+        "implication_supplier": "Clarifies the type of damages they would typically seek to avoid or limit due to their punitive nature."
+      },
+      "rationale": "Consensus: Mixed. Agents predominantly classified parts of the first paragraph as 'DEFINITION', while one classified the entire paragraph as 'OTHER' (INFO). Evaluation: The first paragraph provides a clear, self-sufficient definition of 'Punitive damages', including its conditions, purpose, and alternative name. Therefore, 'DEFINITION' is the most appropriate type. The finding passes the Value and Utility checks as it defines a critical legal term essential for contract understanding and negotiation.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "1f871faa-07c0-4dd2-9da9-7a5e9c194851",
+      "supporting_evidence": [
+        "c60edb52-fe40-4bad-8c7c-5d7e7d81e3ca",
+        "2e3a3d5c-1e38-42f3-8d2f-591025fa2cd0",
+        "8ded1c7c-110b-4379-bc84-dcc7f92552de",
+        "26700a5d-5c7f-4f94-b2b1-ab64a806478d",
+        "c312f50e-e6d4-46fc-840f-6c82e2d155e7",
+        "78002493-01c7-4449-940d-947f9fac76b6"
+      ]
+    },
+    {
+      "id": "a9f05730-ea59-4180-b2ad-182b1f434451",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "consolidated-punitive-damages-purpose-us",
+        "verbatim_text": "Punitive damages are used particularly in the United States to penalize and thereby to deter blameworthy conduct.",
+        "plain_text": "In the United States, punitive damages are primarily used to penalize wrongdoers and deter future blameworthy conduct.",
+        "expert_insight": "This highlights the primary purpose and geographical focus of punitive damages, indicating their role in discouraging undesirable behavior. Companies should understand that these damages are not about making the injured party whole, but about punishing and setting an example to prevent recurrence of egregious behavior, especially within the US legal system.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This statement provides crucial context on the purpose and geographical prevalence of punitive damages, explaining their role in the legal system rather than defining the term or setting a rule.",
+        "implication_company": "Companies operating in the US should be aware that their blameworthy conduct (e.g., recklessness, malice, deceit) could lead to punitive damages, which are designed to penalize and deter, potentially resulting in significant financial penalties beyond actual damages.",
+        "implication_supplier": "Suppliers operating in the US should understand that their actions, if deemed blameworthy and intentional, could result in punitive damages being sought against them, serving as a strong deterrent against egregious behavior.",
+        "source_insight": "The text explicitly states the purpose ('to penalize and thereby to deter blameworthy conduct') and location of use ('particularly in the United States')."
+      },
+      "rationale": "Consensus: Agents agreed on `type: OTHER` and `subtype: INFO`. Evaluation: The finding clearly states the purpose and geographical focus of punitive damages, providing valuable context. It is self-sufficient and passes the utility check, offering important insight into the function of these damages in the US legal system. The `plain_text` and `expert_insight` are well-articulated and consolidated effectively.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "4e27756f-23ae-48fa-bbda-c47b4a692d33",
+      "supporting_evidence": [
+        "d06eada2-83d6-4dd7-95fe-07d9b74d00d8",
+        "5e9e4022-40b3-4d6c-8d98-4381daafbeee"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "7ac0f796-5761-42cd-83f8-4bb5902c5a20",
+      "recommendation_ids": [
+        "bd24dc96-a987-4784-8c71-74b013f58323",
+        "fb4e84ee-cee0-4a67-bb00-cade02466f17",
+        "369c9d56-ecab-4909-8dfd-2bdff067dad7",
+        "8db48e9c-b2b9-424f-bce9-66db20c9bf76"
+      ]
+    },
+    {
+      "id": "e3e681e2-fb18-4509-951c-427fb6205f9f",
+      "recommendation_ids": [
+        "f68355ee-d879-42b8-adda-43fafbbceeba",
+        "1b148f10-ed78-4dbf-9a8f-a9233c4bf542",
+        "8675c3b5-7b46-43b8-9690-4b0399689bcb",
+        "7e82c3fd-60f5-45b8-9041-a8609b795419"
+      ]
+    },
+    {
+      "id": "bdb2893d-dbe6-4e4c-82f4-a25aa1d35199",
+      "recommendation_ids": [
+        "a7ec50ca-f330-4285-b9e0-22aa8e8ca691",
+        "435a23bc-d482-4767-81f1-c4864d7cbcfc",
+        "39e68a80-478b-42f1-b930-7011c13a3f8b",
+        "95e0f51d-258d-4697-af4c-6381ae860d1e"
+      ]
+    },
+    {
+      "id": "1f871faa-07c0-4dd2-9da9-7a5e9c194851",
+      "recommendation_ids": [
+        "c60edb52-fe40-4bad-8c7c-5d7e7d81e3ca",
+        "2e3a3d5c-1e38-42f3-8d2f-591025fa2cd0",
+        "8ded1c7c-110b-4379-bc84-dcc7f92552de",
+        "26700a5d-5c7f-4f94-b2b1-ab64a806478d",
+        "c312f50e-e6d4-46fc-840f-6c82e2d155e7",
+        "78002493-01c7-4449-940d-947f9fac76b6"
+      ]
+    },
+    {
+      "id": "4e27756f-23ae-48fa-bbda-c47b4a692d33",
+      "recommendation_ids": [
+        "d06eada2-83d6-4dd7-95fe-07d9b74d00d8",
+        "5e9e4022-40b3-4d6c-8d98-4381daafbeee"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "bd24dc96-a987-4784-8c71-74b013f58323",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Punitive damages are generally not recoverable for breach of contract.",
+        "plain_text": "Punitive damages are typically not recoverable for a breach of contract.",
+        "expert_insight": "This is a foundational principle in contract law, distinguishing it from tort law. It significantly limits financial exposure for contractual breaches to actual, foreseeable damages, preventing speculative or excessive awards. Understanding this principle is crucial for assessing potential claims and liabilities.",
+        "confidence": 1.0,
+        "conditions": "Applies to 'breach of contract'. The term 'generally' implies that while this is the default rule, extremely rare exceptions might exist where a breach of contract also constitutes an independent tort.",
+        "justification": "This statement outlines a fundamental legal rule that directly impacts the scope of recoverable damages in contractual disputes, affecting both our potential claims and liabilities.",
+        "implication_company": "Limits our ability to claim punitive damages from a breaching party for contract breach. Conversely, it limits our liability for punitive damages if we breach a contract.",
+        "implication_supplier": "Limits their liability for punitive damages if they breach a contract.",
+        "source_insight": "The word 'generally' suggests that while this is the prevailing rule, there might be very specific, exceptional circumstances where punitive damages could be considered, though these are exceedingly rare in pure contract cases.",
+        "text": "Punitive damages are generally not recoverable for breach of contract."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "f68355ee-d879-42b8-adda-43fafbbceeba",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded.",
+        "plain_text": "Expect US-based vendors to proactively include clauses limiting their liability for punitive damages in contracts.",
+        "expert_insight": "Vendors often seek to mitigate even low-probability risks. Anticipating this common vendor stance allows the company to prepare for such clauses during contract negotiations, potentially streamlining the process.",
+        "confidence": 0.95,
+        "conditions": "Applies when dealing with 'Most US based vendors'.",
+        "justification": "This describes a common commercial practice that impacts our negotiation strategy and expectations when contracting with US vendors.",
+        "implication_company": "We should anticipate and be prepared to address such limitation clauses from vendors during contract negotiations.",
+        "implication_supplier": "They will actively seek to include specific limitations on punitive damages in their contracts.",
+        "source_insight": "The phrase 'even if it would be unlikely that punitive would be awarded' underscores the vendors' risk-averse approach, aiming to eliminate even remote theoretical exposures.",
+        "text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "a7ec50ca-f330-4285-b9e0-22aa8e8ca691",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "Such limitations can be generally accepted.",
+        "plain_text": "Accepting contractual limitations on liability for punitive damages is generally considered a reasonable and acceptable commercial position.",
+        "expert_insight": "Given the rarity of punitive damages being awarded for contract breach, agreeing to such limitations is a pragmatic commercial decision. It aligns with standard contract law principles and can facilitate smoother negotiations without introducing significant additional risk.",
+        "confidence": 0.95,
+        "conditions": "Refers to 'Such limitations' (i.e., limitations on liability for punitive damages).",
+        "justification": "This provides direct guidance on the company's stance regarding the acceptability of a common contractual clause, influencing negotiation outcomes.",
+        "implication_company": "We can generally agree to such clauses without incurring significant additional risk, as punitive damages are unlikely to be awarded for contract breach anyway.",
+        "implication_supplier": "Their request for such limitations is likely to be accepted by us.",
+        "source_insight": "The phrase 'generally accepted' reinforces that this is a common and commercially reasonable practice, suggesting that resistance to such clauses might be unwarranted in most cases.",
+        "text": "Such limitations can be generally accepted."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "c60edb52-fe40-4bad-8c7c-5d7e7d81e3ca",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit. Punitive damages are used particularly in the United States to penalize and thereby to deter blameworthy conduct. Punitive damages are also known as exemplary damages.",
+        "plain_text": "Punitive damages are additional damages for reckless, malicious, or deceitful conduct, primarily used in the US to penalize and deter, also known as exemplary damages.",
+        "expert_insight": "Understanding the definition and purpose of punitive damages is foundational for any discussion around liability, especially when dealing with US-based contracts where they are more prevalent.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This section provides a clear definition and context for punitive damages.",
+        "implication_company": "Provides essential background knowledge for evaluating liability clauses and potential risks.",
+        "implication_supplier": "Clarifies the type of damages they would typically seek to avoid or limit.",
+        "source_insight": "Standard legal definition and application of punitive damages.",
+        "text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit. Punitive damages are used particularly in the United States to penalize and thereby to deter blameworthy conduct. Punitive damages are also known as exemplary damages."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "fb4e84ee-cee0-4a67-bb00-cade02466f17",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "verbatim_text": "Punitive damages are generally not recoverable for breach of contract.",
+        "plain_text": "Punitive damages are typically not awarded for breaches of contract.",
+        "expert_insight": "This is a critical legal principle. It means that in most contract disputes, the risk of punitive damages is low, which informs our strategy when negotiating liability caps or exclusions.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "States a key legal rule regarding the recoverability of punitive damages in contract law.",
+        "implication_company": "Reduces the perceived risk of punitive damages in standard contract breaches, influencing negotiation strategy.",
+        "implication_supplier": "Reinforces why they might seek to exclude them, even if the legal likelihood is low.",
+        "source_insight": "A general rule in contract law, though specific circumstances or jurisdictions might have nuances.",
+        "text": "Punitive damages are generally not recoverable for breach of contract."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "1b148f10-ed78-4dbf-9a8f-a9233c4bf542",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "verbatim_text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded.",
+        "plain_text": "Most US vendors will try to specifically limit their liability for punitive damages, even if such damages are unlikely to be awarded.",
+        "expert_insight": "This highlights a common defensive tactic by US vendors. They often include this limitation as a boilerplate or out of an abundance of caution, even when the legal exposure is minimal for contract breaches.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Describes a common negotiation behavior/tactic of US-based vendors.",
+        "implication_company": "Anticipate this request from US vendors and understand that it's a standard defensive posture, not necessarily indicative of high risk.",
+        "implication_supplier": "This is a standard protective measure they will typically propose.",
+        "source_insight": "Observation of common commercial negotiation practices.",
+        "text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "435a23bc-d482-4767-81f1-c4864d7cbcfc",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "OTHER",
+        "verbatim_text": "Such limitations can be generally accepted.",
+        "plain_text": "Accepting limitations on punitive damages is generally permissible.",
+        "expert_insight": "Given the low likelihood of punitive damages for breach of contract, agreeing to such limitations is often a low-risk concession that can streamline negotiations. However, always ensure the exclusion doesn't inadvertently cover tortious conduct that might arise from the contractual relationship.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "Provides direct advice on how to respond to vendor requests regarding punitive damage limitations.",
+        "implication_company": "This is a point where we can concede without significant risk, potentially speeding up contract finalization.",
+        "implication_supplier": "Their request for limitation is likely to be accepted, making this a straightforward negotiation point for them.",
+        "source_insight": "Strategic advice based on the legal context provided.",
+        "text": "Such limitations can be generally accepted."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "2e3a3d5c-1e38-42f3-8d2f-591025fa2cd0",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "DEFINITION",
+        "verbatim_text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit. Punitive damages are also known as exemplary damages.",
+        "plain_text": "Punitive damages are additional damages awarded when a breaching party has acted with recklessness, malice, or deceit. They are also referred to as exemplary damages.",
+        "expert_insight": "Punitive damages are primarily used in the United States to penalize and deter blameworthy conduct. They are generally not recoverable for breach of contract. Most US vendors seek to limit their liability for such damages, even if unlikely to be awarded, and these limitations are typically accepted.",
+        "confidence": 1.0,
+        "text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit. Punitive damages are also known as exemplary damages."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "8ded1c7c-110b-4379-bc84-dcc7f92552de",
+      "content": {
+        "id": "e2293b6e-f19b-4c28-9a4f-a9121a9179e8",
+        "type": "DEFINITION",
+        "verbatim_text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit.",
+        "plain_text": "Punitive damages are additional damages awarded when a breaching party has acted with recklessness, malice, or deceit, beyond actual damages.",
+        "expert_insight": "This definition clarifies the conditions under which punitive damages can be awarded, focusing on the intent or severe negligence of the breaching party.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "d06eada2-83d6-4dd7-95fe-07d9b74d00d8",
+      "content": {
+        "id": "f519409f-683a-4e3a-b51f-614c2755e092",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Punitive damages are used particularly in the United States to penalize and thereby to deter blameworthy conduct.",
+        "plain_text": "Punitive damages are primarily used in the United States to penalize and deter blameworthy conduct.",
+        "expert_insight": "This highlights the primary purpose and geographical focus of punitive damages, indicating their role in discouraging undesirable behavior.",
+        "confidence": 0.9,
+        "justification": "This statement provides information about the purpose and common application of punitive damages, not a direct rule or definition.",
+        "implication_company": "Companies operating in the US should be aware that their blameworthy conduct could lead to punitive damages, which are designed to penalize and deter.",
+        "implication_supplier": "Suppliers operating in the US should understand that their actions, if deemed blameworthy (reckless, malicious, or deceitful), could result in punitive damages being sought against them.",
+        "source_insight": "The text explicitly states the purpose and location of use.",
+        "text": "Punitive damages are used particularly in the United States to penalize and thereby to deter blameworthy conduct."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "26700a5d-5c7f-4f94-b2b1-ab64a806478d",
+      "content": {
+        "id": "a90f2302-36c8-47a3-82a5-481335b71c26",
+        "type": "DEFINITION",
+        "verbatim_text": "Punitive damages are also known as exemplary damages.",
+        "plain_text": "Punitive damages are also referred to as exemplary damages.",
+        "expert_insight": "This provides a common synonym for punitive damages, which can be useful for legal professionals and contract drafters.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Punitive damages are also known as exemplary damages."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "369c9d56-ecab-4909-8dfd-2bdff067dad7",
+      "content": {
+        "id": "b1820468-b789-498c-8438-23212879685a",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Punitive damages are generally not recoverable for breach of contract.",
+        "plain_text": "Punitive damages are typically not recoverable in cases of breach of contract.",
+        "expert_insight": "This is a critical rule indicating a general limitation on the types of damages available for contract breaches, distinguishing them from tort claims where punitive damages are more common.",
+        "confidence": 1.0,
+        "conditions": "Breach of contract",
+        "justification": "This statement outlines a general legal principle regarding the recoverability of punitive damages in contract law.",
+        "implication_company": "Companies should understand that punitive damages are unlikely to be awarded for a simple breach of contract, which can influence litigation strategy and risk assessment.",
+        "implication_supplier": "Suppliers can generally expect that a breach of contract on their part will not typically result in punitive damages, unless the breach also involves tortious conduct or extreme malice.",
+        "source_insight": "The text explicitly states this as a general rule.",
+        "text": "Punitive damages are generally not recoverable for breach of contract."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "8675c3b5-7b46-43b8-9690-4b0399689bcb",
+      "content": {
+        "id": "e037740f-7848-4223-8c46-953335520d2b",
+        "type": "OTHER",
+        "subtype": "TACTIC",
+        "verbatim_text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded.",
+        "plain_text": "Most US vendors typically include clauses to limit their liability for punitive damages, even when the likelihood of such damages being awarded is low.",
+        "expert_insight": "This describes a common contractual practice by US vendors to proactively mitigate potential, albeit unlikely, risks associated with punitive damages. It's a defensive contracting strategy.",
+        "confidence": 0.9,
+        "justification": "This describes a common business practice or strategy adopted by vendors, not a rule or definition.",
+        "implication_company": "Companies contracting with US vendors should expect to see clauses limiting liability for punitive damages and understand that this is a standard vendor practice.",
+        "implication_supplier": "US-based suppliers should consider including specific limitations on punitive damages in their contracts as a standard risk mitigation practice.",
+        "source_insight": "The text describes a common behavior of US vendors.",
+        "text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "39e68a80-478b-42f1-b930-7011c13a3f8b",
+      "content": {
+        "id": "d7411a0c-6e69-42b7-a37a-4c22736222b4",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Such limitations can be generally accepted.",
+        "plain_text": "Contractual limitations on punitive damages are generally considered acceptable.",
+        "expert_insight": "This indicates that clauses limiting punitive damages are often viewed as reasonable and enforceable in contract negotiations.",
+        "confidence": 0.9,
+        "justification": "This provides information about the general acceptability of a specific contractual term, not a rule or definition.",
+        "implication_company": "Companies should be aware that demanding the removal of such limitations from vendor contracts might be met with resistance, as they are generally accepted.",
+        "implication_supplier": "Suppliers can expect that their proposed limitations on punitive damages will likely be accepted during contract negotiations.",
+        "source_insight": "The text directly states the general acceptance of such limitations.",
+        "text": "Such limitations can be generally accepted."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "c312f50e-e6d4-46fc-840f-6c82e2d155e7",
+      "content": {
+        "id": "e9191d9e-1011-402a-9694-061298d00922",
+        "type": "DEFINITION",
+        "verbatim_text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit.",
+        "plain_text": "Punitive damages are additional damages awarded when a breaching party has acted with recklessness, malice, or deceit, supplementing actual damages.",
+        "expert_insight": "Punitive damages are not meant to compensate the victim but rather to punish the wrongdoer for egregious conduct and deter similar future actions. This definition highlights the specific intent-based criteria (recklessness, malice, deceit) required for their award, distinguishing them from compensatory damages.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Punitive damages are damages awarded in addition to actual damages when the breaching party has acted in recklessness, malice or deceit."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "5e9e4022-40b3-4d6c-8d98-4381daafbeee",
+      "content": {
+        "id": "c1f73620-802c-4712-9856-42e77f0a149b",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Punitive damages are used particularly in the United States to penalize and thereby to deter blameworthy conduct.",
+        "plain_text": "In the United States, punitive damages primarily serve to penalize wrongdoers and deter future blameworthy conduct.",
+        "expert_insight": "This clarifies the primary purpose of punitive damages, especially in the US legal system. Companies should understand that these damages are not about making the injured party whole, but about punishing and setting an example to prevent recurrence of egregious behavior.",
+        "confidence": 1.0,
+        "justification": "This statement provides context on the purpose and geographical prevalence of punitive damages.",
+        "implication_company": "Companies operating in the US should be aware that egregious conduct (recklessness, malice, deceit) can lead to significant financial penalties beyond actual damages, designed to punish and deter.",
+        "implication_supplier": "Suppliers operating in the US should understand that their conduct, if deemed blameworthy and intentional, could result in punitive damages, serving as a strong deterrent.",
+        "source_insight": "The text explicitly states the use and purpose of punitive damages.",
+        "text": "Punitive damages are used particularly in the United States to penalize and thereby to deter blameworthy conduct."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "78002493-01c7-4449-940d-947f9fac76b6",
+      "content": {
+        "id": "b1a64627-2b7e-40e1-b485-64c4c2356c9d",
+        "type": "DEFINITION",
+        "verbatim_text": "Punitive damages are also known as exemplary damages.",
+        "plain_text": "Punitive damages are also referred to as exemplary damages.",
+        "expert_insight": "This provides an alternative term for punitive damages, which can be useful for legal professionals and contract drafters to recognize synonymous language.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Punitive damages are also known as exemplary damages."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "8db48e9c-b2b9-424f-bce9-66db20c9bf76",
+      "content": {
+        "id": "e2213711-2092-491c-b710-1d898687707e",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Punitive damages are generally not recoverable for breach of contract.",
+        "plain_text": "Generally, punitive damages cannot be recovered in cases of breach of contract.",
+        "expert_insight": "This is a critical legal principle. Contract law primarily aims to compensate for losses, not to punish. Punitive damages are typically reserved for tort claims where there is egregious conduct. This means that even if a breach is severe, it's unlikely to trigger punitive damages unless the breach also constitutes an independent tort (e.g., fraud).",
+        "confidence": 1.0,
+        "conditions": "This is a general rule; exceptions might exist if the breach of contract also involves an independent tort (e.g., fraud) that would warrant punitive damages.",
+        "justification": "This statement outlines a legal principle regarding the recoverability of punitive damages.",
+        "implication_company": "Companies should understand that their exposure to punitive damages is generally limited in contract disputes, focusing instead on actual damages. However, they must be cautious if their contractual breach involves elements of fraud or other tortious conduct.",
+        "implication_supplier": "Suppliers can generally expect that punitive damages will not be sought or awarded for a simple breach of contract. Their primary liability will typically be for actual damages incurred by the client.",
+        "source_insight": "The text explicitly states the general non-recoverability for breach of contract.",
+        "text": "Punitive damages are generally not recoverable for breach of contract."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "7e82c3fd-60f5-45b8-9041-a8609b795419",
+      "content": {
+        "id": "b83320c1-3f41-470a-9d62-a2792b0c14c4",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded.",
+        "plain_text": "US-based vendors often include clauses to explicitly limit their liability for punitive damages, even though such damages are rarely awarded in contract disputes.",
+        "expert_insight": "This highlights a common contractual practice. While punitive damages are unlikely for breach of contract, vendors still include explicit limitations as a precautionary measure to reinforce the legal default and provide an extra layer of protection, avoiding any ambiguity.",
+        "confidence": 0.9,
+        "justification": "This describes a common practice among US vendors regarding contract drafting.",
+        "implication_company": "Companies should expect to see clauses limiting punitive damages in contracts with US-based vendors. While legally sound, reviewing such clauses for scope and potential carve-outs is still good practice.",
+        "implication_supplier": "US-based suppliers should continue to include specific limitations on punitive damages in their contracts as a standard risk management practice, even if the likelihood of award is low.",
+        "source_insight": "The text describes the behavior of 'most US based vendors'.",
+        "text": "Most US based vendors will seek to specifically limit their liability for such punitive damages even if it would be unlikely that punitive would be awarded."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "95e0f51d-258d-4697-af4c-6381ae860d1e",
+      "content": {
+        "id": "60384814-77a8-48b6-9800-47864f7b6009",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Such limitations can be generally accepted.",
+        "plain_text": "Contractual limitations on punitive damages are generally considered acceptable.",
+        "expert_insight": "This confirms that such limitation clauses are standard and not typically contentious in contract negotiations, given the general legal principle that punitive damages are not recoverable for breach of contract. This provides comfort to parties seeking to include or accept such clauses.",
+        "confidence": 0.9,
+        "justification": "This provides context on the acceptability of such contractual limitations.",
+        "implication_company": "Companies negotiating with vendors should generally accept clauses limiting punitive damages, as they align with established legal principles and are standard practice.",
+        "implication_supplier": "Suppliers can confidently propose or expect acceptance of clauses limiting punitive damages in their contracts.",
+        "source_insight": "The text states that 'Such limitations can be generally accepted.'",
+        "text": "Such limitations can be generally accepted."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

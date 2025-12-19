@@ -89,7 +89,7 @@ def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: 
             if total > 0:
                 percent = int((current / total) * 100)
                 jobs[job_id]["progress"] = percent
-                jobs[job_id]["message"] = f"Tagging content using {model_name}: {percent}% ({current}/{total})"
+                jobs[job_id]["message"] = f"Tagging content: {percent}% ({current}/{total})"
         
         # Auto-Tagging
         document_type = document_type.upper()

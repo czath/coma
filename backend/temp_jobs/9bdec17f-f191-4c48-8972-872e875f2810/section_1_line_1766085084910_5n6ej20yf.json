@@ -1,0 +1,94 @@
+{
+  "section_id": "line_1766085084910_5n6ej20yf",
+  "decisions": [
+    {
+      "id": "8a777b45-c36a-4562-a089-c00c09e18402",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "e4450372-276c-4b68-8120-1a13e53d5821",
+        "verbatim_text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "For information regarding arbitration, refer to the 'Dispute Resolution' section.",
+        "expert_insight": "This statement serves as a navigational instruction, directing the reader to the 'Dispute Resolution' section for detailed information on arbitration procedures and terms. Parties should consult that section to understand their rights and obligations.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text explicitly instructs the reader to refer to another section for details on arbitration.",
+        "implication_company": "The company must consult the 'Dispute Resolution' section to understand the arbitration process and its implications.",
+        "implication_supplier": "The supplier must consult the 'Dispute Resolution' section to understand the arbitration process and its implications.",
+        "source_insight": "The document uses a cross-reference to guide readers to the specific section detailing arbitration."
+      },
+      "rationale": "Consensus: Both agents correctly identified the text as an 'OTHER' type with 'INSTRUCTION' subtype. Evaluation: The text is a clear and self-sufficient navigational instruction, directing the reader to another section for detailed information on arbitration. It passes the Value and Utility tests as it provides essential guidance for document navigation. Classified as 'OTHER' (Instruction).",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "2cfbfff0-445e-468f-9c1f-2dce85d03ad6",
+      "supporting_evidence": [
+        "f9ea6344-c0ce-48bc-80e3-e76d6026b344",
+        "f7b3e284-23ab-4cc0-a22b-0b681f30d204"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "2cfbfff0-445e-468f-9c1f-2dce85d03ad6",
+      "recommendation_ids": [
+        "f9ea6344-c0ce-48bc-80e3-e76d6026b344",
+        "f7b3e284-23ab-4cc0-a22b-0b681f30d204"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "f9ea6344-c0ce-48bc-80e3-e76d6026b344",
+      "content": {
+        "id": "e4450372-276c-4b68-8120-1a13e53d5821",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "Information regarding arbitration can be found in the 'Dispute Resolution' section of this document.",
+        "expert_insight": "This statement acts as a navigational instruction, indicating that arbitration is a component of the broader dispute resolution process detailed elsewhere. Stakeholders should consult the 'Dispute Resolution' section for specific terms, procedures, and conditions related to arbitration.",
+        "confidence": 1.0,
+        "justification": "The text explicitly instructs the reader to refer to another section for information on arbitration.",
+        "implication_company": "The company must refer to the 'Dispute Resolution' section to understand its rights and obligations regarding arbitration.",
+        "implication_supplier": "The supplier must refer to the 'Dispute Resolution' section to understand its rights and obligations regarding arbitration.",
+        "source_insight": "The instruction directly points to another section for arbitration details.",
+        "text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "f7b3e284-23ab-4cc0-a22b-0b681f30d204",
+      "content": {
+        "id": "e8499256-430c-4869-9069-b547d252479e",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below.",
+        "plain_text": "For information regarding arbitration, refer to the 'Dispute Resolution' section.",
+        "expert_insight": "This text serves as a cross-reference, indicating that the specific procedures and rules for arbitration are detailed in the 'Dispute Resolution' section of the document. Parties seeking to understand the arbitration process should consult that dedicated section.",
+        "confidence": 1.0,
+        "justification": "The text explicitly instructs the reader to refer to another section for details on arbitration.",
+        "implication_company": "The company must consult the 'Dispute Resolution' section to understand the arbitration process and its implications.",
+        "implication_supplier": "The supplier must consult the 'Dispute Resolution' section to understand the arbitration process and its implications.",
+        "source_insight": "The document structure uses cross-referencing to guide readers to relevant sections for detailed information on specific topics like arbitration.",
+        "text": "ARBITRATION\nPlease refer to section ‘Dispute Resolution’ below."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

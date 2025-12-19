@@ -1,0 +1,154 @@
+{
+  "section_id": "line_1766077970167_rit31d07b",
+  "decisions": [
+    {
+      "id": "6980eba6-bd8a-4b83-b01c-fccf2a759b21",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "a1b2c3d4-e5f6-4789-8012-34567890abcd",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "Recipients must not consider the information in this document conclusive or a substitute for specific legal advice.",
+        "expert_insight": "This clause is a fundamental disclaimer designed to limit the liability of the document's author. It prevents recipients from relying solely on the document for critical decisions or as a replacement for professional legal counsel, thereby mitigating potential claims of misrepresentation or inadequate advice. It sets the foundational scope of the document's utility.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Applies to all information contained within this document.",
+        "justification": "This is a critical liability-limiting disclaimer. It dictates how the document *must* be interpreted and used, preventing reliance that could lead to legal claims against the document's author. Failure to adhere to this interpretation could expose the author to significant risk.",
+        "implication_company": "Limits the Company's liability by disclaiming responsibility for the conclusiveness or suitability of the information as legal advice. Protects the Company from claims arising from reliance on the document.",
+        "implication_supplier": "The recipient (supplier, or any other party receiving the document) cannot rely on the document as conclusive or as legal advice. They bear the responsibility to seek independent legal counsel for specific cases.",
+        "source_insight": "The phrasing 'is not intended to be conclusive and is not a substitute' clearly indicates a limitation on the document's scope and utility. While not an active 'shall' or 'must' for the recipient, it functions as a critical rule for interpretation and use, with direct legal implications for both parties."
+      },
+      "rationale": "Consensus Check: Agents were split on the type, with one classifying it as 'GUIDELINE' and three as 'OTHER' (INFO). Value Assessment: The verbatim text is clear, self-sufficient, and provides critical context regarding the document's legal standing. Type-Specific Criteria: While phrased as a descriptive statement, this text functions as a fundamental disclaimer that dictates how the document's information *must not* be used (i.e., not as conclusive legal advice or a substitute for individual legal counsel). This imposes an implicit, yet critical, obligation or restriction on the recipient, thereby limiting the author's liability. This active limitation on use and reliance qualifies it as a 'GUIDELINE' rather than mere 'INFO'. It is a specific rule for engagement with the document. Utility Check: This is a highly specific and critical clause that protects the company from liability and clarifies the legal weight of the document, making it essential for any user. Therefore, it is classified as a Critical Guideline.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "83677804-91c2-4ad1-9ed5-15fdae0ee620",
+      "supporting_evidence": [
+        "8913149e-d127-414f-b847-e021c64aca92",
+        "9643ab3b-99cc-4c52-bbaf-50318c700755",
+        "81b39501-319b-4297-aaea-412767231777",
+        "1ee6773e-285d-4c05-9d71-59dc5153b848"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "83677804-91c2-4ad1-9ed5-15fdae0ee620",
+      "recommendation_ids": [
+        "8913149e-d127-414f-b847-e021c64aca92",
+        "9643ab3b-99cc-4c52-bbaf-50318c700755",
+        "81b39501-319b-4297-aaea-412767231777",
+        "1ee6773e-285d-4c05-9d71-59dc5153b848"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "8913149e-d127-414f-b847-e021c64aca92",
+      "content": {
+        "id": "a1b2c3d4-e5f6-4789-8012-34567890abcd",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "Recipients must not consider the information in this document conclusive or a substitute for specific legal advice.",
+        "expert_insight": "This clause is a fundamental disclaimer designed to limit the liability of the document's author. It prevents recipients from relying solely on the document for critical decisions or as a replacement for professional legal counsel, thereby mitigating potential claims of misrepresentation or inadequate advice. It sets the foundational scope of the document's utility.",
+        "confidence": 1.0,
+        "conditions": "Applies to all information contained within this document.",
+        "justification": "This is a critical liability-limiting disclaimer. It dictates how the document *must* be interpreted and used, preventing reliance that could lead to legal claims against the document's author. Failure to adhere to this interpretation could expose the author to significant risk.",
+        "implication_company": "Limits the Company's liability by disclaiming responsibility for the conclusiveness or suitability of the information as legal advice. Protects the Company from claims arising from reliance on the document.",
+        "implication_supplier": "The recipient (supplier, or any other party receiving the document) cannot rely on the document as conclusive or as legal advice. They bear the responsibility to seek independent legal counsel for specific cases.",
+        "source_insight": "The phrasing 'is not intended to be conclusive and is not a substitute' clearly indicates a limitation on the document's scope and utility. While not an active 'shall' or 'must' for the recipient, it functions as a critical rule for interpretation and use, with direct legal implications for both parties.",
+        "text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "9643ab3b-99cc-4c52-bbaf-50318c700755",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "This document provides general information and should not be considered conclusive or a replacement for specific legal advice.",
+        "expert_insight": "This is a standard legal disclaimer. It sets the expectation that the document's content is for informational purposes only and does not constitute binding legal counsel. It's crucial for managing risk and ensuring users understand the limitations of the information provided.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This statement provides general background information about the nature and limitations of the document itself, rather than a specific tactic, instruction, or example related to negotiation or process.",
+        "implication_company": "We must understand that the content within this document is not definitive legal advice and requires consultation with legal counsel for specific situations. Relying solely on this document for critical decisions could expose us to risk.",
+        "implication_supplier": "If this document were shared with a supplier, it would imply they also cannot rely on it as definitive legal advice, and should seek their own counsel. However, in the context of an internal playbook, the implication is primarily for our internal team.",
+        "source_insight": "This disclaimer is boilerplate language designed to limit liability and manage expectations regarding the document's authority and applicability. It's a foundational piece of context for any user of the document.",
+        "text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "81b39501-319b-4297-aaea-412767231777",
+      "content": {
+        "id": "1a2b3c4d-5e6f-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "The information in this document is general and not conclusive, nor is it a replacement for specific legal advice.",
+        "expert_insight": "This is a standard disclaimer often included in legal or compliance documents to manage expectations and limit liability. It clarifies that the document provides general guidance, not tailored legal counsel for specific situations.",
+        "confidence": 1.0,
+        "justification": "The text explicitly defines the scope and limitations of the document's content, making it an informative statement about its nature.",
+        "implication_company": "The company issuing this document is protected from claims of providing definitive legal advice, as it clearly states the general nature of the information. This reduces potential liability for misapplication of general information to specific cases.",
+        "implication_supplier": "A supplier receiving this document should understand that its contents are not binding legal advice for their specific circumstances. They must seek independent legal counsel for tailored advice, rather than relying solely on this document.",
+        "source_insight": "N/A",
+        "text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "1ee6773e-285d-4c05-9d71-59dc5153b848",
+      "content": {
+        "id": "2e09641e-619f-4428-9d82-843360216788",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases.",
+        "plain_text": "This document provides general information, is not conclusive, and should not be used as a substitute for specific legal advice.",
+        "expert_insight": "This is a standard legal disclaimer. It limits the liability of the document's author/provider by clarifying that the content is for general informational purposes only and does not constitute legal advice. Readers are explicitly informed that they should seek professional legal counsel for their specific circumstances.",
+        "confidence": 1.0,
+        "justification": "The text directly describes the nature and limitations of the document's content, making it an informational statement.",
+        "implication_company": "The company providing this document is protected from claims of reliance on its general content for specific legal issues, as it explicitly advises seeking individual legal counsel.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "The information contained in this document is general in nature, and is not intended to be conclusive and is not a substitute for legal advice on individual cases."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "section_id": "line_1766077970167_65u6kz3ht",
+  "decisions": [
+    {
+      "id": "2afe3123-2024-44b9-8b11-1b326a49e8c3",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Users are instructed to send any feedback regarding the document's content to feedback@zebracorp.com.",
+        "expert_insight": "This instruction establishes a clear, designated channel for collecting feedback on the document's content. It is a best practice for document management, enabling the Company to gather insights for continuous improvement and address potential ambiguities. Companies should ensure this email address is actively monitored and that a process is in place to review and respond to the feedback received, fostering engagement and transparency.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The phrase 'Please send' indicates a request or an invitation to provide feedback, establishing a clear procedural instruction rather than a mandatory obligation or a binding rule. It directs users to a specific communication channel.",
+        "implication_company": "Zebracorp must ensure the 'feedback@zebracorp.com' email address is functional, actively monitored, and that a process exists for reviewing, categorizing, and acting upon the feedback received. This demonstrates a commitment to document quality and stakeholder engagement.",
+        "implication_supplier": "Any reader or recipient of the document (including a supplier) has the option, but not an obligation, to provide feedback through the specified channel. This ensures their input can reach the correct department.",
+        "source_insight": "The language is polite and invitational, clearly establishing a communication channel for feedback without imposing a contractual duty."
+      },
+      "rationale": "Consensus Check: Agents were split on type, with one classifying it as 'GUIDELINE' and three as 'OTHER' (Instruction). Tie-Breaker Decision: The phrase 'Please send' indicates an invitation or request, not a mandatory obligation. Therefore, it does not create a specific right, obligation, or restriction typical of a 'GUIDELINE'. It is best classified as an 'OTHER' type, specifically an 'INSTRUCTION'. Value Assessment: The text is clear, self-sufficient, and provides actionable information (where to send feedback). It passes the clarity and context test. Type-Specific Criteria: As an 'INSTRUCTION', it clearly directs the reader on a procedural step. It is not a definition. Utility Check: This item is specific and helps a human understand how to provide input, contributing to document improvement. It is not filler. Therefore, the finding is valid and classified as an Instruction.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "22d3eb73-5943-47fb-a2db-ea194e2a9642",
+      "supporting_evidence": [
+        "fe708fb8-b275-4fc4-94e3-1c67290aa390",
+        "f484415c-2572-4904-b6d2-db9e0cacf20d",
+        "f9519991-89dd-4dc0-b44d-67d750db4331",
+        "0126d748-93d3-4389-8474-641540c7ad54"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "22d3eb73-5943-47fb-a2db-ea194e2a9642",
+      "recommendation_ids": [
+        "fe708fb8-b275-4fc4-94e3-1c67290aa390",
+        "f484415c-2572-4904-b6d2-db9e0cacf20d",
+        "f9519991-89dd-4dc0-b44d-67d750db4331",
+        "0126d748-93d3-4389-8474-641540c7ad54"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "fe708fb8-b275-4fc4-94e3-1c67290aa390",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "GUIDELINE",
+        "classification": "LOW",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Users are requested to send any feedback on the contents of this document to feedback@zebracorp.com.",
+        "expert_insight": "While not a binding obligation, providing a clear channel for feedback is a best practice for document management. It allows the Company to gather insights for continuous improvement, identify potential ambiguities, and ensure the document remains relevant and accurate. Encouraging feedback fosters engagement and can proactively address issues before they escalate.",
+        "confidence": 1.0,
+        "conditions": "Applies if the user has feedback.",
+        "justification": "The phrase 'Please send' indicates a request or invitation, not a mandatory obligation. It is an optional action for the recipient, making its strategic impact 'LOW' as it does not impose a duty or create a right that is critical to the commercial relationship.",
+        "implication_company": "The Company may receive valuable feedback for document improvement and quality assurance.",
+        "implication_supplier": "The Supplier (or any reader) has the option to provide feedback but is under no obligation to do so.",
+        "source_insight": "The language 'Please send' is polite and invitational, clearly distinguishing it from a binding obligation or a strict rule. It establishes a communication channel rather than a requirement.",
+        "text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "f484415c-2572-4904-b6d2-db9e0cacf20d",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Instructions on where to send feedback regarding the document's content.",
+        "expert_insight": "This is a standard administrative instruction to facilitate the collection of comments and suggestions on the document. It establishes a clear, designated channel for communication.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text provides a direct instruction ('Please send...') on how and where to submit feedback, indicating a procedural step for document review.",
+        "implication_company": "Ensures that all feedback is directed to a single, designated email address, streamlining the collection and review process for Zebracorp. It helps in organizing and tracking document revisions.",
+        "implication_supplier": "Provides a clear point of contact for submitting comments, ensuring their feedback reaches the correct department or individual within Zebracorp. This avoids confusion and potential delays in the review cycle.",
+        "source_insight": "This is a clear and unambiguous administrative instruction. There is no hidden meaning or complex legal interpretation required.",
+        "text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "f9519991-89dd-4dc0-b44d-67d750db4331",
+      "content": {
+        "id": "2d1e2e6c-3a8f-4b00-8c2e-4b0d0c3e7b1a",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Users are instructed to send any feedback regarding the document's content to feedback@zebracorp.com.",
+        "expert_insight": "This instruction establishes a clear channel for document review and improvement, ensuring that all stakeholder input is directed to a single, designated point of contact. Companies should ensure this email address is actively monitored and responses are timely to foster engagement and continuous improvement.",
+        "confidence": 1.0,
+        "justification": "This statement provides a direct instruction to the reader on how to submit feedback, making it an instruction rather than a rule or definition.",
+        "implication_company": "ZebraCorp must monitor the 'feedback@zebracorp.com' email address diligently to collect and act upon feedback, demonstrating a commitment to document quality and stakeholder engagement. Failure to do so could undermine the purpose of soliciting feedback.",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "0126d748-93d3-4389-8474-641540c7ad54",
+      "content": {
+        "id": "e0051e8a-7c98-4b7f-a6b1-4d370e08f10b",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com.",
+        "plain_text": "Users are instructed to send any feedback regarding the document's content to feedback@zebracorp.com.",
+        "expert_insight": "This instruction provides a clear and direct channel for document review and improvement. Companies should ensure the specified email address is actively monitored and that a process is in place to review and respond to the feedback received. This fosters transparency and continuous improvement.",
+        "confidence": 1.0,
+        "justification": "The text explicitly states 'Please send any feedback... to feedback@zebracorp.com.', which is a direct instruction for users on how to provide input.",
+        "implication_company": "The company (Zebracorp) must ensure the 'feedback@zebracorp.com' email address is functional and regularly monitored. They should also establish a process for reviewing, categorizing, and acting upon the feedback received to improve document quality and user satisfaction.",
+        "implication_supplier": "N/A - This instruction is directed at the recipients or readers of the document, not specifically a supplier.",
+        "source_insight": "The instruction originates directly from the document itself, indicating a formal channel for communication regarding its content.",
+        "text": "Please send any feedback that you may have on the contents of this document to feedback@zebracorp.com."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

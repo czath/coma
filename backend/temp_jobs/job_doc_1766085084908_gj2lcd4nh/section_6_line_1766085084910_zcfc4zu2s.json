@@ -1,0 +1,123 @@
+{
+  "section_id": "line_1766085084910_zcfc4zu2s",
+  "decisions": [
+    {
+      "id": "b326b591-818d-484b-b0a2-ee865eb4651d",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "golden_record_consequential_damages_ref",
+        "verbatim_text": "CONSEQUENTIAL DAMAGES\nPlease refer to section ‘Indirect Damages’ below.",
+        "plain_text": "For information regarding consequential damages, refer to the section titled 'Indirect Damages'.",
+        "expert_insight": "This instruction indicates that 'Consequential Damages' and 'Indirect Damages' are either synonymous or closely related concepts within this document, with the detailed explanation or definition provided under 'Indirect Damages'. It is crucial to consult the 'Indirect Damages' section to understand the full scope and implications of consequential damages in this context, including liability and exclusions.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text explicitly directs the reader to another section for clarification on 'Consequential Damages'.",
+        "implication_company": "The company must locate and thoroughly review the 'Indirect Damages' section to understand the definitions, limitations, and liabilities associated with 'Consequential Damages' in their agreements. This implies that 'consequential' and 'indirect' damages are treated as a single concept or are closely linked within this legal framework.",
+        "implication_supplier": "The supplier should refer to the 'Indirect Damages' section to comprehend their potential exposure and obligations related to 'Consequential Damages' under any contractual terms, as defined by this document.",
+        "source_insight": "The explicit cross-reference implies that the document's drafters intended to centralize the discussion of these types of damages, potentially simplifying or standardizing their interpretation, and points to 'Indirect Damages' as the authoritative source."
+      },
+      "rationale": "Consensus: All agents correctly identified the finding as 'OTHER' with 'INSTRUCTION' subtype. Evaluation: The verbatim text is a clear cross-reference. The plain text is self-sufficient and accurately conveys the instruction. The finding passes the Value and Utility checks as it provides crucial navigational information for understanding the treatment of consequential damages within the document. Candidate 1's verbatim_text was incomplete, so the full verbatim_text from the source (and candidates 2 & 3) was used. All other fields were synthesized from the strongest aspects of the candidates.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "508f8847-f6ff-4650-a2b4-e4dc12d0cc1e",
+      "supporting_evidence": [
+        "d73375c2-05b2-4260-a3fc-5eac7ef04f12",
+        "87c62041-3cff-4da1-9f20-456ce2b0ceff",
+        "c3f97f06-dffc-4887-948a-efb173ff6e80"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "508f8847-f6ff-4650-a2b4-e4dc12d0cc1e",
+      "recommendation_ids": [
+        "d73375c2-05b2-4260-a3fc-5eac7ef04f12",
+        "87c62041-3cff-4da1-9f20-456ce2b0ceff",
+        "c3f97f06-dffc-4887-948a-efb173ff6e80"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "d73375c2-05b2-4260-a3fc-5eac7ef04f12",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Please refer to section ‘Indirect Damages’ below.",
+        "plain_text": "The document directs the reader to the 'Indirect Damages' section for details regarding consequential damages.",
+        "expert_insight": "This instruction indicates that the document likely consolidates the definition and treatment of consequential damages under the broader or synonymous heading of 'Indirect Damages'. It's crucial to review that specific section to understand the full scope of liability and exclusions.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text provides a direct instruction to consult another section within the document for specific information.",
+        "implication_company": "To fully understand the company's position and potential exposure related to consequential damages, the 'Indirect Damages' section must be thoroughly reviewed. This suggests that 'consequential' and 'indirect' damages are treated as a single concept or are closely linked within this legal framework.",
+        "implication_supplier": "The supplier will need to refer to the 'Indirect Damages' section to understand the specific terms and limitations of liability concerning consequential damages, as defined by this document.",
+        "source_insight": "The explicit cross-reference implies that the document's drafters intended to centralize the discussion of these types of damages, potentially simplifying or standardizing their interpretation.",
+        "text": "Please refer to section ‘Indirect Damages’ below."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "87c62041-3cff-4da1-9f20-456ce2b0ceff",
+      "content": {
+        "id": "893d937a-4416-419b-a3d8-55d8170b021d",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "CONSEQUENTIAL DAMAGES Please refer to section ‘Indirect Damages’ below.",
+        "plain_text": "For information regarding consequential damages, refer to the section titled 'Indirect Damages'.",
+        "expert_insight": "This instruction indicates that 'Consequential Damages' and 'Indirect Damages' are either synonymous or closely related concepts within this document, with the detailed explanation or definition provided under 'Indirect Damages'. It is crucial to consult the 'Indirect Damages' section to understand the full scope and implications of consequential damages in this context.",
+        "confidence": 1.0,
+        "justification": "The text explicitly directs the reader to another section for clarification on 'Consequential Damages'.",
+        "implication_company": "Companies must locate and thoroughly review the 'Indirect Damages' section to understand the definitions, limitations, and liabilities associated with 'Consequential Damages' in their agreements.",
+        "implication_supplier": "Suppliers should also refer to the 'Indirect Damages' section to comprehend their potential exposure and obligations related to 'Consequential Damages' under any contractual terms.",
+        "source_insight": "N/A",
+        "text": "CONSEQUENTIAL DAMAGES Please refer to section ‘Indirect Damages’ below."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "c3f97f06-dffc-4887-948a-efb173ff6e80",
+      "content": {
+        "id": "2702582b-650a-4a6f-a18a-f5a11c0800c7",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "CONSEQUENTIAL DAMAGES Please refer to section ‘Indirect Damages’ below.",
+        "plain_text": "For information regarding consequential damages, refer to the 'Indirect Damages' section.",
+        "expert_insight": "This instruction indicates that 'Consequential Damages' and 'Indirect Damages' are likely interchangeable terms or closely related concepts within this document, and their definition or treatment will be found under the 'Indirect Damages' section. It serves as a cross-reference for the reader.",
+        "confidence": 1.0,
+        "justification": "The text explicitly instructs the reader to refer to another section for details on consequential damages.",
+        "implication_company": "The company needs to ensure consistency in terminology if 'Consequential Damages' and 'Indirect Damages' are used interchangeably or defined in the 'Indirect Damages' section. It also implies that the scope and treatment of these damages are important enough to warrant a dedicated section.",
+        "implication_supplier": "Suppliers should be aware that the document treats 'Consequential Damages' and 'Indirect Damages' as related, and the specific terms and conditions regarding these will be found in the 'Indirect Damages' section, which could impact their liability or claims.",
+        "source_insight": "The instruction points to a specific section ('Indirect Damages') as the authoritative source for understanding consequential damages within this document.",
+        "text": "CONSEQUENTIAL DAMAGES Please refer to section ‘Indirect Damages’ below."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}

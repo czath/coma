@@ -1,0 +1,123 @@
+{
+  "section_id": "line_1766085084910_x7yraet35",
+  "decisions": [
+    {
+      "id": "f77f37da-d06d-4e18-86b5-cb13b7f2cdfe",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "e229e0a0-0026-4074-8b65-e9b4625b8109",
+        "verbatim_text": "EXEMPLARY DAMAGES\nPlease refer to section ‘Punitive Damages’ below.",
+        "plain_text": "For information regarding 'Exemplary Damages', refer to the section titled 'Punitive Damages'.",
+        "expert_insight": "This instruction indicates that 'Exemplary Damages' are either synonymous with or discussed under the heading of 'Punitive Damages' within this document. Readers should consult the 'Punitive Damages' section for relevant details. It's important to verify that the scope and definitions within the 'Punitive Damages' section adequately cover all aspects typically associated with exemplary damages in the relevant jurisdiction.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text explicitly instructs the reader to refer to another section for information on 'Exemplary Damages'.",
+        "implication_company": "The company needs to ensure that the 'Punitive Damages' section is comprehensive enough to cover all legal implications of exemplary damages, as this instruction consolidates the discussion there.",
+        "implication_supplier": "The supplier will be directed to the 'Punitive Damages' section for understanding the company's stance on exemplary damages, implying that the terms and conditions in that section will apply.",
+        "source_insight": "The instruction suggests a deliberate choice to group exemplary damages under punitive damages. This might be for brevity or due to legal interpretation where they are considered similar or overlapping. A legal review should confirm this approach is sound."
+      },
+      "rationale": "Consensus: All agents correctly identified the finding as 'OTHER' with 'INSTRUCTION' subtype. Value Assessment: The text is clear, self-sufficient, and provides essential navigation within the document. It explicitly directs the reader to the 'Punitive Damages' section for information on 'Exemplary Damages'. Type-Specific Criteria: This is a direct instruction, not a definition or a specific contractual guideline. Utility Check: This finding is highly useful for document navigation and understanding the scope of the 'Punitive Damages' section, clarifying where related information is consolidated. Therefore, it is a valid and important finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "f28dced9-a3eb-40f0-8fec-f794725b66df",
+      "supporting_evidence": [
+        "07b2a7d9-4d51-498d-afb4-bfd9bafe8a2e",
+        "f8eed456-fdd4-48d9-b5b3-5000be2c0ec2",
+        "355176cc-8b60-4561-a0de-ae5e0414eeaf"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "f28dced9-a3eb-40f0-8fec-f794725b66df",
+      "recommendation_ids": [
+        "07b2a7d9-4d51-498d-afb4-bfd9bafe8a2e",
+        "f8eed456-fdd4-48d9-b5b3-5000be2c0ec2",
+        "355176cc-8b60-4561-a0de-ae5e0414eeaf"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "07b2a7d9-4d51-498d-afb4-bfd9bafe8a2e",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "verbatim_text": "Please refer to section ‘Punitive Damages’ below.",
+        "plain_text": "For information regarding exemplary damages, consult the 'Punitive Damages' section.",
+        "expert_insight": "This instruction indicates that 'Exemplary Damages' are addressed under the 'Punitive Damages' section. It's important to verify that the scope and definitions within the 'Punitive Damages' section adequately cover all aspects typically associated with exemplary damages in the relevant jurisdiction.",
+        "confidence": 1.0,
+        "subtype": "INSTRUCTION",
+        "justification": "The text provides a direct instruction to the reader to navigate to another section of the document for related information.",
+        "implication_company": "We need to ensure that the 'Punitive Damages' section is comprehensive enough to cover all legal implications of exemplary damages, as this instruction consolidates the discussion there.",
+        "implication_supplier": "The supplier will be directed to the 'Punitive Damages' section for understanding the company's stance on exemplary damages, implying that the terms and conditions in that section will apply.",
+        "source_insight": "The instruction suggests a deliberate choice to group exemplary damages under punitive damages. This might be for brevity or due to legal interpretation where they are considered similar or overlapping. A legal review should confirm this approach is sound.",
+        "text": "Please refer to section ‘Punitive Damages’ below."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "f8eed456-fdd4-48d9-b5b3-5000be2c0ec2",
+      "content": {
+        "id": "e229e0a0-0026-4074-8b65-e9b4625b8109",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "EXEMPLARY DAMAGES\nPlease refer to section ‘Punitive Damages’ below.",
+        "plain_text": "For information regarding 'Exemplary Damages', refer to the section titled 'Punitive Damages'.",
+        "expert_insight": "This instruction suggests that 'Exemplary Damages' are either synonymous with or closely related to 'Punitive Damages' in this document's context, indicating that the discussion on one will cover the other.",
+        "confidence": 1.0,
+        "justification": "The text explicitly instructs the reader to refer to another section for information on 'Exemplary Damages'.",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "EXEMPLARY DAMAGES\nPlease refer to section ‘Punitive Damages’ below."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "355176cc-8b60-4561-a0de-ae5e0414eeaf",
+      "content": {
+        "id": "1d8b9f71-2e6f-4c8a-9d0e-5f4b3c2a1d0f",
+        "type": "OTHER",
+        "subtype": "INSTRUCTION",
+        "verbatim_text": "EXEMPLARY DAMAGES\nPlease refer to section ‘Punitive Damages’ below.",
+        "plain_text": "For information regarding exemplary damages, refer to the section titled 'Punitive Damages'.",
+        "expert_insight": "This instruction indicates that 'Exemplary Damages' are either synonymous with or discussed under the heading of 'Punitive Damages' within this document. Readers should consult the 'Punitive Damages' section for relevant details.",
+        "confidence": 1.0,
+        "justification": "The text explicitly directs the reader to another section for information on the topic of exemplary damages.",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "EXEMPLARY DAMAGES\nPlease refer to section ‘Punitive Damages’ below."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}
