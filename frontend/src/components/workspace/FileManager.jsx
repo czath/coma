@@ -759,9 +759,11 @@ export default function FileManager() {
                                                     </>
                                                 )}
 
-                                                <button onClick={(e) => handleDelete(e, file)} className="text-gray-400 hover:text-red-600 p-1" title="Delete">
-                                                    <Trash2 size={18} />
-                                                </button>
+                                                {!['ingesting', 'analyzing', 'processing', 'paused'].includes(file.header.status) && (
+                                                    <button onClick={(e) => handleDelete(e, file)} className="text-gray-400 hover:text-red-600 p-1" title="Delete">
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>

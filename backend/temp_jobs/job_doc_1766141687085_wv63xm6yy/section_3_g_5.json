@@ -1,0 +1,2216 @@
+{
+  "section_id": "g_5",
+  "decisions": [
+    {
+      "id": "7df54bdb-4685-4c0f-9b24-9b241cdbb07b",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "cluster_best_efforts_us_vendors",
+        "verbatim_text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’.",
+        "plain_text": "Expect US-based vendors to replace 'best efforts' with less onerous effort standards, such as 'commercially reasonable efforts'.",
+        "expert_insight": "Anticipating this common negotiation tactic from US vendors, driven by the potentially stringent interpretation of 'best efforts' in US law, allows for proactive strategy development and better preparation for contract discussions.",
+        "confidence": 1.0,
+        "classification": "HIGH",
+        "conditions": "When negotiating with US-based vendors.",
+        "justification": "US vendors typically seek to avoid the potentially extreme obligations implied by 'best efforts' due to legal interpretations, preferring less demanding standards.",
+        "implication_company": "The company should be prepared for this specific negotiation point, enabling a more informed and strategic response to vendor proposals.",
+        "implication_supplier": "This highlights the supplier's likely strategy to reduce their commitment and potential liability by proposing less stringent effort clauses.",
+        "source_insight": "This advice is based on the preceding discussion in the source text regarding the perceived legal interpretation of 'best efforts' in the US, which is seen as highly demanding, leading vendors to seek less onerous alternatives."
+      },
+      "rationale": "Consensus: Mixed between GUIDELINE (3 agents) and OTHER (1 agent). I classify it as a GUIDELINE because it provides specific, actionable advice on what to anticipate from US-based vendors during negotiations, which directly informs strategic preparation. Value Assessment: The plain text is clear and self-sufficient, explaining the expected vendor behavior. Type-Specific Criteria: It is actionable advice, not generic, and directly impacts negotiation strategy. Utility Check: This information is highly valuable for preparing for negotiations, allowing the company to anticipate vendor tactics and strategize accordingly. Therefore, it is a valid and important finding.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "cd9d50f4-82a6-4250-829f-698b39ed957d",
+      "supporting_evidence": [
+        "522a96d4-edb8-4525-978e-fe4ccec5ec04",
+        "4d57621f-0447-40c7-849d-bcb63ddd278f",
+        "4b68d97f-2e4f-41b6-8cc6-daecb97dedb2",
+        "203fa3bd-545d-4803-b244-89a58a5d06ef"
+      ]
+    },
+    {
+      "id": "54953963-0deb-4f13-85d3-f2fdb3d9462f",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "verbatim_text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’.",
+        "plain_text": "As a general rule, less stringent variants of 'efforts' clauses (e.g., 'commercially reasonable efforts') can be accepted if the phrase 'best efforts' would have been acceptable for the specific obligation.",
+        "expert_insight": "This guideline offers a pragmatic approach to negotiation, allowing flexibility when the underlying obligation is not deemed critical enough to warrant an absolute 'best efforts' standard. However, it must be balanced with the general caution against the inherent vagueness of all such phrases, as highlighted elsewhere in the text.",
+        "confidence": 0.95,
+        "classification": "MEDIUM",
+        "conditions": "Only when the Company would have been willing to accept 'best efforts' for the specific obligation.",
+        "justification": "This is presented as a 'rule of thumb' for practical negotiation, suggesting that if the company is willing to accept the inherent vagueness of 'best efforts', then slightly less stringent variants might also be acceptable. Its classification as MEDIUM reflects the balance between practical utility and the general caution advised for all 'efforts' clauses.",
+        "implication_company": "Provides a benchmark for accepting alternative effort clauses, potentially streamlining negotiations but requiring careful judgment on the underlying obligation's criticality and the inherent ambiguity of such terms.",
+        "implication_supplier": "Offers a pathway for suppliers to propose and have accepted less onerous commitment standards, especially if 'best efforts' was already on the table.",
+        "source_insight": "The text presents this as a 'rule of thumb,' indicating a practical, but not absolute, guideline. It appears to be a concession point, but it's immediately followed by strong warnings about the vagueness of all such phrases, suggesting it should be applied with extreme caution and only for truly non-critical obligations where the risk of non-performance is low."
+      },
+      "rationale": "Consensus Check: Three agents classified this as a 'GUIDELINE' (1.0, 1.0, 0.8 confidence), and one as 'OTHER' (TACTIC, 0.8 confidence). A 'rule of thumb' providing advice on when to accept contractual language is best categorized as a 'GUIDELINE' as it offers a specific instruction for action. Value Assessment: The verbatim text is clear and refers to 'less stringent variants' and 'best efforts', which are well-contextualized by the preceding text in the source. The plain_text is self-sufficient. Type-Specific Criteria: As a GUIDELINE, it is actionable ('we should be able to accept') and provides a specific condition ('whenever we would have been willing to accept the phrase 'best efforts''). The classification of 'MEDIUM' is appropriate given it's a 'rule of thumb' that offers flexibility but must be balanced with the general caution against vague 'efforts' clauses. Utility Check: This finding provides a practical benchmark for negotiators, helping them assess the acceptability of 'efforts' clauses in specific contexts.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "250f2069-50b7-42af-8948-3c648289b4f5",
+      "supporting_evidence": [
+        "6f571f25-3b22-4c5f-81f6-d401467bd26c",
+        "f11549f7-194d-40d4-92d8-4358a8069ccd",
+        "d4b1854a-aa58-4bc1-9605-0fe6416964f0",
+        "063226d5-483f-4df2-b361-deff012771c5"
+      ]
+    },
+    {
+      "id": "3f19aeb9-cf6e-4daa-b1cc-a4816a3dd32b",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "best_efforts_caution_guideline",
+        "verbatim_text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation. Hence, we should, despite their prevalence, be careful in accepting such phrases.",
+        "plain_text": "Always remember that 'best efforts' and its variants are vague and lack firm commitment. Therefore, exercise caution when accepting them, despite their common use.",
+        "expert_insight": "This is a critical warning: 'best efforts' clauses inherently introduce ambiguity and weaken contractual commitments. Legal teams must scrutinize such clauses and, where possible, seek more precise language or definitions. Acknowledging the inherent vagueness and lack of firm commitment is crucial for accurate risk assessment and for guiding negotiation strategy to seek more precise language or alternative solutions.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "Applies to all instances where 'best efforts' or its variants are proposed in contract negotiations.",
+        "justification": "The source text explicitly states that these phrases are 'very vague' and 'do not provide a firm commitment', leading to the direct instruction: 'Hence, we should... be careful in accepting such phrases.'",
+        "implication_company": "Companies must be extremely cautious as accepting these phrases can lead to unmet expectations, disputes, and difficulty enforcing obligations, potentially impacting project success and financial outcomes. Reliance on such clauses for critical obligations is risky and may not provide adequate legal recourse.",
+        "implication_supplier": "Suppliers offering these phrases should be prepared for scrutiny and potential requests for more specific commitments or definitions. Their commitment under such clauses is inherently soft and non-binding in a firm, enforceable sense.",
+        "source_insight": "This is the core problem statement that drives all subsequent advice regarding these clauses. It underscores the need for vigilance and directly provides a critical guideline."
+      },
+      "rationale": "Consensus: Mixed on type for the core statement. Agents 1, 5 classified the core statement as GUIDELINE, while Agents 2, 4 classified it as OTHER (INFO). The source text explicitly states, 'Hence, we should, despite their prevalence, be careful in accepting such phrases,' which is a direct, actionable instruction. Therefore, it is correctly classified as a GUIDELINE. The 'source of confusion' aspect (Candidates 2, 4, 6) is a valid informational point but is a consequence of the core problem (vagueness and lack of firm commitment) and less actionable than the direct instruction to 'be careful'. For a single Golden Record, the most critical and actionable finding is prioritized. Value Assessment: The chosen verbatim text is self-sufficient and provides a clear, critical instruction. Type-Specific Criteria: It creates a specific obligation/restriction ('be careful in accepting'). It is not generic advice. Utility Check: This is a highly specific and critical piece of advice that directly impacts negotiation strategy and risk assessment, protecting the company.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "ba166c66-6089-41f9-b293-c11015a6b513",
+      "supporting_evidence": [
+        "89b4706b-0e73-4eab-a8c1-96838013c898",
+        "4fe3ad0d-0e9a-4a7f-b96f-a87a1c8ea03f",
+        "10fbae8e-fbd2-4690-9d5f-c1683661cfde",
+        "de3b23ec-2a32-496c-a4e2-ec2860bf95c4",
+        "d44bc802-a189-4ad3-b806-b81b6ce16365",
+        "3f542545-f8a8-4015-8134-26eda9586455",
+        "b8ceaaa8-fee4-4e83-8daf-561b2b66a38d"
+      ]
+    },
+    {
+      "id": "582ca092-dc22-4c62-8f32-38ae93ed2303",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+        "verbatim_text": "Hence, we should, despite their prevalence, be careful in accepting such phrases.",
+        "plain_text": "Despite their common usage, exercise caution when accepting 'best efforts' or any of its variant phrases.",
+        "expert_insight": "This is a critical imperative stemming from the inherent vagueness and potential lack of enforceability of 'efforts' clauses. Caution is paramount to avoid inadvertently accepting commitments that lack clear scope or firm obligation, thereby protecting the company's interests and ensuring contractual certainty.",
+        "confidence": 1.0,
+        "classification": "CRITICAL",
+        "conditions": "When encountering 'best efforts' or its variants in contract negotiations.",
+        "justification": "The phrases are inherently vague and do not provide a firm commitment to meet agreed requirements or obligations, leading to potential lack of enforceability.",
+        "implication_company": "Requires a rigorous review process for any contract containing these phrases, potentially leading to rejection or modification to ensure stronger, enforceable commitments and protect company interests.",
+        "implication_supplier": "Suppliers may face increased scrutiny and resistance when proposing these clauses, pushing them towards more concrete obligations and specific commitments.",
+        "source_insight": "This is a direct call to action and a strong recommendation based on the understanding of the inherent vagueness and significant risk associated with 'efforts' clauses."
+      },
+      "rationale": "Consensus: Split between GUIDELINE (2 agents) and OTHER (1 agent). Tie-breaker: The instruction 'be careful in accepting such phrases' is a specific directive for negotiation strategy regarding problematic contractual clauses, creating a restriction on their acceptance without due caution. This is more than generic advice and directly impacts contractual enforceability, thus aligning with a 'GUIDELINE'. Value Assessment: The plain text is clear and self-sufficient, referring to 'such phrases' which are well-defined in the preceding source text. Type-Specific Criteria: It is actionable, providing a clear directive for negotiators. Classification as 'CRITICAL' is appropriate given the significant risks (vagueness, lack of firm commitment) highlighted in the source text. Utility Check: The finding is specific, helps negotiators, and protects the company by mitigating risks associated with vague contractual language.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "33f0dbec-8c7c-4c91-b609-032f27889a30",
+      "supporting_evidence": [
+        "c459718b-bfd4-4f23-af84-6aaf02f3382a",
+        "94cf8197-946d-41c1-8313-c082b45971ad",
+        "bc34af95-75ad-40cc-8187-7c405fca4fe4"
+      ]
+    },
+    {
+      "id": "d3d8a376-915e-499b-bd26-991d5eb3f42c",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "b4c5d6e7-f8a9-4b0c-1d2e-3f4a5b6c7d8e",
+        "verbatim_text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements.",
+        "plain_text": "When a supplier expresses hesitation about meeting specific requirements (e.g., Zebracorp quality or environmental standards), it is recommended to ask them to identify the exact requirements they are unable to meet and revise those as needed, instead of accepting a general 'best efforts' or 'commercially reasonable efforts' commitment.",
+        "expert_insight": "This is a highly effective negotiation tactic. It forces specificity from the supplier, uncovers potential issues early, and prevents the entire obligation from being diluted by vague 'efforts' clauses. This approach yields valuable insights into the supplier's technical and operational capabilities, leading to clearer, more enforceable obligations and reducing future disputes.",
+        "confidence": 1.0,
+        "classification": "HIGH",
+        "conditions": "When a supplier is hesitant about complying with specific requirements (e.g., quality or environmental).",
+        "justification": "This approach provides a concrete, actionable strategy to avoid vague commitments, gain clarity on supplier capabilities, and obtain valuable information that would otherwise be lost by merely accepting a 'best effort' qualifier.",
+        "implication_company": "By implementing this tactic, the company secures clearer, more enforceable contractual obligations and gains critical insights into supplier capabilities, thereby reducing future risks and ensuring better alignment with requirements.",
+        "implication_supplier": "Suppliers are required to be transparent about their specific limitations and capabilities, leading to more precise and mutually acceptable contract terms rather than relying on broad, non-committal 'efforts' clauses.",
+        "source_insight": "The source text explicitly recommends this strategy as a practical alternative to accepting vague 'efforts' clauses, highlighting its value in obtaining specific information over general assurances."
+      },
+      "rationale": "Consensus Check: The cluster contained two distinct verbatim texts. One (Candidates 2, 4) was consistently classified as 'OTHER' (EXAMPLE). The other (Candidates 1, 3, 5, 6) was split between 'GUIDELINE' (Agents 1, 5) and 'OTHER' (TACTIC) (Agents 2, 4). Given the prompt's requirement for a single Golden Record, and the system's focus on actionable advice, the recommendation/tactic was prioritized as the primary finding. \n\nType Decision: The source text uses 'it would be recommend to ask the supplier...', which is a direct instruction for action, thus classifying it as a 'GUIDELINE'. 'TACTIC' is a subtype of actionable advice, aligning with 'GUIDELINE'.\n\nValue Assessment: The verbatim text is clear, self-sufficient, and provides a concrete, actionable strategy for negotiation. No contextual rewrite was needed.\n\nType-Specific Criteria (GUIDELINE): It creates a specific obligation/action for the company during negotiations. It is complete and not generic advice, making it a 'HIGH' priority guideline.\n\nUtility Check: The finding is highly specific, directly helps in negotiation, clarifies how to handle vague terms, and protects the company by ensuring clearer commitments and gathering crucial supplier information. It passes the utility check with high marks.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "13c16c80-0325-4fd4-adf4-25b356ca8366",
+      "supporting_evidence": [
+        "659863a9-e249-4635-8ca9-0fe56a77e703",
+        "2098f65e-7fa8-479b-9fd0-aa1c85d3f917",
+        "20ae48ff-9a83-4ecb-9f22-766d1da1c1a1",
+        "914b8d88-8bf3-4a04-a98c-64c4dcca0a23",
+        "208962be-afe7-461a-aea4-9dcec8e32252",
+        "e674fb6c-5e20-4497-8ca6-406ee447269e"
+      ]
+    },
+    {
+      "id": "15e823c9-1810-4e91-8d27-fc85ddbd63f4",
+      "is_valid": true,
+      "decision_content": {
+        "type": "GUIDELINE",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase.",
+        "plain_text": "If a supplier or subcontractor insists on using 'commercially reasonable efforts' for obligations that inherently require a firm commitment, a compromise can be achieved by explicitly defining the meaning of this phrase within the contract.",
+        "expert_insight": "This represents a crucial fallback strategy when outright rejection of 'efforts' clauses is not feasible. By explicitly defining 'commercially reasonable efforts' within the contract, a vague commitment is transformed into a more measurable and enforceable standard, mitigating risk and providing a clearer basis for dispute resolution.",
+        "confidence": 0.95,
+        "classification": "HIGH",
+        "conditions": "When a supplier/subcontractor insists on 'commercially reasonable efforts' for obligations that should be fulfilled with a firm commitment.",
+        "justification": "The source text explicitly presents this as a 'compromise' strategy, offering a practical solution to mitigate risk and enhance enforceability when a supplier insists on vague 'efforts' language for critical obligations.",
+        "implication_company": "The company can achieve greater certainty and enforceability by defining 'commercially reasonable efforts', transforming a vague clause into a more concrete commitment and better protecting its interests when outright rejection is not feasible.",
+        "implication_supplier": "Suppliers are required to agree to a more specific and potentially more demanding standard of effort, increasing their accountability, but it also provides clarity on their obligations and can be a more acceptable middle ground than an absolute duty.",
+        "source_insight": "The text explicitly frames this as a 'compromise' solution, acknowledging that outright rejection of 'efforts' clauses may not always be achievable in negotiations and offering a practical alternative."
+      },
+      "rationale": "Consensus: Split between 'GUIDELINE' (1 agent) and 'OTHER' with 'TACTIC' subtype (3 agents). Evaluation: The verbatim text provides a specific, actionable recommendation for how to handle a particular negotiation scenario involving 'commercially reasonable efforts' clauses. It's not merely generic advice but a concrete strategy to mitigate risk and enhance enforceability. Therefore, it is best classified as a 'GUIDELINE' with a 'HIGH' classification, as it directly instructs on a critical contractual action. The finding passed the Value and Utility checks, being clear, self-sufficient, and highly beneficial for negotiation.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "7d72490e-015f-4076-bad4-6de9b1d28407",
+      "supporting_evidence": [
+        "e733f661-09aa-4e9e-9888-d3931525862a",
+        "08ba06cc-4c5c-48ad-8b0f-4142c053907f",
+        "60105bc5-cdf6-4887-9e0c-c9a4a928d45f",
+        "93b9c5eb-790c-439f-9f30-0496722dd568"
+      ]
+    },
+    {
+      "id": "4109a4b5-c068-4735-8645-7ea1efe3d352",
+      "is_valid": true,
+      "decision_content": {
+        "type": "DEFINITION",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”",
+        "plain_text": "The term ‘commercially reasonable efforts’ means, for a given goal, the efforts a professional and diligent company would use to achieve that goal as expeditiously as possible, excluding any action or expenditure that would be unreasonably disproportionate or burdensome.",
+        "expert_insight": "This definition provides a concrete and more objective standard for 'commercially reasonable efforts' by linking it to the actions of a 'professional and diligent company' and explicitly excluding unreasonably disproportionate or burdensome actions. This makes the obligation more measurable and enforceable than a general 'best efforts' clause, balancing diligence with practical limitations.",
+        "confidence": 1.0
+      },
+      "rationale": "Consensus Check: Agents were split, with 3 classifying as DEFINITION, 1 as GUIDELINE, and 1 as OTHER (EXAMPLE). The verbatim text directly defines the term 'commercially reasonable efforts' within the context of a contractual clause, making 'DEFINITION' the most accurate classification for the content itself, even though the surrounding source text presents it as an example of how to define the term. Value Assessment: The definition is clear, self-sufficient, and provides critical context for a vague legal term. Type-Specific Criteria (DEFINITION): It accurately defines a specific, often ambiguous term ('commercially reasonable efforts') and is necessary for contractual clarity. It is not a common English word defined generically. Utility Check: This item is highly specific and helps clarify a confusing term, making it valuable for negotiation and contract drafting.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "99835159-ccaa-4c0e-ad39-9afb7ebcaf51",
+      "supporting_evidence": [
+        "b4e76e25-9e08-4c30-a0f7-7d6da503a5c1",
+        "73923f37-fc0e-40c7-bbc1-6214c8fa2831",
+        "6169d516-5bbc-4439-98af-aab739bb23bd",
+        "d2b7acd5-e18a-407d-b442-22708593ac31",
+        "31387415-b34d-466b-b27d-f9dc686d6766"
+      ]
+    },
+    {
+      "id": "512699aa-4f3c-4eaa-9f07-2a279da79d45",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "verbatim_text": "Widely used variants to the phrase include ‘commercially reasonable efforts’, ‘commercially reasonable best efforts’, ‘good-faith efforts, ‘all reasonable efforts’ where the term ‘efforts’ is often replaced with the term ‘endeavours’.",
+        "plain_text": "Common variants of 'best efforts' include 'commercially reasonable efforts', 'commercially reasonable best efforts', 'good-faith efforts', and 'all reasonable efforts', sometimes using 'endeavours' instead of 'efforts'.",
+        "expert_insight": "Understanding these variants is crucial for legal professionals and negotiators to recognize the different levels of commitment suppliers might propose, how their legal interpretation can differ, and to accurately address their implications in contracts.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This section lists the common alternative phrases and variants used in contracts to qualify 'best efforts' obligations.",
+        "implication_company": "Companies must be able to identify and understand the nuances of these different effort standards when presented in contracts to recognize the intent and potential legal implications for their obligations and rights.",
+        "implication_supplier": "Suppliers often use these variants to soften their obligations; understanding these terms is key for suppliers to manage their commitments and for companies to negotiate effectively.",
+        "source_insight": "The text explicitly enumerates these variants as a source of confusion and a common negotiation point."
+      },
+      "rationale": "Consensus: All agents agreed on the type (OTHER) and subtype (INFO), and provided identical verbatim text. Value Assessment: The plain_text is clear and self-sufficient, correctly contextualizing 'the phrase' as 'best efforts' variants. Type-Specific Criteria: Classified as OTHER (INFO) because it provides crucial contextual information about common contractual terms and their variations, which is essential for understanding the broader topic. It is not a specific definition or an actionable guideline. Utility Check: This information is highly valuable for identifying and understanding different levels of commitment in contracts, aiding in negotiation and interpretation. Therefore, accepted as a valid and useful finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "2536f326-9d1f-4eab-afb2-f89321b55004",
+      "supporting_evidence": [
+        "1476986d-52c6-4351-9f78-83424f135914",
+        "13d38543-0ef6-4ac7-b0bd-19925f495f6b",
+        "bdff6458-4bef-4347-b57e-946a9a26b3e8"
+      ]
+    },
+    {
+      "id": "e0de3ee8-ce8a-4a13-927d-3245a0e50af6",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "verbatim_text": "In each case the intent of the phrase is to remove the absolute duty or commitment to accomplish certain specific obligation or target.",
+        "plain_text": "The primary purpose of 'best efforts' and its variants is to qualify an obligation, preventing it from being an absolute duty or firm commitment.",
+        "expert_insight": "This core intent is why these clauses are often favored by parties seeking to limit their liability, but it also explains why they are problematic for parties seeking firm commitments. These phrases serve as a mechanism to introduce flexibility and reduce strict liability, shifting from an absolute guarantee to a commitment of diligent pursuit.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This explains the fundamental purpose behind using such phrases.",
+        "implication_company": "Companies should understand that accepting these phrases means accepting a less than absolute commitment from the other party.",
+        "implication_supplier": "Suppliers use these phrases specifically to avoid absolute duties and manage their risk.",
+        "source_insight": "The text directly states the intent of these phrases."
+      },
+      "rationale": "Consensus: All agents agree on the 'OTHER' type and the verbatim text. Evaluation: The finding clearly articulates the fundamental intent behind 'best efforts' provisions, which is to remove absolute duty. This is crucial contextual information for understanding the implications of these clauses. The plain text is self-sufficient, and the expert insight adds significant value. It passes the Clarity, Value, and Utility checks. Classification: 'OTHER' with 'subtype: INFO' is appropriate as it provides essential background information and justification.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "9b7c5949-7bfc-4af1-88c3-3c014508bc5b",
+      "supporting_evidence": [
+        "31462809-0953-45b0-bf05-08f59e5291ca",
+        "13a7281a-c064-4b3f-b870-9e8930be639f",
+        "cc5ba53f-a7a8-423f-b57a-659b88b60fb7"
+      ]
+    },
+    {
+      "id": "e808bf56-a681-4544-b2b0-ec895bda1b71",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+        "verbatim_text": "Understandably these phrases are often introduced by vendors in an attempt to soften their liability to meet some of the obligations that a purchasing agreement imposes on such vendors.",
+        "plain_text": "Vendors commonly introduce 'best efforts' provisions and their variants to soften their liability for meeting obligations imposed by a purchasing agreement.",
+        "expert_insight": "This is a key negotiation tactic for vendors, aiming to limit their risk and liability. Understanding this motivation is crucial for companies to anticipate and counter such proposals effectively during contract negotiations.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Explains the vendor's motivation for using 'best efforts' clauses and their variants.",
+        "implication_company": "Companies should be vigilant for 'best efforts' clauses and their variants in vendor contracts, as they are strategically used by vendors to soften their commitment and shift risk, potentially weakening the company's contractual protections.",
+        "implication_supplier": "Suppliers strategically introduce 'best efforts' provisions to mitigate their risk and manage expectations regarding their ability to fulfill all obligations, thereby limiting their exposure to breach of contract claims.",
+        "source_insight": "The text clearly states the vendor's motivation for using these clauses, providing essential context for negotiation."
+      },
+      "rationale": "Consensus: All agents agreed on 'type: OTHER' and 'subtype: INFO'. Evaluation: The finding provides crucial contextual information regarding vendor motivation for using 'best efforts' clauses and their variants. It explains *why* these phrases are introduced, which is highly valuable for negotiation strategy. The 'plain_text' has been refined to be self-sufficient by explicitly mentioning 'best efforts' provisions and their variants. It passes the Value and Utility checks as it helps a human understand vendor tactics and negotiate better. Classification: 'OTHER' with 'subtype: INFO' is appropriate as it's not a rule or definition but important background information.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "3777a456-bf76-44d8-99f4-4db7baae4c4f",
+      "supporting_evidence": [
+        "362447d7-8e33-46a2-a603-69951f831434",
+        "3b628953-6e12-478f-b95f-cf564fbb4395",
+        "832267f2-3dd9-47ee-8abe-968e4717c7d6"
+      ]
+    },
+    {
+      "id": "afffa062-1bdf-4b38-aed5-a405004c450b",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+        "verbatim_text": "The legal meaning of these phrases varies from country to country. As an example under NY USA laws the phrase ‘best efforts’ basically only puts a good faith obligation on party do try to meet the prescribed obligation. Failure to accomplish such best efforts obligation would generally not be a breach of contract. This is because these phrases are considered too vague to create a binding enforceable obligation.",
+        "plain_text": "The legal interpretation of 'best efforts' and its variants is not uniform and differs across jurisdictions. For instance, under New York, USA law, 'best efforts' typically implies only a good faith attempt, and failure to achieve the obligation is generally not considered a breach of contract because these phrases are deemed too vague to create a binding enforceable obligation.",
+        "expert_insight": "Jurisdictional differences in interpreting 'best efforts' clauses are critical. In some common law jurisdictions, these clauses can be more binding than in others, such as New York, where they may only impose a good faith obligation and not constitute a breach if the outcome is not met due to their inherent vagueness. This underscores the importance of legal counsel familiar with the specific jurisdiction governing the contract.",
+        "confidence": 0.98,
+        "subtype": "INFO",
+        "justification": "This highlights a critical contextual factor for these phrases, demonstrating how their legal weight varies significantly by jurisdiction, with a specific example.",
+        "implication_company": "Companies operating internationally must understand that the enforceability and interpretation of 'best efforts' clauses will depend on the governing law of the contract, which can significantly impact their rights and remedies. Legal advice should be sought based on the governing law.",
+        "implication_supplier": "Suppliers must be aware that the legal weight of their 'best efforts' commitment can differ significantly based on jurisdiction, influencing their potential liability and the enforceability of their obligations.",
+        "source_insight": "The text explicitly states the variation in legal meaning and provides a specific example for NY USA laws, explaining the rationale behind its interpretation."
+      },
+      "rationale": "Consensus: All agents agreed on 'OTHER' type with 'INFO' subtype. Value Assessment: Candidate 3 provides the most comprehensive and self-sufficient information by including the specific example of NY USA law, which clarifies the 'how' and 'why' of the legal meaning's variability. This context is crucial for understanding the implications. The plain_text is clear and contextualized. Type-Specific Criteria: This is a critical piece of informational context, not a definition or a guideline, and is accurately classified as 'OTHER' (INFO). Utility Check: This finding is highly specific, helps negotiators understand jurisdictional risks, clarifies the ambiguity of 'best efforts' clauses, and protects the company by highlighting the need for jurisdiction-specific legal understanding. Therefore, it is a valid and valuable finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "e76f2134-9b02-47b6-af6c-8c687241b2ec",
+      "supporting_evidence": [
+        "2341ada7-847c-4425-a976-674c13b2cbd1",
+        "83b8fbcd-a435-4cbf-885f-df72c7207897",
+        "db246d31-3f09-4c18-b213-0cb0ba933b8d"
+      ]
+    },
+    {
+      "id": "1e00db45-bee4-413f-aa71-ecf764987e3b",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
+        "verbatim_text": "As an example under NY USA laws the phrase ‘best efforts’ basically only puts a good faith obligation on party do try to meet the prescribed obligation. Failure to accomplish such best efforts obligation would generally not be a breach of contract. This is because these phrases are considered too vague to create a binding enforceable obligation.",
+        "plain_text": "Under New York, USA law, 'best efforts' typically imposes only a good faith obligation to attempt to meet an obligation. Failure to achieve the goal is generally not a breach of contract because the phrases are considered too vague to be binding.",
+        "expert_insight": "This specific legal interpretation in NY is crucial. It means 'best efforts' offers very little protection to the party relying on the commitment, making it almost an 'effort to try' rather than an 'effort to succeed'. It underscores the danger of accepting 'best efforts' in contracts governed by NY law.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "Provides a specific legal example demonstrating the vagueness and limited enforceability of 'best efforts' in a particular jurisdiction (NY, USA).",
+        "implication_company": "Companies contracting under NY law should be extremely cautious about accepting 'best efforts' clauses, as they offer minimal enforceability and protection.",
+        "implication_supplier": "Under NY law, this phrase provides significant protection against breach claims for suppliers, as it only requires a good faith attempt, not success.",
+        "source_insight": "The text provides this as an example of NY USA law, noting its 'stark contrast' to other common law countries."
+      },
+      "rationale": "Consensus: Agents agree on 'OTHER' type with 'INFO' subtype and identical verbatim text. Value Assessment: The text is self-sufficient and provides crucial contextual information regarding the legal interpretation of 'best efforts' under NY USA law, which is explicitly stated to be in 'stark contrast' to other jurisdictions. This information is highly actionable for contract negotiation. Type-Specific Criteria: Classified as 'OTHER' (INFO) because it provides specific legal context rather than a direct guideline or definition within the document. Utility Check: This finding is highly specific and helps a human negotiate better by highlighting a significant risk and lack of enforceability for 'best efforts' clauses under a specific, common jurisdiction. It is not filler.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "5cda60cb-b00e-49d5-a256-32f31089b23b",
+      "supporting_evidence": [
+        "847d5612-9c01-4c3d-b124-e7da7d977ba4",
+        "bd4c06be-bcab-4f52-b392-b05d476a518d"
+      ]
+    },
+    {
+      "id": "2e42fbd2-509b-47ee-a43a-1352eafacf05",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e_GOLDEN",
+        "verbatim_text": "This is in stark contrast to some of the common law countries where these phrases have more binding nature. The view generally held by many US lawyers is that party promising to do ‘best efforts’ is required to do everything in its power to accomplish the target even if it bankrupts itself in the process.",
+        "plain_text": "While New York law considers 'best efforts' vague and non-binding, some common law countries view these phrases as more legally binding. Furthermore, many US lawyers interpret 'best efforts' as requiring a party to do everything in its power to achieve a goal, even to the point of bankruptcy.",
+        "expert_insight": "The contrast highlights the critical need for legal counsel to clarify the specific legal implications of 'best efforts' based on the applicable jurisdiction and prevailing legal interpretations, which can range from a mere good faith attempt to an exhaustive, no-expense-spared commitment.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "The text contrasts legal interpretations across jurisdictions and presents a common, potentially severe, view among US lawyers regarding 'best efforts' obligations.",
+        "implication_company": "Companies need to be aware of the potentially severe interpretation of 'best efforts' in certain jurisdictions or by some legal professionals, which could lead to significant obligations for their suppliers (or for themselves if they are the promising party). This necessitates careful review of governing law and specific clause wording.",
+        "implication_supplier": "Suppliers should be extremely cautious with 'best efforts' clauses, especially under jurisdictions or interpretations where it implies an exhaustive commitment, potentially leading to disproportionate costs or even financial ruin. They should seek to clarify or limit such obligations.",
+        "source_insight": "This section provides critical contextual information regarding the varied legal interpretations of 'best efforts' clauses, contrasting New York law with common law countries and highlighting a stringent US lawyer's perspective."
+      },
+      "rationale": "Consensus: All agents identified the content as 'OTHER' with 'subtype: INFO'. Evaluation: Candidate 3 provides the most comprehensive and contextually rich verbatim text, combining the contrast with common law countries and the specific interpretation by US lawyers. This information is crucial for understanding the varying legal implications of 'best efforts' clauses across jurisdictions and within the US. The 'plain_text' has been refined to explicitly reference the preceding context (NY law) for clarity and self-sufficiency. The finding passes the Value and Utility checks as it provides critical background for negotiation and risk assessment.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "43c9e815-b5d1-47cc-bca8-e7f8e1c89bf1",
+      "supporting_evidence": [
+        "e4afb3fb-eac6-41c8-bf63-262dfcf92258",
+        "d021c59a-c209-41db-be2a-662c9ba7aaa0",
+        "30d24554-5f5d-4cec-83d2-871a8365bb19"
+      ]
+    },
+    {
+      "id": "2b335482-4898-436f-87b7-5edbb6bd18b0",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f",
+        "verbatim_text": "The view generally held by many US lawyers is that party promising to do ‘best efforts’ is required to do everything in its power to accomplish the target even if it bankrupts itself in the process.",
+        "plain_text": "Many US lawyers generally believe that a party promising 'best efforts' must exert all possible effort to achieve the goal, even to the point of financial ruin.",
+        "expert_insight": "This presents a conflicting and potentially aggressive interpretation within the US legal landscape, creating significant ambiguity and high risk. While NY law might suggest a more lenient standard, this view indicates the potential for aggressive litigation and extreme obligations, even if not universally upheld by courts.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "This describes a common, albeit potentially extreme and stringent, interpretation by many US lawyers, highlighting legal ambiguity and the potential for aggressive litigation regarding 'best efforts' clauses.",
+        "implication_company": "Companies should be acutely aware of this aggressive interpretation, as it creates uncertainty and could significantly influence negotiation tactics or legal arguments, even if not universally upheld by courts. It adds risk and unpredictability to 'best efforts' clauses.",
+        "implication_supplier": "Suppliers face considerable uncertainty regarding the actual level of commitment implied by 'best efforts' in different US contexts. This interpretation could expose them to exceptionally high standards and extreme obligations, potentially leading to financial ruin, despite the general vagueness of the clause.",
+        "source_insight": "The text describes a view generally held by many US lawyers, which contrasts with the earlier example of NY law, indicating significant ambiguity in US legal interpretation of 'best efforts'."
+      },
+      "rationale": "Consensus: Agents agreed on `type: OTHER` and `subtype: INFO`. Value Assessment: The verbatim text is clear and self-sufficient, providing a critical contrasting interpretation of 'best efforts' within the US legal context, immediately following a discussion of NY law. This highlights significant ambiguity and risk. Type-Specific Criteria: Correctly classified as `OTHER` (INFO) as it describes a specific legal viewpoint rather than a rule or definition. Utility Check: This finding is highly specific and actionable for negotiation, as it warns against a potentially aggressive interpretation of 'best efforts', making it valuable for risk assessment.",
+      "decision_confidence": 0.95,
+      "source_cluster_id": "8be0af39-52f0-44b5-891a-cf199451b41c",
+      "supporting_evidence": [
+        "81074831-5cce-4f89-a4c9-a156dd59e7cc",
+        "54a012d0-b75b-469a-9246-8481f01b3519"
+      ]
+    },
+    {
+      "id": "137a1418-ada7-4488-920e-5c26692dd4e2",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "verbatim_text": "The odds are that the supplier has no issues in committing itself to the majority of the requirements but only has reservations on some of the requirements.",
+        "plain_text": "When a supplier is hesitant about meeting all requirements, asking them to identify specific requirements they cannot meet is effective because it's likely they have reservations only on some, not the majority, of the requirements.",
+        "expert_insight": "This insight provides the strategic rationale for asking suppliers to identify specific requirements they cannot meet, rather than accepting a blanket 'best efforts' clause. It suggests that suppliers often have reservations only on a few specific points, allowing the majority of the contract to remain firm.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This statement justifies the tactic of requiring suppliers to specify their reservations, explaining that most requirements are likely acceptable to them.",
+        "implication_company": "Companies can achieve stronger overall commitments by focusing negotiations on specific points of contention, rather than weakening the entire agreement with vague 'efforts' clauses.",
+        "implication_supplier": "Suppliers' general 'best efforts' requests might be masking only a few specific issues; this tactic will expose those, allowing for targeted negotiation rather than a broad weakening of commitments.",
+        "source_insight": "Provides a strategic insight into supplier negotiation behavior and the effectiveness of a specific counter-tactic."
+      },
+      "rationale": "Consensus: Both agents correctly identified the finding as 'OTHER' with 'INFO' subtype and provided identical verbatim text. Evaluation: The text provides a crucial justification for a recommended negotiation tactic (asking suppliers to specify which requirements they cannot meet). To ensure self-sufficiency as per the 'Value Assessment' criteria, the 'plain_text' has been rewritten to explicitly include the context of the tactic it justifies, preventing a 'dangling reference'. The finding passes the Utility Check as it offers valuable strategic insight into supplier behavior, aiding negotiation.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "d9e3c9fb-c748-41dc-a527-dd4ac01ef76c",
+      "supporting_evidence": [
+        "5912724f-7c79-4871-bcb0-b9c2587110cc",
+        "4fc2d3c8-0466-44fe-8e16-dd4899bfa610"
+      ]
+    },
+    {
+      "id": "091f2ddb-da04-4553-9b1e-e56654a8bde6",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "golden-record-info-001",
+        "verbatim_text": "By requiring the supplier to identify those requirements that the supplier is unable to comply with, we often receive valuable information on the technical and other capabilities of the supplier products/solutions - information which would be lost if we merely accept the ‘best effort’ qualifier.",
+        "plain_text": "Requiring suppliers to identify specific requirements they cannot comply with provides valuable information on their technical and other capabilities, which would be lost if 'best effort' qualifiers were simply accepted.",
+        "expert_insight": "This highlights a significant strategic benefit of requiring suppliers to specify non-compliant requirements: it serves as a due diligence tool, revealing critical information about their actual capabilities and limitations, which is crucial for risk assessment, long-term relationship management, and informed decision-making.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "This explains an additional, strategic benefit of the recommended tactic to ask suppliers to identify specific requirements they are unable to meet, rather than accepting vague 'best efforts' clauses.",
+        "implication_company": "The company gains a deeper understanding of supplier capabilities and potential limitations, enhancing due diligence, risk management, and strategic decision-making regarding product development or alternative sourcing.",
+        "implication_supplier": "Suppliers are compelled to be transparent about their limitations, which, while potentially uncomfortable, can lead to more realistic and sustainable contract terms and build trust through openness.",
+        "source_insight": "The text explicitly states the benefit of requiring specific identification from suppliers."
+      },
+      "rationale": "Consensus: All agents agreed on the 'OTHER' type with 'INFO' subtype and identical verbatim text. Value Assessment: The text clearly explains a strategic benefit of a previously recommended negotiation tactic (requiring specific identification from suppliers). The plain text is self-sufficient and provides valuable context. Type-Specific Criteria: As an 'OTHER' type, it provides crucial information/justification for a specific action. Utility Check: This finding is highly useful as it explains the 'why' behind a recommended negotiation strategy, aiding in better decision-making and due diligence. It's specific and actionable in terms of understanding the benefits of a particular approach.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "00648c84-4691-412e-9e6c-55ff0f5f4207",
+      "supporting_evidence": [
+        "b2ca1a35-f777-47e0-a835-2a071efff948",
+        "0681e028-28e1-4633-86dc-e92223ade037",
+        "88820f2f-519f-4200-9906-37227bef37e5"
+      ]
+    },
+    {
+      "id": "e13bcc29-9737-427c-9fae-fe5c2370b947",
+      "is_valid": true,
+      "decision_content": {
+        "type": "OTHER",
+        "id": "a9b0c1d2-e3f4-4a5b-6c7d-8e9f0a1b2c3d",
+        "verbatim_text": "The language of this type of a definition can obviously be negotiated so that the parties have a mutually acceptable understanding and agreement as to what is the required level of commitment.",
+        "plain_text": "The specific wording of such a definition can be negotiated to ensure mutual understanding and agreement on the required commitment level.",
+        "expert_insight": "Emphasizes the flexibility and collaborative nature of defining 'efforts' terms. Parties should actively tailor the definition to the specific context of the obligation, industry standards, and their risk appetites, ensuring mutual understanding and reducing future disputes.",
+        "confidence": 1.0,
+        "subtype": "INFO",
+        "justification": "The source text explicitly states that the language of this type of definition 'can obviously be negotiated'.",
+        "implication_company": "Companies should actively engage in negotiating the definition to ensure it aligns with their specific expectations for commitment and risk tolerance.",
+        "implication_supplier": "Suppliers have the opportunity to negotiate the definition to ensure it reflects what they can realistically commit to without undue burden, fostering a collaborative approach.",
+        "source_insight": "The text clearly indicates the negotiability of the definition's language."
+      },
+      "rationale": "Consensus: All agents agreed on 'OTHER' type with 'INFO' subtype and identical verbatim text. Value Assessment: The text is clear and self-sufficient, providing crucial information about the negotiability of contract language. It passes the 'So What?' test by highlighting flexibility in defining terms. Type-Specific Criteria: As an 'INFO' type, it is well-contextualized and does not contain dangling references. Utility Check: This item is highly useful for negotiators, as it explicitly states that even suggested definitions are open to customization, enabling better alignment of expectations and risk management. Therefore, it is accepted as a valid and valuable finding.",
+      "decision_confidence": 1.0,
+      "source_cluster_id": "19e8b4a7-bf2f-4eea-9f65-b6a81e0ece5d",
+      "supporting_evidence": [
+        "efa5b101-b0bb-4097-b18a-735c0d9e64ab",
+        "73949e0f-d202-4bba-899e-e06e02b467fc",
+        "c8d86abe-a58b-4f1d-918c-dddcda9f86b7"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "id": "cd9d50f4-82a6-4250-829f-698b39ed957d",
+      "recommendation_ids": [
+        "522a96d4-edb8-4525-978e-fe4ccec5ec04",
+        "4d57621f-0447-40c7-849d-bcb63ddd278f",
+        "4b68d97f-2e4f-41b6-8cc6-daecb97dedb2",
+        "203fa3bd-545d-4803-b244-89a58a5d06ef"
+      ]
+    },
+    {
+      "id": "250f2069-50b7-42af-8948-3c648289b4f5",
+      "recommendation_ids": [
+        "6f571f25-3b22-4c5f-81f6-d401467bd26c",
+        "f11549f7-194d-40d4-92d8-4358a8069ccd",
+        "d4b1854a-aa58-4bc1-9605-0fe6416964f0",
+        "063226d5-483f-4df2-b361-deff012771c5"
+      ]
+    },
+    {
+      "id": "ba166c66-6089-41f9-b293-c11015a6b513",
+      "recommendation_ids": [
+        "89b4706b-0e73-4eab-a8c1-96838013c898",
+        "4fe3ad0d-0e9a-4a7f-b96f-a87a1c8ea03f",
+        "10fbae8e-fbd2-4690-9d5f-c1683661cfde",
+        "de3b23ec-2a32-496c-a4e2-ec2860bf95c4",
+        "d44bc802-a189-4ad3-b806-b81b6ce16365",
+        "3f542545-f8a8-4015-8134-26eda9586455",
+        "b8ceaaa8-fee4-4e83-8daf-561b2b66a38d"
+      ]
+    },
+    {
+      "id": "33f0dbec-8c7c-4c91-b609-032f27889a30",
+      "recommendation_ids": [
+        "c459718b-bfd4-4f23-af84-6aaf02f3382a",
+        "94cf8197-946d-41c1-8313-c082b45971ad",
+        "bc34af95-75ad-40cc-8187-7c405fca4fe4"
+      ]
+    },
+    {
+      "id": "13c16c80-0325-4fd4-adf4-25b356ca8366",
+      "recommendation_ids": [
+        "659863a9-e249-4635-8ca9-0fe56a77e703",
+        "2098f65e-7fa8-479b-9fd0-aa1c85d3f917",
+        "20ae48ff-9a83-4ecb-9f22-766d1da1c1a1",
+        "914b8d88-8bf3-4a04-a98c-64c4dcca0a23",
+        "208962be-afe7-461a-aea4-9dcec8e32252",
+        "e674fb6c-5e20-4497-8ca6-406ee447269e"
+      ]
+    },
+    {
+      "id": "7d72490e-015f-4076-bad4-6de9b1d28407",
+      "recommendation_ids": [
+        "e733f661-09aa-4e9e-9888-d3931525862a",
+        "08ba06cc-4c5c-48ad-8b0f-4142c053907f",
+        "60105bc5-cdf6-4887-9e0c-c9a4a928d45f",
+        "93b9c5eb-790c-439f-9f30-0496722dd568"
+      ]
+    },
+    {
+      "id": "99835159-ccaa-4c0e-ad39-9afb7ebcaf51",
+      "recommendation_ids": [
+        "b4e76e25-9e08-4c30-a0f7-7d6da503a5c1",
+        "73923f37-fc0e-40c7-bbc1-6214c8fa2831",
+        "6169d516-5bbc-4439-98af-aab739bb23bd",
+        "d2b7acd5-e18a-407d-b442-22708593ac31",
+        "31387415-b34d-466b-b27d-f9dc686d6766"
+      ]
+    },
+    {
+      "id": "2536f326-9d1f-4eab-afb2-f89321b55004",
+      "recommendation_ids": [
+        "1476986d-52c6-4351-9f78-83424f135914",
+        "13d38543-0ef6-4ac7-b0bd-19925f495f6b",
+        "bdff6458-4bef-4347-b57e-946a9a26b3e8"
+      ]
+    },
+    {
+      "id": "9b7c5949-7bfc-4af1-88c3-3c014508bc5b",
+      "recommendation_ids": [
+        "31462809-0953-45b0-bf05-08f59e5291ca",
+        "13a7281a-c064-4b3f-b870-9e8930be639f",
+        "cc5ba53f-a7a8-423f-b57a-659b88b60fb7"
+      ]
+    },
+    {
+      "id": "3777a456-bf76-44d8-99f4-4db7baae4c4f",
+      "recommendation_ids": [
+        "362447d7-8e33-46a2-a603-69951f831434",
+        "3b628953-6e12-478f-b95f-cf564fbb4395",
+        "832267f2-3dd9-47ee-8abe-968e4717c7d6"
+      ]
+    },
+    {
+      "id": "e76f2134-9b02-47b6-af6c-8c687241b2ec",
+      "recommendation_ids": [
+        "2341ada7-847c-4425-a976-674c13b2cbd1",
+        "83b8fbcd-a435-4cbf-885f-df72c7207897",
+        "db246d31-3f09-4c18-b213-0cb0ba933b8d"
+      ]
+    },
+    {
+      "id": "5cda60cb-b00e-49d5-a256-32f31089b23b",
+      "recommendation_ids": [
+        "847d5612-9c01-4c3d-b124-e7da7d977ba4",
+        "bd4c06be-bcab-4f52-b392-b05d476a518d"
+      ]
+    },
+    {
+      "id": "43c9e815-b5d1-47cc-bca8-e7f8e1c89bf1",
+      "recommendation_ids": [
+        "e4afb3fb-eac6-41c8-bf63-262dfcf92258",
+        "d021c59a-c209-41db-be2a-662c9ba7aaa0",
+        "30d24554-5f5d-4cec-83d2-871a8365bb19"
+      ]
+    },
+    {
+      "id": "8be0af39-52f0-44b5-891a-cf199451b41c",
+      "recommendation_ids": [
+        "81074831-5cce-4f89-a4c9-a156dd59e7cc",
+        "54a012d0-b75b-469a-9246-8481f01b3519"
+      ]
+    },
+    {
+      "id": "d9e3c9fb-c748-41dc-a527-dd4ac01ef76c",
+      "recommendation_ids": [
+        "5912724f-7c79-4871-bcb0-b9c2587110cc",
+        "4fc2d3c8-0466-44fe-8e16-dd4899bfa610"
+      ]
+    },
+    {
+      "id": "00648c84-4691-412e-9e6c-55ff0f5f4207",
+      "recommendation_ids": [
+        "b2ca1a35-f777-47e0-a835-2a071efff948",
+        "0681e028-28e1-4633-86dc-e92223ade037",
+        "88820f2f-519f-4200-9906-37227bef37e5"
+      ]
+    },
+    {
+      "id": "19e8b4a7-bf2f-4eea-9f65-b6a81e0ece5d",
+      "recommendation_ids": [
+        "efa5b101-b0bb-4097-b18a-735c0d9e64ab",
+        "73949e0f-d202-4bba-899e-e06e02b467fc",
+        "c8d86abe-a58b-4f1d-918c-dddcda9f86b7"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "522a96d4-edb8-4525-978e-fe4ccec5ec04",
+      "content": {
+        "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’.",
+        "plain_text": "Anticipate that US-based vendors will propose less stringent effort standards, such as 'commercially reasonable efforts', instead of 'best efforts'.",
+        "expert_insight": "Understanding common negotiation tactics of US vendors regarding effort clauses allows for proactive strategy development and avoids surprise during contract discussions. This is due to the perception in the US that 'best efforts' implies an extremely high, potentially bankrupting, standard.",
+        "confidence": 1.0,
+        "conditions": null,
+        "justification": "This is a direct recommendation on anticipating vendor behavior, crucial for negotiation preparation and understanding market norms.",
+        "implication_company": "Prepares the company for typical vendor negotiation positions, enabling a more informed and strategic response.",
+        "implication_supplier": "Highlights their likely strategy to reduce commitment and potential liability.",
+        "source_insight": "This advice is based on the perceived legal interpretation of 'best efforts' in the US, which is seen as highly demanding, leading vendors to seek less onerous alternatives.",
+        "text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "6f571f25-3b22-4c5f-81f6-d401467bd26c",
+      "content": {
+        "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’.",
+        "plain_text": "As a general rule, less stringent effort variants (e.g., 'commercially reasonable efforts') can be accepted if 'best efforts' would have been acceptable for the specific obligation.",
+        "expert_insight": "This guideline offers a pragmatic approach to negotiation, allowing flexibility when the underlying obligation is not deemed critical enough to warrant an absolute 'best efforts' standard. However, it must be balanced with the general caution against the inherent vagueness of all such phrases.",
+        "confidence": 1.0,
+        "conditions": "Only when the Company would have been willing to accept 'best efforts' for the specific obligation.",
+        "justification": "It's presented as a 'rule of thumb,' indicating a practical, but not absolute, guideline. Its classification is MEDIUM because it suggests accepting less stringent terms, which inherently carries some risk, despite the condition.",
+        "implication_company": "Provides a benchmark for accepting alternative effort clauses, potentially streamlining negotiations but requiring careful judgment on the underlying obligation's criticality.",
+        "implication_supplier": "Offers a pathway for them to propose and have accepted less onerous commitment standards.",
+        "source_insight": "This 'rule of thumb' appears to be a concession point, but it's immediately followed by strong warnings about the vagueness of all such phrases. This suggests it should be applied with extreme caution and only for truly non-critical obligations where the risk of non-performance is low.",
+        "text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "89b4706b-0e73-4eab-a8c1-96838013c898",
+      "content": {
+        "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation.",
+        "plain_text": "Always remember that 'best efforts' and its variants are inherently vague and do not constitute a firm commitment to fulfill an obligation.",
+        "expert_insight": "This is a foundational principle for evaluating any 'efforts' clause. Acknowledging the inherent vagueness and lack of firm commitment is crucial for accurate risk assessment and for guiding negotiation strategy to seek more precise language or alternative solutions.",
+        "confidence": 1.0,
+        "conditions": "Applies to all instances of 'best efforts' and its variants.",
+        "justification": "This statement highlights a fundamental legal weakness and risk associated with these clauses, making it critical for informed decision-making and risk management.",
+        "implication_company": "Informs the company's risk assessment, emphasizing that reliance on such clauses for critical obligations is risky and may not provide adequate legal recourse.",
+        "implication_supplier": "Their commitment under such clauses is inherently soft and non-binding in a firm, enforceable sense.",
+        "source_insight": "This is the core problem statement that drives all subsequent advice regarding these clauses. It underscores the need for vigilance.",
+        "text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "c459718b-bfd4-4f23-af84-6aaf02f3382a",
+      "content": {
+        "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "Hence, we should, despite their prevalence, be careful in accepting such phrases.",
+        "plain_text": "Despite their common usage, exercise caution when accepting 'best efforts' or any of its variant phrases.",
+        "expert_insight": "This is a direct imperative stemming from the inherent vagueness of 'efforts' clauses. Caution is paramount to avoid inadvertently accepting commitments that lack enforceability or clear scope, thereby protecting the company's interests and ensuring contractual certainty.",
+        "confidence": 1.0,
+        "conditions": null,
+        "justification": "This is a direct instruction to mitigate the risk identified in the previous critical guideline (vagueness and lack of firm commitment).",
+        "implication_company": "Requires a rigorous review process for any contract containing these phrases, potentially leading to rejection or modification to ensure stronger commitments.",
+        "implication_supplier": "May face increased scrutiny and resistance when proposing these clauses, pushing them towards more concrete obligations.",
+        "source_insight": "This is a direct call to action based on the understanding of the inherent vagueness and risk associated with 'efforts' clauses.",
+        "text": "Hence, we should, despite their prevalence, be careful in accepting such phrases."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "659863a9-e249-4635-8ca9-0fe56a77e703",
+      "content": {
+        "id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements.",
+        "plain_text": "If a supplier expresses hesitation about meeting specific requirements (e.g., quality or environmental), instruct them to identify the exact requirements they cannot meet, allowing for targeted revisions, rather than accepting a general 'best efforts' commitment.",
+        "expert_insight": "This proactive negotiation tactic is highly effective. It forces specificity, clarifies actual capabilities and limitations, and prevents suppliers from using vague 'efforts' clauses to mask non-compliance with critical requirements. It also yields valuable due diligence information about the supplier's technical and operational capabilities.",
+        "confidence": 1.0,
+        "conditions": "When a supplier is hesitant about complying with specific requirements.",
+        "justification": "This provides a concrete, actionable strategy to avoid vague commitments and gain clarity, which is a high priority in contract negotiation and risk management.",
+        "implication_company": "Leads to clearer, more enforceable obligations and provides valuable insights into supplier capabilities, reducing future disputes.",
+        "implication_supplier": "Requires them to be transparent about their limitations, potentially increasing their commitment to other, achievable requirements.",
+        "source_insight": "This is a practical, recommended alternative to accepting vague effort clauses, emphasizing the value of specific information over general assurances.",
+        "text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "e733f661-09aa-4e9e-9888-d3931525862a",
+      "content": {
+        "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase.",
+        "plain_text": "If a supplier or subcontractor insists on using 'commercially reasonable efforts' for obligations that require a firm commitment, seek a compromise by explicitly defining the meaning of the phrase within the contract.",
+        "expert_insight": "This is a crucial fallback strategy when avoiding 'efforts' clauses entirely is not feasible. Defining the term adds specificity and a degree of enforceability, transforming a vague commitment into a more measurable standard, thereby mitigating risk and providing a clearer basis for dispute resolution.",
+        "confidence": 1.0,
+        "conditions": "When the supplier/subcontractor insists on 'commercially reasonable efforts' for obligations requiring firm commitment.",
+        "justification": "This offers a practical solution to mitigate risk when a vague clause cannot be entirely avoided, making it a high-impact guideline for contract drafting.",
+        "implication_company": "Allows for a negotiated solution that provides more clarity and enforceability than an undefined 'efforts' clause, protecting the company's interests.",
+        "implication_supplier": "Requires them to agree to a more specific and potentially more demanding standard of effort, increasing their accountability.",
+        "source_insight": "This is presented as a 'compromise' solution, acknowledging that outright rejection of 'efforts' clauses may not always be achievable in negotiations.",
+        "text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "b4e76e25-9e08-4c30-a0f7-7d6da503a5c1",
+      "content": {
+        "id": "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "This can be done in e.g. by adding: “For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”.",
+        "plain_text": "Consider using a definition for 'commercially reasonable efforts' such as: 'the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal'.",
+        "expert_insight": "This provides a strong, actionable template for defining 'commercially reasonable efforts'. It sets a high standard (professional and diligent company, expeditiously) while acknowledging practical limits (unreasonably disproportionate or burdensome), offering a balanced yet robust definition for negotiation and enhancing enforceability.",
+        "confidence": 1.0,
+        "conditions": "When defining 'commercially reasonable efforts' as a compromise.",
+        "justification": "This provides a concrete, ready-to-use example for implementing a high-impact strategy (defining vague terms), making it a high-value guideline for legal drafting.",
+        "implication_company": "Offers a strong starting point for drafting a definition that enhances enforceability and clarity, providing a clearer standard for performance.",
+        "implication_supplier": "Sets a clear, measurable standard for their required efforts, increasing accountability and reducing ambiguity regarding their obligations.",
+        "source_insight": "This is a direct example of contractual language to achieve the goal of defining vague terms, providing practical guidance for legal counsel.",
+        "text": "This can be done in e.g. by adding: “For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”."
+      },
+      "source_agent": "AGENT_1",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Senior Legal Counsel (Guidelines)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_1_prompt.txt"
+      }
+    },
+    {
+      "id": "4fe3ad0d-0e9a-4a7f-b96f-a87a1c8ea03f",
+      "content": {
+        "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "type": "OTHER",
+        "verbatim_text": "Contract provisions that use the phrase ‘best efforts’ or one of its variants are often a source of confusion when negotiating agreements.",
+        "plain_text": "Clauses using 'best efforts' or its variants frequently cause confusion during contract negotiations.",
+        "expert_insight": "This highlights the inherent ambiguity and potential for dispute associated with such clauses, making careful drafting and negotiation crucial.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Provides general background context about the nature of these clauses.",
+        "implication_company": "Be aware that these clauses are inherently vague and can lead to misunderstandings and disputes.",
+        "implication_supplier": "Suppliers also face confusion, which can be leveraged or addressed during negotiations.",
+        "source_insight": "General statement, no specific nuance.",
+        "text": "Contract provisions that use the phrase ‘best efforts’ or one of its variants are often a source of confusion when negotiating agreements."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "1476986d-52c6-4351-9f78-83424f135914",
+      "content": {
+        "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "type": "OTHER",
+        "verbatim_text": "Widely used variants to the phrase include ‘commercially reasonable efforts’, ‘commercially reasonable best efforts’, ‘good-faith efforts, ‘all reasonable efforts’ where the term ‘efforts’ is often replaced with the term ‘endeavours’.",
+        "plain_text": "Common variations of 'best efforts' include 'commercially reasonable efforts', 'good-faith efforts', and 'all reasonable efforts', sometimes using 'endeavours' instead of 'efforts'.",
+        "expert_insight": "Understanding these variants is key to recognizing the different levels of commitment suppliers might propose and how to categorize them.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Lists and defines the different terms used, which is foundational information.",
+        "implication_company": "Recognize these terms when they appear in supplier proposals to understand their intent.",
+        "implication_supplier": "These are the terms suppliers typically use to soften obligations.",
+        "source_insight": "Straightforward list of variants.",
+        "text": "Widely used variants to the phrase include ‘commercially reasonable efforts’, ‘commercially reasonable best efforts’, ‘good-faith efforts, ‘all reasonable efforts’ where the term ‘efforts’ is often replaced with the term ‘endeavours’."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "31462809-0953-45b0-bf05-08f59e5291ca",
+      "content": {
+        "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+        "type": "OTHER",
+        "verbatim_text": "In each case the intent of the phrase is to remove the absolute duty or commitment to accomplish certain specific obligation or target.",
+        "plain_text": "The primary goal of 'best efforts' clauses is to avoid an absolute commitment to achieve a specific obligation or target.",
+        "expert_insight": "This reveals the fundamental purpose from the perspective of the party proposing it, usually the supplier. It's a risk mitigation tool for them.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Explains the underlying intent behind these clauses.",
+        "implication_company": "Understand that accepting these phrases means accepting a less than absolute commitment from the supplier.",
+        "implication_supplier": "This is their primary motivation for introducing such language.",
+        "source_insight": "Clear statement of intent.",
+        "text": "In each case the intent of the phrase is to remove the absolute duty or commitment to accomplish certain specific obligation or target."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "362447d7-8e33-46a2-a603-69951f831434",
+      "content": {
+        "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+        "type": "OTHER",
+        "verbatim_text": "Understandably these phrases are often introduced by vendors in an attempt to soften their liability to meet some of the obligations that a purchasing agreement imposes on such vendors.",
+        "plain_text": "Vendors frequently introduce these phrases to reduce their liability for meeting obligations in a purchasing agreement.",
+        "expert_insight": "This directly states the supplier's motivation, which is crucial for negotiation strategy. It's a clear attempt to shift risk.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Explains the vendor's motivation for using these phrases.",
+        "implication_company": "Be aware that suppliers are trying to limit their commitment and liability.",
+        "implication_supplier": "This is their strategic goal in using these clauses.",
+        "source_insight": "Clear statement of motivation.",
+        "text": "Understandably these phrases are often introduced by vendors in an attempt to soften their liability to meet some of the obligations that a purchasing agreement imposes on such vendors."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "2098f65e-7fa8-479b-9fd0-aa1c85d3f917",
+      "content": {
+        "id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+        "type": "OTHER",
+        "verbatim_text": "As an example a product vendor may wish rephrase an obligation to meet Zebracorp quality requirements and standards to an obligation to make merely commercially reasonable efforts to meet such quality requirements and standards.",
+        "plain_text": "For instance, a vendor might change a firm obligation to meet Zebracorp quality standards to an obligation to only make commercially reasonable efforts to meet them.",
+        "expert_insight": "This provides a concrete illustration of how a supplier might attempt to dilute a critical obligation, making it easier to spot and counter during negotiations.",
+        "confidence": 0.9,
+        "subtype": "EXAMPLE",
+        "justification": "Provides a practical illustration of how a vendor might use these phrases.",
+        "implication_company": "Helps visualize how suppliers might attempt to weaken commitments, especially for critical requirements like quality.",
+        "implication_supplier": "Shows a common way they attempt to limit their responsibility.",
+        "source_insight": "Clear example of rephrasing an obligation.",
+        "text": "As an example a product vendor may wish rephrase an obligation to meet Zebracorp quality requirements and standards to an obligation to make merely commercially reasonable efforts to meet such quality requirements and standards."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "2341ada7-847c-4425-a976-674c13b2cbd1",
+      "content": {
+        "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+        "type": "OTHER",
+        "verbatim_text": "The legal meaning of these phrases varies from country to country.",
+        "plain_text": "The legal interpretation of 'best efforts' and its variants differs significantly across various jurisdictions.",
+        "expert_insight": "This is a critical piece of information, as it means a 'one-size-fits-all' approach to these clauses is risky. Jurisdiction matters significantly.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Highlights a key legal complexity and variability.",
+        "implication_company": "Legal advice should be sought based on the governing law of the contract to understand the true impact of these clauses.",
+        "implication_supplier": "Suppliers also need to be aware of jurisdictional differences, as their liability can vary.",
+        "source_insight": "General statement about legal variability.",
+        "text": "The legal meaning of these phrases varies from country to country."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "847d5612-9c01-4c3d-b124-e7da7d977ba4",
+      "content": {
+        "id": "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
+        "type": "OTHER",
+        "verbatim_text": "As an example under NY USA laws the phrase ‘best efforts’ basically only puts a good faith obligation on party do try to meet the prescribed obligation. Failure to accomplish such best efforts obligation would generally not be a breach of contract. This is because these phrases are considered too vague to create a binding enforceable obligation.",
+        "plain_text": "Under New York, USA law, 'best efforts' typically only requires a good faith attempt, and failure to achieve the obligation is generally not a breach because the phrase is considered too vague to be binding.",
+        "expert_insight": "This specific legal interpretation is highly favorable to the supplier and detrimental to the company. It underscores the danger of accepting 'best efforts' in contracts governed by NY law.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Provides a specific legal example demonstrating the vagueness and limited enforceability of 'best efforts' in a particular jurisdiction.",
+        "implication_company": "Be extremely cautious accepting 'best efforts' under NY law, as it offers minimal protection and enforceability.",
+        "implication_supplier": "Under NY law, this phrase provides significant protection against breach claims for suppliers.",
+        "source_insight": "Specific legal interpretation for NY, USA, which is noted to be in 'stark contrast' to other common law countries.",
+        "text": "As an example under NY USA laws the phrase ‘best efforts’ basically only puts a good faith obligation on party do try to meet the prescribed obligation. Failure to accomplish such best efforts obligation would generally not be a breach of contract. This is because these phrases are considered too vague to create a binding enforceable obligation."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "e4afb3fb-eac6-41c8-bf63-262dfcf92258",
+      "content": {
+        "id": "b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e",
+        "type": "OTHER",
+        "verbatim_text": "This is in stark contrast to some of the common law countries where these phrases have more binding nature.",
+        "plain_text": "This contrasts sharply with common law countries where 'best efforts' clauses are often more legally binding.",
+        "expert_insight": "Reinforces the jurisdictional variability and the need for specific legal advice based on the contract's governing law, as interpretations can differ wildly.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Highlights the contrast in legal interpretation across different jurisdictions.",
+        "implication_company": "Emphasizes the need to understand the governing law's impact on these clauses before accepting them.",
+        "implication_supplier": "Their liability can vary significantly based on the chosen jurisdiction.",
+        "source_insight": "General contrast statement.",
+        "text": "This is in stark contrast to some of the common law countries where these phrases have more binding nature."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "81074831-5cce-4f89-a4c9-a156dd59e7cc",
+      "content": {
+        "id": "c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f",
+        "type": "OTHER",
+        "verbatim_text": "The view generally held by many US lawyers is that party promising to do ‘best efforts’ is required to do everything in its power to accomplish the target even if it bankrupts itself in the process.",
+        "plain_text": "Many US lawyers believe 'best efforts' requires a party to do everything possible to achieve the goal, even to the point of bankruptcy.",
+        "expert_insight": "This presents a conflicting view within the US legal landscape, creating ambiguity. It suggests that while NY law might be lenient, other US interpretations can be extremely stringent, making 'best efforts' a high-risk term.",
+        "confidence": 0.8,
+        "subtype": "INFO",
+        "justification": "Presents an alternative, more stringent interpretation of 'best efforts' within the US, highlighting legal ambiguity.",
+        "implication_company": "This conflicting view means that even within the US, the interpretation is not uniform, adding risk and unpredictability.",
+        "implication_supplier": "They face uncertainty regarding the actual level of commitment implied by 'best efforts' in different US contexts, potentially exposing them to extreme obligations.",
+        "source_insight": "This directly contradicts the earlier statement about NY law, indicating significant ambiguity in US legal interpretation.",
+        "text": "The view generally held by many US lawyers is that party promising to do ‘best efforts’ is required to do everything in its power to accomplish the target even if it bankrupts itself in the process."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.8,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "4d57621f-0447-40c7-849d-bcb63ddd278f",
+      "content": {
+        "id": "d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a",
+        "type": "OTHER",
+        "verbatim_text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’.",
+        "plain_text": "Expect US-based vendors to try and replace 'best efforts' with less demanding standards like 'commercially reasonable efforts'.",
+        "expert_insight": "This is a direct tactical prediction about supplier behavior, allowing the company to anticipate and prepare for negotiations by understanding common vendor strategies.",
+        "confidence": 0.9,
+        "subtype": "TACTIC",
+        "justification": "Provides a specific expectation regarding vendor negotiation behavior.",
+        "implication_company": "Be prepared for this specific negotiation tactic from US suppliers and have a counter-strategy ready.",
+        "implication_supplier": "This is a common strategy they employ to reduce their obligations, especially given the potential for stringent interpretations of 'best efforts'.",
+        "source_insight": "Clear expectation based on legal context.",
+        "text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "f11549f7-194d-40d4-92d8-4358a8069ccd",
+      "content": {
+        "id": "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
+        "type": "OTHER",
+        "verbatim_text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’.",
+        "plain_text": "As a general guideline, accept less stringent variants (like 'commercially reasonable efforts') if you would have accepted 'best efforts'.",
+        "expert_insight": "This provides a practical rule of thumb for negotiation, suggesting that if the company is already willing to accept a vague commitment, a slightly less vague one might be acceptable. However, it still implies accepting vagueness.",
+        "confidence": 0.8,
+        "subtype": "TACTIC",
+        "justification": "Offers a practical guideline for accepting variants of 'best efforts'.",
+        "implication_company": "Provides a decision framework for when to accept these clauses, but still implies accepting a degree of ambiguity.",
+        "implication_supplier": "If the company is willing to accept 'best efforts', they might also accept less stringent variants, making it an easier negotiation point.",
+        "source_insight": "A 'rule of thumb' implies a general guideline, not an absolute rule, and should be applied with caution.",
+        "text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.8,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "10fbae8e-fbd2-4690-9d5f-c1683661cfde",
+      "content": {
+        "id": "f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
+        "type": "OTHER",
+        "verbatim_text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation.",
+        "plain_text": "Always remember that 'best efforts' and its variants are inherently vague and do not guarantee a firm commitment to meet requirements.",
+        "expert_insight": "This is a foundational principle for dealing with these clauses. It emphasizes the inherent weakness from the company's perspective and the lack of enforceability for firm commitments.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Reaffirms the core problem with all 'best efforts' clauses.",
+        "implication_company": "Never rely on these clauses for firm commitments; they are inherently weak and may not be enforceable as such.",
+        "implication_supplier": "They understand the vagueness provides them flexibility and reduces their absolute liability.",
+        "source_insight": "Strong, clear statement about the nature of these clauses.",
+        "text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "94cf8197-946d-41c1-8313-c082b45971ad",
+      "content": {
+        "id": "a3b4c5d6-e7f8-4a9b-0c1d-2e3f4a5b6c7d",
+        "type": "OTHER",
+        "verbatim_text": "Hence, we should, despite their prevalence, be careful in accepting such phrases.",
+        "plain_text": "Therefore, despite their common use, exercise caution when accepting 'best efforts' phrases.",
+        "expert_insight": "This is a direct instruction to the company, emphasizing a cautious approach due to the inherent vagueness and potential lack of enforceability.",
+        "confidence": 0.9,
+        "subtype": "INSTRUCTION",
+        "justification": "Provides a direct instruction based on the inherent vagueness of the phrases.",
+        "implication_company": "Adopt a cautious stance towards these clauses and seek alternatives or clarifications.",
+        "implication_supplier": "They might face resistance when proposing these clauses due to the company's cautious approach.",
+        "source_insight": "Clear instruction derived from the preceding information.",
+        "text": "Hence, we should, despite their prevalence, be careful in accepting such phrases."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "20ae48ff-9a83-4ecb-9f22-766d1da1c1a1",
+      "content": {
+        "id": "b4c5d6e7-f8a9-4b0c-1d2e-3f4a5b6c7d8e",
+        "type": "OTHER",
+        "verbatim_text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements.",
+        "plain_text": "If a supplier is unsure about meeting all Zebracorp quality or environmental requirements, ask them to specify which ones they can't meet and revise those, rather than accepting a 'best efforts' clause for all.",
+        "expert_insight": "This is a highly effective negotiation tactic. It forces the supplier to be specific, uncovers potential issues, and prevents a blanket dilution of critical commitments, leading to a more precise and enforceable agreement.",
+        "confidence": 0.9,
+        "subtype": "TACTIC",
+        "justification": "Provides a concrete, actionable strategy for dealing with supplier hesitancy regarding specific obligations.",
+        "implication_company": "Use this tactic to gain clarity on supplier capabilities and avoid vague commitments, strengthening the contract.",
+        "implication_supplier": "They will be forced to reveal specific limitations, which might be uncomfortable but leads to a more precise agreement.",
+        "source_insight": "This is both an example and a direct recommendation for a negotiation strategy.",
+        "text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "5912724f-7c79-4871-bcb0-b9c2587110cc",
+      "content": {
+        "id": "c5d6e7f8-a9b0-4c1d-2e3f-4a5b6c7d8e9f",
+        "type": "OTHER",
+        "verbatim_text": "The odds are that the supplier has no issues in committing itself to the majority of the requirements but only has reservations on some of the requirements.",
+        "plain_text": "It's likely the supplier can commit to most requirements and only has specific reservations about a few.",
+        "expert_insight": "This provides the rationale behind the previous tactic, giving confidence that pushing for specifics will likely yield a stronger overall commitment for the majority of requirements.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Explains the reasoning behind the recommended tactic, providing context and encouraging its use.",
+        "implication_company": "Encourages the use of the specific identification tactic, as it's likely to be successful for most requirements.",
+        "implication_supplier": "Their general 'best efforts' request might be masking only a few specific issues, which this tactic will expose.",
+        "source_insight": "Provides a psychological/strategic insight into supplier behavior.",
+        "text": "The odds are that the supplier has no issues in committing itself to the majority of the requirements but only has reservations on some of the requirements."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "b2ca1a35-f777-47e0-a835-2a071efff948",
+      "content": {
+        "id": "d6e7f8a9-b0c1-4d2e-3f4a-5b6c7d8e9f0a",
+        "type": "OTHER",
+        "verbatim_text": "By requiring the supplier to identify those requirements that the supplier is unable to comply with, we often receive valuable information on the technical and other capabilities of the supplier products/solutions - information which would be lost if we merely accept the ‘best effort’ qualifier.",
+        "plain_text": "Demanding suppliers identify specific non-compliant requirements provides valuable insights into their technical capabilities, which would be missed by simply accepting 'best efforts'.",
+        "expert_insight": "This highlights a significant secondary benefit of the tactic: gaining intelligence on the supplier's actual capabilities and limitations, which is crucial for long-term relationship management and risk assessment.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Explains an additional, strategic benefit of the recommended tactic.",
+        "implication_company": "This tactic serves as a due diligence tool, revealing critical information about the supplier's true capabilities and limitations.",
+        "implication_supplier": "They might inadvertently reveal competitive or technical limitations by being forced to be specific.",
+        "source_insight": "Clear statement of an additional benefit.",
+        "text": "By requiring the supplier to identify those requirements that the supplier is unable to comply with, we often receive valuable information on the technical and other capabilities of the supplier products/solutions - information which would be lost if we merely accept the ‘best effort’ qualifier."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "08ba06cc-4c5c-48ad-8b0f-4142c053907f",
+      "content": {
+        "id": "e7f8a9b0-c1d2-4e3f-4a5b-6c7d8e9f0a1b",
+        "type": "OTHER",
+        "verbatim_text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase.",
+        "plain_text": "If a supplier insists on 'commercially reasonable efforts' for obligations requiring firm commitment, a compromise can be reached by defining the phrase.",
+        "expert_insight": "This offers a pragmatic solution when a supplier is unyielding, allowing for a more defined, albeit still not absolute, commitment. It's a way to mitigate the vagueness when outright rejection isn't feasible.",
+        "confidence": 0.9,
+        "subtype": "TACTIC",
+        "justification": "Provides a compromise strategy for when suppliers insist on vague language for critical obligations.",
+        "implication_company": "Offers a path to strengthen a 'commercially reasonable efforts' clause when outright rejection isn't feasible, making it more enforceable.",
+        "implication_supplier": "They might find this a more acceptable middle ground than a firm commitment, while still providing some clarity.",
+        "source_insight": "Clear compromise strategy.",
+        "text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "73923f37-fc0e-40c7-bbc1-6214c8fa2831",
+      "content": {
+        "id": "f8a9b0c1-d2e3-4f4a-5b6c-7d8e9f0a1b2c",
+        "type": "OTHER",
+        "verbatim_text": "This can be done in e.g. by adding: “For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”.",
+        "plain_text": "An example definition for 'commercially reasonable efforts' could be: 'efforts a professional and diligent company would use to achieve a goal expeditiously, excluding unreasonably disproportionate or burdensome actions/expenditures.'",
+        "expert_insight": "This provides concrete language for defining 'commercially reasonable efforts', which can be adapted and used in negotiations to make the clause more robust and less ambiguous, thereby increasing enforceability.",
+        "confidence": 0.9,
+        "subtype": "EXAMPLE",
+        "justification": "Provides specific example language for defining a vague term, making the compromise tactic actionable.",
+        "implication_company": "Offers a template to make 'commercially reasonable efforts' more enforceable and predictable, reducing risk.",
+        "implication_supplier": "This definition clarifies their expected level of effort, potentially increasing their perceived commitment and reducing future disputes.",
+        "source_insight": "Specific example language for a definition.",
+        "text": "This can be done in e.g. by adding: “For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "efa5b101-b0bb-4097-b18a-735c0d9e64ab",
+      "content": {
+        "id": "a9b0c1d2-e3f4-4a5b-6c7d-8e9f0a1b2c3d",
+        "type": "OTHER",
+        "verbatim_text": "The language of this type of a definition can obviously be negotiated so that the parties have a mutually acceptable understanding and agreement as to what is the required level of commitment.",
+        "plain_text": "The specific wording of such a definition can be negotiated to ensure mutual understanding and agreement on the required commitment level.",
+        "expert_insight": "Emphasizes the flexibility and collaborative nature of defining these terms, allowing for tailored solutions that meet both parties' needs and reduce future disputes.",
+        "confidence": 0.9,
+        "subtype": "INFO",
+        "justification": "Highlights the negotiability of the proposed definition, encouraging customization.",
+        "implication_company": "Encourages active negotiation to tailor the definition to specific circumstances and desired commitment levels.",
+        "implication_supplier": "They have an opportunity to shape the definition to be mutually acceptable, fostering a collaborative approach.",
+        "source_insight": "Clear statement of negotiability.",
+        "text": "The language of this type of a definition can obviously be negotiated so that the parties have a mutually acceptable understanding and agreement as to what is the required level of commitment."
+      },
+      "source_agent": "AGENT_2",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "Strategic Advisor (Context)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_2_prompt.txt"
+      }
+    },
+    {
+      "id": "6169d516-5bbc-4439-98af-aab739bb23bd",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "DEFINITION",
+        "verbatim_text": "For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”.",
+        "plain_text": "The term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal.",
+        "expert_insight": "This definition provides a more concrete standard for 'commercially reasonable efforts' by linking it to the actions of a 'professional and diligent company' and explicitly excluding disproportionate burdens, thereby making the obligation more measurable and enforceable than a general 'best efforts' clause.",
+        "confidence": 1.0,
+        "text": "For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”."
+      },
+      "source_agent": "AGENT_3",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "Terminologist (Definitions)",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_3_prompt.txt"
+      }
+    },
+    {
+      "id": "de3b23ec-2a32-496c-a4e2-ec2860bf95c4",
+      "content": {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Contract provisions that use the phrase ‘best efforts’ or one of its variants are often a source of confusion when negotiating agreements.",
+        "plain_text": "Contract provisions using 'best efforts' or its variants frequently cause confusion during negotiations.",
+        "expert_insight": "The inherent ambiguity of 'best efforts' clauses necessitates careful consideration and, where possible, more specific language to avoid future disputes.",
+        "confidence": 1.0,
+        "justification": "This statement highlights a common problem with these clauses.",
+        "implication_company": "Companies should be aware of the potential for misinterpretation and disputes when encountering 'best efforts' clauses.",
+        "implication_supplier": "Suppliers should also be aware of the potential for confusion and consider proposing clearer language.",
+        "source_insight": "The text directly states this as a source of confusion.",
+        "text": "Contract provisions that use the phrase ‘best efforts’ or one of its variants are often a source of confusion when negotiating agreements."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "13d38543-0ef6-4ac7-b0bd-19925f495f6b",
+      "content": {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Widely used variants to the phrase include ‘commercially reasonable efforts’, ‘commercially reasonable best efforts’, ‘good-faith efforts, ‘all reasonable efforts’ where the term ‘efforts’ is often replaced with the term ‘endeavours’.",
+        "plain_text": "Common variations of 'best efforts' include 'commercially reasonable efforts', 'commercially reasonable best efforts', 'good-faith efforts', and 'all reasonable efforts', sometimes using 'endeavours' instead of 'efforts'.",
+        "expert_insight": "Recognizing these variants is crucial as their legal interpretation can differ, even if their intent is similar. Each variant may imply a slightly different standard of diligence.",
+        "confidence": 1.0,
+        "justification": "This lists the common alternative phrases.",
+        "implication_company": "Companies must be able to identify and understand the nuances of these different effort standards when presented in contracts.",
+        "implication_supplier": "Suppliers often use these variants to qualify their obligations; understanding them is key to negotiation.",
+        "source_insight": "The text explicitly enumerates these variants.",
+        "text": "Widely used variants to the phrase include ‘commercially reasonable efforts’, ‘commercially reasonable best efforts’, ‘good-faith efforts, ‘all reasonable efforts’ where the term ‘efforts’ is often replaced with the term ‘endeavours’."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "13a7281a-c064-4b3f-b870-9e8930be639f",
+      "content": {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef01",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "In each case the intent of the phrase is to remove the absolute duty or commitment to accomplish certain specific obligation or target.",
+        "plain_text": "The primary purpose of 'best efforts' and its variants is to qualify an obligation, preventing it from being an absolute duty or firm commitment.",
+        "expert_insight": "This core intent is why these clauses are often favored by parties seeking to limit their liability, but it also explains why they are problematic for parties seeking firm commitments.",
+        "confidence": 1.0,
+        "justification": "This explains the fundamental purpose behind using such phrases.",
+        "implication_company": "Companies should understand that accepting these phrases means accepting a less than absolute commitment from the other party.",
+        "implication_supplier": "Suppliers use these phrases specifically to avoid absolute duties and manage their risk.",
+        "source_insight": "The text directly states the intent of these phrases.",
+        "text": "In each case the intent of the phrase is to remove the absolute duty or commitment to accomplish certain specific obligation or target."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "3b628953-6e12-478f-b95f-cf564fbb4395",
+      "content": {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Understandably these phrases are often introduced by vendors in an attempt to soften their liability to meet some of the obligations that a purchasing agreement imposes on such vendors.",
+        "plain_text": "Vendors commonly introduce 'best efforts' clauses to reduce their liability for meeting obligations in purchasing agreements.",
+        "expert_insight": "This is a key negotiation tactic for vendors. Companies should anticipate this and be prepared to counter or clarify such proposals.",
+        "confidence": 1.0,
+        "justification": "This provides context on why vendors use these phrases.",
+        "implication_company": "Companies should be vigilant for these clauses when reviewing vendor contracts, as they can weaken the vendor's commitment.",
+        "implication_supplier": "Suppliers strategically use these clauses to mitigate risk and manage expectations regarding their ability to fulfill all obligations.",
+        "source_insight": "The text explains the vendor's motivation.",
+        "text": "Understandably these phrases are often introduced by vendors in an attempt to soften their liability to meet some of the obligations that a purchasing agreement imposes on such vendors."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "914b8d88-8bf3-4a04-a98c-64c4dcca0a23",
+      "content": {
+        "id": "e5f6a7b8-c9d0-1234-5678-90abcdef0123",
+        "type": "OTHER",
+        "subtype": "EXAMPLE",
+        "verbatim_text": "As an example a product vendor may wish rephrase an obligation to meet Zebracorp quality requirements and standards to an obligation to make merely commercially reasonable efforts to meet such quality requirements and standards.",
+        "plain_text": "For instance, a product vendor might change an obligation to 'meet Zebracorp quality requirements' to 'make commercially reasonable efforts to meet such quality requirements'.",
+        "expert_insight": "This example clearly illustrates how a firm commitment can be diluted by the introduction of an 'efforts' clause, shifting the burden of proof for non-compliance and potentially lowering the expected standard.",
+        "confidence": 1.0,
+        "justification": "This provides a concrete example of the application of these phrases.",
+        "implication_company": "Companies should be wary of such rephrasing, as it reduces the certainty of receiving products/services that fully meet their standards.",
+        "implication_supplier": "Suppliers use this to manage their commitment level, especially when facing strict or potentially challenging requirements.",
+        "source_insight": "The text provides this as an example.",
+        "text": "As an example a product vendor may wish rephrase an obligation to meet Zebracorp quality requirements and standards to an obligation to make merely commercially reasonable efforts to meet such quality requirements and standards."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "83b8fbcd-a435-4cbf-885f-df72c7207897",
+      "content": {
+        "id": "f6a7b8c9-d0e1-2345-6789-0abcdef01234",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The legal meaning of these phrases varies from country to country.",
+        "plain_text": "The legal interpretation of 'best efforts' and its variants is not uniform and differs across jurisdictions.",
+        "expert_insight": "This variation underscores the importance of legal counsel familiar with the specific jurisdiction governing the contract. What is vague in one country might be binding in another.",
+        "confidence": 1.0,
+        "justification": "This highlights a critical contextual factor for these phrases.",
+        "implication_company": "Companies operating internationally must understand the jurisdictional differences in interpreting 'efforts' clauses.",
+        "implication_supplier": "Suppliers must be aware of the governing law's impact on their 'efforts' commitments.",
+        "source_insight": "The text explicitly states the variation in legal meaning.",
+        "text": "The legal meaning of these phrases varies from country to country."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "bd4c06be-bcab-4f52-b392-b05d476a518d",
+      "content": {
+        "id": "a7b8c9d0-e1f2-3456-7890-abcdef012345",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "As an example under NY USA laws the phrase ‘best efforts’ basically only puts a good faith obligation on party do try to meet the prescribed obligation. Failure to accomplish such best efforts obligation would generally not be a breach of contract. This is because these phrases are considered too vague to create a binding enforceable obligation.",
+        "plain_text": "Under New York, USA law, 'best efforts' typically imposes only a good faith obligation to attempt to meet an obligation. Failure to achieve the goal is generally not a breach of contract because the phrases are considered too vague to be binding.",
+        "expert_insight": "This specific legal interpretation in NY is crucial. It means 'best efforts' offers very little protection to the party relying on the commitment, making it almost an 'effort to try' rather than an 'effort to succeed'.",
+        "confidence": 1.0,
+        "justification": "This provides a specific legal interpretation for a key jurisdiction.",
+        "implication_company": "Companies contracting under NY law should be extremely cautious about accepting 'best efforts' clauses, as they offer minimal enforceability.",
+        "implication_supplier": "Suppliers under NY law may find 'best efforts' clauses provide significant leeway, but should still act in good faith.",
+        "source_insight": "The text provides this as an example of NY USA law.",
+        "text": "As an example under NY USA laws the phrase ‘best efforts’ basically only puts a good faith obligation on party do try to meet the prescribed obligation. Failure to accomplish such best efforts obligation would generally not be a breach of contract. This is because these phrases are considered too vague to create a binding enforceable obligation."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "d021c59a-c209-41db-be2a-662c9ba7aaa0",
+      "content": {
+        "id": "b8c9d0e1-f2a3-4567-8901-abcdef012346",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "This is in stark contrast to some of the common law countries where these phrases have more binding nature.",
+        "plain_text": "In contrast, 'best efforts' clauses are often more legally binding in some common law countries.",
+        "expert_insight": "This further emphasizes the jurisdictional differences. A clause that is weak in NY might be strong elsewhere, necessitating careful legal review based on the governing law.",
+        "confidence": 1.0,
+        "justification": "This highlights a contrasting legal interpretation.",
+        "implication_company": "Companies must understand the governing law of their contracts to assess the enforceability of 'efforts' clauses.",
+        "implication_supplier": "Suppliers must be aware that their 'efforts' commitments may carry more weight in certain common law jurisdictions.",
+        "source_insight": "The text draws a contrast with common law countries.",
+        "text": "This is in stark contrast to some of the common law countries where these phrases have more binding nature."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "54a012d0-b75b-469a-9246-8481f01b3519",
+      "content": {
+        "id": "c9d0e1f2-a3b4-5678-9012-abcdef012347",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The view generally held by many US lawyers is that party promising to do ‘best efforts’ is required to do everything in its power to accomplish the target even if it bankrupts itself in the process.",
+        "plain_text": "Many US lawyers generally believe that a party promising 'best efforts' must exert all possible effort to achieve the goal, even to the point of financial ruin.",
+        "expert_insight": "This reflects a common, albeit potentially overly aggressive, interpretation by some US legal professionals. While the NY law example suggests a weaker standard, this view indicates the potential for aggressive litigation, even if the legal outcome might be different.",
+        "confidence": 1.0,
+        "justification": "This describes a common, albeit potentially extreme, interpretation by US lawyers.",
+        "implication_company": "Companies should be aware of this aggressive interpretation, as it could influence negotiation tactics or legal arguments, even if not universally upheld by courts.",
+        "implication_supplier": "Suppliers should be cautious, as some legal interpretations could hold them to an exceptionally high standard, despite the general vagueness of the clause.",
+        "source_insight": "The text describes a view held by many US lawyers.",
+        "text": "The view generally held by many US lawyers is that party promising to do ‘best efforts’ is required to do everything in its power to accomplish the target even if it bankrupts itself in the process."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "4b68d97f-2e4f-41b6-8cc6-daecb97dedb2",
+      "content": {
+        "id": "d0e1f2a3-b4c5-6789-0123-abcdef012348",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’.",
+        "plain_text": "Expect US-based vendors to prefer less demanding 'efforts' standards, like 'commercially reasonable efforts', over 'best efforts'.",
+        "expert_insight": "This is a predictable negotiation stance from US vendors, given the potential for aggressive interpretation of 'best efforts'. Companies should be prepared to address this by either accepting the variant or pushing for clearer, more defined obligations.",
+        "confidence": 1.0,
+        "conditions": "When negotiating with US-based vendors.",
+        "justification": "US vendors seek to avoid the potentially high bar of 'best efforts' due to legal interpretations.",
+        "implication_company": "Companies should anticipate this and decide whether to accept the less stringent variant or negotiate for stronger commitments.",
+        "implication_supplier": "US suppliers will likely propose 'commercially reasonable efforts' to manage their risk and obligations.",
+        "source_insight": "The text provides this as an expectation for US vendors.",
+        "text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "d4b1854a-aa58-4bc1-9605-0fe6416964f0",
+      "content": {
+        "id": "e1f2a3b4-c5d6-7890-1234-abcdef012349",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’.",
+        "plain_text": "Generally, if 'best efforts' is acceptable, then less stringent variants like 'commercially reasonable efforts' should also be acceptable.",
+        "expert_insight": "This 'rule of thumb' implies that 'best efforts' is often already considered a low bar in practice (especially in NY law). If a company is willing to accept that low bar, then a slightly lower one might not be a significant downgrade. However, this should not replace careful assessment of the specific obligation.",
+        "confidence": 1.0,
+        "conditions": "When the company would have otherwise accepted 'best efforts' for a given obligation.",
+        "justification": "The less stringent variants are seen as offering similar, if not slightly less, commitment than 'best efforts', which itself is often vague.",
+        "implication_company": "Companies can use this as a guideline for negotiation, but should still assess the specific context and importance of the obligation.",
+        "implication_supplier": "Suppliers can use this to justify proposing less stringent variants if 'best efforts' is on the table.",
+        "source_insight": "The text presents this as a rule of thumb.",
+        "text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "d44bc802-a189-4ad3-b806-b81b6ce16365",
+      "content": {
+        "id": "f2a3b4c5-d6e7-8901-2345-abcdef012350",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation.",
+        "plain_text": "Always remember that 'best efforts' and its variations are inherently vague and do not guarantee a firm commitment to fulfill requirements or obligations.",
+        "expert_insight": "This is a critical overarching principle. The vagueness is their defining characteristic and primary weakness from the perspective of the party seeking a firm commitment. It's a warning against complacency.",
+        "confidence": 1.0,
+        "justification": "This summarizes the fundamental problem with all 'efforts' clauses.",
+        "implication_company": "Companies should never rely on 'efforts' clauses for critical obligations where a firm commitment is required.",
+        "implication_supplier": "Suppliers benefit from this vagueness to manage their exposure, but it can also lead to disputes if expectations are not aligned.",
+        "source_insight": "The text explicitly states this as an important consideration.",
+        "text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "bc34af95-75ad-40cc-8187-7c405fca4fe4",
+      "content": {
+        "id": "a3b4c5d6-e7f8-9012-3456-abcdef012351",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "Hence, we should, despite their prevalence, be careful in accepting such phrases.",
+        "plain_text": "Despite their common use, exercise caution when accepting 'best efforts' or similar phrases.",
+        "expert_insight": "This is a strong recommendation. The prevalence of these clauses does not equate to their effectiveness or desirability for the party seeking performance. Due diligence is paramount.",
+        "confidence": 1.0,
+        "conditions": "When encountering 'best efforts' or its variants in contract negotiations.",
+        "justification": "The phrases are vague and do not provide firm commitment.",
+        "implication_company": "Companies must critically evaluate the impact of these clauses on their ability to enforce contract terms.",
+        "implication_supplier": "Suppliers might face pushback on these clauses due to their inherent vagueness.",
+        "source_insight": "The text provides this as a direct recommendation.",
+        "text": "Hence, we should, despite their prevalence, be careful in accepting such phrases."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "208962be-afe7-461a-aea4-9dcec8e32252",
+      "content": {
+        "id": "b4c5d6e7-f8a9-0123-4567-abcdef012352",
+        "type": "OTHER",
+        "subtype": "TACTIC",
+        "verbatim_text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements.",
+        "plain_text": "If a supplier is unsure about meeting all requirements (e.g., quality or environmental), instead of accepting 'best efforts', request them to specify which requirements they cannot meet and then revise those specific points.",
+        "expert_insight": "This is an excellent negotiation tactic. It forces specificity, identifies potential problem areas early, and prevents the entire obligation from being diluted by a vague 'efforts' clause. It shifts the burden of identification to the supplier.",
+        "confidence": 1.0,
+        "justification": "This provides a practical alternative to accepting vague 'efforts' clauses.",
+        "implication_company": "Companies can gain clarity and strengthen their contracts by using this approach, ensuring specific requirements are addressed.",
+        "implication_supplier": "Suppliers will be required to be transparent about their capabilities and limitations, leading to more precise contract terms.",
+        "source_insight": "The text offers this as a recommended course of action.",
+        "text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "4fc2d3c8-0466-44fe-8e16-dd4899bfa610",
+      "content": {
+        "id": "c5d6e7f8-a9b0-1234-5678-abcdef012353",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The odds are that the supplier has no issues in committing itself to the majority of the requirements but only has reservations on some of the requirements.",
+        "plain_text": "It's likely that the supplier can commit to most requirements, with reservations only for a few specific ones.",
+        "expert_insight": "This insight provides the rationale for the previous tactic. By isolating the problematic requirements, the majority of the contract can remain firm, rather than being weakened by a blanket 'efforts' clause.",
+        "confidence": 1.0,
+        "justification": "This explains why the tactic of asking for specific issues is effective.",
+        "implication_company": "Companies can achieve stronger overall commitments by focusing negotiations on specific points of contention.",
+        "implication_supplier": "Suppliers can avoid broadly weakening their commitments by identifying specific areas of concern.",
+        "source_insight": "The text explains the likely scenario behind supplier hesitation.",
+        "text": "The odds are that the supplier has no issues in committing itself to the majority of the requirements but only has reservations on some of the requirements."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "0681e028-28e1-4633-86dc-e92223ade037",
+      "content": {
+        "id": "d6e7f8a9-b0c1-2345-6789-abcdef012354",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "By requiring the supplier to identify those requirements that the supplier is unable to comply with, we often receive valuable information on the technical and other capabilities of the supplier products/solutions - information which would be lost if we merely accept the ‘best effort’ qualifier.",
+        "plain_text": "Demanding that suppliers identify non-compliant requirements provides valuable insights into their capabilities, which would be missed if 'best effort' qualifiers were simply accepted.",
+        "expert_insight": "This highlights a significant secondary benefit of the 'identify specific issues' tactic: enhanced due diligence. This information can be critical for risk assessment, alternative sourcing, or future product development decisions.",
+        "confidence": 1.0,
+        "justification": "This explains the added value of the proposed tactic.",
+        "implication_company": "Companies gain deeper understanding of supplier capabilities and potential limitations, aiding in risk management and strategic decision-making.",
+        "implication_supplier": "Suppliers must be prepared to disclose limitations, which, while potentially uncomfortable, can lead to more realistic and sustainable contract terms.",
+        "source_insight": "The text explains the benefit of requiring specific identification.",
+        "text": "By requiring the supplier to identify those requirements that the supplier is unable to comply with, we often receive valuable information on the technical and other capabilities of the supplier products/solutions - information which would be lost if we merely accept the ‘best effort’ qualifier."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "60105bc5-cdf6-4887-9e0c-c9a4a928d45f",
+      "content": {
+        "id": "e7f8a9b0-c1d2-3456-7890-abcdef012355",
+        "type": "OTHER",
+        "subtype": "TACTIC",
+        "verbatim_text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase.",
+        "plain_text": "If a supplier insists on 'commercially reasonable efforts' for obligations requiring a firm commitment, a potential compromise is to define the phrase's meaning within the contract.",
+        "expert_insight": "This is a practical solution when a full 'firm commitment' is unattainable but a vague 'efforts' clause is unacceptable. Defining the terms provides clarity and a measurable standard, moving it closer to a firm commitment.",
+        "confidence": 1.0,
+        "justification": "This offers a compromise solution for contentious 'efforts' clauses.",
+        "implication_company": "Companies can achieve greater certainty and enforceability by defining 'commercially reasonable efforts' when it cannot be avoided.",
+        "implication_supplier": "Suppliers can agree to a defined 'efforts' standard, providing clarity on their obligations while still avoiding an absolute duty.",
+        "source_insight": "The text suggests this as a compromise strategy.",
+        "text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "d2b7acd5-e18a-407d-b442-22708593ac31",
+      "content": {
+        "id": "f8a9b0c1-d2e3-4567-8901-abcdef012356",
+        "type": "DEFINITION",
+        "verbatim_text": "“For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”.",
+        "plain_text": "A potential definition for 'commercially reasonable efforts' is: the diligent efforts a professional company would use to achieve a goal as quickly as possible, excluding disproportionate or burdensome actions/expenditures.",
+        "expert_insight": "This proposed definition is a good starting point as it introduces elements of professionalism, diligence, expedition, and a reasonableness test for cost/burden. It provides a more objective standard than a bare 'commercially reasonable efforts' clause.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "“For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "73949e0f-d202-4bba-899e-e06e02b467fc",
+      "content": {
+        "id": "a9b0c1d2-e3f4-5678-9012-abcdef012357",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The language of this type of a definition can obviously be negotiated so that the parties have a mutually acceptable understanding and agreement as to what is the required level of commitment.",
+        "plain_text": "The specific wording of such a definition is negotiable to ensure mutual understanding and agreement on the required commitment level.",
+        "expert_insight": "Customizing the definition is key. Parties should tailor it to the specific context of the obligation, industry standards, and their risk appetites. This negotiation process itself helps align expectations.",
+        "confidence": 1.0,
+        "justification": "This emphasizes the flexibility and importance of negotiating the definition.",
+        "implication_company": "Companies should actively participate in negotiating the definition to ensure it aligns with their expectations for commitment.",
+        "implication_supplier": "Suppliers should negotiate the definition to clearly delineate their responsibilities and avoid ambiguity.",
+        "source_insight": "The text states that the definition's language is negotiable.",
+        "text": "The language of this type of a definition can obviously be negotiated so that the parties have a mutually acceptable understanding and agreement as to what is the required level of commitment."
+      },
+      "source_agent": "AGENT_4",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout A",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_4_prompt.txt"
+      }
+    },
+    {
+      "id": "3f542545-f8a8-4015-8134-26eda9586455",
+      "content": {
+        "id": "1",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Contract provisions that use the phrase ‘best efforts’ or one of its variants are often a source of confusion when negotiating agreements.",
+        "plain_text": "Contract provisions involving 'best efforts' or its variants frequently cause confusion during negotiations.",
+        "expert_insight": "The ambiguity of 'best efforts' clauses necessitates careful consideration and clear definition to avoid disputes in contract negotiations.",
+        "confidence": 0.9,
+        "justification": "The text explicitly states these phrases are a 'source of confusion'.",
+        "implication_company": "Companies should be aware of the potential for confusion when encountering 'best efforts' clauses in contracts, which could lead to differing interpretations and disputes.",
+        "implication_supplier": "Suppliers introducing these clauses might face pushback due to their inherent vagueness and potential for misinterpretation by the purchasing party.",
+        "source_insight": "N/A",
+        "text": "Contract provisions that use the phrase ‘best efforts’ or one of its variants are often a source of confusion when negotiating agreements."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "bdff6458-4bef-4347-b57e-946a9a26b3e8",
+      "content": {
+        "id": "2",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Widely used variants to the phrase include ‘commercially reasonable efforts’, ‘commercially reasonable best efforts’, ‘good-faith efforts, ‘all reasonable efforts’ where the term ‘efforts’ is often replaced with the term ‘endeavours’.",
+        "plain_text": "Common variants of 'best efforts' include 'commercially reasonable efforts', 'commercially reasonable best efforts', 'good-faith efforts', and 'all reasonable efforts', sometimes using 'endeavours' instead of 'efforts'.",
+        "expert_insight": "Understanding the various permutations of 'efforts' clauses is crucial for legal professionals to identify and address their implications accurately.",
+        "confidence": 1.0,
+        "justification": "The text lists specific variants.",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "Widely used variants to the phrase include ‘commercially reasonable efforts’, ‘commercially reasonable best efforts’, ‘good-faith efforts, ‘all reasonable efforts’ where the term ‘efforts’ is often replaced with the term ‘endeavours’."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "cc5ba53f-a7a8-423f-b57a-659b88b60fb7",
+      "content": {
+        "id": "3",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "In each case the intent of the phrase is to remove the absolute duty or commitment to accomplish certain specific obligation or target.",
+        "plain_text": "The primary purpose of 'best efforts' phrases is to mitigate an absolute obligation to achieve a specific goal.",
+        "expert_insight": "These phrases serve as a mechanism to introduce flexibility and reduce strict liability, shifting from an absolute guarantee to a commitment of diligent pursuit.",
+        "confidence": 0.9,
+        "justification": "The text directly states the 'intent of the phrase'.",
+        "implication_company": "Companies should recognize that accepting such phrases means the supplier is not providing an absolute commitment, which could impact project timelines or quality guarantees.",
+        "implication_supplier": "Suppliers use these phrases to reduce their liability for failing to meet obligations that are difficult to guarantee absolutely.",
+        "source_insight": "N/A",
+        "text": "In each case the intent of the phrase is to remove the absolute duty or commitment to accomplish certain specific obligation or target."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "832267f2-3dd9-47ee-8abe-968e4717c7d6",
+      "content": {
+        "id": "4",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "Understandably these phrases are often introduced by vendors in an attempt to soften their liability to meet some of the obligations that a purchasing agreement imposes on such vendors.",
+        "plain_text": "Vendors commonly introduce these phrases to reduce their liability regarding obligations in purchasing agreements.",
+        "expert_insight": "From a vendor's perspective, these clauses are a risk management tool, aiming to limit exposure to breach of contract claims for outcomes beyond their complete control.",
+        "confidence": 0.9,
+        "justification": "The text explains the vendor's motivation.",
+        "implication_company": "Companies should be aware that vendors use these clauses to limit their accountability, potentially shifting more risk to the purchasing party.",
+        "implication_supplier": "Suppliers benefit by softening their contractual liability, especially for obligations where absolute fulfillment is uncertain or costly.",
+        "source_insight": "N/A",
+        "text": "Understandably these phrases are often introduced by vendors in an attempt to soften their liability to meet some of the obligations that a purchasing agreement imposes on such vendors."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "db246d31-3f09-4c18-b213-0cb0ba933b8d",
+      "content": {
+        "id": "5",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The legal meaning of these phrases varies from country to country. As an example under NY USA laws the phrase ‘best efforts’ basically only puts a good faith obligation on party do try to meet the prescribed obligation. Failure to accomplish such best efforts obligation would generally not be a breach of contract. This is because these phrases are considered too vague to create a binding enforceable obligation.",
+        "plain_text": "The legal interpretation of 'best efforts' varies internationally. Under New York, USA law, 'best efforts' typically implies only a good faith attempt, and failure to achieve the obligation is generally not a breach of contract due to the vagueness of the phrase.",
+        "expert_insight": "Jurisdictional differences in interpreting 'best efforts' clauses are critical. In some common law jurisdictions, these clauses can be more binding than in others, such as New York, where they may only impose a good faith obligation.",
+        "confidence": 0.95,
+        "justification": "The text explicitly states the legal meaning varies and provides a specific example for NY USA laws.",
+        "implication_company": "Companies operating internationally must understand that the enforceability and interpretation of 'best efforts' clauses will depend on the governing law of the contract, which can significantly impact their rights and remedies.",
+        "implication_supplier": "Suppliers should be aware that the legal weight of their 'best efforts' commitment can differ significantly based on jurisdiction, influencing their potential liability.",
+        "source_insight": "N/A",
+        "text": "The legal meaning of these phrases varies from country to country. As an example under NY USA laws the phrase ‘best efforts’ basically only puts a good faith obligation on party do try to meet the prescribed obligation. Failure to accomplish such best efforts obligation would generally not be a breach of contract. This is because these phrases are considered too vague to create a binding enforceable obligation."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "30d24554-5f5d-4cec-83d2-871a8365bb19",
+      "content": {
+        "id": "6",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "This is in stark contrast to some of the common law countries where these phrases have more binding nature. The view generally held by many US lawyers is that party promising to do ‘best efforts’ is required to do everything in its power to accomplish the target even if it bankrupts itself in the process.",
+        "plain_text": "In contrast to New York law, some common law countries consider 'best efforts' more binding. Many US lawyers also hold the view that 'best efforts' requires a party to do everything possible to achieve a goal, even to the point of bankruptcy.",
+        "expert_insight": "The contrast highlights the critical need for legal counsel to clarify the specific legal implications of 'best efforts' based on the applicable jurisdiction and prevailing legal interpretations, which can range from a mere good faith attempt to an exhaustive, no-expense-spared commitment.",
+        "confidence": 0.9,
+        "justification": "The text contrasts legal interpretations and presents a common view among US lawyers.",
+        "implication_company": "Companies need to be aware of the potentially severe interpretation of 'best efforts' in certain jurisdictions or by some legal professionals, which could lead to significant obligations for their suppliers (or for themselves if they are the promising party).",
+        "implication_supplier": "Suppliers should be extremely cautious with 'best efforts' clauses, especially under jurisdictions or interpretations where it implies an exhaustive commitment, potentially leading to disproportionate costs or even financial ruin.",
+        "source_insight": "N/A",
+        "text": "This is in stark contrast to some of the common law countries where these phrases have more binding nature. The view generally held by many US lawyers is that party promising to do ‘best efforts’ is required to do everything in its power to accomplish the target even if it bankrupts itself in the process."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "203fa3bd-545d-4803-b244-89a58a5d06ef",
+      "content": {
+        "id": "7",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’.",
+        "plain_text": "Expect US-based vendors to prefer less demanding 'efforts' standards, like 'commercially reasonable efforts', over 'best efforts'.",
+        "expert_insight": "When negotiating with US vendors, anticipate their preference for 'commercially reasonable efforts' due to the potentially stringent interpretation of 'best efforts' in some US legal circles.",
+        "confidence": 0.9,
+        "conditions": "When dealing with US-based vendors.",
+        "justification": "Based on the preceding discussion about the strict interpretation of 'best efforts' by some US lawyers.",
+        "implication_company": "Companies should be prepared for this negotiation point and understand the vendor's motivation to mitigate risk.",
+        "implication_supplier": "US-based suppliers are advised to use 'commercially reasonable efforts' to avoid potentially extreme obligations implied by 'best efforts'.",
+        "source_insight": "N/A",
+        "text": "You should therefore expect in particular US based vendors to replace ‘best efforts’ with less onerous efforts standards such as in e.g. ‘commercial reasonable efforts’."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "063226d5-483f-4df2-b361-deff012771c5",
+      "content": {
+        "id": "8",
+        "type": "GUIDELINE",
+        "classification": "MEDIUM",
+        "verbatim_text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’.",
+        "plain_text": "As a general rule, accepting less stringent variants of 'best efforts' is acceptable if 'best efforts' itself would have been acceptable.",
+        "expert_insight": "This rule of thumb suggests that if the 'best efforts' standard is deemed acceptable for a particular obligation, then 'commercially reasonable efforts' or similar, which are generally less demanding, should also be acceptable.",
+        "confidence": 0.8,
+        "conditions": "If the phrase 'best efforts' would have been acceptable for the given obligation.",
+        "justification": "The less stringent variants offer a lower bar than 'best efforts'.",
+        "implication_company": "Companies can use this as a guideline during negotiations to quickly assess the acceptability of 'efforts' clauses.",
+        "implication_supplier": "Suppliers might find it easier to get 'less stringent variants' accepted if the company was already willing to accept 'best efforts'.",
+        "source_insight": "N/A",
+        "text": "As a rule of thumb we should be able to accept these less stringent variants whenever we would have been willing to accept the phrase ‘best efforts’."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.8,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "b8ceaaa8-fee4-4e83-8daf-561b2b66a38d",
+      "content": {
+        "id": "9",
+        "type": "GUIDELINE",
+        "classification": "CRITICAL",
+        "verbatim_text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation. Hence, we should, despite their prevalence, be careful in accepting such phrases.",
+        "plain_text": "Always remember that 'best efforts' and its variants are vague and lack firm commitment. Therefore, exercise caution when accepting them, despite their common use.",
+        "expert_insight": "This is a critical warning: 'best efforts' clauses inherently introduce ambiguity and weaken contractual commitments. Legal teams must scrutinize such clauses and, where possible, seek more precise language or definitions.",
+        "confidence": 1.0,
+        "conditions": "In all cases where 'best efforts' or its variants are proposed.",
+        "justification": "The phrases are characterized as 'very vague' and lacking 'firm commitment'.",
+        "implication_company": "Companies must be extremely cautious as accepting these phrases can lead to unmet expectations, disputes, and difficulty enforcing obligations, potentially impacting project success and financial outcomes.",
+        "implication_supplier": "Suppliers offering these phrases should be prepared for scrutiny and potential requests for more specific commitments or definitions.",
+        "source_insight": "N/A",
+        "text": "In all cases it is important to keep in mind that the phrase ‘best efforts’ together with all its variants are ultimately very vague and do not provide a firm commitment to meet the agreed requirement or obligation. Hence, we should, despite their prevalence, be careful in accepting such phrases."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "e674fb6c-5e20-4497-8ca6-406ee447269e",
+      "content": {
+        "id": "10",
+        "type": "GUIDELINE",
+        "classification": "HIGH",
+        "verbatim_text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements.",
+        "plain_text": "If a supplier is unsure about meeting all requirements (e.g., quality or environmental), it's recommended to ask them to specify which requirements they cannot meet, then revise those, rather than accepting a generic 'best efforts' commitment.",
+        "expert_insight": "This provides a practical tactic: instead of accepting vague 'best efforts' language, push for specificity. This not only clarifies the supplier's commitment but also reveals valuable insights into their capabilities and potential areas of non-compliance.",
+        "confidence": 0.95,
+        "conditions": "When a supplier expresses hesitation about meeting all requirements.",
+        "justification": "This approach yields 'valuable information' and avoids the loss of insight from a vague 'best effort' qualifier.",
+        "implication_company": "By following this recommendation, companies can gain critical insights into a supplier's capabilities and negotiate more precise, enforceable terms, reducing future risks and ensuring better alignment with requirements.",
+        "implication_supplier": "Suppliers should be prepared to provide detailed explanations for any requirements they cannot fully commit to, rather than relying on broad 'efforts' clauses.",
+        "source_insight": "N/A",
+        "text": "As an example, when a supplier is hesitant as to whether it can comply with in e.g. all of the Zebracorp quality requirements or Zebracorp environmental requirements, it would be recommend to ask the supplier to identify which specific requirements the supplier is unable to meet and revise those as needed, instead of simply saying that the supplier will use best efforts or commercially reasonable effort to meet such requirements."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "88820f2f-519f-4200-9906-37227bef37e5",
+      "content": {
+        "id": "11",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "By requiring the supplier to identify those requirements that the supplier is unable to comply with, we often receive valuable information on the technical and other capabilities of the supplier products/solutions - information which would be lost if we merely accept the ‘best effort’ qualifier.",
+        "plain_text": "Requiring suppliers to specify non-compliant requirements provides valuable insights into their technical capabilities, which would be missed by simply accepting 'best effort' clauses.",
+        "expert_insight": "This reinforces the strategic advantage of pushing for specificity: it's not just about contractual clarity, but also about due diligence, uncovering potential limitations or strengths of a supplier's offerings.",
+        "confidence": 0.95,
+        "justification": "The text explicitly states the benefit of this approach.",
+        "implication_company": "This practice enhances due diligence, providing deeper understanding of supplier capabilities and potential risks, leading to more informed decision-making.",
+        "implication_supplier": "Suppliers who are transparent about their limitations build trust and can work collaboratively to find solutions, rather than hiding behind vague language.",
+        "source_insight": "N/A",
+        "text": "By requiring the supplier to identify those requirements that the supplier is unable to comply with, we often receive valuable information on the technical and other capabilities of the supplier products/solutions - information which would be lost if we merely accept the ‘best effort’ qualifier."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.95,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "93b9c5eb-790c-439f-9f30-0496722dd568",
+      "content": {
+        "id": "12",
+        "type": "OTHER",
+        "subtype": "TACTIC",
+        "verbatim_text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase.",
+        "plain_text": "If a supplier insists on 'commercially reasonable efforts' for obligations requiring firm commitment, a compromise can be achieved by explicitly defining the phrase.",
+        "expert_insight": "When faced with a supplier's insistence on 'commercially reasonable efforts' for critical obligations, a practical solution is to negotiate a clear, mutually agreeable definition, thereby transforming a vague term into a more concrete commitment.",
+        "confidence": 0.9,
+        "justification": "The text suggests this as a 'compromise' strategy.",
+        "implication_company": "Companies can use this tactic to mitigate the vagueness of 'commercially reasonable efforts' and secure a more concrete commitment from suppliers for critical obligations.",
+        "implication_supplier": "Suppliers can maintain their preferred phrasing while providing clarity and comfort to the purchasing party, facilitating agreement.",
+        "source_insight": "N/A",
+        "text": "In the event the supplier/subcontractor does insist on using the phrase ‘commercially reasonable efforts’ in the context of obligations that should by their nature be fulfilled with a certain degree of firm commitment, a compromise can sometimes be found by specifying what the parties mean by this phrase."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "31387415-b34d-466b-b27d-f9dc686d6766",
+      "content": {
+        "id": "13",
+        "type": "DEFINITION",
+        "verbatim_text": "“For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”.",
+        "plain_text": "A proposed definition for 'commercially reasonable efforts' is: the diligent efforts a professional company would use to achieve a goal as quickly as possible, excluding disproportionate or burdensome actions/expenditures.",
+        "expert_insight": "This definition attempts to balance diligence with practicality, setting a standard based on professional conduct while acknowledging limitations on disproportionate efforts. It's a common starting point for negotiation.",
+        "confidence": 1.0,
+        "justification": "N/A",
+        "implication_company": "N/A",
+        "implication_supplier": "N/A",
+        "source_insight": "N/A",
+        "text": "“For the purposes hereof the term ‘commercially reasonable efforts’ means, with respect to a given goal, the efforts that a professional and diligent company would use and undertake so as to achieve that goal as expeditiously as possible and excludes any action or expenditure that would be unreasonably disproportionate or burdensome to achieve such goal”."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 1.0,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    },
+    {
+      "id": "c8d86abe-a58b-4f1d-918c-dddcda9f86b7",
+      "content": {
+        "id": "14",
+        "type": "OTHER",
+        "subtype": "INFO",
+        "verbatim_text": "The language of this type of a definition can obviously be negotiated so that the parties have a mutually acceptable understanding and agreement as to what is the required level of commitment.",
+        "plain_text": "The specific wording of such a definition is negotiable to ensure mutual understanding and agreement on the required commitment level.",
+        "expert_insight": "Emphasizes that the provided definition is a template, and its specific terms should be tailored through negotiation to reflect the unique circumstances and risk appetites of the contracting parties.",
+        "confidence": 0.9,
+        "justification": "The text states the definition 'can obviously be negotiated'.",
+        "implication_company": "Companies should actively engage in negotiating the definition to ensure it aligns with their expectations for supplier commitment.",
+        "implication_supplier": "Suppliers have the opportunity to negotiate the definition to ensure it reflects what they can realistically commit to without undue burden.",
+        "source_insight": "N/A",
+        "text": "The language of this type of a definition can obviously be negotiated so that the parties have a mutually acceptable understanding and agreement as to what is the required level of commitment."
+      },
+      "source_agent": "AGENT_5",
+      "confidence": 0.9,
+      "config_snapshot": {
+        "name": "General Scout B",
+        "model": "gemini-2.5-flash",
+        "temperature": 0.5,
+        "top_p": 0.95,
+        "max_output_tokens": 65536,
+        "prompt_file": "prompts/agent_5_prompt.txt"
+      }
+    }
+  ]
+}
