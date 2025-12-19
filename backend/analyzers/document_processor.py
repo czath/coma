@@ -56,12 +56,15 @@ class DocumentProcessor:
             
             if str(document_type).lower() == "reference":
                  # Reference / Playbook Logic
-                 # Strict extraction of 'text' field from 'GUIDELINE' blocks.
+                 # Strict extraction of 'text' field from relevant blocks.
                  for i, block in enumerate(document_payload):
                      b_type = block.get("type", "").upper()
                      if b_type == "GUIDELINE":
                          content_text = block.get("text", "")
                          if content_text:
+                             # DEBUG LOGGING 
+                             logger.info(f"Processing GUIDELINE {block.get('id')}: P_Text_Len={len(content_text)} Snippet={content_text[:50].replace(chr(10), ' ')}...")
+                             
                              # Trust 'header' field explicitly as per User Request
                              header = block.get("header")
                              title = block.get("title")

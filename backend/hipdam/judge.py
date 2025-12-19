@@ -89,10 +89,16 @@ Return JSON format ONLY:
             if match:
                 json_str = match.group(0)
             else:
-                # Fallback to cleanup if no braces found (unlikely but possible)
+            # Fallback to cleanup if no braces found (unlikely but possible)
                 json_str = response.text.replace("```json", "").replace("```", "").strip()
 
-            data = json.loads(json_str)
+            # FIX: Use raw_decode to parse only the first valid JSON object and ignore trailing garbage
+            # This fixes "Extra data" errors if the regex captured too much (e.g. valid JSON + trailing text with '}')
+            try:
+                data, _ = json.JSONDecoder().raw_decode(json_str)
+            except json.JSONDecodeError:
+                # Fallback: Try strict load if raw_decode fails (unlikely)
+                data = json.loads(json_str)
             
             decision = JudgeDecision(
                 is_valid=data.get("is_valid", False),

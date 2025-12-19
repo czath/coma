@@ -543,12 +543,10 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
             if (section.decisions) {
                 section.decisions.forEach(d => {
                     if (d.is_valid) {
-                        // FIX: Parse section title (it contains full text, take first line)
-                        // If title is missing, fallback to section_name or ID
+                        // FIX: Trust backend title explicitly (No frontend truncation/splitting)
                         let rawTitle = section.title || section.section_name || section.section_id || "Unknown Section";
-                        let cleanTitle = rawTitle.split('\n')[0].substring(0, 50); // Take first line, max 50 chars
 
-                        allDecisions.push({ ...d, _sectionId: section.section_id, _sectionName: cleanTitle });
+                        allDecisions.push({ ...d, _sectionId: section.section_id, _sectionName: rawTitle });
                     }
                 });
             }

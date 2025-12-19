@@ -108,11 +108,15 @@ export default function FileManager() {
                     const result = statusData.result;
 
                     if (type === 'ingesting') {
-                        // ... (Existing Ingestion Logic) ...
-                        const generatedClauses = generateClausesFromContent(result.content || []);
+                        // FIX: Handle result being either direct Array or Object with content property
+                        const contentData = Array.isArray(result) ? result : (result.content || []);
+
+                        console.log("Ingestion Complete. Received items:", contentData.length);
+
+                        const generatedClauses = generateClausesFromContent(contentData);
                         await updateFile(file.header.id, {
                             header: { ...file.header, status: 'draft' },
-                            content: result.content,
+                            content: contentData,
                             clauses: generatedClauses,
                             progress: 100
                         });
@@ -216,8 +220,13 @@ export default function FileManager() {
                 const text = await file.text();
                 const jsonContent = JSON.parse(text);
 
-                // Check if it's our export format (Array with HEADER as first item)
-                if (Array.isArray(jsonContent) && jsonContent.length > 0 && jsonContent[0].type === 'HEADER' && jsonContent[0].metadata) {
+                // STRICT VALIDATION: Must have HEADER block
+                if (!Array.isArray(jsonContent) || jsonContent.length === 0 || jsonContent[0].type !== 'HEADER' || !jsonContent[0].metadata) {
+                    alert('Invalid Annotated File Format: File must start with a HEADER block containing metadata (including documentType).');
+                    return; // Reject upload
+                }
+
+                if (true) { // Helper block for scope
                     const metadata = jsonContent[0].metadata;
 
                     newFile.header = {

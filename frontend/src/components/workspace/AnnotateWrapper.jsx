@@ -126,11 +126,101 @@ export default function AnnotateWrapper() {
         if (success) alert("Draft saved successfully!");
     };
 
+    // Shared logic to generate the stitched list
+    const generateStitchedContent = () => {
+        // 1. Sort clauses
+        const sortedClauses = [...clauses].filter(c => c.end).sort((a, b) => {
+            if (a.start.line !== b.start.line) return a.start.line - b.start.line;
+            return a.start.ch - b.start.ch;
+        });
+
+        const stitchedList = [];
+        let currentPos = { line: 0, ch: 0 };
+
+        const comparePos = (p1, p2) => {
+            if (p1.line < p2.line) return -1;
+            if (p1.line > p2.line) return 1;
+            if (p1.ch < p2.ch) return -1;
+            if (p1.ch > p2.ch) return 1;
+            return 0;
+        };
+
+        const extractText = (start, end) => {
+            let text = "";
+            if (start.line === end.line) {
+                text = content[start.line].text.substring(start.ch, end.ch);
+            } else {
+                text += content[start.line].text.substring(start.ch) + "\n";
+                for (let i = start.line + 1; i < end.line; i++) {
+                    text += content[i].text + "\n";
+                }
+                text += content[end.line].text.substring(0, end.ch);
+            }
+            return text;
+        };
+
+        // Add Clauses
+        sortedClauses.forEach(clause => {
+            // Gap?
+            if (comparePos(currentPos, clause.start) < 0) {
+                const gapText = extractText(currentPos, clause.start);
+                if (gapText.trim()) {
+                    stitchedList.push({
+                        id: `skip_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+                        type: 'SKIP',
+                        header: 'Untagged Content',
+                        text: gapText,
+                        tags: []
+                    });
+                }
+            }
+            // Clause
+            const clauseText = extractText(clause.start, clause.end);
+            stitchedList.push({ ...clause, text: clauseText });
+            currentPos = clause.end;
+        });
+
+        // Tail
+        const lastPos = { line: content.length - 1, ch: content[content.length - 1].text.length };
+        if (comparePos(currentPos, lastPos) < 0) {
+            const remainingText = extractText(currentPos, lastPos);
+            if (remainingText.trim()) {
+                stitchedList.push({
+                    id: `skip_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+                    type: 'SKIP',
+                    header: 'Untagged Content',
+                    text: remainingText,
+                    tags: []
+                });
+            }
+        }
+        return stitchedList;
+    };
+
     const handleFinalize = async () => {
-        if (window.confirm("Are you sure you want to finalize the annotation?")) {
-            const success = await saveToDB('annotated');
-            if (success) {
+        if (window.confirm("Are you sure you want to finalize the annotation? This will save the structured document.")) {
+            try {
+                // 1. Generate the clean, stitched structure (same as Export)
+                const stitchedContent = generateStitchedContent();
+
+                // 2. Save this clean structure to the FILE CONTENT
+                // We overwrite 'content' with the stitched list, effectively "baking" the annotation.
+                await updateFile(file.header.id, {
+                    header: {
+                        ...file.header,
+                        status: 'annotated',
+                        documentType,
+                        documentTags,
+                        lastModified: new Date().toISOString()
+                    },
+                    content: stitchedContent, // KEY FIX: Save stitched blocks, not raw lines
+                    clauses: clauses // Keep clauses for reference/re-edit if needed (though re-edit might need logic updates)
+                });
+
                 navigate('/workspace');
+            } catch (e) {
+                console.error("Finalize failed", e);
+                alert("Failed to finalize document.");
             }
         }
     };
