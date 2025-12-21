@@ -8,6 +8,7 @@ export default function FileManager() {
     const navigate = useNavigate();
     const [isDragging, setIsDragging] = useState(false);
     const [uploadProgress, setUploadProgress] = useState({}); // { id: { percent: number, message: string } }
+    const [activeTaxonomy, setActiveTaxonomy] = useState(null);
     const intervalsRef = useRef({}); // Store intervals to clear on unmount
 
     // Cleanup on unmount
@@ -51,6 +52,24 @@ export default function FileManager() {
             }
         });
     }, [files, loading, updateFile]);
+
+    // Check for Active Taxonomy on mount
+    useEffect(() => {
+        const checkTaxonomy = async () => {
+            try {
+                const res = await fetch('http://localhost:8000/taxonomy/check');
+                const data = await res.json();
+                if (data.exists) {
+                    setActiveTaxonomy(data.filename);
+                } else {
+                    setActiveTaxonomy(null);
+                }
+            } catch (err) {
+                console.error("Failed to check taxonomy", err);
+            }
+        };
+        checkTaxonomy();
+    }, []);
 
     // Reusable Polling Function
     const startPolling = (file, jobId, type = 'analyzing') => {
@@ -216,6 +235,20 @@ export default function FileManager() {
         }
     };
 
+    const guessDocumentType = (filename) => {
+        const lowerName = filename.toLowerCase();
+        if (lowerName.includes('playbook') || lowerName.includes('guideline')) {
+            return 'reference';
+        }
+        if (lowerName.includes('amendment') || lowerName.includes('scope of work')) {
+            return 'subordinate';
+        }
+        if (lowerName.includes('agreement') || lowerName.includes('contract')) {
+            return 'master';
+        }
+        return 'reference';
+    };
+
     const processUpload = async (file) => {
         // 1. Duplicate Check
         if (files.some(f => f.header.filename === file.name)) {
@@ -231,7 +264,7 @@ export default function FileManager() {
                 filename: file.name,
                 uploadDate: new Date().toISOString(),
                 status: 'uploaded', // Initial state
-                documentType: 'master', // Default - overwitten by metadata if present
+                documentType: guessDocumentType(file.name), // Auto-detect - overwitten by metadata if present
                 annotationMethod: 'ai', // Default: 'ai'
                 version: '1.0'
             },
@@ -436,20 +469,30 @@ export default function FileManager() {
                 navigate(`/annotate/${file.header.id}`);
                 break;
             case 'analyze':
-                // 1. Set status to analyzing
-                await updateFile(file.header.id, { header: { ...file.header, status: 'analyzing' }, progress: 0 });
-
+                // PRE-CHECK: General Taxonomy Existence
                 try {
-                    // 2. Send to Backend (Hipdam Analysis)
-                    // We send the 'content' or 'annotated_aggregated_blocks' if available. 
-                    // Assuming 'content' holds the structured data from ingestion.
-                    // Important: The backend logic for document_processor expects a specific structure.
-                    // If file.content is the ingestion result, it's correct.
+                    const checkRes = await fetch('http://localhost:8000/taxonomy/check');
+                    const checkData = await checkRes.json();
+
+                    if (!checkData.exists) {
+                        alert("ERROR: No General Taxonomy defined. Please finalize a document and 'Generate Taxonomy' first to proceed with analysis.");
+                        return;
+                    }
+
+                    // 1. Set status to analyzing
+                    await updateFile(file.header.id, { header: { ...file.header, status: 'analyzing' }, progress: 0 });
+
+                    // 2. Fetch Active Taxonomy Content to inject
+                    const taxRes = await fetch('http://localhost:8000/taxonomy/active');
+                    const taxonomyContent = await taxRes.json();
+
+                    // 3. Send to Backend (Hipdam Analysis)
                     const payload = {
                         document_content: file.content,
                         filename: file.header.filename,
                         document_type: file.header.documentType || "master",
-                        file_id: file.header.id // Enable deterministic Job ID for Resumption
+                        taxonomy: taxonomyContent, // Inject GT
+                        file_id: file.header.id
                     };
 
                     const response = await fetch('http://127.0.0.1:8000/analyze_hipdam_document', {
@@ -461,15 +504,12 @@ export default function FileManager() {
                     if (!response.ok) throw new Error('Analysis request failed');
                     const { job_id } = await response.json();
 
-                    // Persist
                     localStorage.setItem(`job_${file.header.id}`, job_id);
-
-                    // 3. Poll
                     startPolling(file, job_id, 'analyzing');
 
                 } catch (e) {
                     console.error(e);
-                    alert("Failed to start analysis.");
+                    alert("Failed to start analysis: " + e.message);
                     updateFile(file.header.id, { header: { ...file.header, status: 'annotated' }, progress: 100 });
                 }
                 break;
@@ -639,11 +679,19 @@ export default function FileManager() {
                         <p className="text-sm text-gray-500 mt-1">Manage your contracts and references</p>
                     </div>
 
-                    <label className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 cursor-pointer transition-colors shadow-sm font-medium text-sm">
-                        <Plus size={18} />
-                        <span>Add Document</span>
-                        <input type="file" multiple className="hidden" onChange={handleFileSelect} />
-                    </label>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-white shadow-sm opacity-80 hover:opacity-100 transition-opacity" title={activeTaxonomy || 'No Active Taxonomy'}>
+                            <div className={`w-1.5 h-1.5 rounded-full ${activeTaxonomy ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                            <span className="text-xs font-medium text-gray-500">
+                                {activeTaxonomy ? activeTaxonomy : 'No GT'}
+                            </span>
+                        </div>
+                        <label className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 cursor-pointer transition-colors shadow-sm font-medium text-sm">
+                            <Plus size={18} />
+                            <span>Add Document</span>
+                            <input type="file" multiple className="hidden" onChange={handleFileSelect} />
+                        </label>
+                    </div>
                 </div>
 
                 {/* Drop Zone */}
@@ -660,6 +708,7 @@ export default function FileManager() {
                         <p className="text-xs text-gray-400">Support PDF, DOCX, JSON</p>
                     </div>
                 </div>
+
 
                 {/* Enterprise Table View */}
                 <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
