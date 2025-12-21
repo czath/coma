@@ -558,7 +558,14 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
             if (p.type === 'start') {
                 const isActive = selectedClauseIds.includes(p.clause.id);
                 const isUnterminated = !p.clause.end;
-                const colorClass = isUnterminated ? 'bg-amber-500 animate-pulse' : 'bg-blue-500';
+                // HEADER STYLE
+                // Unselected: Blue-100 bg, Blue-700 text (Light Blue)
+                // Selected: Blue-600 bg, White text (Dark Blue)
+                const baseClass = isActive
+                    ? 'bg-blue-600 text-white ring-2 ring-blue-400 ring-offset-1 shadow-sm'
+                    : 'bg-blue-100 text-blue-700 border-y border-l border-blue-200';
+
+                const colorClass = isUnterminated ? 'bg-amber-500 text-white animate-pulse' : baseClass;
 
                 const headerText = p.clause.header ? `: ${p.clause.header}` : '';
                 const label = isUnterminated ? `⚠ ${p.clause.type}${headerText}` : `${p.clause.type}${headerText}`;
@@ -568,7 +575,7 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
                         key={`${p.clause.id}-start`}
                         data-index={p.idx}
                         data-clause-id={p.clause.id}
-                        className={`inline-flex items-center px-1 rounded-l text-white text-xs font-bold mr-[1px] cursor-pointer select-none ${colorClass} ${isActive ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
+                        className={`inline-flex items-center px-1.5 py-0.5 rounded-l text-[10px] font-bold mr-[1px] cursor-pointer select-none transition-all ${colorClass}`}
                         onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
                         title={isUnterminated ? "Section In Progress (Unterminated)" : p.clause.header}
                     >
@@ -592,12 +599,20 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
                 }
 
             } else if (p.type === 'end') {
+                // END TAG STYLE
+                const isActive = selectedClauseIds.includes(p.clause.id);
+                // Unselected: Blue-100 bg, Blue-700 text (Small)
+                // Selected: Blue-600 bg, White text (Prominent)
+                const endClass = isActive
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-blue-100 text-blue-700 border-y border-r border-blue-200';
+
                 segments.push(
                     <span
                         key={`${p.clause.id}-end`}
                         data-index={p.idx}
                         data-clause-id={p.clause.id}
-                        className="inline-flex items-center px-1 rounded-r text-white text-xs font-bold ml-[1px] bg-red-500 cursor-pointer select-none"
+                        className={`inline-flex items-center px-1 py-0.5 rounded-r text-[9px] font-bold ml-[1px] cursor-pointer select-none transition-colors ${endClass}`}
                         onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
                     >
                         END
@@ -621,9 +636,16 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
 
             segments.push(
                 <span
-                    key={`text-${p1.idx}`}
                     data-start-index={p1.idx}
-                    className={`${coveringClause ? 'bg-blue-50 border-b-2 border-blue-200' : ''} ${isActive ? 'bg-blue-100 border-blue-500' : ''}`}
+                    // CONTENT STYLE
+                    // Unselected: bg-blue-50/50 (Subtle)
+                    // Selected: bg-blue-100 (Highlight)
+                    className={`decoration-clone px-0.5 rounded-sm transition-colors ${isActive
+                        ? 'bg-blue-100 text-gray-900'
+                        : coveringClause
+                            ? 'bg-blue-50/50 text-gray-700'
+                            : ''
+                        }`}
                     onClick={(e) => {
                         if (coveringClause) {
                             e.stopPropagation();
@@ -645,15 +667,21 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
     const eventsAtEnd = points.filter(p => p.idx === lastIdx && p.type !== 'virtual');
     eventsAtEnd.forEach(p => {
         if (p.type === 'end') {
+            const isActive = selectedClauseIds.includes(p.clause.id);
+            const endClass = isActive
+                ? 'bg-blue-600 text-white'
+                : 'bg-blue-100 text-blue-700 border-y border-r border-blue-200';
+
             segments.push(
                 <span
                     key={`${p.clause.id}-end-line`}
                     data-index={lastIdx}
                     data-clause-id={p.clause.id}
-                    className="inline-flex items-center px-1 rounded-r text-white text-xs font-bold ml-[1px] bg-red-500 cursor-pointer select-none"
+                    className={`inline-flex items-center px-1 py-0.5 rounded-r text-[9px] font-bold ml-[1px] cursor-pointer select-none transition-colors ${endClass}`}
                     onClick={(e) => { e.stopPropagation(); onSelectClause(p.clause.id, e); }}
+                    title="End of Section"
                 >
-                    END
+                    ←
                 </span>
             );
         }

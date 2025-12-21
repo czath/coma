@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annotation UI - Option C (Explicit End)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .editor-font {
+            font-family: 'Roboto Mono', monospace;
+            line-height: 2;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 p-10">
+
+    <div class="max-w-4xl mx-auto space-y-12">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-gray-900">Final Design Candidate</h1>
+            <p class="text-gray-500 mt-2">Explicit "END" Label with <strong>Light Blue (Unselected)</strong> vs
+                <strong>Dark Blue (Selected)</strong></p>
+        </header>
+
+        <section>
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Unselected (Light Blue) -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm editor-font text-sm text-gray-800">
+                    <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Unselected (Visible Light Blue)</h3>
+                    <div>This is some normal text.</div>
+                    <div class="leading-loose">
+                        <!-- Header: Light Blue Theme -->
+                        <span
+                            class="inline-flex items-center px-1.5 py-0.5 rounded text-blue-700 bg-blue-100 text-[10px] font-bold mr-1 border border-blue-200 select-none shadow-sm">
+                            CLAUSE: 1.1
+                        </span>
+                        <!-- Body: Subtle Blue -->
+                        <span
+                            class="bg-blue-50/50 decoration-clone px-1 rounded-sm text-gray-700 border border-blue-100">
+                            This section is unselected. It uses light blue colors so it is visible but recessive.
+                        </span>
+                        <!-- End: Light Blue -->
+                        <span
+                            class="inline-flex items-center px-1 py-0.5 rounded text-blue-700 bg-blue-100 text-[9px] font-bold ml-1 border border-blue-200 select-none">
+                            END
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Selected (Dark Blue) -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm editor-font text-sm text-gray-800">
+                    <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Selected (Prominent Dark Blue)</h3>
+                    <div>This is some normal text.</div>
+                    <div class="leading-loose">
+                        <!-- Header: Dark Blue/White -->
+                        <span
+                            class="inline-flex items-center px-1.5 py-0.5 rounded text-white bg-blue-600 text-[10px] font-bold mr-1 shadow-sm select-none ring-2 ring-blue-200">
+                            CLAUSE: 1.2
+                        </span>
+                        <!-- Body: Highlighted -->
+                        <span class="bg-blue-100 decoration-clone px-1 rounded-sm text-gray-900 border border-blue-200">
+                            This section is SELECTED. It uses deep blue and white distinct contrast.
+                        </span>
+                        <!-- End: Dark Blue -->
+                        <span
+                            class="inline-flex items-center px-1 py-0.5 rounded text-white bg-blue-600 text-[9px] font-bold ml-1 border border-blue-600 select-none">
+                            END
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>

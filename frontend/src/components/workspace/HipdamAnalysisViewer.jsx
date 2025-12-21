@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle, XCircle, Search, FileText, Activity, Users, Layers, Scale, AlertTriangle, ChevronDown, ChevronRight, Eye, Sparkles, Book, FileJson, X, RefreshCw, Gavel, BookOpen, Wand2, Tag, List, Filter, Bookmark, Quote, Flashlight, Workflow, HelpCircle, Home, Store } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Search, FileText, Activity, Users, Layers, Scale, AlertTriangle, ChevronDown, ChevronRight, Eye, Sparkles, Book, FileJson, X, RefreshCw, Gavel, BookOpen, Wand2, Tag, List, Filter, Bookmark, Quote, Flashlight, Workflow, HelpCircle, Home, Store, Bot } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 // --- HELPER COMPONENTS (LEGACY STYLE) ---
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 // Style Mappings for Record Types
 const getTypeStyle = (t) => {
     const upperType = (t || "").toUpperCase();
-    if (upperType === "DEFINITION") return "bg-blue-100 text-blue-800 border-blue-200";
+    if (upperType === "DEFINITION") return "bg-emerald-100 text-emerald-800 border-emerald-200";
     if (upperType === "GUIDELINE") return "bg-indigo-100 text-indigo-800 border-indigo-200";
     if (upperType === "OTHER") return "bg-yellow-100 text-yellow-800 border-yellow-200";
     return "bg-slate-100 text-slate-800 border-slate-200";
@@ -15,12 +15,12 @@ const getTypeStyle = (t) => {
 
 const getAgentTheme = (agentName) => {
     const themes = [
-        { text: 'text-emerald-700', icon: 'text-emerald-500', dot: 'bg-emerald-500', border: 'border-emerald-100', accent: 'bg-emerald-50' },
-        { text: 'text-blue-700', icon: 'text-blue-500', dot: 'bg-blue-500', border: 'border-blue-100', accent: 'bg-blue-50' },
-        { text: 'text-purple-700', icon: 'text-purple-500', dot: 'bg-purple-500', border: 'border-purple-100', accent: 'bg-purple-50' },
-        { text: 'text-amber-700', icon: 'text-amber-500', dot: 'bg-amber-500', border: 'border-amber-100', accent: 'bg-amber-50' },
-        { text: 'text-rose-700', icon: 'text-rose-500', dot: 'bg-rose-500', border: 'border-rose-100', accent: 'bg-rose-50' },
-        { text: 'text-indigo-700', icon: 'text-indigo-500', dot: 'bg-indigo-500', border: 'border-indigo-100', accent: 'bg-indigo-50' },
+        { text: 'text-emerald-700', icon: 'text-emerald-500', dot: 'bg-emerald-500', border: 'border-emerald-100', accent: 'bg-emerald-50', stripe: 'border-l-emerald-500', tagBg: 'bg-emerald-50' },
+        { text: 'text-blue-700', icon: 'text-blue-500', dot: 'bg-blue-500', border: 'border-blue-100', accent: 'bg-blue-50', stripe: 'border-l-blue-500', tagBg: 'bg-blue-50' },
+        { text: 'text-purple-700', icon: 'text-purple-500', dot: 'bg-purple-500', border: 'border-purple-100', accent: 'bg-purple-50', stripe: 'border-l-purple-500', tagBg: 'bg-purple-50' },
+        { text: 'text-amber-700', icon: 'text-amber-500', dot: 'bg-amber-500', border: 'border-amber-100', accent: 'bg-amber-50', stripe: 'border-l-amber-500', tagBg: 'bg-amber-50' },
+        { text: 'text-rose-700', icon: 'text-rose-500', dot: 'bg-rose-500', border: 'border-rose-100', accent: 'bg-rose-50', stripe: 'border-l-rose-500', tagBg: 'bg-rose-50' },
+        { text: 'text-indigo-700', icon: 'text-indigo-500', dot: 'bg-indigo-500', border: 'border-indigo-100', accent: 'bg-indigo-50', stripe: 'border-l-indigo-500', tagBg: 'bg-indigo-50' },
     ];
     let hash = 0;
     const name = agentName || "Unknown";
@@ -142,6 +142,14 @@ const getClassificationStyle = (c) => {
     if (classStr.includes('MEDIUM')) return 'bg-amber-50 text-amber-700 border-amber-200 ring-amber-300 font-semibold';
     if (classStr.includes('LOW')) return 'bg-emerald-50 text-emerald-700 border-emerald-200 ring-emerald-300 font-medium';
     return 'bg-gray-100 text-gray-700 border-gray-200 font-medium';
+};
+
+const getTypeSolidStyle = (t) => {
+    const typeStr = (t || "").toUpperCase();
+    if (typeStr.includes('GUIDELINE')) return 'bg-indigo-600 text-white shadow-indigo-200';
+    if (typeStr.includes('DEFINITION')) return 'bg-emerald-600 text-white shadow-emerald-200';
+    if (typeStr.includes('OTHER')) return 'bg-amber-500 text-white shadow-amber-200';
+    return 'bg-slate-600 text-white shadow-slate-200';
 };
 
 function ContextModal({ data, onClose }) {
@@ -268,35 +276,36 @@ function DecisionCard({ decision, onViewTrace, onViewContext, hasTrace }) {
     );
 
     return (
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow flex flex-col gap-4 relative">
-            <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2 flex-wrap mb-2">
-                    {/* 1. Type (Always) */}
-                    <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 ${getTypeStyle(type)}`}>
-                        {getTypeIcon(type)}
-                        {type}
-                    </span>
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow flex flex-col gap-4 relative overflow-hidden">
 
-                    {/* 2. Subtype (If available) */}
+            {/* TYPE BOOKMARK (Top Left) - Icon Only */}
+            <div className={`absolute top-0 left-6 px-3 py-2 rounded-b-lg shadow-sm flex flex-col items-center z-10 ${getTypeSolidStyle(type)}`}>
+                {getTypeIcon(type, 18)}
+            </div>
+
+            {/* Header Row: Right Aligned Controls (Spacer on left for Bookmark) */}
+            <div className="flex items-start justify-end pl-20 min-h-[24px]">
+                <div className="flex items-center gap-2 flex-wrap justify-end">
+
+                    {/* Subtype & Classification (Moved to Right) */}
                     {content.subtype && (
                         <span className="px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1 bg-slate-50 text-slate-600 border-slate-200">
                             {content.subtype.toUpperCase()}
                         </span>
                     )}
 
-                    {/* 3. Classification (If available) */}
                     {content.classification && (
                         <span className={`px-2 py-0.5 rounded text-xs border flex items-center gap-1 ${getClassificationStyle(content.classification)}`}>
                             {isCritical && <AlertTriangle size={12} />}
                             {content.classification.toUpperCase()}
                         </span>
                     )}
-                </div>
 
-                {/* Section Name (Moved to Top Right) */}
-                <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium bg-gray-50/50 px-3 py-1.5 rounded-lg border border-gray-100 max-w-[200px]">
-                    <Bookmark size={12} className="text-indigo-400 shrink-0" />
-                    <span className="uppercase tracking-tight truncate">{decision._sectionName || decision.source_reference || "Unknown Section"}</span>
+                    {/* Section Name */}
+                    <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium bg-gray-50/50 px-3 py-1.5 rounded-lg border border-gray-100 max-w-[200px]">
+                        <Bookmark size={12} className="text-indigo-400 shrink-0" />
+                        <span className="uppercase tracking-tight truncate">{decision._sectionName || decision.source_reference || "Unknown Section"}</span>
+                    </div>
                 </div>
             </div>
 
@@ -429,54 +438,57 @@ function TraceVisualization({ trace, filterClusterId }) {
                                 No agent findings linked to this decision.
                             </div>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-6">
                                 {displayedRecs.map(rec => {
                                     const agentTheme = getAgentTheme(rec.source_agent);
+                                    // Option B: Identity Stripe
                                     return (
-                                        <div key={rec.id} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative transition-all hover:border-gray-300">
-                                            <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-50">
-                                                <div className="flex items-center gap-2">
-                                                    <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${agentTheme.accent} ${agentTheme.text} ${agentTheme.border}`}>
-                                                        <Users size={12} className={agentTheme.icon} />
+                                        <div key={rec.id} className={`bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative transition-all hover:border-gray-300 border-l-4 ${agentTheme.stripe}`}>
+
+                                            {/* Header Row: Agent Identity + Metadata */}
+                                            <div className="flex justify-between items-start mb-4">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className={`text-xs font-bold flex items-center gap-2 ${agentTheme.text}`}>
+                                                        <Bot size={16} className={agentTheme.icon} />
                                                         {rec.config_snapshot?.name || rec.source_agent}
                                                     </span>
+
+                                                    {/* Technical Metadata (Subtle) */}
+                                                    {rec.config_snapshot && (
+                                                        <div className="flex items-center gap-2 pl-6">
+                                                            <span className="text-[10px] text-gray-400 font-mono bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 flex items-center gap-1">
+                                                                <Flashlight size={8} className="text-gray-300" />
+                                                                {rec.config_snapshot.model}
+                                                            </span>
+                                                            {rec.config_snapshot.temperature !== undefined && (
+                                                                <span className="text-[10px] text-gray-400 font-mono">
+                                                                    T: {rec.config_snapshot.temperature}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    )}
                                                 </div>
-                                                <div className="flex items-center gap-2">
+
+                                                <div className="flex flex-col items-end gap-1">
+                                                    <span className="text-[10px] font-black text-gray-300 font-mono tracking-wide">
+                                                        CONF: {Math.round(rec.confidence * 100)}%
+                                                    </span>
                                                     {rec.content.type && (
-                                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${getTypeStyle(rec.content.type)} flex items-center gap-1 uppercase`}>
-                                                            {getTypeIcon(rec.content.type, 10)}
+                                                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${getTypeStyle(rec.content.type)} uppercase`}>
                                                             {rec.content.type}
                                                         </span>
                                                     )}
-                                                    <span className="text-[10px] font-black bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 uppercase">
-                                                        {Math.round(rec.confidence * 100)}% Confidence
-                                                    </span>
                                                 </div>
                                             </div>
 
-                                            {/* LLM Settings (Subtle Metadata) */}
-                                            {rec.config_snapshot && (
-                                                <div className="flex flex-wrap gap-2 mb-3 mt-[-4px]">
-                                                    <span className="text-[9px] text-gray-400 font-mono bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 flex items-center gap-1">
-                                                        <Flashlight size={8} className="text-gray-300" />
-                                                        {rec.config_snapshot.model || "unknown-model"}
-                                                    </span>
-                                                    {(rec.config_snapshot.temperature !== undefined) && (
-                                                        <span className="text-[9px] text-gray-400 font-mono bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 uppercase">
-                                                            Temp: {rec.config_snapshot.temperature}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            )}
-
-                                            <div className="space-y-3">
-                                                {/* Primary Recommendation - Prominent, Bold, No Quotes */}
-                                                <div className="text-gray-900 leading-relaxed bg-gray-50/50 p-4 rounded-xl border border-gray-100 text-sm font-bold font-sans">
+                                            <div className="space-y-3 pl-1">
+                                                {/* Primary Recommendation - Clean text */}
+                                                <div className="text-gray-900 leading-relaxed text-sm font-medium">
                                                     {rec.content.verbatim_text || rec.content.text || rec.content.plain_text}
                                                 </div>
 
-                                                {/* Structured Details (Full Width Stack) */}
-                                                <div className="flex flex-col gap-2">
+                                                {/* Structured Details */}
+                                                <div className="flex flex-col gap-2 pt-2">
                                                     {Object.entries(rec.content)
                                                         .filter(([key]) => !["text", "verbatim_text", "plain_text", "type", "id", "source_agent", "confidence"].includes(key.toLowerCase()))
                                                         .map(([key, value]) => (
@@ -504,20 +516,27 @@ function TraceVisualization({ trace, filterClusterId }) {
                     </div>
 
                     {/* 2. JUDGE SECTION */}
+
+                    {/* 2. JUDGE SECTION - Option C: Corner Bookmark */}
                     {targetDecision && (
-                        <section className="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-xl p-6 shadow-sm relative overflow-hidden">
+                        <section className="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-xl p-8 pt-10 shadow-sm relative overflow-hidden mt-8">
 
-                            <h4 className="flex items-center gap-2 text-xs font-bold text-indigo-400 uppercase tracking-widest mb-4 relative z-10">
-                                <Scale size={14} />
-                                Evaluator's opinion
-                            </h4>
-
-                            <div className="relative z-10">
-                                <p className="text-indigo-900 font-serif text-base leading-relaxed italic">
-                                    "{targetDecision.rationale}"
-                                </p>
+                            {/* Option C: Corner Bookmark for Judge */}
+                            <div className="absolute top-0 right-6 bg-indigo-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-b-lg shadow-sm flex flex-col items-center z-20">
+                                <Scale size={14} className="mb-0.5" />
+                                <span className="tracking-tighter">JUDGE</span>
                             </div>
 
+                            <p className="text-indigo-900 font-serif text-lg leading-relaxed italic relative z-10">
+                                "{targetDecision.rationale}"
+                            </p>
+
+                            <div className="mt-4 flex justify-end">
+                                <div className="text-[10px] text-indigo-300 font-mono flex items-center gap-1">
+                                    <Gavel size={12} />
+                                    Final Rationale
+                                </div>
+                            </div>
                         </section>
                     )}
                 </div>
@@ -1060,11 +1079,10 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                                 </select>
 
                                 <div className="ml-auto">
-                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-100 shadow-sm">
-                                        <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                                        <span className="text-[11px] font-bold uppercase tracking-wider">
-                                            Showing {filteredDecisions.length} of {allDecisions.length} Records
-                                        </span>
+                                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                                        <span className="font-bold text-gray-900">{filteredDecisions.length}</span> results found
+                                        <span className="text-gray-300">|</span>
+                                        <span className="text-gray-400">{allDecisions.length} total</span>
                                     </div>
                                 </div>
                             </div>
