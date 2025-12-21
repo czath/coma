@@ -178,7 +178,7 @@ class DocumentProcessor:
                         logger.warning(f"Section {section_title} empty, skipping agents.")
                         continue
                         
-                    trace = await self.orchestrator.analyze_section(text_content, section_id, taxonomy=taxonomy)
+                    trace = await self.orchestrator.analyze_section(text_content, section_id, taxonomy=taxonomy, job_id=job_id)
                     
                     # Save Partial
                     with open(partial_file, "w", encoding="utf-8") as f:

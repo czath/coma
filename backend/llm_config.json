@@ -87,6 +87,24 @@
         "top_p": 0.95,
         "top_k": 40
     },
+    "PRICING": {
+        "gemini-2.0-flash": {
+            "input": 0.10,
+            "output": 0.40
+        },
+        "gemini-2.5-flash": {
+            "input": 0.10,
+            "output": 0.40
+        },
+        "gemini-1.5-pro": {
+            "input": 1.25,
+            "output": 5.00
+        },
+        "text-embedding-004": {
+            "input": 0.00,
+            "output": 0.00
+        }
+    },
     "DEFAULT": {
         "model_name": "gemini-2.0-flash",
         "temperature": 0.0,

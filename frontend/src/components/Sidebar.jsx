@@ -1,20 +1,21 @@
 import React from 'react';
+import BillingCard from './BillingCard';
 
-export default function Sidebar({ activeClause, onUpdateClause, onDeleteClause, onExport, documentType, stats }) {
+export default function Sidebar({ activeClause, onUpdateClause, onDeleteClause, onExport, documentType, stats, billingJobId, fileStatus }) {
     return (
-        <div className="w-80 flex flex-col shrink-0 gap-4 h-full">
+        <div className="w-80 flex flex-col shrink-0 gap-6 h-full overflow-y-auto p-1 pb-20">
             {/* Action Panel - Takes available space */}
-            <div className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex-grow min-h-0">
+            <div className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden shrink-0">
                 <div className="bg-gray-50 border-b border-gray-200 px-4 py-3">
                     <h2 className="text-sm font-bold text-gray-700 uppercase">Action Panel</h2>
                 </div>
 
                 {!activeClause ? (
-                    <div className="p-4 flex-grow flex items-center justify-center opacity-60">
+                    <div className="p-4 flex items-center justify-center opacity-60">
                         <p className="text-gray-500 text-sm font-medium">Select a section to edit.</p>
                     </div>
                 ) : (
-                    <div className="p-4 flex-grow overflow-y-auto space-y-5">
+                    <div className="p-4 space-y-5">
                         {!activeClause.end && (
                             <div className="bg-amber-50 border border-amber-200 rounded p-2 mb-4 text-xs text-amber-800 font-bold">
                                 ⚠ SECTION STARTED<br />
@@ -122,6 +123,11 @@ export default function Sidebar({ activeClause, onUpdateClause, onDeleteClause, 
                 </div>
             )}
 
+            {/* Billing Card - Shows only if job ID present (Moved to Bottom) */}
+            {/* Billing Card - Shows only if job ID present (Moved to Bottom) */}
+            <div className="shrink-0">
+                <BillingCard jobId={billingJobId} status={fileStatus} />
+            </div>
 
         </div>
     );

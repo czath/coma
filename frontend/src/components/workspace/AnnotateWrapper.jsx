@@ -26,6 +26,9 @@ export default function AnnotateWrapper() {
     const [taxonomyProgress, setTaxonomyProgress] = useState({ percent: 0, message: '' });
     const [taxJobId, setTaxJobId] = useState(null);
 
+    // Billing State
+    const [billingJobId, setBillingJobId] = useState(null);
+
     useEffect(() => {
         const load = async () => {
             try {
@@ -37,6 +40,12 @@ export default function AnnotateWrapper() {
                 }
                 setFile(f);
                 setContent(f.content || []);
+
+                // Load Job ID for Billing (Prefer Annotation-specific, then generic)
+                const storedJobId = localStorage.getItem(`job_annotate_${f.header.id}`) || localStorage.getItem(`job_${f.header.id}`);
+                if (storedJobId) {
+                    setBillingJobId(storedJobId);
+                }
 
                 if (f.clauses) {
                     setClauses(f.clauses);
@@ -232,6 +241,7 @@ export default function AnnotateWrapper() {
                         documentTags,
                         lastModified: new Date().toISOString()
                     },
+                    content: stitchedContent, // CRITICAL FIX: Save the new structure
                     clauses: finalClauses,
                     progress: 100, // Reset progress for annotation phase
 
@@ -244,7 +254,7 @@ export default function AnnotateWrapper() {
                 });
 
                 // Clear persisted job state in frontend
-                localStorage.removeItem(`job_${file.header.id}`);
+                // localStorage.removeItem(`job_${file.header.id}`); // FIX: Keep for billing history
 
                 navigate('/workspace');
             } catch (e) {
@@ -727,7 +737,7 @@ export default function AnnotateWrapper() {
             </div>
 
             {/* Editor Area */}
-            <div className="flex-grow flex overflow-hidden p-6 gap-6">
+            <div className="flex-grow flex overflow-hidden p-6 gap-6 min-h-0">
                 <Sidebar
                     activeClause={selectedClauseIds.length === 1 ? clauses.find(c => c.id === selectedClauseIds[0]) : null}
                     onUpdateClause={handleUpdateClause}
@@ -735,6 +745,8 @@ export default function AnnotateWrapper() {
                     onExport={handleExport}
                     documentType={documentType}
                     stats={stats}
+                    billingJobId={billingJobId}
+                    fileStatus={file ? file.header.status : null}
                 />
                 <Editor
                     content={content}

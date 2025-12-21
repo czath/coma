@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 
 from data_models import ClassificationItem, ClassificationResponse, TagType
 from config_llm import get_config
+from billing_manager import get_billing_manager
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -36,7 +37,7 @@ class LLMAutoTagger:
         with open(prompt_path, "r", encoding="utf-8") as f:
             self.base_prompt = f.read()
 
-    def tag(self, content: List[Dict[str, Any]], document_type: str, progress_callback=None) -> Tuple[List[Dict[str, Any]], str]:
+    def tag(self, content: List[Dict[str, Any]], document_type: str, progress_callback=None, job_id: str=None) -> Tuple[List[Dict[str, Any]], str]:
         """
         Main entry point.
         """
@@ -70,7 +71,7 @@ class LLMAutoTagger:
                 llm_input.append(item)
             
             # Get classifications with retry
-            response_items = self._classify_chunk_with_retry(llm_input, document_type)
+            response_items = self._classify_chunk_with_retry(llm_input, document_type, job_id=job_id)
             
             # Merge results
             for item in response_items:
@@ -126,7 +127,7 @@ class LLMAutoTagger:
             
         return tagged_content, document_type
 
-    def _classify_chunk_with_retry(self, llm_input: List[Dict], document_type: str, max_retries=5) -> List[ClassificationItem]:
+    def _classify_chunk_with_retry(self, llm_input: List[Dict], document_type: str, max_retries=5, job_id: str=None) -> List[ClassificationItem]:
         """
         Calls LLM to classify a chunk of blocks. Retries if validation fails.
         """
@@ -152,6 +153,10 @@ class LLMAutoTagger:
                         response_schema=ClassificationResponse
                     )
                 )
+
+                if response.usage_metadata and job_id:
+                     bm = get_billing_manager()
+                     bm.track_usage_sync(job_id, self.model_name, response.usage_metadata)
 
                 if response.parsed and response.parsed.items:
                     return response.parsed.items

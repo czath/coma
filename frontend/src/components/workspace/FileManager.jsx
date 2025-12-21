@@ -33,8 +33,15 @@ export default function FileManager() {
         files.forEach(file => {
             const status = file.header.status;
 
-            // Check for resumable job in LocalStorage
-            const storedJobId = localStorage.getItem(`job_${file.header.id}`);
+            // Check for resumable job in LocalStorage (Check specific keys first)
+            let storedJobId = null;
+            if (status === 'analyzing') {
+                storedJobId = localStorage.getItem(`job_analyze_${file.header.id}`) || localStorage.getItem(`job_${file.header.id}`);
+            } else if (status === 'ingesting') {
+                storedJobId = localStorage.getItem(`job_annotate_${file.header.id}`) || localStorage.getItem(`job_${file.header.id}`);
+            } else {
+                storedJobId = localStorage.getItem(`job_${file.header.id}`);
+            }
 
             if (['ingesting', 'analyzing'].includes(status)) {
                 if (storedJobId) {
@@ -53,23 +60,27 @@ export default function FileManager() {
         });
     }, [files, loading, updateFile]);
 
-    // Check for Active Taxonomy on mount
-    useEffect(() => {
-        const checkTaxonomy = async () => {
-            try {
-                const res = await fetch('http://localhost:8000/taxonomy/check');
-                const data = await res.json();
-                if (data.exists) {
-                    setActiveTaxonomy(data.filename);
-                } else {
-                    setActiveTaxonomy(null);
-                }
-            } catch (err) {
-                console.error("Failed to check taxonomy", err);
+    // Check for Active Taxonomy
+    const checkTaxonomy = useCallback(async () => {
+        try {
+            console.log("Checking for active taxonomy...");
+            const res = await fetch('http://localhost:8000/taxonomy/check');
+            const data = await res.json();
+            console.log("Taxonomy check result:", data);
+            if (data.exists) {
+                setActiveTaxonomy(data.filename);
+            } else {
+                setActiveTaxonomy(null);
             }
-        };
-        checkTaxonomy();
+        } catch (err) {
+            console.error("Failed to check taxonomy", err);
+            setActiveTaxonomy(null);
+        }
     }, []);
+
+    useEffect(() => {
+        checkTaxonomy();
+    }, [checkTaxonomy]);
 
     // Reusable Polling Function
     const startPolling = (file, jobId, type = 'analyzing') => {
@@ -82,7 +93,7 @@ export default function FileManager() {
                 if (statusRes.status === 404) {
                     clearInterval(pollInterval);
                     delete intervalsRef.current[file.header.id];
-                    localStorage.removeItem(`job_${file.header.id}`); // Clear invalid job
+                    // localStorage.removeItem(`job_${file.header.id}`); // Keep for billing even if status lost
 
                     console.warn("Job not found (404).");
 
@@ -116,7 +127,7 @@ export default function FileManager() {
                 } else if (statusData.status === 'completed') {
                     clearInterval(pollInterval);
                     delete intervalsRef.current[file.header.id];
-                    localStorage.removeItem(`job_${file.header.id}`); // Success!
+                    // localStorage.removeItem(`job_${file.header.id}`); // Success! Keep for billing.
 
                     setUploadProgress(prev => {
                         const newState = { ...prev };
@@ -443,9 +454,10 @@ export default function FileManager() {
             if (!response.ok) throw new Error('Upload failed');
 
             const { job_id } = await response.json();
-
-            // Persist Job ID
-            localStorage.setItem(`job_${dbFile.header.id}`, job_id);
+            // Persist Job ID (Use specific key for Annotation)
+            localStorage.setItem(`job_annotate_${dbFile.header.id}`, job_id);
+            // Also keep legacy/generic key for fallback compatibility if needed, but moving forward use specific
+            // localStorage.setItem(`job_${dbFile.header.id}`, job_id);
 
             // 2. Poll for Status (Using new helper)
             startPolling(dbFile, job_id, 'ingesting');
@@ -504,7 +516,10 @@ export default function FileManager() {
                     if (!response.ok) throw new Error('Analysis request failed');
                     const { job_id } = await response.json();
 
-                    localStorage.setItem(`job_${file.header.id}`, job_id);
+                    // Persist JOB ID (Specific for Analysis phase)
+                    localStorage.setItem(`job_analyze_${file.header.id}`, job_id);
+                    // Legacy key compatibility (Optional, but let's avoid overwriting if we can)
+                    // localStorage.setItem(`job_${file.header.id}`, job_id);
                     startPolling(file, job_id, 'analyzing');
 
                 } catch (e) {
@@ -680,12 +695,16 @@ export default function FileManager() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-white shadow-sm opacity-80 hover:opacity-100 transition-opacity" title={activeTaxonomy || 'No Active Taxonomy'}>
+                        <button
+                            onClick={checkTaxonomy}
+                            className="flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-white shadow-sm opacity-80 hover:opacity-100 transition-opacity cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
+                            title={activeTaxonomy ? `Active: ${activeTaxonomy} (Click to refresh)` : 'No Active Taxonomy (Click to refresh)'}
+                        >
                             <div className={`w-1.5 h-1.5 rounded-full ${activeTaxonomy ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                             <span className="text-xs font-medium text-gray-500">
                                 {activeTaxonomy ? activeTaxonomy : 'No GT'}
                             </span>
-                        </div>
+                        </button>
                         <label className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 cursor-pointer transition-colors shadow-sm font-medium text-sm">
                             <Plus size={18} />
                             <span>Add Document</span>
@@ -732,11 +751,15 @@ export default function FileManager() {
                             ) : (
                                 files.map((file) => (
                                     <tr key={file.header.id} className="hover:bg-gray-50 transition-colors group">
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-6 py-4">
                                             <div className="flex items-center">
-                                                <div className="ml-4 min-w-0 max-w-[300px]">
-                                                    <div className="text-sm font-medium text-gray-900 truncate" title={file.header.filename}>{file.header.filename}</div>
-                                                    <div className="text-xs text-gray-500">ID: {file.header.id.slice(0, 8)}...</div>
+                                                <div className="ml-4 min-w-0 max-w-[400px]">
+                                                    <div className="text-sm font-medium text-gray-900 whitespace-normal break-words leading-tight" title={file.header.filename}>
+                                                        {file.header.filename}
+                                                    </div>
+                                                    <div className="text-[10px] text-gray-400 font-mono mt-1 break-all select-all">
+                                                        {file.header.id}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -799,35 +822,37 @@ export default function FileManager() {
                                                 )}
 
                                                 {/* Processing / Active Job Controls */}
-                                                {(file.header.status === 'analyzing' || file.header.status === 'paused') && (
+                                                {(file.header.status === 'analyzing' || file.header.status === 'paused' || file.header.status === 'ingesting') && (
                                                     <>
-                                                        {file.header.status === 'paused' ? (
-                                                            <button
-                                                                onClick={() => {
-                                                                    // Optimistic Resume
-                                                                    const prevStatus = file.header.status_before_pause || 'analyzing';
-                                                                    updateFile(file.header.id, {
-                                                                        header: { ...file.header, status: prevStatus }
-                                                                    });
-                                                                }}
-                                                                className="text-emerald-600 hover:text-emerald-900 p-1"
-                                                                title="Resume"
-                                                            >
-                                                                <Play size={18} />
-                                                            </button>
-                                                        ) : (
-                                                            <button
-                                                                onClick={() => {
-                                                                    // Optimistic Pause
-                                                                    updateFile(file.header.id, {
-                                                                        header: { ...file.header, status: 'paused', status_before_pause: file.header.status }
-                                                                    });
-                                                                }}
-                                                                className="text-amber-600 hover:text-amber-900 p-1"
-                                                                title="Pause"
-                                                            >
-                                                                <PauseCircle size={18} />
-                                                            </button>
+                                                        {file.header.status !== 'ingesting' && (
+                                                            file.header.status === 'paused' ? (
+                                                                <button
+                                                                    onClick={() => {
+                                                                        // Optimistic Resume
+                                                                        const prevStatus = file.header.status_before_pause || 'analyzing';
+                                                                        updateFile(file.header.id, {
+                                                                            header: { ...file.header, status: prevStatus }
+                                                                        });
+                                                                    }}
+                                                                    className="text-emerald-600 hover:text-emerald-900 p-1"
+                                                                    title="Resume"
+                                                                >
+                                                                    <Play size={18} />
+                                                                </button>
+                                                            ) : (
+                                                                <button
+                                                                    onClick={() => {
+                                                                        // Optimistic Pause
+                                                                        updateFile(file.header.id, {
+                                                                            header: { ...file.header, status: 'paused', status_before_pause: file.header.status }
+                                                                        });
+                                                                    }}
+                                                                    className="text-amber-600 hover:text-amber-900 p-1"
+                                                                    title="Pause"
+                                                                >
+                                                                    <PauseCircle size={18} />
+                                                                </button>
+                                                            )
                                                         )}
 
                                                         <button

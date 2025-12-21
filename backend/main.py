@@ -74,6 +74,11 @@ def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: 
         jobs[job_id]["progress"] = 0
         jobs[job_id]["message"] = "Extracting text..."
         
+        # Initialize Billing
+        from billing_manager import get_billing_manager
+        bm = get_billing_manager()
+        bm.initialize_job_sync(job_id)
+
         ext = filename.split(".")[-1].lower()
         
         if ext == "pdf":
@@ -101,7 +106,7 @@ def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: 
         if use_ai_tagger:
             try:
                 tagger = LLMAutoTagger()
-                tagged_content, _ = tagger.tag(content, document_type, progress_callback=update_progress)
+                tagged_content, _ = tagger.tag(content, document_type, progress_callback=update_progress, job_id=job_id)
             except Exception as e:
                 print(f"LLM Tagging failed: {e}. Falling back to Rule-Based.")
                 jobs[job_id]["message"] = "AI Tagging failed, falling back to Rule-Based..."
@@ -170,7 +175,7 @@ async def get_status(job_id: str):
     return jobs[job_id]
 
 # Taxonomy Management ---------------------------------------------
-TAXONOMY_DIR = "data"
+TAXONOMY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 ARCHIVE_DIR = os.path.join(TAXONOMY_DIR, "archive")
 
 def get_latest_taxonomy_file():
@@ -553,6 +558,11 @@ async def run_linguistic_analysis(job_id: str, full_doc: Dict[str, Any]):
         jobs[job_id]["progress"] = 0
         jobs[job_id]["message"] = "Initializing linguistic annotation..."
         
+        # Initialize billing
+        from billing_manager import get_billing_manager
+        bm = get_billing_manager()
+        await bm.initialize_job(job_id)
+
         annotator = SemanticAnnotator()
         annotated_aggregated_blocks = []
         
@@ -633,7 +643,8 @@ async def run_linguistic_analysis(job_id: str, full_doc: Dict[str, Any]):
             if not chunk["text"].strip(): 
                 continue
 
-            annotated_text = await annotator.annotate_section(chunk["text"], chunk["title"])
+            # BILLING INTEGRATION
+            annotated_text = await annotator.annotate_section(chunk["text"], chunk["title"], job_id=job_id)
             
             # Count tags for stats
             import re
@@ -718,6 +729,11 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
         jobs[job_id]["progress"] = 0
         jobs[job_id]["message"] = "Initializing HiPDAM orchestration..."
         
+        # Initialize billing
+        from billing_manager import get_billing_manager
+        bm = get_billing_manager()
+        await bm.initialize_job(job_id)
+
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
              raise Exception("GEMINI_API_KEY not configured")
@@ -762,12 +778,15 @@ async def analyze_hipdam_document(
     Triggers HiPDAM Analysis.
     Supports Resumption: If 'file_id' is provided, we try to reuse/resume that job namespace.
     """
-    # Deterministic Job ID if file_id present
+    # Deterministic Job ID if file_id present? 
+    # NO: We want separate billing/tracking for every "Run".
+    # We append a random suffix to ensure uniqueness while keeping lineage.
+    import uuid
+    import time
     if payload.file_id:
-        # Use a consistent ID for this file so temp folders are reused
-        job_id = f"job_{payload.file_id}"
+        # Use file_id + timestamp + random for traceability + uniqueness
+        job_id = f"job_{payload.file_id}_run_{int(time.time())}"
     else:
-        import uuid
         job_id = str(uuid.uuid4())
     
     # Initialize Job State
@@ -791,6 +810,15 @@ async def get_output_file(filename: str):
     
     from fastapi.responses import FileResponse
     return FileResponse(file_path)
+
+@app.get("/billing/{job_id}")
+async def get_billing_report(job_id: str):
+    from billing_manager import get_billing_manager
+    bm = get_billing_manager()
+    report = bm.get_bill(job_id)
+    if not report:
+        raise HTTPException(status_code=404, detail="Billing report not found")
+    return report
 
 @app.delete("/cancel_job/{job_id}")
 async def cancel_job(job_id: str):

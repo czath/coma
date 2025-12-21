@@ -9,7 +9,7 @@ class AgentRunner:
     def __init__(self, client: genai.Client):
         self.client = client
 
-    async def run_agent(self, agent_id: str, agent_config: Dict[str, Any], section_text: str, taxonomy: Optional[List[Dict[str, Any]]] = None) -> List[ExpertRecommendation]:
+    async def run_agent(self, agent_id: str, agent_config: Dict[str, Any], section_text: str, taxonomy: Optional[List[Dict[str, Any]]] = None, job_id: str = None) -> List[ExpertRecommendation]:
         """
         Runs a single expert agent against the text.
         """
@@ -63,6 +63,17 @@ Return ONLY a valid JSON List. Do not use markdown code blocks.
                     ),
                     timeout=300 # 5 Minute hard timeout per agent
                 )
+
+                # --- BILLING INTEGRATION ---
+                if job_id and response.usage_metadata:
+                    from billing_manager import get_billing_manager
+                    bm = get_billing_manager()
+                    await bm.track_usage(job_id, model_name, response.usage_metadata)
+                # ---------------------------
+
+            except asyncio.TimeoutError:
+                print(f"      [AgentRunner] {agent_id}: TIMED OUT after 300s.")
+                return []
             except asyncio.TimeoutError:
                 print(f"      [AgentRunner] {agent_id}: TIMED OUT after 300s.")
                 return []

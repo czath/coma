@@ -4,6 +4,7 @@ import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, Fil
 import { dbAPI } from '../../utils/db'; // Adjust path if needed
 import LinguisticView from './LinguisticView';
 import HipdamAnalysisViewer from './HipdamAnalysisViewer';
+import BillingCard from '../BillingCard';
 
 export default function AnalyzeWrapper() {
     const navigate = useNavigate();
@@ -451,6 +452,14 @@ export default function AnalyzeWrapper() {
                                 );
                             })
                         )}
+                    </div>
+                    {/* Billing Card (Bottom pinned) */}
+                    <div className="p-4 border-t border-gray-200 bg-gray-50">
+                        {(() => {
+                            const jId = localStorage.getItem(`job_analyze_${file.header.id}`) || localStorage.getItem(`job_${file.header.id}`);
+                            console.log("AnalyzeWrapper Billing Job ID:", jId, "for File:", file.header.id);
+                            return <BillingCard jobId={jId} status="analyzed" />;
+                        })()}
                     </div>
                 </div>
 

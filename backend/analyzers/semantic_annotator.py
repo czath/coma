@@ -36,7 +36,7 @@ class SemanticAnnotator:
         # Throttling
         self.sem = asyncio.Semaphore(5)
 
-    async def annotate_section(self, section_text: str, section_title: str) -> str:
+    async def annotate_section(self, section_text: str, section_title: str, job_id: str = None) -> str:
         """
         Sends the text to LLM to be rewritten with semantic tags (<DEF>, <RULE>, etc).
         """
@@ -58,6 +58,13 @@ class SemanticAnnotator:
                     contents=prompt,
                     config=generation_config
                 )
+                
+                # --- BILLING INTEGRATION ---
+                if job_id and response.usage_metadata:
+                    from billing_manager import get_billing_manager
+                    bm = get_billing_manager()
+                    await bm.track_usage(job_id, self.model_name, response.usage_metadata)
+                # ---------------------------
                 
                 if response.text:
                     return response.text

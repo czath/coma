@@ -25,7 +25,7 @@ class HiPDAMOrchestrator:
         self.clusterer = Clusterer(self.client, self.config.get("CLUSTERING", {}))
         self.judge = SupremeJudge(self.client, self.config.get("JUDGE", {}))
 
-    async def analyze_section(self, section_text: str, section_id: str = "unknown", taxonomy: Optional[List[Dict[str, Any]]] = None) -> TraceMap:
+    async def analyze_section(self, section_text: str, section_id: str = "unknown", taxonomy: Optional[List[Dict[str, Any]]] = None, job_id: str = None) -> TraceMap:
         """
         Executes the full HiPDAM pipeline: 
         Agents -> Clustering -> Judge -> TraceMap
@@ -41,7 +41,7 @@ class HiPDAMOrchestrator:
         print(f"--- HiPDAM: Launching {len(agent_configs)} Agents Parallel ---")
         for agent_key, agent_cfg in agent_configs.items():
             agent_tasks.append(
-                self.agent_runner.run_agent(agent_key, agent_cfg, section_text, taxonomy=taxonomy)
+                self.agent_runner.run_agent(agent_key, agent_cfg, section_text, taxonomy=taxonomy, job_id=job_id)
             )
             
         # Flatten results

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle, XCircle, Search, FileText, Activity, Users, Layers, Scale, AlertTriangle, ChevronDown, ChevronRight, Eye, Sparkles, Book, FileJson, X, RefreshCw, Gavel, BookOpen, Wand2, Tag, List, Filter, Bookmark, Quote, Flashlight, Workflow, HelpCircle, Home, Store, Bot } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Search, FileText, Activity, Users, Layers, Scale, AlertTriangle, ChevronDown, ChevronRight, Eye, Sparkles, Book, FileJson, X, RefreshCw, Gavel, BookOpen, Wand2, Tag, List, Filter, Bookmark, Quote, Flashlight, Workflow, HelpCircle, Home, Store, Bot, FileStack } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import BillingCard from '../BillingCard'; // Import BillingCard (Shared)
 
 // --- HELPER COMPONENTS (LEGACY STYLE) ---
 
@@ -394,7 +395,7 @@ function DecisionCard({ decision, onViewTrace, onViewContext, hasTrace }) {
                             className="text-[10px] font-bold text-gray-500 hover:text-indigo-600 transition-colors flex items-center gap-1 group"
                             title="Open Qualification Process Recording"
                         >
-                            <Workflow size={12} className="text-gray-400 group-hover:text-indigo-500" /> Trace Analysis
+                            <Search size={12} className="text-gray-400 group-hover:text-indigo-500" /> View Qualification Trace
                         </button>
                     )}
                 </div>
@@ -430,7 +431,7 @@ function TraceVisualization({ trace, filterClusterId }) {
                     <section>
                         <h4 className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
                             <Users size={14} />
-                            agent recommendations received ({displayedRecs.length})
+                            agent submissions ({displayedRecs.length})
                         </h4>
 
                         {displayedRecs.length === 0 ? (
@@ -581,7 +582,7 @@ function GlassHouseModal({ isOpen, sectionId, decisionId, onClose, traceData, is
             >
                 <div className="flex justify-between items-center p-4 border-b bg-gray-50/50">
                     <h2 className="font-bold text-gray-800 flex items-center gap-2">
-                        <Workflow className="text-indigo-600" size={20} /> Qualification Process Recording
+                        <Search className="text-indigo-600" size={20} /> Qualification Trace
                     </h2>
                     <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500"><X size={20} /></button>
                 </div>
@@ -865,9 +866,11 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
         if (!analyzedData) return;
 
         // Use the display filename to construct the download name
-        const exportName = displayFilename.endsWith('.json')
-            ? displayFilename
-            : `${displayFilename.replace(/\.[^/.]+$/, "")}_analyzed.json`;
+        const displayFilename = file.header.filename; // Use source of truth
+        const dotIndex = displayFilename.lastIndexOf(".");
+        const exportName = dotIndex !== -1
+            ? displayFilename.substring(0, dotIndex) + "_analyzed" + displayFilename.substring(dotIndex)
+            : displayFilename + "_analyzed.json";
 
         const dataStr = JSON.stringify(analyzedData, null, 2);
         const blob = new Blob([dataStr], { type: "application/json" });
@@ -909,99 +912,103 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
             </div>
 
             {/* 2. Main Layout (Split View) */}
-            <div className="flex flex-1 overflow-hidden relative">
+            <div className="flex flex-1 overflow-hidden relative p-6 gap-6">
 
                 {/* LEFT PANEL: Document Info (Fixed 1/4) - V4: Invisible Split */}
-                <div className="w-80 flex flex-col p-6 shrink-0 z-10 overflow-y-auto">
-                    <div className="space-y-6">
-                        {/* 1. Document Identity Card (Top) */}
-                        <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden flex flex-col">
-                            <div className="bg-gray-50/50 px-4 py-3 border-b border-gray-100">
-                                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Document Info</label>
-                            </div>
-                            <div className="p-4 space-y-4">
-                                <div>
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Filename</label>
-                                    <p className="text-sm text-gray-800 break-words font-semibold leading-tight">{displayFilename}</p>
-                                </div>
-
-                                <div className="flex flex-wrap gap-4 items-center justify-between">
-                                    <div>
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Type</label>
-                                        {(() => {
-                                            const docType = analysisMetadata?.documentType || 'master';
-                                            const styles = {
-                                                master: 'bg-indigo-100 text-indigo-700 border-indigo-200',
-                                                subordinate: 'bg-orange-100 text-orange-700 border-orange-200',
-                                                reference: 'bg-teal-100 text-teal-700 border-teal-200'
-                                            };
-                                            return (
-                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize border ${styles[docType] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
-                                                    {docType}
-                                                </span>
-                                            );
-                                        })()}
-                                    </div>
-
-                                    {displayDate && (
-                                        <div className="text-right">
-                                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Analysis Date/Time</label>
-                                            <p className="text-[10px] text-gray-600 font-mono">
-                                                {new Date(displayDate).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
-                                            </p>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
+                <div className="w-80 flex flex-col shrink-0 z-10 overflow-y-auto pb-20 gap-6">
+                    {/* Content Wrapper Removed - Using flex gap-6 directly */}
+                    {/* 1. Document Identity Card (Top) */}
+                    <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden flex flex-col">
+                        <div className="bg-gray-50/50 px-4 py-3 border-b border-gray-100">
+                            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Document Info</label>
                         </div>
+                        <div className="p-4 space-y-4">
+                            <div>
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Filename</label>
+                                <p className="text-sm text-gray-800 break-words font-semibold leading-tight">{displayFilename}</p>
+                            </div>
 
-                        {/* 2. Statistics Cards */}
-                        <div className="space-y-3">
-                            <div className="bg-indigo-50 text-indigo-700 p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col items-center gap-1">
-                                <span className="text-3xl font-black">{displayRecordCount}</span>
-                                <span className="text-[10px] font-bold uppercase tracking-wider">Qualified Records</span>
-                                {totalRecordCount > displayRecordCount && (
-                                    <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">({totalRecordCount} Total)</span>
+                            <div className="flex flex-wrap gap-4 items-center justify-between">
+                                <div>
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Type</label>
+                                    {(() => {
+                                        const docType = analysisMetadata?.documentType || 'master';
+                                        const styles = {
+                                            master: 'bg-indigo-100 text-indigo-700 border-indigo-200',
+                                            subordinate: 'bg-orange-100 text-orange-700 border-orange-200',
+                                            reference: 'bg-teal-100 text-teal-700 border-teal-200'
+                                        };
+                                        return (
+                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize border ${styles[docType] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
+                                                {docType}
+                                            </span>
+                                        );
+                                    })()}
+                                </div>
+
+                                {displayDate && (
+                                    <div className="text-right">
+                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Analysis Date/Time</label>
+                                        <p className="text-[10px] text-gray-600 font-mono">
+                                            {new Date(displayDate).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                                        </p>
+                                    </div>
                                 )}
                             </div>
-
-                            {Object.keys(typeCounts).length > 0 && (
-                                <div className="bg-slate-50 text-slate-700 p-4 rounded-xl border border-slate-200 shadow-sm">
-                                    <div className="flex items-center gap-2 mb-3 border-b border-slate-200 pb-2">
-                                        <List size={16} className="text-slate-500" />
-                                        <span className="text-xs font-bold uppercase tracking-wider">Content Breakdown</span>
-                                    </div>
-                                    <div className="space-y-2">
-                                        {Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([type, count]) => (
-                                            <div key={type} className="flex justify-between items-center text-xs">
-                                                <div className="flex items-center gap-2">
-                                                    <span className={`${getTypeStyle(type)} p-1 rounded-md border text-[10px]`}>
-                                                        {getTypeIcon(type, 12)}
-                                                    </span>
-                                                    <span className="text-slate-500 font-medium">{type}</span>
-                                                </div>
-                                                <span className="bg-white px-2 py-0.5 rounded-full border border-slate-200 font-bold text-slate-700">{count}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
                         </div>
+                    </div>
 
-                        {/* 3. Tags Section */}
-                        {(file?.header?.documentTags || analysisMetadata?.documentTags)?.length > 0 && (
-                            <div className="pt-4 border-t border-gray-100">
-                                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Document Tags</label>
-                                <div className="flex flex-wrap gap-1.5">
-                                    {(file?.header?.documentTags || analysisMetadata?.documentTags).map((tag, i) => (
-                                        <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 text-gray-600 border border-gray-200 rounded text-[10px] font-bold uppercase">
-                                            <Tag size={10} />
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
+                    {/* 2. Statistics Cards - FLATTENED */}
+                    <div className="bg-indigo-50 text-indigo-700 p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col items-center gap-1">
+                        <span className="text-3xl font-black">{displayRecordCount}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider">Qualified Records</span>
+                        {totalRecordCount > displayRecordCount && (
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">({totalRecordCount} Total)</span>
                         )}
+                    </div>
+
+                    {Object.keys(typeCounts).length > 0 && (
+                        <div className="bg-slate-50 text-slate-700 p-4 rounded-xl border border-slate-200 shadow-sm">
+                            <div className="flex items-center gap-2 mb-3 border-b border-slate-200 pb-2">
+                                <List size={16} className="text-slate-500" />
+                                <span className="text-xs font-bold uppercase tracking-wider">Content Breakdown</span>
+                            </div>
+                            <div className="space-y-2">
+                                {Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([type, count]) => (
+                                    <div key={type} className="flex justify-between items-center text-xs">
+                                        <div className="flex items-center gap-2">
+                                            <span className={`${getTypeStyle(type)} p-1 rounded-md border text-[10px]`}>
+                                                {getTypeIcon(type, 12)}
+                                            </span>
+                                            <span className="text-slate-500 font-medium">{type}</span>
+                                        </div>
+                                        <span className="bg-white px-2 py-0.5 rounded-full border border-slate-200 font-bold text-slate-700">{count}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 3. Tags Section */}
+                    {(file?.header?.documentTags || analysisMetadata?.documentTags)?.length > 0 && (
+                        <div className="pt-4 px-4 border-t border-gray-100">
+                            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Document Tags</label>
+                            <div className="flex flex-wrap gap-1.5">
+                                {(file?.header?.documentTags || analysisMetadata?.documentTags).map((tag, i) => (
+                                    <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 text-gray-600 border border-gray-200 rounded text-[10px] font-bold uppercase">
+                                        <Tag size={10} />
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                    {/* 4. Billing Info (Bottom pinned) */}
+                    <div className="">
+                        <BillingCard
+                            jobId={localStorage.getItem(`job_analyze_${file.header.id}`) || localStorage.getItem(`job_${file.header.id}`)}
+                            status="analyzed"
+                        />
                     </div>
                 </div>
 
@@ -1009,16 +1016,16 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                 <div className="flex-1 flex flex-col overflow-hidden relative">
 
 
-                    <div className="flex-grow overflow-y-auto p-8 pt-6 relative">
+                    <div className="flex-grow overflow-y-auto px-8 pb-8 pt-0 relative">
                         {/* FILTER CONTROL CARD (Floating Sticky - V4) */}
-                        <div className="sticky top-0 z-20 mb-8">
+                        <div className="sticky top-0 z-20 mb-6 max-w-4xl mx-auto w-full">
                             <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-4 flex flex-col gap-4 backdrop-blur-xl bg-white/95 transition-all relative overflow-hidden">
                                 {/* Watermark */}
                                 <Filter className="absolute -right-6 -bottom-8 text-gray-100 pointer-events-none transform -rotate-12 z-0" size={140} />
 
-                                {/* ROW 1: Filters */}
-                                <div className="flex items-center gap-4 border-b border-gray-100 pb-3 relative z-10">
-                                    {/* FILTERS (Moved to Top) */}
+                                {/* ROW 1: Filters + Reset */}
+                                <div className="flex items-center justify-between border-b border-gray-100 pb-3 relative z-10 gap-4">
+                                    {/* FILTERS */}
                                     <div className="flex flex-wrap gap-2 flex-grow">
                                         <select
                                             value={filters.section}
@@ -1056,32 +1063,43 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                                             {filterOptions.classifications.map(c => <option key={c} value={c}>{c}</option>)}
                                         </select>
                                     </div>
+
+                                    {/* RESET BUTTON (Top Right - Pill Style) */}
+                                    <button
+                                        className="text-[10px] font-bold uppercase text-indigo-600 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors flex-shrink-0"
+                                        onClick={clearFilters}
+                                    >
+                                        Reset Filters
+                                    </button>
                                 </div>
 
-                                {/* ROW 2: Search + Reset + Count */}
+                                {/* ROW 2: Search + Count */}
                                 <div className="flex items-center justify-between relative z-10">
                                     <div className="flex gap-2 items-center flex-grow">
                                         <div className="relative flex-grow max-w-md">
                                             <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
                                             <input
                                                 type="text"
-                                                placeholder="Search content by keywords or text..."
-                                                className="w-full pl-8 pr-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-shadow focus:bg-white"
+                                                placeholder="Search content..."
+                                                className="w-full pl-8 pr-8 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded px-2 text-gray-700 font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:bg-white hover:border-gray-300 transition-colors placeholder-gray-400"
                                                 value={searchQuery}
                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                             />
+                                            {searchQuery && (
+                                                <button
+                                                    onClick={() => setSearchQuery('')}
+                                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                >
+                                                    <X size={12} />
+                                                </button>
+                                            )}
                                         </div>
-                                        <button
-                                            className="text-[10px] font-bold uppercase text-gray-400 hover:text-indigo-600 px-3 py-1.5 rounded hover:bg-indigo-50 transition-colors border border-transparent hover:border-indigo-100"
-                                            onClick={clearFilters}
-                                        >
-                                            Reset Filters
-                                        </button>
                                     </div>
 
-                                    <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                                        <div className="w-px h-4 bg-gray-200 mx-1"></div>
-                                        <span>{filteredDecisions.length} / {allDecisions.length} Records</span>
+                                    {/* Placeholder for Counter (Will be replaced by demo selection) */}
+                                    {/* Record Counter (Design 9: Floating Counter) */}
+                                    <div className="w-8 h-8 rounded-xl bg-white shadow-lg border border-gray-100 flex items-center justify-center text-xs font-black text-indigo-600 transform rotate-3">
+                                        {filteredDecisions.length}
                                     </div>
                                 </div>
                             </div>
@@ -1154,25 +1172,29 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
             {/* 3. Modal Layers */}
 
             {/* Context Modal */}
-            {contextModalOpen && contextData && (
-                <ContextModal
-                    data={contextData}
-                    onClose={() => setContextModalOpen(false)}
-                />
-            )}
+            {
+                contextModalOpen && contextData && (
+                    <ContextModal
+                        data={contextData}
+                        onClose={() => setContextModalOpen(false)}
+                    />
+                )
+            }
 
             {/* Trace Modal */}
-            {selectedTraceSectionId && (
-                <GlassHouseModal
-                    key={`${selectedTraceSectionId}-${selectedDecisionId}`}
-                    isOpen={true}
-                    sectionId={selectedTraceSectionId}
-                    decisionId={selectedDecisionId}
-                    onClose={() => { setSelectedTraceSectionId(null); setSelectedDecisionId(null); }}
-                    traceData={traceData}
-                    isLoading={isTraceLoading}
-                />
-            )}
-        </div>
+            {
+                selectedTraceSectionId && (
+                    <GlassHouseModal
+                        key={`${selectedTraceSectionId}-${selectedDecisionId}`}
+                        isOpen={true}
+                        sectionId={selectedTraceSectionId}
+                        decisionId={selectedDecisionId}
+                        onClose={() => { setSelectedTraceSectionId(null); setSelectedDecisionId(null); }}
+                        traceData={traceData}
+                        isLoading={isTraceLoading}
+                    />
+                )
+            }
+        </div >
     );
 }
