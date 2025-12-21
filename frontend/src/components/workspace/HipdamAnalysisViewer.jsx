@@ -856,7 +856,9 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
     // Strict Mode: No fallbacks. Information source is the analysis file header.
     const displayFilename = analysisMetadata?.filename || "-";
     const displayDate = analysisMetadata?.lastModified || null;
-    const displayRecordCount = analysisMetadata?.recordCount || 0;
+    // Use calculated length to match the filter card (ignore backend header count to avoid mismatches)
+    const displayRecordCount = allDecisions.length;
+    const totalRecordCount = analysisMetadata?.recordCount || 0;
 
     // Export Functionality
     const handleExport = () => {
@@ -956,9 +958,11 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                         {/* 2. Statistics Cards */}
                         <div className="space-y-3">
                             <div className="bg-indigo-50 text-indigo-700 p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col items-center gap-1">
-                                <CheckCircle size={24} className="text-indigo-600 mb-1" />
                                 <span className="text-3xl font-black">{displayRecordCount}</span>
                                 <span className="text-[10px] font-bold uppercase tracking-wider">Qualified Records</span>
+                                {totalRecordCount > displayRecordCount && (
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">({totalRecordCount} Total)</span>
+                                )}
                             </div>
 
                             {Object.keys(typeCounts).length > 0 && (
@@ -1008,13 +1012,12 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                     <div className="flex-grow overflow-y-auto p-8 pt-6 relative">
                         {/* FILTER CONTROL CARD (Floating Sticky - V4) */}
                         <div className="sticky top-0 z-20 mb-8">
-                            <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-4 flex flex-col gap-4 backdrop-blur-xl bg-white/95 transition-all">
-                                {/* ROW 1: Filters + Icon */}
-                                <div className="flex items-center gap-4 border-b border-gray-100 pb-3">
-                                    <div className="flex items-center gap-2 text-gray-400 font-bold uppercase text-xs tracking-wider shrink-0">
-                                        <Filter size={16} className="text-indigo-500" />
-                                    </div>
+                            <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-4 flex flex-col gap-4 backdrop-blur-xl bg-white/95 transition-all relative overflow-hidden">
+                                {/* Watermark */}
+                                <Filter className="absolute -right-6 -bottom-8 text-gray-100 pointer-events-none transform -rotate-12 z-0" size={140} />
 
+                                {/* ROW 1: Filters */}
+                                <div className="flex items-center gap-4 border-b border-gray-100 pb-3 relative z-10">
                                     {/* FILTERS (Moved to Top) */}
                                     <div className="flex flex-wrap gap-2 flex-grow">
                                         <select
@@ -1056,7 +1059,7 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                                 </div>
 
                                 {/* ROW 2: Search + Reset + Count */}
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-center justify-between relative z-10">
                                     <div className="flex gap-2 items-center flex-grow">
                                         <div className="relative flex-grow max-w-md">
                                             <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
