@@ -1,0 +1,92 @@
+[
+  {
+    "tag_id": "PROCUREMENT",
+    "display_name": "Procurement",
+    "description": "General provisions related to the procurement process, including sourcing, purchasing, and supply chain management."
+  },
+  {
+    "tag_id": "CONTRACT_MANAGEMENT",
+    "display_name": "Contract Management",
+    "description": "Provisions related to the administration, monitoring, and enforcement of contracts."
+  },
+  {
+    "tag_id": "ACCEPTANCE",
+    "display_name": "Acceptance",
+    "description": "Provisions outlining the process and criteria for formal acceptance of goods, services, or deliverables under a contract."
+  },
+  {
+    "tag_id": "DISPUTE_RESOLUTION",
+    "display_name": "Dispute Resolution",
+    "description": "Provisions outlining the process for resolving conflicts or disagreements arising from the contract, including negotiation, mediation, arbitration, and litigation."
+  },
+  {
+    "tag_id": "CONFIDENTIALITY",
+    "display_name": "Confidentiality",
+    "description": "Provisions regarding the protection and non-disclosure of sensitive or proprietary information."
+  },
+  {
+    "tag_id": "ENVIRONMENTAL_COMPLIANCE",
+    "display_name": "Environmental Compliance",
+    "description": "Provisions related to adherence to environmental laws, regulations, and standards, including restrictions on hazardous substances, recycling requirements, and waste disposal."
+  },
+  {
+    "tag_id": "FORCE_MAJEURE",
+    "display_name": "Force Majeure",
+    "description": "Provisions addressing unforeseen events or circumstances beyond a party's control that may excuse or suspend performance of contractual obligations."
+  },
+  {
+    "tag_id": "GOVERNING_LAW",
+    "display_name": "Governing Law",
+    "description": "Provisions specifying the jurisdiction and laws that will govern the interpretation and enforcement of the contract."
+  },
+  {
+    "tag_id": "LIMITATION_OF_LIABILITY",
+    "display_name": "Limitation of Liability",
+    "description": "Provisions that limit the amount or type of damages for which a party may be liable under the contract."
+  },
+  {
+    "tag_id": "NEGLIGENCE",
+    "display_name": "Negligence",
+    "description": "Provisions addressing liability and standards of care related to negligent acts or omissions."
+  },
+  {
+    "tag_id": "GUARANTEES",
+    "display_name": "Guarantees",
+    "description": "Provisions outlining the terms, conditions, and requirements related to guarantees, including advance payment guarantees, performance bonds, and parent company guarantees."
+  },
+  {
+    "tag_id": "INDEMNIFICATION",
+    "display_name": "Indemnification",
+    "description": "Provisions outlining the obligation of one party to protect another party against losses, damages, or liabilities."
+  },
+  {
+    "tag_id": "INTELLECTUAL_PROPERTY",
+    "display_name": "Intellectual Property",
+    "description": "Provisions concerning the ownership, licensing, and protection of intellectual property rights, including patents, copyrights, trademarks, and trade secrets."
+  },
+  {
+    "tag_id": "LIQUIDATED_DAMAGES",
+    "display_name": "Liquidated Damages",
+    "description": "Provisions outlining pre-agreed sums payable in the event of a breach, typically related to delays or failure to meet service levels."
+  },
+  {
+    "tag_id": "PRICING",
+    "display_name": "Pricing",
+    "description": "Provisions outlining the agreed-upon costs, fees, and payment terms for goods, services, or deliverables under a contract."
+  },
+  {
+    "tag_id": "PAYMENT_TERMS",
+    "display_name": "Payment Terms",
+    "description": "Provisions specifying the timing, method, and conditions of payment, including invoicing procedures, payment schedules, and late payment penalties."
+  },
+  {
+    "tag_id": "TAXES",
+    "display_name": "Taxes",
+    "description": "Provisions addressing the allocation of tax liabilities and responsibilities between the parties, including value-added tax (VAT), sales tax, withholding tax, and other applicable taxes."
+  },
+  {
+    "tag_id": "TERMINATION",
+    "display_name": "Termination",
+    "description": "Provisions detailing the conditions, procedures, and consequences of contract termination, including termination for cause, convenience, or other specified events."
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "tag_id": "PROCUREMENT",
+    "display_name": "Procurement",
+    "description": "Deals with the acquisition of goods, services, or works from an external source."
+  },
+  {
+    "tag_id": "CONTRACT_MANAGEMENT",
+    "display_name": "Contract Management",
+    "description": "Deals with the administration of contracts, including processes and procedures."
+  },
+  {
+    "tag_id": "LIABILITY",
+    "display_name": "Liability",
+    "description": "Covers the responsibilities, obligations, and potential legal exposures of parties."
+  },
+  {
+    "tag_id": "CONFIDENTIALITY",
+    "display_name": "Confidentiality",
+    "description": "Covers the protection of sensitive information shared between parties, including obligations, definitions, and exclusions."
+  },
+  {
+    "tag_id": "INTELLECTUAL_PROPERTY",
+    "display_name": "Intellectual Property",
+    "description": "Deals with rights to intangible assets, including ownership, licensing, and protection."
+  },
+  {
+    "tag_id": "INDEMNIFICATION",
+    "display_name": "Indemnification",
+    "description": "Covers provisions where one party agrees to protect another party from financial loss or bearing the burden of certain losses."
+  },
+  {
+    "tag_id": "PAYMENT_TERMS",
+    "display_name": "Payment Terms",
+    "description": "Covers all aspects of payment, including pricing, invoicing, late payment penalties, and payment schedules."
+  }
+]

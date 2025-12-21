@@ -12,7 +12,7 @@ Manual Tags: {manual_tags}
 1. **Reuse First**: If the concepts in the section map clearly to existing tags in the CURRENT TAXONOMY, reuse their `tag_id`.
 2. **Define New**: If a concept is fundamentally new and not covered by existing tags, define a NEW tag.
 3. **Format**: Return a JSON list of tags used in this section. For new tags, provide:
-   - `tag_id`: A semantic, UPPER_CASE_SLUG (e.g., TAG_PAYMENT_TERMS).
+   - `tag_id`: A semantic, UPPER_CASE_SLUG (e.g., PAYMENT_TERMS). **DO NOT use prefixes like "TAG_" or "NEW_TAG_".**
    - `display_name`: Human-readable name.
    - `description`: A clear, concise definition.
 4. **Uniqueness**: Ensure no duplicate definitions exist for the same concept.
@@ -21,6 +21,6 @@ Manual Tags: {manual_tags}
 Return ONLY a JSON list of tag objects.
 Example:
 [
-  {{ "tag_id": "TAG_EXISTING", "display_name": "...", "description": "..." }},
-  {{ "tag_id": "TAG_NEW_CONCEPT", "display_name": "...", "description": "..." }}
+  {{ "tag_id": "EXISTING_CONCEPT", "display_name": "...", "description": "..." }},
+  {{ "tag_id": "NEW_CONCEPT", "display_name": "...", "description": "..." }}
 ]

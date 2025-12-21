@@ -7,6 +7,7 @@ import AnalyzeWrapper from './components/workspace/AnalyzeWrapper';
 import ReviewWrapper from './components/workspace/ReviewWrapper';
 import HipdamViewer from './components/workspace/HipdamViewer';
 import RecordCounterDemo from './components/demos/RecordCounterDemo'; // DEMO
+import HeaderLogoDemo from './components/demos/HeaderLogoDemo'; // DEMO
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/review/:id" element={<ReviewWrapper />} />
                 <Route path="/hipdam/:docId" element={<HipdamViewer />} />
                 <Route path="/demo/counter" element={<RecordCounterDemo />} />
+                <Route path="/demo/header" element={<HeaderLogoDemo />} />
             </Routes>
         </BrowserRouter>
     );

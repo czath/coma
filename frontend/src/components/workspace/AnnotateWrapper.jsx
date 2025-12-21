@@ -778,7 +778,9 @@ export default function AnnotateWrapper() {
                         </div>
                         <div className="flex justify-between w-full text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-8">
                             <span>{taxonomyProgress.message}</span>
-                            <span>{taxonomyProgress.percent}%</span>
+                            {!taxonomyProgress.message?.includes('%') && (
+                                <span>{taxonomyProgress.percent}%</span>
+                            )}
                         </div>
 
                         <button

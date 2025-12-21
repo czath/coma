@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useWorkspace } from '../../hooks/useWorkspace';
-import { Upload, Plus, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle } from 'lucide-react';
+import { Upload, Plus, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle, FileSignature } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function FileManager() {
@@ -689,9 +689,15 @@ export default function FileManager() {
         <div className="min-h-screen bg-gray-50 p-8 font-sans">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center mb-6">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Workspace</h1>
-                        <p className="text-sm text-gray-500 mt-1">Manage your contracts and references</p>
+                    <div className="flex items-center gap-3">
+                        <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-sm">
+                            <FileSignature size={24} strokeWidth={2.5} />
+                        </div>
+                        <div className="flex items-center gap-3 h-full">
+                            <h1 className="text-xl font-bold text-gray-900">CORE.AI</h1>
+                            <div className="h-4 w-px bg-gray-300"></div>
+                            <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contract Review Assistant</span>
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-4">
