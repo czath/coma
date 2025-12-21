@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle, XCircle, Search, FileText, Activity, Users, Layers, Scale, AlertTriangle, ChevronDown, ChevronRight, Eye, Sparkles, Book, FileJson, X, RefreshCw, Gavel, BookOpen, Wand2, Tag, List, Filter, Bookmark, Quote, Flashlight, Workflow, HelpCircle, Home, Store, Bot, FileStack } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Search, FileText, Activity, Users, Layers, Scale, AlertTriangle, ChevronDown, ChevronRight, Eye, Sparkles, Book, FileJson, X, RefreshCw, Gavel, BookOpen, Wand2, Tag, List, Filter, Bookmark, Quote, Flashlight, Workflow, HelpCircle, Home, Store, Bot, FileStack, FileSignature, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BillingCard from '../BillingCard'; // Import BillingCard (Shared)
 
@@ -887,17 +887,52 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
 
     return (
         <div className="flex flex-col h-screen bg-gray-50 font-sans overflow-hidden">
-            {/* 1. Header (Always Rendered) */}
-            <div className="bg-white border-b px-6 py-4 flex items-center justify-between shrink-0 h-16 shadow-sm z-10">
+            {/* TIER 1: BRAND HEADER */}
+            <header className="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center shrink-0">
+                <div className="flex items-center gap-3">
+                    <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-sm">
+                        <FileSignature size={24} strokeWidth={2.5} />
+                    </div>
+                    <div className="flex items-center gap-3 h-full">
+                        <h1 className="text-xl font-bold text-gray-900">CORE.AI</h1>
+                        <div className="h-4 w-px bg-gray-300"></div>
+                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contract Review Assistant</span>
+                    </div>
+                </div>
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                    Analysis Report
+                </div>
+            </header>
+
+            {/* TIER 2: TOOLBAR */}
+            <div className="bg-white border-b px-6 py-3 flex items-center justify-between shrink-0 h-16 shadow-sm z-10">
                 <div className="flex items-center gap-4">
                     <button onClick={onBack} className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full">
                         <ArrowLeft size={20} />
                     </button>
-                    <div>
-                        <h1 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                            <Wand2 size={20} className="text-indigo-600" />
-                            Analysis Report
+                    <div className="flex items-center gap-4">
+                        <h1 className="text-sm font-medium text-gray-900 whitespace-normal break-words">
+                            {file.header.filename}
                         </h1>
+                        {(() => {
+                            const docType = analysisMetadata?.documentType || file.header?.documentType || 'master';
+                            const styles = {
+                                master: 'bg-indigo-100 text-indigo-700 border-indigo-200',
+                                subordinate: 'bg-orange-100 text-orange-700 border-orange-200',
+                                reference: 'bg-teal-100 text-teal-700 border-teal-200'
+                            };
+                            return (
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize border ${styles[docType] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
+                                    {docType}
+                                </span>
+                            );
+                        })()}
+                        {displayDate && (
+                            <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                                <Calendar size={14} className="text-gray-300" />
+                                {new Date(displayDate).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="flex gap-2">
@@ -917,46 +952,6 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                 {/* LEFT PANEL: Document Info (Fixed 1/4) - V4: Invisible Split */}
                 <div className="w-80 flex flex-col shrink-0 z-10 overflow-y-auto pb-20 gap-6 h-full">
                     {/* Content Wrapper Removed - Using flex gap-6 directly */}
-                    {/* 1. Document Identity Card (Top) */}
-                    <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden flex flex-col shrink-0">
-                        <div className="bg-gray-50/50 px-4 py-3 border-b border-gray-100">
-                            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Document Info</label>
-                        </div>
-                        <div className="p-4 space-y-4">
-                            <div>
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Filename</label>
-                                <p className="text-sm text-gray-800 break-all font-semibold leading-tight">{displayFilename}</p>
-                            </div>
-
-                            <div className="flex flex-wrap gap-4 items-center justify-between">
-                                <div>
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Type</label>
-                                    {(() => {
-                                        const docType = analysisMetadata?.documentType || file.header?.documentType || 'master';
-                                        const styles = {
-                                            master: 'bg-indigo-100 text-indigo-700 border-indigo-200',
-                                            subordinate: 'bg-orange-100 text-orange-700 border-orange-200',
-                                            reference: 'bg-teal-100 text-teal-700 border-teal-200'
-                                        };
-                                        return (
-                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize border ${styles[docType] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
-                                                {docType}
-                                            </span>
-                                        );
-                                    })()}
-                                </div>
-
-                                {displayDate && (
-                                    <div className="text-right">
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Analysis Date/Time</label>
-                                        <p className="text-[10px] text-gray-600 font-mono">
-                                            {new Date(displayDate).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
 
                     {/* 2. Statistics Cards - FLATTENED */}
                     <div className="bg-indigo-50 text-indigo-700 p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col items-center gap-1">

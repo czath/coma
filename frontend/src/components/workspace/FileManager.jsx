@@ -407,36 +407,8 @@ export default function FileManager() {
             return;
         }
 
-        let resumeJobId = null;
-        let forceRestart = false;
-
-        // Check for active job
-        const activeJob = await checkActiveJob(file.header.id, 'ingest'); // Matches backend 'job_ingest_' 
-        // Note: backend /upload uses 'job_ingest_...' but let's see if we standardized process names?
-        // In the plan 'annotate' -> 'job_{file_id}_annotate_{ts}'. 
-        // Implementation in /upload used 'job_ingest_...'. I should align them.
-        // Actually, let's use 'ingest' if that's what backend uses, or update backend to 'annotate'.
-        // Backend /upload active job logic used 'job_ingest_'. 
-        // Let's stick to 'ingest' here or update active check to look for 'ingest'.
-        // Wait, the plan said "annotate". 
-        // I will assume for now 'process_type' in Check matches what backend Generates.  
-        // Backend /upload generates `job_ingest_`. So I should check 'ingest'.
-
-        // Wait, I can fix consistency later. Let's check 'ingest'.
-        // Actually, let's check both or just 'ingest'.
-
-        if (activeJob.found) {
-            const choice = window.confirm(
-                `Found an incomplete annotation job from ${new Date(activeJob.timestamp * 1000).toLocaleString()}.\n\n` +
-                `Would you like to RESUME processing it?\n` +
-                `(Cancel starts a fresh job)`
-            );
-            if (choice) {
-                resumeJobId = activeJob.job_id;
-            } else {
-                forceRestart = true;
-            }
-        }
+        // PER USER REQUEST: Annotation jobs cannot be resumed (no temp files).
+        // Always start fresh. Removed checkActiveJob logic.
 
         await updateFile(file.header.id, {
             header: { ...file.header, status: 'ingesting' },
@@ -444,7 +416,7 @@ export default function FileManager() {
         });
         console.log("Updated file status to ingesting");
 
-        runRealIngestion(file, resumeJobId, forceRestart);
+        runRealIngestion(file, null, true); // Force restart implies fresh job
     };
 
     const generateClausesFromContent = (contentBlocks) => {
@@ -769,38 +741,50 @@ export default function FileManager() {
     if (loading) return <div className="flex items-center justify-center h-screen"><Loader className="animate-spin text-indigo-600" /></div>;
 
     return (
-        <div className="min-h-screen bg-gray-50 p-8 font-sans">
-            <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between items-center mb-6">
-                    <div className="flex items-center gap-3">
-                        <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-sm">
-                            <FileSignature size={24} strokeWidth={2.5} />
-                        </div>
-                        <div className="flex items-center gap-3 h-full">
-                            <h1 className="text-xl font-bold text-gray-900">CORE.AI</h1>
-                            <div className="h-4 w-px bg-gray-300"></div>
-                            <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contract Review Assistant</span>
-                        </div>
+        <div className="min-h-screen bg-gray-50 font-sans">
+            {/* TIER 1: BRAND HEADER */}
+            <header className="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center shrink-0">
+                <div className="flex items-center gap-3">
+                    <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-sm">
+                        <FileSignature size={24} strokeWidth={2.5} />
                     </div>
-
-                    <div className="flex items-center gap-4">
-                        <button
-                            onClick={checkTaxonomy}
-                            className="flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-white shadow-sm opacity-80 hover:opacity-100 transition-opacity cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
-                            title={activeTaxonomy ? `Active: ${activeTaxonomy} (Click to refresh)` : 'No Active Taxonomy (Click to refresh)'}
-                        >
-                            <div className={`w-1.5 h-1.5 rounded-full ${activeTaxonomy ? 'bg-green-500' : 'bg-gray-300'}`}></div>
-                            <span className="text-xs font-medium text-gray-500">
-                                {activeTaxonomy ? activeTaxonomy : 'No GT'}
-                            </span>
-                        </button>
-                        <label className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 cursor-pointer transition-colors shadow-sm font-medium text-sm">
-                            <Plus size={18} />
-                            <span>Add Document</span>
-                            <input type="file" multiple className="hidden" onChange={handleFileSelect} />
-                        </label>
+                    <div className="flex items-center gap-3 h-full">
+                        <h1 className="text-xl font-bold text-gray-900">CORE.AI</h1>
+                        <div className="h-4 w-px bg-gray-300"></div>
+                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contract Review Assistant</span>
                     </div>
                 </div>
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                    File Manager
+                </div>
+            </header>
+
+            {/* TIER 2: TOOLBAR */}
+            <div className="bg-white border-b border-gray-200 px-8 py-3 flex justify-between items-center shrink-0">
+                <div className="flex items-center">
+                    <button
+                        onClick={checkTaxonomy}
+                        className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white shadow-sm opacity-90 hover:opacity-100 transition-opacity cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
+                        title={activeTaxonomy ? `Active: ${activeTaxonomy} (Click to refresh)` : 'No Active Taxonomy (Click to refresh)'}
+                    >
+                        <div className={`w-1.5 h-1.5 rounded-full ${activeTaxonomy ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                        <div className="flex items-center gap-1.5 text-xs font-medium">
+                            <span className="text-indigo-500 uppercase tracking-wider text-[10px] font-bold">Global Taxonomy</span>
+                            <span className="text-gray-600">
+                                {activeTaxonomy ? activeTaxonomy : 'No GT'}
+                            </span>
+                        </div>
+                    </button>
+                </div>
+                <div className="flex items-center gap-4">
+                    <label className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full cursor-pointer" title="Add Document">
+                        <Plus size={20} />
+                        <input type="file" multiple className="hidden" onChange={handleFileSelect} />
+                    </label>
+                </div>
+            </div>
+
+            <div className="max-w-7xl mx-auto p-8">
 
                 {/* Drop Zone */}
                 <div

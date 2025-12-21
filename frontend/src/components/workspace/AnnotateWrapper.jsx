@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useWorkspace } from '../../hooks/useWorkspace';
 import Editor from '../Editor';
 import Sidebar from '../Sidebar';
-import { ArrowLeft, Save, Loader, CheckCircle, Download, FileText, BookOpen, FilePlus, Wand2, Wrench, Upload, Edit, FileSearch, FileJson, Network } from 'lucide-react';
+import { ArrowLeft, Save, Loader, CheckCircle, Download, FileText, BookOpen, FilePlus, Wand2, Wrench, Upload, Edit, FileSearch, FileJson, Network, FileSignature, BadgeCheck } from 'lucide-react';
 
 export default function AnnotateWrapper() {
     const { id } = useParams();
@@ -659,14 +659,31 @@ export default function AnnotateWrapper() {
 
     return (
         <div className="h-screen flex flex-col text-gray-800 bg-gray-50 font-sans overflow-hidden">
-            {/* Header */}
+            {/* TIER 1: BRAND HEADER */}
+            <header className="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center shrink-0">
+                <div className="flex items-center gap-3">
+                    <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-sm">
+                        <FileSignature size={24} strokeWidth={2.5} />
+                    </div>
+                    <div className="flex items-center gap-3 h-full">
+                        <h1 className="text-xl font-bold text-gray-900">CORE.AI</h1>
+                        <div className="h-4 w-px bg-gray-300"></div>
+                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contract Review Assistant</span>
+                    </div>
+                </div>
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                    Annotation Viewer
+                </div>
+            </header>
+
+            {/* TIER 2: TOOLBAR */}
             <header className="bg-white shadow-sm border-b border-gray-200 z-10 px-6 py-3 flex justify-between items-center shrink-0">
                 <div className="flex items-center gap-4 min-w-0">
                     <button onClick={() => navigate('/workspace')} className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full shrink-0">
                         <ArrowLeft size={20} />
                     </button>
                     <div className="flex items-center gap-3 min-w-0">
-                        <h1 className="text-lg font-bold text-gray-800 truncate" title={file?.header?.filename}>
+                        <h1 className="text-sm font-medium text-gray-900 whitespace-normal break-words" title={file?.header?.filename}>
                             {file?.header?.filename}
                         </h1>
                         <div className={`shrink-0 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-xs font-medium capitalize whitespace-nowrap ${getTypeStyles(documentType)}`}>
@@ -680,7 +697,16 @@ export default function AnnotateWrapper() {
                         </span>
                     </div>
                 </div>
-                <div className="flex items-center gap-3 shrink-0">
+                <div className="flex items-center gap-2 shrink-0">
+                    {file?.header?.status === 'annotated' && (
+                        <button
+                            onClick={handleGenerateTaxonomy}
+                            className="text-purple-600 hover:text-purple-900 transition-colors p-2 bg-purple-50 hover:bg-purple-100 rounded-full shrink-0"
+                            title="Generate General Taxonomy from this document"
+                        >
+                            <Network size={20} />
+                        </button>
+                    )}
                     <button
                         onClick={handleExport}
                         className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full shrink-0"
@@ -688,27 +714,19 @@ export default function AnnotateWrapper() {
                     >
                         <FileJson size={20} />
                     </button>
-                    <div className="h-6 w-px bg-gray-300 mx-1"></div>
-                    {file?.header?.status === 'annotated' && (
-                        <button
-                            onClick={handleGenerateTaxonomy}
-                            className="flex items-center gap-2 px-3 py-2 text-purple-600 hover:text-purple-900 border border-purple-200 hover:bg-purple-50 rounded-lg transition-colors font-medium text-sm"
-                            title="Generate General Taxonomy from this document"
-                        >
-                            <Network size={16} /> Generate Taxonomy
-                        </button>
-                    )}
                     <button
                         onClick={handleSaveDraft}
-                        className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium text-sm transition-colors"
+                        className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full shrink-0"
+                        title="Save Draft"
                     >
-                        <Save size={16} /> Save Draft
+                        <Save size={20} />
                     </button>
                     <button
                         onClick={handleFinalize}
-                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium text-sm transition-colors shadow-sm"
+                        className="text-indigo-600 hover:text-indigo-800 transition-colors p-2 bg-indigo-50 hover:bg-indigo-100 rounded-full shrink-0"
+                        title="Finalize"
                     >
-                        <CheckCircle size={16} /> Finalize
+                        <BadgeCheck size={20} />
                     </button>
                 </div>
             </header>
