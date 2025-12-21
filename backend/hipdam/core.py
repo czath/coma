@@ -25,7 +25,7 @@ class HiPDAMOrchestrator:
         self.clusterer = Clusterer(self.client, self.config.get("CLUSTERING", {}))
         self.judge = SupremeJudge(self.client, self.config.get("JUDGE", {}))
 
-    async def analyze_section(self, section_text: str, section_id: str = "unknown") -> TraceMap:
+    async def analyze_section(self, section_text: str, section_id: str = "unknown", taxonomy: Optional[List[Dict[str, Any]]] = None) -> TraceMap:
         """
         Executes the full HiPDAM pipeline: 
         Agents -> Clustering -> Judge -> TraceMap
@@ -41,7 +41,7 @@ class HiPDAMOrchestrator:
         print(f"--- HiPDAM: Launching {len(agent_configs)} Agents Parallel ---")
         for agent_key, agent_cfg in agent_configs.items():
             agent_tasks.append(
-                self.agent_runner.run_agent(agent_key, agent_cfg, section_text)
+                self.agent_runner.run_agent(agent_key, agent_cfg, section_text, taxonomy=taxonomy)
             )
             
         # Flatten results
@@ -72,7 +72,7 @@ class HiPDAMOrchestrator:
             async with sem:
                 print(f"    > Judge started for Cluster {idx+1}/{len(clusters)}...")
                 try:
-                    return await self.judge.adjudicate(cluster, recommendations, section_text)
+                    return await self.judge.adjudicate(cluster, recommendations, section_text, taxonomy=taxonomy)
                 except Exception as e:
                     print(f"    ! Judge failed for Cluster {idx+1}: {e}")
                     return None

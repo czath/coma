@@ -17,7 +17,8 @@ Return a list of objects. Each object must match the schema for its type.
   "id": "UUID", "type": "GUIDELINE",
   "classification": "CRITICAL" | "HIGH" | "MEDIUM" | "LOW",
   "verbatim_text": "quote", "plain_text": "summary", "expert_insight": "advice", "confidence": 0.0-1.0,
-  "conditions": "...", "justification": "...", "implication_company": "...", "implication_supplier": "...", "source_insight": "..."
+  "conditions": "...", "justification": "...", "implication_company": "...", "implication_supplier": "...", "source_insight": "...",
+  "recordTags": ["Tag_ID_1", "Tag_ID_2"]
 }
 ```
 
@@ -27,7 +28,8 @@ Return a list of objects. Each object must match the schema for its type.
   "id": "UUID", "type": "OTHER",
   "subtype": "TACTIC" | "INSTRUCTION" | "EXAMPLE" | "INFO",
   "verbatim_text": "quote", "plain_text": "summary", "expert_insight": "advice", "confidence": 0.0-1.0,
-  "justification": "...", "implication_company": "...", "implication_supplier": "...", "source_insight": "..."
+  "justification": "...", "implication_company": "...", "implication_supplier": "...", "source_insight": "...",
+  "recordTags": ["Tag_ID_1", "Tag_ID_2"]
 }
 ```
 
@@ -37,6 +39,7 @@ Return a list of objects. Each object must match the schema for its type.
   "id": "UUID", "type": "DEFINITION",
   "verbatim_text": "quote", "plain_text": "summary", "expert_insight": "advice", "confidence": 0.0-1.0,
   // Polymorphic Fields - MUST Include for consistency
-  "justification": "N/A", "implication_company": "N/A", "implication_supplier": "N/A", "source_insight": "N/A"
+  "justification": "N/A", "implication_company": "N/A", "implication_supplier": "N/A", "source_insight": "N/A",
+  "recordTags": ["Tag_ID_1", "Tag_ID_2"]
 }
 ```

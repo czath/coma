@@ -1,0 +1,72 @@
+[
+  {
+    "tag_id": "PROCUREMENT_CONTRACT_PLAYBOOK",
+    "display_name": "Procurement Contract Playbook",
+    "description": "A guide or manual outlining the processes, procedures, and best practices for procurement contracts within an organization."
+  },
+  {
+    "tag_id": "ARBITRATION",
+    "display_name": "Arbitration",
+    "description": "A method of dispute resolution involving one or more neutral third parties who render a binding or non-binding decision."
+  },
+  {
+    "tag_id": "DISPUTE_RESOLUTION",
+    "display_name": "Dispute Resolution",
+    "description": "The process of resolving conflicts or disagreements between parties, which may include negotiation, mediation, arbitration, or litigation."
+  },
+  {
+    "tag_id": "ASSIGNMENT",
+    "display_name": "Assignment",
+    "description": "The transfer of rights, obligations, or duties under a contract from one party to another."
+  },
+  {
+    "tag_id": "NOVATION",
+    "display_name": "Novation",
+    "description": "The act of replacing an obligation to perform with a new obligation, or replacing a party to an agreement with a new party."
+  },
+  {
+    "tag_id": "CHANGE_OF_CONTROL",
+    "display_name": "Change of Control",
+    "description": "A change in the controlling ownership of a company, often triggered by a merger, acquisition, or other corporate transaction."
+  },
+  {
+    "tag_id": "CONTRACT_INTERPRETATION",
+    "display_name": "Contract Interpretation",
+    "description": "The process of determining the meaning of the terms and provisions of a contract."
+  },
+  {
+    "tag_id": "LIABILITY_LIMITATION",
+    "display_name": "Liability Limitation",
+    "description": "A clause in a contract that limits the amount or type of damages for which a party may be liable."
+  },
+  {
+    "tag_id": "BEST_EFFORTS",
+    "display_name": "Best Efforts",
+    "description": "A contractual obligation requiring a party to use its best endeavors to perform its obligations."
+  },
+  {
+    "tag_id": "COMMERCIALLY_REASONABLE_EFFORTS",
+    "display_name": "Commercially Reasonable Efforts",
+    "description": "A contractual obligation requiring a party to take actions that are commercially reasonable to perform its obligations."
+  },
+  {
+    "tag_id": "MITIGATION_OF_DAMAGES",
+    "display_name": "Mitigation of Damages",
+    "description": "The principle that a party who has suffered damages as a result of a breach of contract has a duty to take reasonable steps to minimize the extent of the loss."
+  },
+  {
+    "tag_id": "TITLE_TRANSFER",
+    "display_name": "Title Transfer",
+    "description": "The act of transferring ownership of goods or property from one party to another."
+  },
+  {
+    "tag_id": "FORECASTING",
+    "display_name": "Forecasting",
+    "description": "Estimating or predicting future events or trends, often used in business for planning and resource allocation."
+  },
+  {
+    "tag_id": "VENDOR_RESPONSIBILITY",
+    "display_name": "Vendor Responsibility",
+    "description": "The obligations and duties of a vendor or supplier in a contractual relationship, including quality, delivery, and other performance standards."
+  }
+]

@@ -98,3 +98,8 @@ class RuleTaggingResponse(BaseModel):
 
 class ConsolidationResponse(BaseModel):
     terms: List[Term] = Field(description="List of consolidated and normalized terms")
+
+class GeneralTaxonomyTag(BaseModel):
+    tag_id: str = Field(description="Unique semantic slug for the tag (e.g., TAG_PAYMENT_TERMS)")
+    display_name: str = Field(description="Human-readable name of the tag")
+    description: str = Field(description="Detailed definition of the tag's purpose")

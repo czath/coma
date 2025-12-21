@@ -37,7 +37,8 @@ Return a list of objects exactly matching this schema.
     "justification": "Why did you classify it this way?",
     "implication_company": "Impact on Us (Rights/Risks)",
     "implication_supplier": "Impact on Them (Duties/Liabilities)",
-    "source_insight": "Any ambiguity or nuance in the text."
+    "source_insight": "Any ambiguity or nuance in the text.",
+    "recordTags": ["Tag_ID_1", "Tag_ID_2"] // Categorize using provided Taxonomy
   }
 ]
 ```

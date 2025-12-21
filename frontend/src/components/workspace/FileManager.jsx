@@ -744,7 +744,7 @@ export default function FileManager() {
                                             <button
                                                 onClick={() => cycleDocumentType(file)}
                                                 disabled={file.header.status !== 'uploaded'}
-                                                className={`flex items-center gap-2 px-3 py-1 rounded-full transition-colors ${getTypeStyles(file.header.documentType)} ${file.header.status === 'uploaded' ? 'cursor-pointer' : 'cursor-default'}`}
+                                                className={`flex items-center gap-2 px-2.5 py-0.5 rounded-full transition-colors ${getTypeStyles(file.header.documentType)} ${file.header.status === 'uploaded' ? 'cursor-pointer' : 'cursor-default'}`}
                                                 title={file.header.status === 'uploaded' ? "Click to change type" : ""}
                                             >
                                                 <TypeIcon type={file.header.documentType} className="w-4 h-4" />
@@ -765,7 +765,7 @@ export default function FileManager() {
                                                     <>
                                                         <button
                                                             onClick={() => cycleAnnotationMethod(file)}
-                                                            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors border ${getAnnotationMethodStyles(file.header.annotationMethod || 'ai')}`}
+                                                            className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors border ${getAnnotationMethodStyles(file.header.annotationMethod || 'ai')}`}
                                                             title="Toggle Annotation Method"
                                                         >
                                                             {(file.header.annotationMethod || 'ai') === 'ai' ? <Wand2 size={14} /> : <Wrench size={14} />}

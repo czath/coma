@@ -41,6 +41,10 @@ from pydantic import BaseModel, Field
 import shutil
 import uuid
 import asyncio
+from datetime import datetime
+from glob import glob
+from data_models import GeneralTaxonomyTag
+from analyzers.rule_extractor import RuleExtractor
 
 app = FastAPI(title="Coma Legal Contract Manager")
 
@@ -160,22 +164,172 @@ async def upload_file(
 
 @app.get("/status/{job_id}")
 async def get_status(job_id: str):
+    print(f"DEBUG: Status request for {job_id}. Known jobs: {list(jobs.keys())}")
     if job_id not in jobs:
         raise HTTPException(status_code=404, detail="Job not found")
     return jobs[job_id]
 
-# Analysis Feature -----------------------------------------------
-from analyzers.rule_extractor import RuleExtractor
-from typing import Dict, List, Any
-from pydantic import BaseModel
+# Taxonomy Management ---------------------------------------------
+TAXONOMY_DIR = "data"
+ARCHIVE_DIR = os.path.join(TAXONOMY_DIR, "archive")
 
+def get_latest_taxonomy_file():
+    files = glob(os.path.join(TAXONOMY_DIR, "GT_*.json"))
+    if not files:
+        return None
+    # Sort by filename (timestamped) descending
+    files.sort(reverse=True)
+    return files[0]
+
+# Analysis Feature Payloads ---------------------------------------
 class AnalysisPayload(BaseModel):
     document_content: Dict[str, Any] # Full document object
 
 class HipdamAnalysisPayload(BaseModel):
     document_content: List[Dict[str, Any]]
     filename: str
-    document_type: str = "master" # Default to master
+    document_type: str = "master" 
+    taxonomy: Optional[List[Dict[str, Any]]] = None
+    file_id: Optional[str] = None
+    force_clean: bool = False
+
+@app.get("/taxonomy/check")
+async def check_taxonomy():
+    latest = get_latest_taxonomy_file()
+    if latest:
+        return {"exists": True, "filename": os.path.basename(latest)}
+    return {"exists": False, "filename": None}
+
+@app.get("/taxonomy/active")
+async def get_active_taxonomy():
+    latest = get_latest_taxonomy_file()
+    if not latest:
+        return []
+    try:
+        with open(latest, "r", encoding="utf-8") as f:
+            import json
+            return json.load(f)
+    except Exception as e:
+        print(f"Error reading taxonomy: {e}")
+        return []
+
+@app.post("/taxonomy/save")
+async def save_taxonomy(tags: List[GeneralTaxonomyTag]):
+    # Archive existing
+    latest = get_latest_taxonomy_file()
+    if latest:
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        archive_name = f"archive_{os.path.basename(latest).replace('.json', '')}_{ts}.json"
+        shutil.move(latest, os.path.join(ARCHIVE_DIR, archive_name))
+    
+    # Save new
+    new_ts = datetime.now().strftime("%d%m%y_%H%M")
+    new_filename = f"GT_{new_ts}.json"
+    new_path = os.path.join(TAXONOMY_DIR, new_filename)
+    
+    with open(new_path, "w", encoding="utf-8") as f:
+        import json
+        json.dump([tag.model_dump() for tag in tags], f, indent=2)
+    
+    return {"status": "success", "filename": new_filename}
+
+async def run_taxonomy_generation(job_id: str, document_content: List[Dict[str, Any]]):
+    try:
+        jobs[job_id]["status"] = "processing"
+        jobs[job_id]["progress"] = 0
+        
+        api_key = os.getenv("GEMINI_API_KEY")
+        from google import genai
+        # Initialize client same as hipdam
+        import httpx
+        client = genai.Client(
+            api_key=api_key,
+            http_options={
+                'api_version': 'v1alpha',
+                'httpx_client': httpx.Client(verify=False, timeout=300),
+                'httpx_async_client': httpx.AsyncClient(verify=False, timeout=300)
+            }
+        )
+        
+        # Load Prompt
+        prompt_path = os.path.join("prompts", "taxonomy_generation_prompt.txt")
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            base_prompt = f.read()
+
+        current_taxonomy: List[Dict] = []
+        total_sections = len(document_content)
+        
+        for i, section in enumerate(document_content):
+            # Skip non-content blocks if any
+            if section.get("type") == "HEADER": continue
+            
+            section_text = section.get("text", "") or section.get("annotated_text", "")
+            manual_tags = section.get("tags", [])
+            
+            if not section_text.strip(): continue
+            
+            # Format Prompt
+            import json
+            prompt = base_prompt.format(
+                current_taxonomy=json.dumps(current_taxonomy, indent=2),
+                section_text=section_text,
+                manual_tags=json.dumps(manual_tags)
+            )
+            
+            # Call LLM
+            response = await client.aio.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=prompt,
+                config={'response_mime_type': 'application/json', 'temperature': 0.1}
+            )
+            
+            try:
+                new_tags = json.loads(response.text)
+                if isinstance(new_tags, list):
+                    # Simple merge by tag_id
+                    existing_ids = {t["tag_id"] for t in current_taxonomy}
+                    for nt in new_tags:
+                        if nt.get("tag_id") not in existing_ids:
+                            current_taxonomy.append(nt)
+                            existing_ids.add(nt["tag_id"])
+            except Exception as pe:
+                print(f"Failed to parse LLM response for section {i}: {pe}")
+
+            # Update Progress
+            percent = int(((i + 1) / total_sections) * 100)
+            jobs[job_id]["progress"] = percent
+            jobs[job_id]["message"] = f"Generating Taxonomy: {percent}% ({i+1}/{total_sections})"
+
+        # Finalize and Save
+        # Reuse save_taxonomy logic for archiving
+        await save_taxonomy([GeneralTaxonomyTag(**t) for t in current_taxonomy])
+        
+        jobs[job_id]["status"] = "completed"
+        jobs[job_id]["progress"] = 100
+        jobs[job_id]["result"] = current_taxonomy
+        jobs[job_id]["message"] = "Taxonomy generation complete."
+
+    except Exception as e:
+        print(f"Taxonomy Generation Job {job_id} failed: {e}")
+        jobs[job_id]["status"] = "failed"
+        jobs[job_id]["error"] = str(e)
+
+@app.post("/taxonomy/generate")
+async def generate_taxonomy(
+    payload: HipdamAnalysisPayload, # Reuse payload structure for content
+    background_tasks: BackgroundTasks
+):
+    job_id = f"tax_{str(uuid.uuid4())[:8]}"
+    jobs[job_id] = {
+        "status": "pending",
+        "progress": 0,
+        "message": "Initializing taxonomy generation...",
+        "result": None
+    }
+    print(f"DEBUG: Created Taxonomy Job {job_id}")
+    background_tasks.add_task(run_taxonomy_generation, job_id, payload.document_content)
+    return {"job_id": job_id}
+
 
 async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPayload):
     try:
@@ -558,13 +712,6 @@ async def analyze_linguistic_document(
 # HiPDAM Full Document Analysis -----------------------------------------------
 from analyzers.document_processor import DocumentProcessor
 
-class HipdamAnalysisPayload(BaseModel):
-    document_content: List[Dict[str, Any]]
-    filename: str
-    document_type: str = "master" # Default to master/clause-based
-    file_id: Optional[str] = None # For deterministic job IDs (Resumption)
-    force_clean: bool = False # Whether to wipe existing progress
-
 async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPayload):
     try:
         jobs[job_id]["status"] = "processing"
@@ -589,6 +736,7 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
             payload.document_content, 
             payload.filename, 
             document_type=payload.document_type,
+            taxonomy=payload.taxonomy, # Pass taxonomy down
             progress_callback=update_progress,
             clean_start=payload.force_clean # No longer hardcoded to True
         )

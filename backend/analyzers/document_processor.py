@@ -27,8 +27,8 @@ class DocumentProcessor:
         job_id: str, 
         document_payload: List[Dict[str, Any]], 
         filename: str,
-
         document_type: str = "master",
+        taxonomy: Optional[List[Dict[str, Any]]] = None, # Added taxonomy
         progress_callback=None,
         clean_start: bool = False
     ):
@@ -178,7 +178,7 @@ class DocumentProcessor:
                         logger.warning(f"Section {section_title} empty, skipping agents.")
                         continue
                         
-                    trace = await self.orchestrator.analyze_section(text_content, section_id)
+                    trace = await self.orchestrator.analyze_section(text_content, section_id, taxonomy=taxonomy)
                     
                     # Save Partial
                     with open(partial_file, "w", encoding="utf-8") as f:

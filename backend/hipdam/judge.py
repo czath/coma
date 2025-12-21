@@ -23,7 +23,7 @@ class SupremeJudge:
         else:
             self.system_instr = config.get("system_instruction", "You are the Judge.")
 
-    async def adjudicate(self, cluster: Cluster, recommendations: List[ExpertRecommendation], section_text: str) -> Optional[JudgeDecision]:
+    async def adjudicate(self, cluster: Cluster, recommendations: List[ExpertRecommendation], section_text: str, taxonomy: Optional[List[Dict[str, Any]]] = None) -> Optional[JudgeDecision]:
         """
         Adjudicates a single cluster of recommendations against the source text.
         """
@@ -46,6 +46,9 @@ class SupremeJudge:
 
 ### CLUSTER CANDIDATES (Conflicting or Supporting Views)
 {candidates_text}
+
+### TAXONOMY (GLOBAL)
+{json.dumps(taxonomy, indent=2) if taxonomy else "None defined."}
 
 ### JUDGEMENT TASK
 Review the candidates against the source text.

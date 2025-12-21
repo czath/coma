@@ -909,8 +909,8 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
             {/* 2. Main Layout (Split View) */}
             <div className="flex flex-1 overflow-hidden relative">
 
-                {/* LEFT PANEL: Document Info (Fixed 1/4) */}
-                <div className="w-1/4 bg-white border-r border-gray-200 flex flex-col p-6 shrink-0 z-10 overflow-y-auto">
+                {/* LEFT PANEL: Document Info (Fixed 1/4) - V4: Invisible Split */}
+                <div className="w-80 flex flex-col p-6 shrink-0 z-10 overflow-y-auto">
                     <div className="space-y-6">
                         {/* 1. Document Identity Card (Top) */}
                         <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden flex flex-col">
@@ -934,7 +934,7 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                                                 reference: 'bg-teal-100 text-teal-700 border-teal-200'
                                             };
                                             return (
-                                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wide ${styles[docType] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
+                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize border ${styles[docType] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
                                                     {docType}
                                                 </span>
                                             );
@@ -1002,94 +1002,88 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                 </div>
 
                 {/* RIGHT PANEL: Content Area (Scrollable 3/4) */}
-                <div className="w-3/4 flex-1 flex flex-col bg-gray-50 overflow-hidden">
-                    {/* Sticky Search & Filter Bar */}
-                    <div className="bg-white border-b border-gray-200 px-8 py-4 z-20 shadow-sm">
-                        <div className="max-w-4xl mx-auto space-y-4">
-                            <div className="flex gap-4">
-                                {/* Search Input */}
-                                <div className="flex-1 relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                                    <input
-                                        type="text"
-                                        placeholder="Search records by text or keywords..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
-                                    />
-                                    {searchQuery && (
-                                        <button
-                                            onClick={() => setSearchQuery("")}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                <div className="flex-1 flex flex-col overflow-hidden relative">
+
+
+                    <div className="flex-grow overflow-y-auto p-8 pt-6 relative">
+                        {/* FILTER CONTROL CARD (Floating Sticky - V4) */}
+                        <div className="sticky top-0 z-20 mb-8">
+                            <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-4 flex flex-col gap-4 backdrop-blur-xl bg-white/95 transition-all">
+                                {/* ROW 1: Filters + Icon */}
+                                <div className="flex items-center gap-4 border-b border-gray-100 pb-3">
+                                    <div className="flex items-center gap-2 text-gray-400 font-bold uppercase text-xs tracking-wider shrink-0">
+                                        <Filter size={16} className="text-indigo-500" />
+                                    </div>
+
+                                    {/* FILTERS (Moved to Top) */}
+                                    <div className="flex flex-wrap gap-2 flex-grow">
+                                        <select
+                                            value={filters.section}
+                                            onChange={(e) => setFilters(prev => ({ ...prev, section: e.target.value }))}
+                                            className="bg-gray-50 border border-gray-200 rounded px-2 py-1.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-700 hover:bg-white hover:border-gray-300 transition-colors"
                                         >
-                                            <X size={16} />
+                                            <option value="all">All Sections</option>
+                                            {filterOptions.sections.map(s => <option key={s} value={s}>{s}</option>)}
+                                        </select>
+
+                                        <select
+                                            value={filters.type}
+                                            onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
+                                            className="bg-gray-50 border border-gray-200 rounded px-2 py-1.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-700 hover:bg-white hover:border-gray-300 transition-colors"
+                                        >
+                                            <option value="all">All Types</option>
+                                            {filterOptions.types.map(t => <option key={t} value={t}>{t}</option>)}
+                                        </select>
+
+                                        <select
+                                            value={filters.subtype}
+                                            onChange={(e) => setFilters(prev => ({ ...prev, subtype: e.target.value }))}
+                                            className="bg-gray-50 border border-gray-200 rounded px-2 py-1.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-700 hover:bg-white hover:border-gray-300 transition-colors"
+                                        >
+                                            <option value="all">All Subtypes</option>
+                                            {filterOptions.subtypes.map(s => <option key={s} value={s}>{s}</option>)}
+                                        </select>
+
+                                        <select
+                                            value={filters.classification}
+                                            onChange={(e) => setFilters(prev => ({ ...prev, classification: e.target.value }))}
+                                            className="bg-gray-50 border border-gray-200 rounded px-2 py-1.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-700 hover:bg-white hover:border-gray-300 transition-colors"
+                                        >
+                                            <option value="all">All Classifications</option>
+                                            {filterOptions.classifications.map(c => <option key={c} value={c}>{c}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/* ROW 2: Search + Reset + Count */}
+                                <div className="flex items-center justify-between">
+                                    <div className="flex gap-2 items-center flex-grow">
+                                        <div className="relative flex-grow max-w-md">
+                                            <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+                                            <input
+                                                type="text"
+                                                placeholder="Search content by keywords or text..."
+                                                className="w-full pl-8 pr-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-shadow focus:bg-white"
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                            />
+                                        </div>
+                                        <button
+                                            className="text-[10px] font-bold uppercase text-gray-400 hover:text-indigo-600 px-3 py-1.5 rounded hover:bg-indigo-50 transition-colors border border-transparent hover:border-indigo-100"
+                                            onClick={clearFilters}
+                                        >
+                                            Reset Filters
                                         </button>
-                                    )}
-                                </div>
-                                <button
-                                    onClick={clearFilters}
-                                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors border border-transparent hover:border-indigo-100 flex items-center gap-2"
-                                >
-                                    <RefreshCw size={16} className={searchQuery || Object.values(filters).some(f => f !== 'all') ? "" : "opacity-50"} />
-                                    Reset
-                                </button>
-                            </div>
+                                    </div>
 
-                            {/* Filters Row */}
-                            <div className="flex flex-wrap gap-2 items-center">
-                                <div className="flex items-center gap-2 text-gray-400 mr-2">
-                                    <Filter size={14} />
-                                    <span className="text-[10px] font-bold uppercase tracking-wider">Filters</span>
-                                </div>
-
-                                <select
-                                    value={filters.section}
-                                    onChange={(e) => setFilters(prev => ({ ...prev, section: e.target.value }))}
-                                    className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 max-w-[150px]"
-                                >
-                                    <option value="all">All Sections</option>
-                                    {filterOptions.sections.map(s => <option key={s} value={s}>{s}</option>)}
-                                </select>
-
-                                <select
-                                    value={filters.type}
-                                    onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-                                    className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                >
-                                    <option value="all">All Types</option>
-                                    {filterOptions.types.map(t => <option key={t} value={t}>{t}</option>)}
-                                </select>
-
-                                <select
-                                    value={filters.subtype}
-                                    onChange={(e) => setFilters(prev => ({ ...prev, subtype: e.target.value }))}
-                                    className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                >
-                                    <option value="all">All Subtypes</option>
-                                    {filterOptions.subtypes.map(s => <option key={s} value={s}>{s}</option>)}
-                                </select>
-
-                                <select
-                                    value={filters.classification}
-                                    onChange={(e) => setFilters(prev => ({ ...prev, classification: e.target.value }))}
-                                    className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                >
-                                    <option value="all">All Classifications</option>
-                                    {filterOptions.classifications.map(c => <option key={c} value={c}>{c}</option>)}
-                                </select>
-
-                                <div className="ml-auto">
-                                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
-                                        <span className="font-bold text-gray-900">{filteredDecisions.length}</span> results found
-                                        <span className="text-gray-300">|</span>
-                                        <span className="text-gray-400">{allDecisions.length} total</span>
+                                    <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                                        <div className="w-px h-4 bg-gray-200 mx-1"></div>
+                                        <span>{filteredDecisions.length} / {allDecisions.length} Records</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="flex-1 overflow-y-auto p-8">
                         <div className="max-w-4xl mx-auto w-full">
                             {/* Error State */}
                             {error && (

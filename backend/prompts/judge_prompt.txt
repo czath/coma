@@ -72,6 +72,7 @@ Use the schema appropriate for the Type YOU decide.
      // Polymorphic Fields - Populated based on Type
      "classification": "...", // If Guideline
      "subtype": "...", // If Other
+     "recordTags": ["Tag_ID_1", "Tag_ID_2"], // From GLOBAL TAXONOMY
      "conditions": "...", "justification": "...", 
      "implication_company": "...", "implication_supplier": "...", "source_insight": "..."
   }

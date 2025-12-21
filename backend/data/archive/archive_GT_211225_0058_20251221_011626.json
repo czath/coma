@@ -1,0 +1,47 @@
+[
+  {
+    "tag_id": "PROCUREMENT_CONTRACT_PLAYBOOK",
+    "display_name": "Procurement Contract Playbook",
+    "description": "A guide or manual outlining the processes, procedures, and best practices for procurement contracts within an organization."
+  },
+  {
+    "tag_id": "ARBITRATION",
+    "display_name": "Arbitration",
+    "description": "A method of dispute resolution involving one or more neutral third parties who render a binding or non-binding decision."
+  },
+  {
+    "tag_id": "DISPUTE_RESOLUTION",
+    "display_name": "Dispute Resolution",
+    "description": "The process of resolving conflicts or disagreements between parties, which may include negotiation, mediation, arbitration, or litigation."
+  },
+  {
+    "tag_id": "ASSIGNMENT",
+    "display_name": "Assignment",
+    "description": "The transfer of rights, obligations, or duties under a contract from one party to another."
+  },
+  {
+    "tag_id": "NOVATION",
+    "display_name": "Novation",
+    "description": "The replacement of an existing contract with a new one, involving the consent of all parties. It transfers both rights and obligations."
+  },
+  {
+    "tag_id": "CHANGE_OF_CONTROL",
+    "display_name": "Change of Control",
+    "description": "A change in the controlling ownership of a company, often triggering specific contractual provisions."
+  },
+  {
+    "tag_id": "CONTRACT_INTERPRETATION",
+    "display_name": "Contract Interpretation",
+    "description": "The process of determining the meaning of the terms and provisions of a contract."
+  },
+  {
+    "tag_id": "LIABILITY_LIMITATION",
+    "display_name": "Liability Limitation",
+    "description": "A clause in a contract that limits the amount or type of damages for which a party may be liable."
+  },
+  {
+    "tag_id": "BEST_EFFORTS",
+    "display_name": "Best Efforts",
+    "description": "A contractual obligation requiring a party to make a diligent and reasonable effort to fulfill its obligations, but not necessarily guaranteeing a specific outcome."
+  }
+]

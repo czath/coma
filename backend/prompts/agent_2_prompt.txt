@@ -34,7 +34,8 @@ Return a list of objects exactly matching this schema.
     "justification": "Why is this relevant?",
     "implication_company": "Key Takeaway for Us",
     "implication_supplier": "Key Takeaway for Them",
-    "source_insight": "Nuance/Ambiguity."
+    "source_insight": "Nuance/Ambiguity.",
+    "recordTags": ["Tag_ID_1", "Tag_ID_2"] // Categorize using provided Taxonomy
   }
 ]
 ```

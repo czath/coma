@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useWorkspace } from '../../hooks/useWorkspace';
 import Editor from '../Editor';
 import Sidebar from '../Sidebar';
-import { ArrowLeft, Save, Loader, CheckCircle, Download, FileText, BookOpen, FilePlus, Wand2, Wrench, Upload, Edit, FileSearch, FileJson } from 'lucide-react';
+import { ArrowLeft, Save, Loader, CheckCircle, Download, FileText, BookOpen, FilePlus, Wand2, Wrench, Upload, Edit, FileSearch, FileJson, Network } from 'lucide-react';
 
 export default function AnnotateWrapper() {
     const { id } = useParams();
@@ -20,6 +20,11 @@ export default function AnnotateWrapper() {
     const [documentType, setDocumentType] = useState('master');
     const [documentTags, setDocumentTags] = useState([]);
     const [newTagInput, setNewTagInput] = useState('');
+
+    // Taxonomy Generation State
+    const [isGeneratingTaxonomy, setIsGeneratingTaxonomy] = useState(false);
+    const [taxonomyProgress, setTaxonomyProgress] = useState({ percent: 0, message: '' });
+    const [taxJobId, setTaxJobId] = useState(null);
 
     useEffect(() => {
         const load = async () => {
@@ -246,6 +251,82 @@ export default function AnnotateWrapper() {
                 console.error("Error finalizing:", e);
                 alert("Failed to save finalized document.");
             }
+        }
+    };
+
+    const handleGenerateTaxonomy = async () => {
+        // 1. Check for existing taxonomy for overwrite confirmation
+        try {
+            const checkRes = await fetch('http://localhost:8000/taxonomy/check');
+            const checkData = await checkRes.json();
+            if (checkData.exists) {
+                if (!window.confirm(`A General Taxonomy already exists [${checkData.filename}]. Generating a new one will archive the current list and set a new one. Proceed?`)) {
+                    return;
+                }
+            }
+        } catch (err) {
+            console.error("Check failed", err);
+        }
+
+        // 2. Start Generation Process
+        setIsGeneratingTaxonomy(true);
+        setTaxonomyProgress({ percent: 0, message: 'Initializing LLM...' });
+
+        try {
+            const stitchedContent = generateStitchedContent();
+            const response = await fetch('http://localhost:8000/taxonomy/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    document_content: stitchedContent,
+                    filename: file.header.filename,
+                    document_type: documentType,
+                })
+            });
+
+            if (!response.ok) throw new Error("Failed to start generation");
+            const { job_id } = await response.json();
+            setTaxJobId(job_id);
+
+            // 3. Poll for Progress
+            const poll = setInterval(async () => {
+                try {
+                    const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
+                    const statusData = await statusRes.json();
+
+                    if (statusData.status === 'processing') {
+                        setTaxonomyProgress({
+                            percent: statusData.progress,
+                            message: statusData.message || 'Processing...'
+                        });
+                    } else if (statusData.status === 'completed') {
+                        clearInterval(poll);
+                        setIsGeneratingTaxonomy(false);
+                        alert("General Taxonomy generated and saved successfully!");
+                    } else if (statusData.status === 'failed' || statusData.status === 'cancelled') {
+                        clearInterval(poll);
+                        setIsGeneratingTaxonomy(false);
+                        if (statusData.status === 'failed') alert("Taxonomy generation failed: " + statusData.error);
+                    }
+                } catch (pe) {
+                    console.error("Poll error", pe);
+                }
+            }, 2000);
+
+        } catch (err) {
+            console.error("Generation failed", err);
+            alert("Error starting taxonomy generation.");
+            setIsGeneratingTaxonomy(false);
+        }
+    };
+
+    const handleCancelTaxonomy = async () => {
+        if (!taxJobId) return;
+        try {
+            await fetch(`http://localhost:8000/cancel_job/${taxJobId}`, { method: 'DELETE' });
+            setIsGeneratingTaxonomy(false);
+        } catch (err) {
+            console.error("Cancel failed", err);
         }
     };
 
@@ -571,19 +652,19 @@ export default function AnnotateWrapper() {
             {/* Header */}
             <header className="bg-white shadow-sm border-b border-gray-200 z-10 px-6 py-3 flex justify-between items-center shrink-0">
                 <div className="flex items-center gap-4 min-w-0">
-                    <button onClick={() => navigate('/workspace')} className="text-gray-500 hover:text-gray-700 shrink-0">
+                    <button onClick={() => navigate('/workspace')} className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full shrink-0">
                         <ArrowLeft size={20} />
                     </button>
                     <div className="flex items-center gap-3 min-w-0">
                         <h1 className="text-lg font-bold text-gray-800 truncate" title={file?.header?.filename}>
                             {file?.header?.filename}
                         </h1>
-                        <div className={`shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-medium capitalize whitespace-nowrap ${getTypeStyles(documentType)}`}>
+                        <div className={`shrink-0 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-xs font-medium capitalize whitespace-nowrap ${getTypeStyles(documentType)}`}>
                             {getTypeIcon(documentType)}
                             {documentType}
                         </div>
                         {getStatusBadge(file?.header?.status || 'uploaded')}
-                        <span className={`shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border whitespace-nowrap ${file?.header?.annotationMethod === 'ai' ? 'bg-purple-100 text-purple-700 border-purple-200' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+                        <span className={`shrink-0 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border whitespace-nowrap ${file?.header?.annotationMethod === 'ai' ? 'bg-purple-100 text-purple-700 border-purple-200' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>
                             {file?.header?.annotationMethod === 'ai' ? <Wand2 size={14} /> : <Wrench size={14} />}
                             {file?.header?.annotationMethod === 'ai' ? 'AI Assisted' : 'Rule Based'}
                         </span>
@@ -592,12 +673,21 @@ export default function AnnotateWrapper() {
                 <div className="flex items-center gap-3 shrink-0">
                     <button
                         onClick={handleExport}
-                        className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                        className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full shrink-0"
                         title="Export JSON"
                     >
-                        <FileJson size={18} />
+                        <FileJson size={20} />
                     </button>
                     <div className="h-6 w-px bg-gray-300 mx-1"></div>
+                    {file?.header?.status === 'annotated' && (
+                        <button
+                            onClick={handleGenerateTaxonomy}
+                            className="flex items-center gap-2 px-3 py-2 text-purple-600 hover:text-purple-900 border border-purple-200 hover:bg-purple-50 rounded-lg transition-colors font-medium text-sm"
+                            title="Generate General Taxonomy from this document"
+                        >
+                            <Network size={16} /> Generate Taxonomy
+                        </button>
+                    )}
                     <button
                         onClick={handleSaveDraft}
                         className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium text-sm transition-colors"
@@ -638,14 +728,6 @@ export default function AnnotateWrapper() {
 
             {/* Editor Area */}
             <div className="flex-grow flex overflow-hidden p-6 gap-6">
-                <Editor
-                    content={content}
-                    clauses={clauses}
-                    onUpdateClauses={handleUpdateClauses}
-                    selectedClauseIds={selectedClauseIds}
-                    onSelectClause={setSelectedClauseIds}
-                    documentType={documentType}
-                />
                 <Sidebar
                     activeClause={selectedClauseIds.length === 1 ? clauses.find(c => c.id === selectedClauseIds[0]) : null}
                     onUpdateClause={handleUpdateClause}
@@ -654,7 +736,48 @@ export default function AnnotateWrapper() {
                     documentType={documentType}
                     stats={stats}
                 />
+                <Editor
+                    content={content}
+                    clauses={clauses}
+                    onUpdateClauses={handleUpdateClauses}
+                    selectedClauseIds={selectedClauseIds}
+                    onSelectClause={setSelectedClauseIds}
+                    documentType={documentType}
+                />
             </div>
+
+            {/* Taxonomy Generation Progress Modal */}
+            {isGeneratingTaxonomy && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 flex flex-col items-center text-center">
+                        <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                            <Loader className="text-purple-600 animate-spin" size={32} />
+                        </div>
+                        <h2 className="text-xl font-bold text-gray-900 mb-2">Generating General Taxonomy</h2>
+                        <p className="text-gray-500 text-sm mb-6">
+                            LLM is iteratively analyzing the document to discover and define unique tags. This may take several minutes.
+                        </p>
+
+                        <div className="w-full bg-gray-100 rounded-full h-2.5 mb-2">
+                            <div
+                                className="bg-purple-600 h-2.5 rounded-full transition-all duration-500"
+                                style={{ width: `${taxonomyProgress.percent}%` }}
+                            ></div>
+                        </div>
+                        <div className="flex justify-between w-full text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-8">
+                            <span>{taxonomyProgress.message}</span>
+                            <span>{taxonomyProgress.percent}%</span>
+                        </div>
+
+                        <button
+                            onClick={handleCancelTaxonomy}
+                            className="px-6 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                        >
+                            Cancel Process
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

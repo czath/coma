@@ -9,7 +9,7 @@ class AgentRunner:
     def __init__(self, client: genai.Client):
         self.client = client
 
-    async def run_agent(self, agent_id: str, agent_config: Dict[str, Any], section_text: str) -> List[ExpertRecommendation]:
+    async def run_agent(self, agent_id: str, agent_config: Dict[str, Any], section_text: str, taxonomy: Optional[List[Dict[str, Any]]] = None) -> List[ExpertRecommendation]:
         """
         Runs a single expert agent against the text.
         """
@@ -37,6 +37,7 @@ class AgentRunner:
 
 ### INSTRUCTIONS
 Strictly follow your System Instruction. 
+{"### TAXONOMY TAGS\n" + json.dumps(taxonomy, indent=2) if taxonomy else ""}
 Return ONLY a valid JSON List. Do not use markdown code blocks.
 """
             
