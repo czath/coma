@@ -28,25 +28,20 @@ class DocumentProcessor:
         document_payload: List[Dict[str, Any]], 
         filename: str,
         document_type: str = "master",
-        taxonomy: Optional[List[Dict[str, Any]]] = None, # Added taxonomy
+        taxonomy: Optional[List[Dict[str, Any]]] = None,
         progress_callback=None,
         clean_start: bool = False
     ):
         """
-        Orchestrates the full document processing pipeline:
-        1. Setup Temp Directory
-        2. Identify Sections
-        3. Process Each Section (Agent -> Cluster -> Judge)
-        4. Save Partial Results (Resilience)
-        5. Consolidate & Cleanup
+        Orchestrates full document analysis.
+        If job_id corresponds to an existing folder, it will effectively RESUME 
+        because checks for existing section results will pass.
         """
-        
-        # 1. Setup Temp Directory
+        # Directory is now strictly based on the job_id passed in
         temp_dir = Path(f"temp_jobs/{job_id}")
         
         if clean_start and temp_dir.exists():
             logger.info(f"Clean Start requested for {job_id}. Removing existing temp artifacts.")
-            import shutil
             shutil.rmtree(temp_dir)
             
         temp_dir.mkdir(parents=True, exist_ok=True)
@@ -289,6 +284,8 @@ class DocumentProcessor:
             return {
                 "analyzed_file": analyzed_filename,
                 "trace_file": trace_filename,
+                "hipdam_analyzed_content": golden_records, # Return content for frontend
+                "hipdam_trace_content": full_trace,       # Return trace for frontend
                 "stats": {
                     "sections_processed": len(trace_maps),
                     "total_decisions": sum(len(tm.decisions) for tm in trace_maps)

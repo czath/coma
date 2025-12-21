@@ -45,6 +45,7 @@ from datetime import datetime
 from glob import glob
 from data_models import GeneralTaxonomyTag
 from analyzers.rule_extractor import RuleExtractor
+from utils.power_management import prevent_sleep_task
 
 app = FastAPI(title="Coma Legal Contract Manager")
 
@@ -68,11 +69,16 @@ async def root():
 async def health_check():
     return {"status": "ok"}
 
+@prevent_sleep_task
 def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: bool, document_type: str):
     try:
         jobs[job_id]["status"] = "processing"
         jobs[job_id]["progress"] = 0
-        jobs[job_id]["message"] = "Extracting text..."
+        jobs[job_id]["message"] = {
+            "stage": "extracting",
+            "label": "Extracting text...",
+            "details": {}
+        }
         
         # Initialize Billing
         from billing_manager import get_billing_manager
@@ -90,7 +96,7 @@ def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: 
         else:
             raise Exception("Unsupported file type")
             
-        jobs[job_id]["message"] = "Tagging content..."
+        jobs[job_id]["message"] = { "stage": "tagging", "label": "Tagging content...", "details": {} }
         
         # Define progress callback
         model_name = get_config("TAGGING")["model_name"]
@@ -98,7 +104,11 @@ def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: 
             if total > 0:
                 percent = int((current / total) * 100)
                 jobs[job_id]["progress"] = percent
-                jobs[job_id]["message"] = f"Tagging content: {percent}% ({current}/{total})"
+                jobs[job_id]["message"] = {
+                    "stage": "tagging",
+                    "label": f"Tagging content: {percent}% ({current}/{total})",
+                    "details": {"current": current, "total": total}
+                }
         
         # Auto-Tagging
         document_type = document_type.upper()
@@ -138,9 +148,35 @@ async def upload_file(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     use_ai_tagger: bool = Form(False),
-    document_type: str = Form("master")
+    document_type: str = Form("master"),
+    resume_job_id: Optional[str] = Form(None),
+    force_restart: bool = Form(False)
 ):
-    job_id = str(uuid.uuid4())
+    import time
+    
+    # Logic for Active Job Detection (Ingestion/Annotate Phase)
+    # Note: Frontend handles the check. We just obey the params.
+    
+    if resume_job_id:
+        job_id = resume_job_id
+        print(f"RESUMING Ingestion Job: {job_id}")
+    else:
+        # Start NEW or RESTART
+        # Note: For upload, 'file_id' isn't explicitly passed, we rely on filename or assume new context.
+        # But if restarting, we might want to cleanup? 
+        # Since upload creates a NEW temp file, cleanup of *old* job folders is less critical 
+        # unless we know the specific old job_id. 
+        # We'll rely on the standard "Generate Unique ID" behavior here.
+        
+        job_id = str(uuid.uuid4())
+        # To make it resumable later, we might want timestamped format?
+        # But /upload is usually the *start*. Resumption usually happens *during* processing.
+        # If we want to resume *this* upload processing later, we need a stable ID?
+        # Let's stick to UUID for upload-initated jobs unless we want to link it precisely.
+        # Actually, for consistency with other endpoints:
+        timestamp = int(time.time())
+        job_id = f"job_ingest_{uuid.uuid4()}_{timestamp}"
+
     filename = file.filename
     
     # Save temp file
@@ -152,7 +188,7 @@ async def upload_file(
     jobs[job_id] = {
         "status": "pending",
         "progress": 0,
-        "message": "Queued...",
+        "message": { "stage": "queued", "label": "Queued...", "details": {} },
         "result": None
     }
     
@@ -238,6 +274,7 @@ async def save_taxonomy(tags: List[GeneralTaxonomyTag]):
     
     return {"status": "success", "filename": new_filename}
 
+@prevent_sleep_task
 async def run_taxonomy_generation(job_id: str, document_content: List[Dict[str, Any]]):
     try:
         jobs[job_id]["status"] = "processing"
@@ -312,7 +349,7 @@ async def run_taxonomy_generation(job_id: str, document_content: List[Dict[str, 
         jobs[job_id]["status"] = "completed"
         jobs[job_id]["progress"] = 100
         jobs[job_id]["result"] = current_taxonomy
-        jobs[job_id]["message"] = "Taxonomy generation complete."
+        jobs[job_id]["message"] = { "stage": "complete", "label": "Taxonomy generation complete.", "details": {} }
 
     except Exception as e:
         print(f"Taxonomy Generation Job {job_id} failed: {e}")
@@ -328,7 +365,7 @@ async def generate_taxonomy(
     jobs[job_id] = {
         "status": "pending",
         "progress": 0,
-        "message": "Initializing taxonomy generation...",
+        "message": { "stage": "initializing", "label": "Initializing taxonomy generation...", "details": {} },
         "result": None
     }
     print(f"DEBUG: Created Taxonomy Job {job_id}")
@@ -341,7 +378,7 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
         # Update Status
         jobs[job_id]["status"] = "processing"
         jobs[job_id]["progress"] = 0
-        jobs[job_id]["message"] = "Initializing Agentic Workflow..."
+        jobs[job_id]["message"] = { "stage": "initializing", "label": "Initializing Agentic Workflow...", "details": {} }
         
         # Assuming DocumentProcessor is imported or defined elsewhere
         # from hipdam.document_processor import DocumentProcessor # Example import
@@ -383,6 +420,7 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
         import traceback
         traceback.print_exc()
 
+@prevent_sleep_task
 async def run_analysis(job_id: str, content: List[Dict], document_id: str):
     try:
         jobs[job_id]["status"] = "processing"
@@ -396,9 +434,13 @@ async def run_analysis(job_id: str, content: List[Dict], document_id: str):
                 percent = int((current / total) * 100) if total > 0 else 0
                 jobs[job_id]["progress"] = percent
                 if message:
-                    jobs[job_id]["message"] = message
+                    jobs[job_id]["message"] = { "stage": "processing", "label": message, "details": {} }
                 else:
-                    jobs[job_id]["message"] = f"Analyzing sections: {percent}% ({current}/{total})"
+                    jobs[job_id]["message"] = {
+                        "stage": "analyzing",
+                        "label": f"Analyzing sections: {percent}%",
+                        "details": {"current": current, "total": total}
+                    }
 
         # Run extraction
         result = await extractor.extract(content, progress_callback=update_progress)
@@ -485,7 +527,7 @@ async def analyze_document(
     jobs[job_id] = {
         "status": "pending",
         "progress": 0,
-        "message": "Queued for analysis...",
+        "message": { "stage": "queued", "label": "Queued for analysis...", "details": {} },
         "result": None
     }
     
@@ -552,11 +594,12 @@ class LinguisticAnalysisPayload(BaseModel):
 
 
     
+@prevent_sleep_task
 async def run_linguistic_analysis(job_id: str, full_doc: Dict[str, Any]):
     try:
         jobs[job_id]["status"] = "processing"
         jobs[job_id]["progress"] = 0
-        jobs[job_id]["message"] = "Initializing linguistic annotation..."
+        jobs[job_id]["message"] = { "stage": "initializing", "label": "Initializing linguistic annotation...", "details": {} }
         
         # Initialize billing
         from billing_manager import get_billing_manager
@@ -700,14 +743,44 @@ async def run_linguistic_analysis(job_id: str, full_doc: Dict[str, Any]):
 @app.post("/analyze_linguistic")
 async def analyze_linguistic_document(
     payload: LinguisticAnalysisPayload,
-    background_tasks: BackgroundTasks
+    background_tasks: BackgroundTasks,
+    resume_job_id: Optional[str] = None,
+    force_restart: bool = False
 ):
     """
-    Receives document, runs Semantic Annotation (XML tagging), returns Job ID.
-    Result will be a list of blocks with 'annotated_text' field.
+    Triggers Linguistic Analysis (Process Type: 'annotate').
     """
-    job_id = str(uuid.uuid4())
+    import uuid
+    import time
+    import shutil
     
+    process_type = "annotate"
+    file_id = payload.document_content.get("id", "unknown_file") # Extract ID if possible
+    
+    if resume_job_id:
+        # User requested RESUME
+        job_id = resume_job_id
+        print(f"RESUMING Job: {job_id}")
+    else:
+        # Start NEW or RESTART
+        if force_restart and file_id != "unknown_file":
+            # Delete old active jobs for this file
+            import glob
+            search_pattern = f"temp_jobs/job_{file_id}_{process_type}_*"
+            for folder in glob.glob(search_pattern):
+                 try:
+                     shutil.rmtree(folder)
+                     print(f"Cleanup: Deleted {folder}")
+                 except Exception as e:
+                     print(f"Cleanup Failed for {folder}: {e}")
+        
+        # Generator Unique ID
+        timestamp = int(time.time())
+        if file_id != "unknown_file":
+             job_id = f"job_{file_id}_{process_type}_{timestamp}"
+        else:
+             job_id = f"job_{uuid.uuid4()}_{process_type}_{timestamp}"
+
     jobs[job_id] = {
         "status": "queued",
         "progress": 0,
@@ -723,11 +796,12 @@ async def analyze_linguistic_document(
 # HiPDAM Full Document Analysis -----------------------------------------------
 from analyzers.document_processor import DocumentProcessor
 
+@prevent_sleep_task
 async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPayload):
     try:
         jobs[job_id]["status"] = "processing"
         jobs[job_id]["progress"] = 0
-        jobs[job_id]["message"] = "Initializing HiPDAM orchestration..."
+        jobs[job_id]["message"] = { "stage": "initializing", "label": "Initializing HiPDAM orchestration...", "details": {} }
         
         # Initialize billing
         from billing_manager import get_billing_manager
@@ -744,8 +818,32 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
             if total > 0:
                 percent = int((current / total) * 100)
                 jobs[job_id]["progress"] = percent
-                if message:
-                     jobs[job_id]["message"] = f"Analyzing {percent}% ({current}/{total})"
+                jobs[job_id]["progress"] = percent
+                
+                # SANITIZE LABEL: User demands strict "Task % (X/Z)" format ONLY.
+                # If the message matches the "Analyzing..." pattern from document_processor, 
+                # discard the verbose string (which has section names) and enforce standard format.
+                
+                is_analyzing_loop = False
+                if message and "Analyzing" in message:
+                    is_analyzing_loop = True
+                    
+                if is_analyzing_loop:
+                     jobs[job_id]["message"] = {
+                        "stage": "analyzing",
+                        "label": f"Analyzing {percent}% ({current}/{total})", # CLEAN FORMAT
+                        "details": {"current": current, "total": total}
+                     }
+                elif message:
+                     # Allow other messages like "Starting..." or "Finalizing..."
+                     jobs[job_id]["message"] = { "stage": "processing", "label": message, "details": {} }
+                else:
+                     # Fallback standard
+                     jobs[job_id]["message"] = {
+                        "stage": "analyzing",
+                        "label": f"Analyzing {percent}% ({current}/{total})",
+                        "details": {"current": current, "total": total}
+                     }
 
         result = await processor.process_document(
             job_id, 
@@ -760,7 +858,7 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
         jobs[job_id]["status"] = "completed"
         jobs[job_id]["progress"] = 100
         jobs[job_id]["result"] = result
-        jobs[job_id]["message"] = "Analysis complete."
+        jobs[job_id]["message"] = { "stage": "complete", "label": "Analysis complete.", "details": {} }
 
     except Exception as e:
         print(f"HiPDAM Job {job_id} failed: {e}")
@@ -772,28 +870,49 @@ async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPaylo
 @app.post("/analyze_hipdam_document")
 async def analyze_hipdam_document(
     payload: HipdamAnalysisPayload,
-    background_tasks: BackgroundTasks
+    background_tasks: BackgroundTasks,
+    resume_job_id: Optional[str] = None,
+    force_restart: bool = False
 ):
     """
-    Triggers HiPDAM Analysis.
-    Supports Resumption: If 'file_id' is provided, we try to reuse/resume that job namespace.
+    Triggers HiPDAM Analysis (Process Type: 'analyze').
     """
-    # Deterministic Job ID if file_id present? 
-    # NO: We want separate billing/tracking for every "Run".
-    # We append a random suffix to ensure uniqueness while keeping lineage.
     import uuid
     import time
-    if payload.file_id:
-        # Use file_id + timestamp + random for traceability + uniqueness
-        job_id = f"job_{payload.file_id}_run_{int(time.time())}"
+    import shutil
+    
+    process_type = "analyze"
+    
+    if resume_job_id:
+        # User requested RESUME
+        job_id = resume_job_id
+        print(f"RESUMING Job: {job_id}")
     else:
-        job_id = str(uuid.uuid4())
+        # Start NEW or RESTART
+        if force_restart and payload.file_id:
+            # Delete old active jobs for this file
+            import glob
+            search_pattern = f"temp_jobs/job_{payload.file_id}_{process_type}_*"
+            for folder in glob.glob(search_pattern):
+                 try:
+                     shutil.rmtree(folder)
+                     print(f"Cleanup: Deleted {folder}")
+                 except Exception as e:
+                     print(f"Cleanup Failed for {folder}: {e}")
+        
+        # Generator Unique ID
+        timestamp = int(time.time())
+        if payload.file_id:
+             job_id = f"job_{payload.file_id}_{process_type}_{timestamp}"
+        else:
+             job_id = f"job_{uuid.uuid4()}_{process_type}_{timestamp}"
+        print(f"STARTING New Job: {job_id}")
     
     # Initialize Job State
     jobs[job_id] = {
         "status": "processing", # Immediately set to processing
         "progress": 0,
-        "message": "Initializing...",
+        "message": { "stage": "initializing", "label": "Initializing...", "details": {} },
         "result": None
     }
     
@@ -801,6 +920,55 @@ async def analyze_hipdam_document(
     
     return {"job_id": job_id}
 
+
+@app.get("/jobs/check_active")
+async def check_active_jobs(file_id: str, process_type: str = "analyze"):
+    """
+    Scans for incomplete jobs for a given file and process type.
+    process_type: 'analyze' (HiPDAM) or 'annotate' (Linguistic)
+    Returns: { "found": bool, "job_id": str, "timestamp": str }
+    """
+    import glob
+    if not file_id:
+        return {"found": False}
+        
+    # Search for job folders matching job_{file_id}_{process_type}_*
+    # Note: process_type in folder name is "hipdam" for analyze? 
+    # Let's standardize: 
+    #   analyze -> job_{file_id}_analyze_{timestamp}
+    #   annotate -> job_{file_id}_annotate_{timestamp}
+    
+    search_pattern = f"temp_jobs/job_{file_id}_{process_type}_*"
+    folders = glob.glob(search_pattern)
+    
+    if not folders:
+        # Backward compatibility check? (Maybe old jobs named differently?)
+        # For now, strict new format.
+        return {"found": False}
+        
+    # Sort by timestamp (newest first)
+    folders.sort(reverse=True)
+    latest_folder = folders[0]
+    folder_name = os.path.basename(latest_folder)
+    
+    # Check if incomplete
+    # We can check for a 'result.json' or 'completed' marker?
+    # Or just assume existence means active/incomplete/crashed?
+    # Let's assume ANY folder present is a candidate, frontend asks user.
+    
+    # Extract timestamp from folder name?
+    # job_{file_id}_{process_type}_{timestamp}
+    try:
+        parts = folder_name.split("_")
+        ts = parts[-1]
+    except:
+        ts = "unknown"
+        
+    return {
+        "found": True,
+        "job_id": folder_name, # Folder name IS the job_id
+        "timestamp": ts
+    }
 
 @app.get("/output/{filename}")
 async def get_output_file(filename: str):

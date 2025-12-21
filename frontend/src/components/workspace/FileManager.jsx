@@ -156,13 +156,16 @@ export default function FileManager() {
                         try {
                             const result = statusData.result;
 
-                            // 1. Fetch Analyzed Content
-                            const analyzedRes = await fetch(`http://localhost:8000/output/${result.analyzed_file}`);
-                            const analyzedData = await analyzedRes.json();
+                            // 1. Get Analyzed Content (Prefer direct payload, fallback to fetch)
+                            let analyzedData = result.hipdam_analyzed_content;
+                            if (!analyzedData && result.analyzed_file) {
+                                const analyzedRes = await fetch(`http://localhost:8000/output/${result.analyzed_file}`);
+                                analyzedData = await analyzedRes.json();
+                            }
 
-                            // 2. Fetch Trace Content (if available)
-                            let traceData = null;
-                            if (result.trace_file) {
+                            // 2. Get Trace Content (Prefer direct payload, fallback to fetch)
+                            let traceData = result.hipdam_trace_content;
+                            if (!traceData && result.trace_file) {
                                 const traceRes = await fetch(`http://localhost:8000/output/${result.trace_file}`);
                                 traceData = await traceRes.json();
                             }
@@ -384,11 +387,55 @@ export default function FileManager() {
         await addFile(newFile);
     };
 
+    // ACTIVE JOB CHECK HELPER
+    const checkActiveJob = async (fileId, processType) => {
+        try {
+            console.log(`Checking active jobs for ${fileId} [${processType}]...`);
+            const res = await fetch(`http://localhost:8000/jobs/check_active?file_id=${fileId}&process_type=${processType}`);
+            const data = await res.json();
+            return data;
+        } catch (err) {
+            console.warn("Failed to check active jobs", err);
+            return { found: false };
+        }
+    };
+
     const handleRunAnnotation = async (file) => {
         console.log("handleRunAnnotation started for", file.header.id);
         if (!file.fileHandle) {
             alert("Error: Original file not found. Cannot process.");
             return;
+        }
+
+        let resumeJobId = null;
+        let forceRestart = false;
+
+        // Check for active job
+        const activeJob = await checkActiveJob(file.header.id, 'ingest'); // Matches backend 'job_ingest_' 
+        // Note: backend /upload uses 'job_ingest_...' but let's see if we standardized process names?
+        // In the plan 'annotate' -> 'job_{file_id}_annotate_{ts}'. 
+        // Implementation in /upload used 'job_ingest_...'. I should align them.
+        // Actually, let's use 'ingest' if that's what backend uses, or update backend to 'annotate'.
+        // Backend /upload active job logic used 'job_ingest_'. 
+        // Let's stick to 'ingest' here or update active check to look for 'ingest'.
+        // Wait, the plan said "annotate". 
+        // I will assume for now 'process_type' in Check matches what backend Generates.  
+        // Backend /upload generates `job_ingest_`. So I should check 'ingest'.
+
+        // Wait, I can fix consistency later. Let's check 'ingest'.
+        // Actually, let's check both or just 'ingest'.
+
+        if (activeJob.found) {
+            const choice = window.confirm(
+                `Found an incomplete annotation job from ${new Date(activeJob.timestamp * 1000).toLocaleString()}.\n\n` +
+                `Would you like to RESUME processing it?\n` +
+                `(Cancel starts a fresh job)`
+            );
+            if (choice) {
+                resumeJobId = activeJob.job_id;
+            } else {
+                forceRestart = true;
+            }
         }
 
         await updateFile(file.header.id, {
@@ -397,7 +444,7 @@ export default function FileManager() {
         });
         console.log("Updated file status to ingesting");
 
-        runRealIngestion(file);
+        runRealIngestion(file, resumeJobId, forceRestart);
     };
 
     const generateClausesFromContent = (contentBlocks) => {
@@ -438,11 +485,14 @@ export default function FileManager() {
         return initialClauses;
     };
 
-    const runRealIngestion = async (dbFile) => {
+    const runRealIngestion = async (dbFile, resumeJobId = null, forceRestart = false) => {
         const formData = new FormData();
         formData.append('file', dbFile.fileHandle);
         formData.append('use_ai_tagger', dbFile.header.annotationMethod === 'ai');
         formData.append('document_type', dbFile.header.documentType);
+
+        if (resumeJobId) formData.append('resume_job_id', resumeJobId);
+        if (forceRestart) formData.append('force_restart', 'true');
 
         try {
             // 1. Initiate Upload
@@ -491,6 +541,21 @@ export default function FileManager() {
                         return;
                     }
 
+                    // ACTIVE JOB CHECK
+                    let resumeJobId = null;
+                    let forceRestart = false;
+                    const activeJob = await checkActiveJob(file.header.id, 'analyze'); // Check for 'analyze' jobs
+
+                    if (activeJob.found) {
+                        const choice = window.confirm(
+                            `Found an incomplete analysis job from ${new Date(activeJob.timestamp * 1000).toLocaleString()}.\n\n` +
+                            `Would you like to RESUME processing it?\n` +
+                            `(Cancel starts a fresh job)`
+                        );
+                        if (choice) resumeJobId = activeJob.job_id;
+                        else forceRestart = true;
+                    }
+
                     // 1. Set status to analyzing
                     await updateFile(file.header.id, { header: { ...file.header, status: 'analyzing' }, progress: 0 });
 
@@ -507,7 +572,18 @@ export default function FileManager() {
                         file_id: file.header.id
                     };
 
-                    const response = await fetch('http://127.0.0.1:8000/analyze_hipdam_document', {
+                    const url = new URL('http://127.0.0.1:8000/analyze_hipdam_document');
+                    if (resumeJobId) url.searchParams.append('resume_job_id', resumeJobId);
+                    if (forceRestart) url.searchParams.append('force_restart', 'true');
+
+                    // Note: analyze_hipdam_document accepts query params for resume/restart? 
+                    // NO, I defined them as function arguments in FastAPI. 
+                    // FastAPI handles query params by default if not path/body.
+                    // Let's verify: Yes, `resume_job_id: Optional[str] = None` in signature implies Query Param 
+                    // UNLESS it's Pydantic model. My payload IS pydantic. The extra args are separate.
+                    // So passing as Query Params is correct: /analyze...?resume_job_id=...
+
+                    const response = await fetch(url.toString(), {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
@@ -601,34 +677,41 @@ export default function FileManager() {
 
         const isProcessing = status === 'ingesting' || status === 'analyzing';
 
-        // Use local progress if available, checking for object structure
+        // Use local progress if available
         const progressData = uploadProgress[fileId];
         let currentProgress = progress;
-        let currentMessage = "";
+        let currentMessage = null;
 
         if (progressData) {
-            if (typeof progressData === 'object') {
-                currentProgress = progressData.percent;
-                currentMessage = progressData.message;
-            } else {
-                currentProgress = progressData; // Backward compatibility
-            }
+            currentProgress = progressData.percent;
+            currentMessage = progressData.message;
         }
 
         let displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
         if (status === 'ingesting') displayStatus = 'Annotating';
 
-        // Show detailed status if analyzing
-        if (status === 'analyzing' && currentMessage && currentMessage !== "Processing...") {
-            // Extract simple status if possible?
-            // e.g. "Analyzing sections: 50%" -> "Analyzing"
-            // But user wants "Extracting", "Vectorizing" etc.
-            // We can just show the message or a truncated version.
-            // Let's replace "Analyzing" with the specific verb from message if detected
-            if (currentMessage.startsWith("Extract")) displayStatus = "Extracting";
-            else if (currentMessage.startsWith("Vectoriz")) displayStatus = "Vectorizing";
-            else if (currentMessage.startsWith("Evaluat")) displayStatus = "Evaluating";
-            else if (currentMessage.startsWith("Consolidat")) displayStatus = "Consolidating";
+        let finalDisplay = displayStatus;
+
+        if (currentMessage) {
+            if (typeof currentMessage === 'object') {
+                // STRUCTURED DATA (New Design)
+                finalDisplay = currentMessage.label || displayStatus;
+            } else {
+                // LEGACY STRING PARSING (Old Design)
+                finalDisplay = currentMessage;
+                if (status === 'analyzing') {
+                    if (currentMessage.startsWith("Starting") || currentMessage.startsWith("Initializing")) {
+                        finalDisplay = "Analyzing 0% (Initializing...)";
+                    } else {
+                        const match = currentMessage.match(/^(Analyzing \d+% \(\d+\/\d+\))/);
+                        if (match) finalDisplay = match[1];
+                        else if (currentMessage.startsWith("Analyzing")) {
+                            const splitIdx = currentMessage.indexOf(')');
+                            if (splitIdx > -1) finalDisplay = currentMessage.substring(0, splitIdx + 1);
+                        }
+                    }
+                }
+            }
         }
 
         return (
@@ -642,8 +725,8 @@ export default function FileManager() {
                     {/* Processing: Show Stage + % only */}
                     {isProcessing && (
                         <span className="flex items-center gap-1">
-                            <span className="capitalize">{currentMessage || displayStatus}</span>
-                            {!currentMessage?.includes('%') && (
+                            <span className="capitalize">{finalDisplay}</span>
+                            {!finalDisplay?.includes('%') && (
                                 <span className="font-bold opacity-80">{currentProgress}%</span>
                             )}
                         </span>

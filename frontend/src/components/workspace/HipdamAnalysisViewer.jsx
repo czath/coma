@@ -854,9 +854,9 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
         setFilters({ type: "all", classification: "all", subtype: "all", section: "all" });
     };
 
-    // Strict Mode: No fallbacks. Information source is the analysis file header.
-    const displayFilename = analysisMetadata?.filename || "-";
-    const displayDate = analysisMetadata?.lastModified || null;
+    // Relaxed Mode: Fallback to file header if analysis metadata is missing (Fix for empty card on error)
+    const displayFilename = analysisMetadata?.filename || file.header.filename || "-";
+    const displayDate = analysisMetadata?.lastModified || file.header.lastModified || null;
     // Use calculated length to match the filter card (ignore backend header count to avoid mismatches)
     const displayRecordCount = allDecisions.length;
     const totalRecordCount = analysisMetadata?.recordCount || 0;
@@ -869,7 +869,7 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
         const displayFilename = file.header.filename; // Use source of truth
         const dotIndex = displayFilename.lastIndexOf(".");
         const exportName = dotIndex !== -1
-            ? displayFilename.substring(0, dotIndex) + "_analyzed" + displayFilename.substring(dotIndex)
+            ? displayFilename.substring(0, dotIndex) + "_analyzed.json"
             : displayFilename + "_analyzed.json";
 
         const dataStr = JSON.stringify(analyzedData, null, 2);
@@ -912,27 +912,27 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
             </div>
 
             {/* 2. Main Layout (Split View) */}
-            <div className="flex flex-1 overflow-hidden relative p-6 gap-6">
+            <div className="flex flex-1 overflow-hidden min-h-0 relative p-6 gap-6">
 
                 {/* LEFT PANEL: Document Info (Fixed 1/4) - V4: Invisible Split */}
-                <div className="w-80 flex flex-col shrink-0 z-10 overflow-y-auto pb-20 gap-6">
+                <div className="w-80 flex flex-col shrink-0 z-10 overflow-y-auto pb-20 gap-6 h-full">
                     {/* Content Wrapper Removed - Using flex gap-6 directly */}
                     {/* 1. Document Identity Card (Top) */}
-                    <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden flex flex-col">
+                    <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden flex flex-col shrink-0">
                         <div className="bg-gray-50/50 px-4 py-3 border-b border-gray-100">
                             <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Document Info</label>
                         </div>
                         <div className="p-4 space-y-4">
                             <div>
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Filename</label>
-                                <p className="text-sm text-gray-800 break-words font-semibold leading-tight">{displayFilename}</p>
+                                <p className="text-sm text-gray-800 break-all font-semibold leading-tight">{displayFilename}</p>
                             </div>
 
                             <div className="flex flex-wrap gap-4 items-center justify-between">
                                 <div>
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Type</label>
                                     {(() => {
-                                        const docType = analysisMetadata?.documentType || 'master';
+                                        const docType = analysisMetadata?.documentType || file.header?.documentType || 'master';
                                         const styles = {
                                             master: 'bg-indigo-100 text-indigo-700 border-indigo-200',
                                             subordinate: 'bg-orange-100 text-orange-700 border-orange-200',
