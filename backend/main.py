@@ -36,7 +36,7 @@ from parsers.llm_auto_tagger import LLMAutoTagger
 from config_llm import get_config
 from hipdam.core import HiPDAMOrchestrator
 from hipdam.adapter import LegacyAdapter
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Union
 from pydantic import BaseModel, Field
 import shutil
 import uuid
@@ -46,6 +46,7 @@ from glob import glob
 from data_models import GeneralTaxonomyTag
 from analyzers.rule_extractor import RuleExtractor
 from utils.power_management import prevent_sleep_task
+import traceback
 
 app = FastAPI(title="Coma Legal Contract Manager")
 
@@ -224,7 +225,7 @@ def get_latest_taxonomy_file():
 
 # Analysis Feature Payloads ---------------------------------------
 class AnalysisPayload(BaseModel):
-    document_content: Dict[str, Any] # Full document object
+    document_content: Union[Dict[str, Any], List[Dict[str, Any]]] # Full document object or list of sections
 
 class HipdamAnalysisPayload(BaseModel):
     document_content: List[Dict[str, Any]]
@@ -715,7 +716,11 @@ async def run_linguistic_analysis(job_id: str, full_doc: Dict[str, Any]):
             # Update Progress
             percent = int(((i + 1) / total_chunks) * 100)
             jobs[job_id]["progress"] = percent
-            jobs[job_id]["message"] = f"Annotating sections: {percent}% ({i+1}/{total_chunks})"
+            jobs[job_id]["message"] = {
+                "stage": "annotating",
+                "label": f"Annotating sections: {percent}% ({i+1}/{total_chunks})",
+                "details": {"current": i+1, "total": total_chunks}
+            }
 
         # Summary Log
         total_defs = sum(b["stats"]["definitions"] for b in annotated_aggregated_blocks)
@@ -731,7 +736,7 @@ async def run_linguistic_analysis(job_id: str, full_doc: Dict[str, Any]):
         jobs[job_id]["status"] = "completed"
         jobs[job_id]["progress"] = 100
         jobs[job_id]["result"] = annotated_aggregated_blocks
-        jobs[job_id]["message"] = "Linguistic annotation complete."
+        jobs[job_id]["message"] = { "stage": "complete", "label": "Linguistic annotation complete.", "details": {} }
 
     except Exception as e:
         print(f"Linguistic Analysis Job {job_id} failed: {e}")
@@ -1031,3 +1036,73 @@ async def cleanup_output_file(filename: str):
             raise HTTPException(status_code=500, detail=f"Failed to delete file: {e}")
             
     return {"status": "not_found", "file": filename}
+
+# CONTRACT ANALYSIS DEBUG ENDPOINT ---------------------------------------
+from hipdam.contract_pipeline import ContractPipeline
+
+@app.post("/debug/analyze_contract")
+async def analyze_contract_debug(
+    payload: AnalysisPayload,
+    background_tasks: BackgroundTasks
+):
+    """
+    Debug endpoint to run ContractPipeline directly on an input JSON.
+    Bypasses DB/Storage and returns job_id to poll.
+    """
+    job_id = f"debug_contract_{str(uuid.uuid4())[:8]}"
+    
+    # Extract doc contents
+    doc = payload.document_content
+    content_list = []
+    
+    if isinstance(doc, list):
+        content_list = doc
+    elif isinstance(doc, dict):
+         # Try to find list of blocks
+         if "original_content" in doc: content_list = doc["original_content"]
+         elif "content" in doc: content_list = doc["content"]
+         elif "blocks" in doc: content_list = doc["blocks"]
+         else: 
+             # Assume dict lists are keys? No, likely 'content' or just a list.
+             # Debug fallback:
+             pass
+
+    if not content_list and isinstance(doc, list):
+        content_list = doc
+    
+    # Validation failure fallback
+    if not content_list:
+        content_list = [] # Process empty
+
+    jobs[job_id] = {
+        "status": "pending",
+        "progress": 0,
+        "message": "Initializing Contract Analysis (Debug)...",
+        "result": None
+    }
+
+    async def run_debug_pipeline(jid, data):
+        try:
+            pipeline = ContractPipeline(os.getenv("GEMINI_API_KEY"))
+            
+            def progress(curr, total, msg):
+                jobs[jid]["progress"] = int((curr / total) * 100) if total > 0 else 0
+                jobs[jid]["message"] = msg
+                
+            # Use ContractPipeline directly. 
+            # NOW RETURN A TUPLE (result, traces)
+            analysis, traces = await pipeline.run_analysis(data, jid, progress_callback=progress)
+            
+            jobs[jid]["status"] = "completed"
+            jobs[jid]["progress"] = 100
+            jobs[jid]["result"] = analysis # The Clean Data
+            jobs[jid]["trace"] = traces    # The Raw Logs for Debug Tab
+            
+        except Exception as e:
+            traceback.print_exc()
+            jobs[jid]["status"] = "failed"
+            jobs[jid]["error"] = str(e)
+
+    background_tasks.add_task(run_debug_pipeline, job_id, content_list)
+    
+    return {"job_id": job_id}

@@ -22,6 +22,54 @@
         "MAX_SECTION_CHARS": 5000,
         "EMBEDDING_BATCH_SIZE": 100
     },
+    "CONTRACT_ANALYSIS": {
+        "PROFILER_WORKER": {
+            "name": "Contract Profiler Worker",
+            "model": "gemini-2.5-flash",
+            "temperature": 0.0,
+            "max_output_tokens": 65536,
+            "prompt_file": "prompts/contract_profiler.txt"
+        },
+        "PROFILER_JUDGE": {
+            "name": "Contract Profiler Judge",
+            "model": "gemini-2.5-flash",
+            "temperature": 0.0,
+            "max_output_tokens": 8192,
+            "prompt_file": "prompts/judge_profiler.txt"
+        },
+        "DICTIONARY_WORKER": {
+            "name": "Glossary Harvester Worker",
+            "model": "gemini-2.5-flash",
+            "temperature": 0.0,
+            "max_output_tokens": 65536,
+            "prompt_file": "prompts/contract_glossary.txt"
+        },
+        "DICTIONARY_JUDGE": {
+            "name": "Glossary Harvester Judge",
+            "model": "gemini-2.5-flash",
+            "temperature": 0.0,
+            "max_output_tokens": 8192,
+            "prompt_file": "prompts/judge_glossary.txt"
+        },
+        "LABELER_WORKER": {
+            "name": "Clause Labeler Worker",
+            "model": "gemini-2.5-flash",
+            "temperature": 0.0,
+            "max_output_tokens": 65536,
+            "prompt_file": "prompts/contract_labeler.txt"
+        },
+        "LABELER_JUDGE": {
+            "name": "Clause Labeler Judge",
+            "model": "gemini-2.5-flash",
+            "temperature": 0.0,
+            "max_output_tokens": 8192,
+            "prompt_file": "prompts/judge_labeler.txt"
+        },
+        "RETRY_STRATEGY": {
+            "max_retries": 1,
+            "temp_increment": 0.2
+        }
+    },
     "HIPDAM": {
         "AGENTS": {
             "AGENT_1": {
@@ -81,7 +129,7 @@
         }
     },
     "REVIEW": {
-        "model_name": "gemini-1.5-pro",
+        "model_name": "gemini-2.5-flash",
         "temperature": 0.1,
         "max_output_tokens": 8192,
         "top_p": 0.95,
@@ -93,12 +141,16 @@
             "output": 0.40
         },
         "gemini-2.5-flash": {
-            "input": 0.10,
-            "output": 0.40
+            "input": 0.30,
+            "output": 2.50
         },
-        "gemini-1.5-pro": {
-            "input": 1.25,
-            "output": 5.00
+        "gemini-2.5-pro": {
+            "input": 2.50,
+            "output": 15.00
+        },
+        "gemini-3.0-pro-preview": {
+            "input": 4.00,
+            "output": 18.00
         },
         "text-embedding-004": {
             "input": 0.00,

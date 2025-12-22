@@ -8,6 +8,8 @@ import ReviewWrapper from './components/workspace/ReviewWrapper';
 import HipdamViewer from './components/workspace/HipdamViewer';
 import RecordCounterDemo from './components/demos/RecordCounterDemo'; // DEMO
 import HeaderLogoDemo from './components/demos/HeaderLogoDemo'; // DEMO
+import ContractDebugView from './views/ContractDebugView'; // DEBUG
+
 
 function App() {
     return (
@@ -21,6 +23,7 @@ function App() {
                 <Route path="/hipdam/:docId" element={<HipdamViewer />} />
                 <Route path="/demo/counter" element={<RecordCounterDemo />} />
                 <Route path="/demo/header" element={<HeaderLogoDemo />} />
+                <Route path="/debug-contract" element={<ContractDebugView />} />
             </Routes>
         </BrowserRouter>
     );

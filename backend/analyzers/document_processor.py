@@ -9,6 +9,7 @@ from pathlib import Path
 
 from hipdam.core import HiPDAMOrchestrator
 from hipdam.models import TraceMap, JudgeDecision
+from hipdam.contract_pipeline import ContractPipeline
 from config_llm import get_config
 
 # Set up logger
@@ -18,6 +19,7 @@ logger.setLevel(logging.INFO)
 class DocumentProcessor:
     def __init__(self, api_key: str):
         self.orchestrator = HiPDAMOrchestrator(api_key)
+        self.contract_pipeline = ContractPipeline(api_key)
         self.output_dir = "output" # Or derived/passed in
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
@@ -136,6 +138,90 @@ class DocumentProcessor:
                     grouped_sections.append(current_section)
                 
                 sections_to_process = grouped_sections
+                
+                # --- NEW: Contract Pipeline Fork ---
+                if str(document_type).lower() in ["master", "subordinate"]:
+                    logger.info(f"Delegating to ContractPipeline for {document_type}")
+                    result = await self.contract_pipeline.run_analysis(
+                        sections_to_process, 
+                        job_id, 
+                        progress_callback=progress_callback
+                    )
+                    
+                    # UNPACK TUPLE
+                    if isinstance(result, tuple):
+                        analyzed_content, trace_content = result
+                    else:
+                        analyzed_content = result
+                        trace_content = None # Should not happen with new pipeline
+                    
+                    # ContractPipeline returns the FINAL result structure.
+                    # We just need to save it to disk.
+                    import uuid
+                    import datetime
+                    
+                    short_uid = str(uuid.uuid4())[:8]
+                    base_name = os.path.splitext(filename)[0]
+                    analyzed_filename = f"{base_name}_analyzed_v{short_uid}.json"
+                    trace_filename = f"{base_name}_trace_v{short_uid}.json"
+                    
+                    analyzed_path = Path(self.output_dir) / analyzed_filename
+                    trace_path = Path(self.output_dir) / trace_filename
+                    
+                    # Prepend Header to the "sections" list ?? 
+                    # Or wrap the whole object? The example shows top level term_sheet. 
+                    # But file format usually requires HEADER block at start of list if it's a list.
+                    # If it's an object, header should be a field or we break compatibility?
+                    # "an 'enhanced' contract json ... will contain all of the 'annotated' json and additional information"
+                    # The simplified example showed a root object { term_sheet, glossary, sections: [] }
+                    # IF the frontend expects a LIST for the document view, we might have issues.
+                    # BUT the user said "Contracts have different handling... The application need to focus on efficiency".
+                    # And "results will feed a new diverse Contract View".
+                    # So we assume the new format is acceptable for the NEW view.
+                    
+                    # Let's inject a header into the JSON object just in case
+                    now_iso = datetime.datetime.utcnow().isoformat() + "Z"
+                    header_metadata = {
+                        "id": f"doc_{job_id}",
+                        "filename": filename,
+                        "documentType": document_type,
+                        "status": "analyzed",
+                        "lastModified": now_iso
+                    }
+                    analyzed_content["metadata"] = header_metadata
+                    
+                    # Trace Header
+                    trace_header = header_metadata.copy()
+                    trace_header["doc_type"] = "trace_log"
+                    # Wrap trace in a consistent structure
+                    final_trace = {
+                        "metadata": trace_header,
+                        "traces": trace_content
+                    }
+                    
+                    with open(analyzed_path, "w", encoding="utf-8") as f:
+                        json.dump(analyzed_content, f, indent=2)
+                        
+                    if trace_content:
+                        with open(trace_path, "w", encoding="utf-8") as f:
+                            json.dump(final_trace, f, indent=2)
+                        
+                    logger.info(f"Saved Contract Analysis to {analyzed_path} and Trace to {trace_path}")
+                    
+                    # Cleanup Temp
+                    shutil.rmtree(temp_dir)
+                    
+                    return {
+                        "analyzed_file": analyzed_filename,
+                        "hipdam_analyzed_content": analyzed_content, 
+                        "trace_file": trace_filename if trace_content else None, 
+                        "hipdam_trace_content": final_trace if trace_content else None, 
+                        "stats": {
+                            "sections_processed": len(analyzed_content.get("sections", [])),
+                            "flags": len(analyzed_content.get("clarificationFlags", []))
+                        }
+                    }
+                # -----------------------------------
             
             total_work = len(sections_to_process)
             logger.info(f"Filtered to {total_work} actionable sections.")
