@@ -3,7 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Tag, Gavel, Scale, AlertTriangle, CheckCircle, BookOpen, FileJson, Search, X, Check, Book, Sparkles, FileText } from 'lucide-react';
 import { dbAPI } from '../../utils/db'; // Adjust path if needed
 import LinguisticView from './LinguisticView';
+
 import HipdamAnalysisViewer from './HipdamAnalysisViewer';
+import ContractAnalysisViewer from './ContractAnalysisViewer';
 import BillingCard from '../BillingCard';
 
 export default function AnalyzeWrapper() {
@@ -169,8 +171,19 @@ export default function AnalyzeWrapper() {
 
     // HIPDAM INTERCEPTION
     // Check for either a file path (from backend) OR direct content (from import)
+    // HIPDAM INTERCEPTION
+    // Check for either a file path (from backend) OR direct content (from import)
     if (file.hipdam_analyzed_file || file.hipdam_analyzed_content) {
         return <HipdamAnalysisViewer file={file} onBack={() => navigate('/workspace')} />;
+    }
+
+    // CONTRACT ANALYSIS INTERCEPTION
+    if (file.contract_analyzed_content || file.status === "analyzed" && (file.header.documentType === "master" || file.header.documentType === "subordinate")) {
+        // If content missing but status is analyzed, we might need to handle legacy/loading state or error
+        // Ideally `contract_analyzed_content` is populated.
+        if (file.contract_analyzed_content) {
+            return <ContractAnalysisViewer file={file} onBack={() => navigate('/workspace')} />;
+        }
     }
 
     const taxonomy = file.taxonomy || [];

@@ -1058,3 +1058,102 @@ async def analyze_contract_debug(
     background_tasks.add_task(run_debug_pipeline, job_id, content_list)
     
     return {"job_id": job_id}
+
+
+# PRODUCTION ENDPOINT FOR CONTRACT ANALYSIS
+@prevent_sleep_task
+async def run_contract_analysis(job_id: str, payload: AnalysisPayload, filename: str):
+    try:
+        jobs[job_id]["status"] = "processing"
+        jobs[job_id]["progress"] = 0
+        jobs[job_id]["message"] = { "stage": "initializing", "label": "Initializing Contract Analysis...", "details": {} }
+
+        # Initialize Billing
+        from billing_manager import get_billing_manager
+        bm = get_billing_manager()
+        await bm.initialize_job(job_id)
+
+        # Pipeline
+        pipeline = ContractPipeline(os.getenv("GEMINI_API_KEY"))
+
+        def update_progress(current, total, message=None):
+            if total > 0:
+                percent = int((current / total) * 100)
+                jobs[job_id]["progress"] = percent
+                
+                # Sanitize Label logic (reuse from hipdam)
+                if message and "Analyzing" in message:
+                     jobs[job_id]["message"] = {
+                        "stage": "analyzing",
+                        "label": f"Analyzing {percent}% ({current}/{total})", 
+                        "details": {"current": current, "total": total}
+                     }
+                elif message:
+                     jobs[job_id]["message"] = { "stage": "processing", "label": message, "details": {} }
+                else:
+                     jobs[job_id]["message"] = {
+                        "stage": "analyzing",
+                        "label": f"Analyzing {percent}% ({current}/{total})",
+                        "details": {"current": current, "total": total}
+                     }
+
+        # Run extraction
+        # payload.document_content should be the list of blocks
+        content_list = []
+        doc = payload.document_content
+        if isinstance(doc, list):
+            content_list = doc
+        elif isinstance(doc, dict):
+             if "original_content" in doc: content_list = doc["original_content"]
+             elif "content" in doc: content_list = doc["content"]
+             elif "blocks" in doc: content_list = doc["blocks"]
+        
+        if not content_list:
+             # Fallback
+             content_list = []
+
+        result, traces = await pipeline.run_analysis(content_list, job_id, progress_callback=update_progress)
+        
+        jobs[job_id]["status"] = "completed"
+        jobs[job_id]["progress"] = 100
+        jobs[job_id]["result"] = result
+        jobs[job_id]["trace"] = traces
+        jobs[job_id]["message"] = { "stage": "complete", "label": "Analysis complete.", "details": {} }
+
+    except Exception as e:
+        print(f"Contract Analysis Job {job_id} failed: {e}")
+        jobs[job_id]["status"] = "failed"
+        jobs[job_id]["error"] = str(e)
+        import traceback
+        traceback.print_exc()
+
+@app.post("/analyze_contract_document")
+async def analyze_contract_document(
+    payload: AnalysisPayload,
+    background_tasks: BackgroundTasks,
+    filename: str = "document", # Optional
+    resume_job_id: Optional[str] = None
+):
+    import uuid
+    import time
+    
+    # Use standard ID format for billing consistency? 
+    # Or just generic UUID?
+    # FileManager generates job_analyze_{file_id}...
+    # Let's use a fresh ID unless resumed (resumption logic for contracts TBD)
+    
+    if resume_job_id:
+        job_id = resume_job_id
+    else:
+        job_id = f"job_contract_{str(uuid.uuid4())}_{int(time.time())}"
+    
+    jobs[job_id] = {
+        "status": "queued",
+        "progress": 0,
+        "message": "Queued for analysis...", 
+        "result": None
+    }
+    
+    background_tasks.add_task(run_contract_analysis, job_id, payload, filename)
+    
+    return {"job_id": job_id}

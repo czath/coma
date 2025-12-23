@@ -178,51 +178,65 @@ export default function FileManager() {
                             progress: 100
                         });
                     } else {
-                        // HIPDAM ANALYSIS COMPLETION
-                        // AUTO-IMPORT LOGIC for Browser-Based Storage
-                        try {
-                            const result = statusData.result;
+                        // ANALYSIS COMPLETION (Generic)
+                        const result = statusData.result;
 
-                            // 1. Get Analyzed Content (Prefer direct payload, fallback to fetch)
-                            let analyzedData = result.hipdam_analyzed_content;
-                            if (!analyzedData && result.analyzed_file) {
-                                const analyzedRes = await fetch(`http://localhost:8000/output/${result.analyzed_file}`);
-                                analyzedData = await analyzedRes.json();
-                            }
+                        // DETECT TYPE: HIPDAM (Reference) vs CONTRACT (Master/Subordinate)
+                        // Contract Analysis returns { term_sheet: ..., reference_map: ..., ... }
+                        // Hipdam returns { hipdam_analyzed_content: ..., ... }
 
-                            // 2. Get Trace Content (Prefer direct payload, fallback to fetch)
-                            let traceData = result.hipdam_trace_content;
-                            if (!traceData && result.trace_file) {
-                                const traceRes = await fetch(`http://localhost:8000/output/${result.trace_file}`);
-                                traceData = await traceRes.json();
-                            }
-
-                            // 3. Save to In-Memory Record & Clear Links
-                            await updateFile(file.header.id, {
-                                header: { ...file.header, status: 'analyzed', recordCount: result.stats.total_decisions },
-                                progress: 100,
-                                hipdam_analyzed_content: analyzedData,
-                                hipdam_trace_content: traceData,
-                                hipdam_analyzed_file: null, // Clear link to enforce memory usage
-                                hipdam_trace_file: null     // Clear link
-                            });
-
-                            // 4. Cleanup Backend Files (Fire and Forget)
-                            fetch(`http://localhost:8000/cleanup_output/${result.analyzed_file}`, { method: 'DELETE' }).catch(console.error);
-                            if (result.trace_file) {
-                                fetch(`http://localhost:8000/cleanup_output/${result.trace_file}`, { method: 'DELETE' }).catch(console.error);
-                            }
-
-                        } catch (err) {
-                            console.error("Auto-import failed", err);
-                            // Fallback: Just link to file if import failed (though it shouldn't)
-                            // Note: If fetch failed, files preferrably still on disk.
+                        // CASE 1: CONTRACT ANALYSIS
+                        if (result.term_sheet || result.reference_map || result.term_sheet === null) {
+                            // It's a Contract Analysis Result
                             await updateFile(file.header.id, {
                                 header: { ...file.header, status: 'analyzed' },
                                 progress: 100,
-                                hipdam_analyzed_file: statusData.result.analyzed_file,
-                                hipdam_trace_file: statusData.result.trace_file
+                                contract_analyzed_content: result,
+                                contract_trace_content: statusData.trace || null
                             });
+                        }
+                        // CASE 2: HIPDAM ANALYSIS (Reference)
+                        else {
+                            // AUTO-IMPORT LOGIC for Browser-Based Storage
+                            try {
+                                // 1. Get Analyzed Content (Prefer direct payload, fallback to fetch)
+                                let analyzedData = result.hipdam_analyzed_content;
+                                if (!analyzedData && result.analyzed_file) {
+                                    const analyzedRes = await fetch(`http://localhost:8000/output/${result.analyzed_file}`);
+                                    analyzedData = await analyzedRes.json();
+                                }
+
+                                // 2. Get Trace Content (Prefer direct payload, fallback to fetch)
+                                let traceData = result.hipdam_trace_content;
+                                if (!traceData && result.trace_file) {
+                                    const traceRes = await fetch(`http://localhost:8000/output/${result.trace_file}`);
+                                    traceData = await traceRes.json();
+                                }
+
+                                // 3. Save to In-Memory Record & Clear Links
+                                await updateFile(file.header.id, {
+                                    header: { ...file.header, status: 'analyzed', recordCount: result.stats ? result.stats.total_decisions : 0 },
+                                    progress: 100,
+                                    hipdam_analyzed_content: analyzedData,
+                                    hipdam_trace_content: traceData,
+                                    hipdam_analyzed_file: null, // Clear link to enforce memory usage
+                                    hipdam_trace_file: null     // Clear link
+                                });
+
+                                // 4. Cleanup Backend Files (Fire and Forget)
+                                if (result.analyzed_file) fetch(`http://localhost:8000/cleanup_output/${result.analyzed_file}`, { method: 'DELETE' }).catch(console.error);
+                                if (result.trace_file) fetch(`http://localhost:8000/cleanup_output/${result.trace_file}`, { method: 'DELETE' }).catch(console.error);
+
+                            } catch (err) {
+                                console.error("Auto-import failed", err);
+                                // Fallback
+                                await updateFile(file.header.id, {
+                                    header: { ...file.header, status: 'analyzed' },
+                                    progress: 100,
+                                    hipdam_analyzed_file: statusData.result.analyzed_file,
+                                    hipdam_trace_file: statusData.result.trace_file
+                                });
+                            }
                         }
                     }
 
@@ -588,40 +602,58 @@ export default function FileManager() {
                     const taxRes = await fetch('http://localhost:8000/taxonomy/active');
                     const taxonomyContent = await taxRes.json();
 
-                    // 3. Send to Backend (Hipdam Analysis)
-                    const payload = {
-                        document_content: file.content,
-                        filename: file.header.filename,
-                        document_type: file.header.documentType || "master",
-                        taxonomy: taxonomyContent, // Inject GT
-                        file_id: file.header.id
-                    };
+                    // 3. Trigger Analysis based on Document Type
+                    const docType = file.header.documentType || 'reference';
 
-                    const url = new URL('http://127.0.0.1:8000/analyze_hipdam_document');
-                    if (resumeJobId) url.searchParams.append('resume_job_id', resumeJobId);
-                    if (forceRestart) url.searchParams.append('force_restart', 'true');
+                    if (docType === 'reference') {
+                        // HIPDAM ANALYSIS (Existing)
+                        const payload = {
+                            document_content: file.content,
+                            filename: file.header.filename,
+                            document_type: docType,
+                            taxonomy: taxonomyContent, // Inject GT
+                            file_id: file.header.id
+                        };
 
-                    // Note: analyze_hipdam_document accepts query params for resume/restart? 
-                    // NO, I defined them as function arguments in FastAPI. 
-                    // FastAPI handles query params by default if not path/body.
-                    // Let's verify: Yes, `resume_job_id: Optional[str] = None` in signature implies Query Param 
-                    // UNLESS it's Pydantic model. My payload IS pydantic. The extra args are separate.
-                    // So passing as Query Params is correct: /analyze...?resume_job_id=...
+                        const url = new URL('http://127.0.0.1:8000/analyze_hipdam_document');
+                        if (resumeJobId) url.searchParams.append('resume_job_id', resumeJobId);
+                        if (forceRestart) url.searchParams.append('force_restart', 'true');
 
-                    const response = await fetch(url.toString(), {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+                        const response = await fetch(url.toString(), {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
 
-                    if (!response.ok) throw new Error('Analysis request failed');
-                    const { job_id } = await response.json();
+                        if (!response.ok) throw new Error('Hipdam Analysis request failed');
+                        const { job_id } = await response.json();
+                        localStorage.setItem(`job_analyze_${file.header.id}`, job_id);
+                        startPolling(file, job_id, 'analyzing');
 
-                    // Persist JOB ID (Specific for Analysis phase)
-                    localStorage.setItem(`job_analyze_${file.header.id}`, job_id);
-                    // Legacy key compatibility (Optional, but let's avoid overwriting if we can)
-                    // localStorage.setItem(`job_${file.header.id}`, job_id);
-                    startPolling(file, job_id, 'analyzing');
+                    } else {
+                        // CONTRACT ANALYSIS (New) - Master / Subordinate
+                        // Payload expects 'AnalysisPayload' structure: { document_content: [ ... ] }
+                        const payload = {
+                            document_content: file.content // List of blocks
+                        };
+
+                        const url = new URL('http://127.0.0.1:8000/analyze_contract_document');
+                        // Add query params if needed
+                        if (resumeJobId) url.searchParams.append('resume_job_id', resumeJobId);
+                        // Append filename for logging
+                        url.searchParams.append('filename', file.header.filename);
+
+                        const response = await fetch(url.toString(), {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) throw new Error('Contract Analysis request failed');
+                        const { job_id } = await response.json();
+                        localStorage.setItem(`job_analyze_${file.header.id}`, job_id);
+                        startPolling(file, job_id, 'analyzing');
+                    }
 
                 } catch (e) {
                     console.error(e);

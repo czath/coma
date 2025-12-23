@@ -1,0 +1,15 @@
+{
+  "job_id": "job_doc_1766487462271_061soeqrn_analyze_1766487490",
+  "created_at": "2025-12-23T12:58:10.750154",
+  "last_updated": "2025-12-23T13:07:02.183205",
+  "usage": {
+    "gemini-2.5-flash": {
+      "input": 213200,
+      "output": 158791,
+      "input_cost": 0.06396,
+      "output_cost": 0.3969775000000001,
+      "total_cost": 0.46093750000000006
+    }
+  },
+  "total_cost_usd": 0.46093750000000006
+}
