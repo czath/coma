@@ -33,13 +33,14 @@ Each item must have:
 - `id`: Unique UUID.
 - `type`: "DEFINITION".
 - `classification`: "LOW" (Use LOW for standard definitions, or HIGH if explicitly critical).
+- `term`: The specific defined term (e.g. "Affiliate").
 - `verbatim_text`: Exact quote defining the term.
 - `rule_plain_english`: The definition in simplified terms.
 - `analysis`: {`justification`: "Standard Definition", `source_insight`: "N/A", `expert_insight`: "N/A", `implication_company`: "N/A", `implication_supplier`: "N/A"} (Simplify this object)
 - `context`: {`conditions`: "N/A", `instructions`: "N/A", `examples`: "N/A"} 
 - `tags`: []
 - `confidence`: 1.0
-- `source_reference`: SECTION NAME/ID
+- `source_reference`: "Global" or SECTION NAME (e.g. "Section 11")
 
 example_json:
 ```json
@@ -49,6 +50,7 @@ example_json:
       "id": "456-def",
       "type": "DEFINITION",
       "classification": "LOW",
+      "term": "Affiliate",
       "verbatim_text": "\"Affiliate\" means any entity that directly or indirectly controls, is controlled by, or is under common control with the subject entity.",
       "rule_plain_english": "Affiliate means any legal entity that is essentially under common control with a contracting party.",
       "analysis": {

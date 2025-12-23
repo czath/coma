@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search } from 'lucide-react';
+import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BillingCard from '../BillingCard';
 import ContextSidePane from '../workspace/ContextSidePane';
@@ -11,6 +11,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     // Context Viewer State
     const [contextSidePaneOpen, setContextSidePaneOpen] = useState(false);
     const [contextData, setContextData] = useState(null); // { type, text/citation, matches }
+    const [glossarySort, setGlossarySort] = useState('alpha');
 
     // Extract results from file object
     // Expecting: file.contract_analyzed_content (analysis result)
@@ -372,7 +373,9 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 <div>
                                                     <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-2 block">Executive Summary</span>
                                                     <h1 className="text-3xl font-black text-gray-900 leading-tight">
-                                                        {result.term_sheet.contract_title || "Untitled Agreement"}
+                                                        {(typeof result.term_sheet.contract_title === 'object' && result.term_sheet.contract_title?.value
+                                                            ? result.term_sheet.contract_title.value
+                                                            : result.term_sheet.contract_title) || "Untitled Agreement"}
                                                     </h1>
                                                 </div>
 
@@ -380,17 +383,25 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 {result.term_sheet.parties && Array.isArray(result.term_sheet.parties) && result.term_sheet.parties.length > 0 && (
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                         {result.term_sheet.parties.map((party, idx) => (
-                                                            <div key={idx} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-start gap-4">
-                                                                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                                                            <div key={idx} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-start gap-4 group relative">
+                                                                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg shrink-0">
                                                                     <Users size={20} />
                                                                 </div>
-                                                                <div>
+                                                                <div className="flex-1 min-w-0">
                                                                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
                                                                         {party.role || "Party"}
                                                                     </span>
-                                                                    <div className="text-lg font-bold text-gray-900">
+                                                                    <div className="text-lg font-bold text-gray-900 truncate" title={party.name}>
                                                                         {party.name}
                                                                     </div>
+                                                                    {party.citation && (
+                                                                        <button
+                                                                            onClick={() => handleViewContext(party.citation, party.name || "Party")}
+                                                                            className="mt-2 text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                                        >
+                                                                            <Eye size={12} /> View Context
+                                                                        </button>
+                                                                    )}
                                                                 </div>
                                                             </div>
                                                         ))}
@@ -405,8 +416,15 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                             .filter(([key]) => !['contract_title', 'parties'].includes(key))
                                                             .map(([key, item]) => {
                                                                 // Handle both legacy string and new object {value, citation} formats
-                                                                const isObject = typeof item === 'object' && item !== null && item.value;
-                                                                const displayValue = isObject ? item.value : item;
+                                                                // Robust check: ensure it has value property, even if empty string
+                                                                const isObject = typeof item === 'object' && item !== null && 'value' in item;
+
+                                                                let displayValue = isObject ? item.value : item;
+                                                                // Failsafe: if displayValue is still an object (unexpected structure), stringify or fallback
+                                                                if (typeof displayValue === 'object' && displayValue !== null) {
+                                                                    displayValue = JSON.stringify(displayValue);
+                                                                }
+
                                                                 const citation = isObject ? item.citation : null;
 
                                                                 return (
@@ -499,39 +517,75 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                             {/* GLOSSARY TAB */}
                             {activeTab === "glossary" && (
-                                <div className="flex flex-col h-full overflow-y-auto">
-                                    {result.clarificationFlags && result.clarificationFlags.filter(f => f.target_element_id === "dictionary" && f.type === "VERIFICATION_FAILED").length > 0 && (
-                                        <div className="bg-amber-50 border-b border-amber-100 p-4 flex items-start gap-3 sticky top-0 z-10">
-                                            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                                            <div>
-                                                <h4 className="text-sm font-bold text-amber-900">Reliability Warning</h4>
-                                                <ul className="list-disc list-inside mt-1 text-sm text-amber-700 space-y-1">
-                                                    {result.clarificationFlags.filter(f => f.target_element_id === "dictionary" && f.type === "VERIFICATION_FAILED").map((f, i) => (
-                                                        <li key={i}>{f.message}</li>
-                                                    ))}
-                                                </ul>
-                                            </div>
+                                <div className="flex flex-col h-full overflow-hidden">
+                                    {/* Toolbar */}
+                                    <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between bg-white shrink-0">
+                                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                                            {result.glossary?.length || 0} Terms
+                                        </span>
+                                        <div className="flex bg-gray-100 rounded-lg p-0.5">
+                                            <button
+                                                onClick={() => setGlossarySort('alpha')}
+                                                className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${glossarySort === 'alpha' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                            >
+                                                A-Z
+                                            </button>
+                                            <button
+                                                onClick={() => setGlossarySort('seq')}
+                                                className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${glossarySort === 'seq' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                            >
+                                                #
+                                            </button>
                                         </div>
-                                    )}
-                                    <div className="flex flex-col divide-y divide-gray-100">
-                                        {result.glossary && result.glossary.map((g, i) => (
-                                            <div key={i} className="p-4 hover:bg-gray-50 transition-colors group">
-                                                <div className="flex items-center justify-between mb-1">
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="font-bold text-sm text-gray-900">{g.term}</span>
-                                                        <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1 rounded">({g.normalized_term})</span>
+                                    </div>
+
+                                    <div className="flex flex-col divide-y divide-gray-100 overflow-y-auto">
+                                        {result.glossary && [...result.glossary]
+                                            .sort((a, b) => {
+                                                if (glossarySort === 'alpha') return a.term.localeCompare(b.term);
+                                                return 0; // Sequential (original order)
+                                            })
+                                            .map((g, i) => {
+                                                // Find specific flags for this term
+                                                const hasIssues = result.clarificationFlags && result.clarificationFlags.some(f =>
+                                                    f.target_element_id === "dictionary" &&
+                                                    f.type === "VERIFICATION_FAILED" &&
+                                                    (f.message.includes(`'${g.term}'`) || f.message.includes(`"${g.term}"`))
+                                                );
+
+                                                return (
+                                                    <div key={i} className="p-4 hover:bg-gray-50 transition-colors group">
+                                                        <div className="flex items-start justify-between mb-1 gap-2">
+                                                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                                                <span className="font-bold text-sm text-gray-900">{g.term}</span>
+
+                                                                {g.source_reference && g.source_reference !== "Global" && (
+                                                                    <div className="flex items-center gap-1 text-xs text-gray-400 font-medium">
+                                                                        <Bookmark size={10} className="text-gray-400" />
+                                                                        <span>{g.source_reference}</span>
+                                                                    </div>
+                                                                )}
+
+                                                                {/* Inline Warning Pill */}
+                                                                {hasIssues && (
+                                                                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 border border-amber-200 uppercase tracking-wide cursor-help" title="Reliability Warning: Check Issues Tab">
+                                                                        Review
+                                                                    </span>
+                                                                )}
+                                                            </div>
+
+                                                            <button
+                                                                onClick={() => handleViewContext(g.term, "Glossary Term", "MATCHES", { definition: g.definition })}
+                                                                className="text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity p-1 shrink-0"
+                                                                title="Find in Document"
+                                                            >
+                                                                <Search size={14} />
+                                                            </button>
+                                                        </div>
+                                                        <p className="text-sm text-gray-600 pl-3 border-l-2 border-indigo-100 leading-relaxed">{g.definition}</p>
                                                     </div>
-                                                    <button
-                                                        onClick={() => handleViewContext(g.term, "Glossary Term", "MATCHES", { definition: g.definition })}
-                                                        className="text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity p-1"
-                                                        title="Find in Document"
-                                                    >
-                                                        <Search size={14} />
-                                                    </button>
-                                                </div>
-                                                <p className="text-sm text-gray-600 pl-4 border-l-2 border-indigo-100">{g.definition}</p>
-                                            </div>
-                                        ))}
+                                                );
+                                            })}
                                         {(!result.glossary || result.glossary.length === 0) && (
                                             <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
                                                 <Book className="mb-2 opacity-50" />

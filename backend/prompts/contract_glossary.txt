@@ -10,15 +10,16 @@ Extract ALL definitions found in the document. You must look in two places:
 
 ### RULES
 -   **Verbatim**: Use the exact definition text as it appears.
--   **Structure**: Return a list of `{ "term": "...", "definition": "..." }`.
+-   **Structure**: Return a list of `{ "term": "...", "definition": "...", "source_reference": "..." }`.
 -   **Normalization**: The "term" should be the clean version (e.g. "Services" not "("Services")").
+-   **Source Scope**: For `source_reference`, indicate WHERE in the document this is defined (e.g. "Article 1.2", "Preamble", or "Global" if uncertain).
 
 ### OUTPUT FORMAT
 Return strictly VALID JSON:
 
 ```json
 [
-  { "term": "Service Provider", "definition": "means Tech Solutions Inc." },
-  { "term": "Agreement", "definition": "means this Master Services Agreement..." }
+  { "term": "Service Provider", "definition": "means Tech Solutions Inc.", "source_reference": "Preamble" },
+  { "term": "Agreement", "definition": "means this Master Services Agreement...", "source_reference": "Article 1" }
 ]
 ```
