@@ -384,6 +384,8 @@ export default function FileManager() {
                             newFile.hipdam_analyzed_content = jsonContent.hipdam_analyzed_content || [];
                             newFile.content = jsonContent.content || []; // PRESERVE ORIGINAL CONTENT FOR CONTEXT LOOKUP!
                             newFile.hipdam_trace_content = jsonContent.hipdam_trace_content || null;
+                            newFile.contract_analyzed_content = jsonContent.contract_analyzed_content || null;
+                            newFile.contract_trace_content = jsonContent.contract_trace_content || null;
                         }
 
                         newFile.progress = 100;

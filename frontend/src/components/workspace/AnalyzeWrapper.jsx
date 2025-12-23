@@ -169,21 +169,20 @@ export default function AnalyzeWrapper() {
     if (loading) return <div className="p-8">Loading analysis...</div>;
     if (!file) return <div className="p-8">Document not found.</div>;
 
-    // HIPDAM INTERCEPTION
-    // Check for either a file path (from backend) OR direct content (from import)
-    // HIPDAM INTERCEPTION
-    // Check for either a file path (from backend) OR direct content (from import)
-    if (file.hipdam_analyzed_file || file.hipdam_analyzed_content) {
-        return <HipdamAnalysisViewer file={file} onBack={() => navigate('/workspace')} />;
-    }
-
     // CONTRACT ANALYSIS INTERCEPTION
-    if (file.contract_analyzed_content || file.status === "analyzed" && (file.header.documentType === "master" || file.header.documentType === "subordinate")) {
+    // Prioritize this if document type is master/subordinate or explicit content exists
+    if (file.contract_analyzed_content || (file.header.status === "analyzed" && (file.header.documentType === "master" || file.header.documentType === "subordinate"))) {
         // If content missing but status is analyzed, we might need to handle legacy/loading state or error
         // Ideally `contract_analyzed_content` is populated.
         if (file.contract_analyzed_content) {
             return <ContractAnalysisViewer file={file} onBack={() => navigate('/workspace')} />;
         }
+    }
+
+    // HIPDAM INTERCEPTION
+    // Check for either a file path (from backend) OR direct content (from import)
+    if (file.hipdam_analyzed_file || (file.hipdam_analyzed_content && file.hipdam_analyzed_content.length > 0)) {
+        return <HipdamAnalysisViewer file={file} onBack={() => navigate('/workspace')} />;
     }
 
     const taxonomy = file.taxonomy || [];

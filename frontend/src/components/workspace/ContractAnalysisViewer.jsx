@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft } from 'lucide-react';
+import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const ContractAnalysisViewer = ({ file, onBack }) => {
@@ -26,32 +26,106 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
         );
     }
 
+    // Export Functionality
+    const handleExport = () => {
+        if (!result) return;
+
+        const displayFilename = file.header.filename;
+        const dotIndex = displayFilename.lastIndexOf(".");
+        const exportName = dotIndex !== -1
+            ? displayFilename.substring(0, dotIndex) + "_contract_analyzed.json"
+            : displayFilename + "_contract_analyzed.json";
+
+        const exportMetadata = {
+            id: file.header.id,
+            filename: displayFilename,
+            documentType: file.header.documentType || 'master',
+            documentTags: file.header.documentTags || [],
+            status: 'analyzed',
+            annotationMethod: file.header.annotationMethod || 'ai',
+            lastModified: new Date().toISOString(),
+            exportDate: new Date().toISOString(),
+            sectionCount: result.sections?.length || 0
+        };
+
+        const fullExportObject = {
+            metadata: exportMetadata,
+            content: file.content || [],
+            contract_analyzed_content: result,
+            contract_trace_content: trace || null
+        };
+
+        const dataStr = JSON.stringify(fullExportObject, null, 2);
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = exportName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
+
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
-            {/* --- HEADER --- */}
-            <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shrink-0 h-16">
+        <div className="flex flex-col h-screen bg-gray-50 font-sans overflow-hidden">
+            {/* TIER 1: BRAND HEADER */}
+            <header className="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center shrink-0">
+                <div className="flex items-center gap-3">
+                    <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-sm">
+                        <FileSignature size={24} strokeWidth={2.5} />
+                    </div>
+                    <div className="flex items-center gap-3 h-full">
+                        <h1 className="text-xl font-bold text-gray-900">CORE.AI</h1>
+                        <div className="h-4 w-px bg-gray-300"></div>
+                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contract Review Assistant</span>
+                    </div>
+                </div>
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                    Analysis Report | Contract
+                </div>
+            </header>
+
+            {/* TIER 2: TOOLBAR */}
+            <div className="bg-white border-b px-6 py-3 flex items-center justify-between shrink-0 h-16 shadow-sm z-10">
                 <div className="flex items-center gap-4">
-                    <button onClick={onBack} className="text-gray-500 hover:text-gray-700 transition-colors">
+                    <button onClick={onBack} className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full">
                         <ArrowLeft size={20} />
                     </button>
-                    <div className="flex items-center gap-3">
-                        <div className="p-1.5 bg-indigo-100 rounded-lg">
-                            <FileSignature className="w-5 h-5 text-indigo-600" />
-                        </div>
-                        <div>
-                            <h1 className="text-lg font-bold text-gray-900 leading-none">
-                                Contract Analysis
-                            </h1>
-                            <p className="text-xs text-gray-500 mt-0.5 font-medium">
-                                {file.header.filename}
-                            </p>
-                        </div>
+                    <div className="flex items-center gap-4">
+                        <h1 className="text-sm font-medium text-gray-900 whitespace-normal break-words">
+                            {file.header.filename}
+                        </h1>
+                        {(() => {
+                            const docType = file.header?.documentType || 'master';
+                            const styles = {
+                                master: 'bg-indigo-100 text-indigo-700 border-indigo-200',
+                                subordinate: 'bg-orange-100 text-orange-700 border-orange-200',
+                                reference: 'bg-teal-100 text-teal-700 border-teal-200'
+                            };
+                            return (
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize border ${styles[docType] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
+                                    {docType}
+                                </span>
+                            );
+                        })()}
+                        {file.header.lastModified && (
+                            <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                                <Calendar size={14} className="text-gray-300" />
+                                {new Date(file.header.lastModified).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-bold uppercase rounded-full border border-green-200 flex items-center gap-1">
-                        <CheckCircle size={12} /> Analysis Complete
-                    </span>
+                    <button
+                        onClick={handleExport}
+                        className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full"
+                        title="Download Analysis JSON"
+                    >
+                        <FileJson size={20} />
+                    </button>
                 </div>
             </div>
 
@@ -202,8 +276,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                     Target: {f.target_element_id}
                                                 </span>
                                                 <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${f.severity === 'CRITICAL' ? 'bg-red-100 text-red-800 border-red-200' :
-                                                        f.severity === 'HIGH' ? 'bg-orange-100 text-orange-800 border-orange-200' :
-                                                            'bg-yellow-50 text-yellow-800 border-yellow-200'
+                                                    f.severity === 'HIGH' ? 'bg-orange-100 text-orange-800 border-orange-200' :
+                                                        'bg-yellow-50 text-yellow-800 border-yellow-200'
                                                     }`}>
                                                     Severity: {f.severity}
                                                 </span>
