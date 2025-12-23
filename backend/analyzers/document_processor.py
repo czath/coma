@@ -354,13 +354,29 @@ class DocumentProcessor:
             full_trace.insert(0, trace_header_block)
             
             # Write Files
+            
+            # --- STRUCTURED EXPORT ---
+            # We save as an OBJECT to keep original content separate (for context lookup)
+            # Structure: { metadata, content (original), hipdam_analyzed_content (analysis) }
+            
+            final_output = {
+                "metadata": header_metadata,
+                "content": document_payload, # Original Annotated Blocks
+                "hipdam_analyzed_content": golden_records # Analysis Results (incl Header)
+            }
+            
             with open(analyzed_path, "w", encoding="utf-8") as f:
-                json.dump(golden_records, f, indent=2)
+                json.dump(final_output, f, indent=2)
                 
+            trace_output = {
+                 "metadata": header_metadata, # Replicate metadata
+                 "hipdam_trace_content": full_trace
+            }
+
             with open(trace_path, "w", encoding="utf-8") as f:
-                json.dump(full_trace, f, indent=2)
+                json.dump(trace_output, f, indent=2)
                 
-            logger.info(f"Saved {analyzed_path} and {trace_path} with HEADERS.")
+            logger.info(f"Saved Structured Analysis to {analyzed_path} and Trace to {trace_path}")
             
             # Cleanup
             logger.info(f"Cleaning up temp artifacts for job {job_id}")
@@ -370,8 +386,10 @@ class DocumentProcessor:
             return {
                 "analyzed_file": analyzed_filename,
                 "trace_file": trace_filename,
-                "hipdam_analyzed_content": golden_records, # Return content for frontend
-                "hipdam_trace_content": full_trace,       # Return trace for frontend
+                "hipdam_analyzed_content": golden_records, # THE ARRAY (for Viewer loop)
+                "content": document_payload, # THE ORIGINAL CONTENT (for Context)
+                "metadata": header_metadata, # Metadata
+                "hipdam_trace_content": full_trace,       
                 "stats": {
                     "sections_processed": len(trace_maps),
                     "total_decisions": sum(len(tm.decisions) for tm in trace_maps)

@@ -1006,7 +1006,14 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
             ? displayFilename.substring(0, dotIndex) + "_analyzed.json"
             : displayFilename + "_analyzed.json";
 
-        const dataStr = JSON.stringify(analyzedData, null, 2);
+        // Construct FULL Export Object to preserve Context
+        const fullExportObject = {
+            metadata: analysisMetadata || file.header?.metadata || { filename: displayFilename },
+            content: file.content || [], // Preserve Original Content
+            hipdam_analyzed_content: analyzedData // The Analysis Results
+        };
+
+        const dataStr = JSON.stringify(fullExportObject, null, 2);
         const blob = new Blob([dataStr], { type: "application/json" });
         const url = URL.createObjectURL(blob);
 

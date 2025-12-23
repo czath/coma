@@ -319,34 +319,57 @@ export default function FileManager() {
                 const text = await file.text();
                 const jsonContent = JSON.parse(text);
 
-                // STRICT VALIDATION: Must have HEADER block
-                if (!Array.isArray(jsonContent) || jsonContent.length === 0 || jsonContent[0].type !== 'HEADER' || !jsonContent[0].metadata) {
-                    alert('Invalid Annotated File Format: File must start with a HEADER block containing metadata (including documentType).');
-                    return; // Reject upload
+                // PARSE JSON CONTENT
+                let isLegacyArray = Array.isArray(jsonContent);
+                let metadata = null;
+
+                // 1. Validate Structure
+                if (isLegacyArray) {
+                    // LEGACY: Array starting with HEADER
+                    if (jsonContent.length === 0 || jsonContent[0].type !== 'HEADER' || !jsonContent[0].metadata) {
+                        alert('Invalid Legacy File Format: Must start with HEADER block.');
+                        return;
+                    }
+                    metadata = jsonContent[0].metadata;
+                } else if (typeof jsonContent === 'object' && jsonContent !== null) {
+                    // NEW: Object with metadata
+                    if (!jsonContent.metadata) {
+                        alert('Invalid File Format: Missing "metadata" field.');
+                        return;
+                    }
+                    metadata = jsonContent.metadata;
+                } else {
+                    alert('Invalid File Format: Not a valid JSON object or array.');
+                    return;
                 }
 
-                if (true) { // Helper block for scope
-                    const metadata = jsonContent[0].metadata;
-
+                if (true) {
                     // CHECK FOR ANALYSIS FILE IMPORT
-                    if (metadata.status === 'analyzed') {
+                    if (metadata.status && metadata.status.toLowerCase() === 'analyzed') {
                         console.log("Importing Analysis File:", file.name);
                         newFile.header = {
                             ...newFile.header,
                             status: 'analyzed',
                             documentType: metadata.documentType || 'master',
                             lastModified: metadata.lastModified || new Date().toISOString(),
-                            // Use metadata ID if present to preserve linkage? Or generate new ID?
-                            // Generating new ID avoids conflicts but loses trace history (which user said is fine)
+                            // Preserve optional stats
+                            recordCount: metadata.recordCount || (newFile.header.recordCount)
                         };
 
-                        // Store full analysis content locally for Viewer to consume immediately
-                        newFile.hipdam_analyzed_content = jsonContent;
-                        newFile.progress = 100;
+                        if (isLegacyArray) {
+                            // LEGACY IMPORT (Analysis) - Content IS the analysis results
+                            // "View in Context" will fail for these as original content is missing.
+                            newFile.hipdam_analyzed_content = jsonContent;
+                            newFile.content = [];
+                        } else {
+                            // NEW IMPORT (Analysis) - Structured
+                            newFile.hipdam_analyzed_content = jsonContent.hipdam_analyzed_content || [];
+                            newFile.content = jsonContent.content || []; // PRESERVE ORIGINAL CONTENT FOR CONTEXT LOOKUP!
+                            newFile.hipdam_trace_content = jsonContent.hipdam_trace_content || null;
+                        }
 
-                        // We do NOT reconstruct 'content' or 'clauses' as this is not for annotation
-                        newFile.content = [];
-                        newFile.clauses = [];
+                        newFile.progress = 100;
+                        newFile.clauses = []; // Not needed for analysis view
 
                     } else {
                         // STANDARD ANNOTATION FILE IMPORT
@@ -359,13 +382,17 @@ export default function FileManager() {
                             lastModified: metadata.lastModified || new Date().toISOString(),
                         };
 
-                        // Import Analysis Data if present (Legacy)
-                        newFile.taxonomy = metadata.taxonomy || [];
-                        newFile.rules = metadata.rules || [];
+                        // Normalize Content Source
+                        let contentSource = [];
+                        if (isLegacyArray) {
+                            contentSource = jsonContent;
+                        } else {
+                            contentSource = jsonContent.content || [];
+                        }
 
-                        // Reconstruct content and clauses (Only for annotation files)
+                        // Reconstruct content and clauses
                         let lineIndex = 0;
-                        jsonContent.forEach(item => {
+                        contentSource.forEach(item => {
                             if (item.type === 'HEADER') return;
 
                             // Do NOT split by newline. Treat the whole JSON object text as one atomic block.
@@ -375,15 +402,14 @@ export default function FileManager() {
                             newFile.content.push({
                                 ...item, // FIX: Preserve all metadata (header, tags, title, etc)
                                 text: lineText,
-                                id: `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                                type: item.type // The whole block is this type
+                                id: item.id || `line_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                                type: item.type
                             });
 
                             const startLine = lineIndex;
-                            lineIndex++; // Increments by 1 per BLOCK now, not per line.
+                            lineIndex++;
 
                             const endLine = lineIndex - 1;
-                            // For a single block, the "length" is just the text length
                             const endCh = lineText.length;
 
                             if (item.type !== 'SKIP') {
@@ -993,7 +1019,7 @@ export default function FileManager() {
 
                                                 {file.header.status === 'analyzed' && (
                                                     <>
-                                                        {file.content && file.content.length > 0 && (
+                                                        {file.clauses && file.clauses.length > 0 && (
                                                             <button onClick={() => handleAction('annotate', file)} className="text-gray-400 hover:text-gray-600 p-1" title="View/Edit Annotation">
                                                                 <Edit size={18} />
                                                             </button>
@@ -1025,84 +1051,86 @@ export default function FileManager() {
             </div>
 
             {/* Taxonomy Viewer Modal */}
-            {isTaxModalOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setIsTaxModalOpen(false)}>
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-                        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-900 leading-tight">Global Taxonomy Content</h3>
-                                <p className="text-xs text-gray-500 font-medium font-mono mt-0.5">{activeTaxonomy}</p>
+            {
+                isTaxModalOpen && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setIsTaxModalOpen(false)}>
+                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+                            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                                <div>
+                                    <h3 className="text-lg font-bold text-gray-900 leading-tight">Global Taxonomy Content</h3>
+                                    <p className="text-xs text-gray-500 font-medium font-mono mt-0.5">{activeTaxonomy}</p>
+                                </div>
+                                <button
+                                    onClick={() => setIsTaxModalOpen(false)}
+                                    className="p-2 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+                                >
+                                    <Plus size={20} className="rotate-45" />
+                                </button>
                             </div>
-                            <button
-                                onClick={() => setIsTaxModalOpen(false)}
-                                className="p-2 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600"
-                            >
-                                <Plus size={20} className="rotate-45" />
-                            </button>
-                        </div>
 
-                        <div className="p-4 border-b border-gray-100 bg-white">
-                            <div className="relative">
-                                <FileSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-                                <input
-                                    type="text"
-                                    placeholder="Filter by Name, ID or Description..."
-                                    className="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium"
-                                    value={taxSearch}
-                                    onChange={e => setTaxSearch(e.target.value)}
-                                />
-                                {taxSearch && (
-                                    <button
-                                        onClick={() => setTaxSearch('')}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600"
-                                    >
-                                        <X size={14} />
-                                    </button>
+                            <div className="p-4 border-b border-gray-100 bg-white">
+                                <div className="relative">
+                                    <FileSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                                    <input
+                                        type="text"
+                                        placeholder="Filter by Name, ID or Description..."
+                                        className="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium"
+                                        value={taxSearch}
+                                        onChange={e => setTaxSearch(e.target.value)}
+                                    />
+                                    {taxSearch && (
+                                        <button
+                                            onClick={() => setTaxSearch('')}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+                                        >
+                                            <X size={14} />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="flex-grow overflow-y-auto p-6 scroll-smooth">
+                                {taxData.filter(tag => {
+                                    const s = taxSearch.toLowerCase();
+                                    return tag.display_name.toLowerCase().includes(s) ||
+                                        tag.tag_id.toLowerCase().includes(s) ||
+                                        tag.description.toLowerCase().includes(s);
+                                }).length === 0 ? (
+                                    <div className="text-center py-20">
+                                        <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <FileSearch className="text-gray-300" size={32} />
+                                        </div>
+                                        <h4 className="text-gray-900 font-bold">No matches found</h4>
+                                        <p className="text-gray-500 text-xs mt-1">Try adjusting your search terms</p>
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {taxData.filter(tag => {
+                                            const s = taxSearch.toLowerCase();
+                                            return tag.display_name.toLowerCase().includes(s) ||
+                                                tag.tag_id.toLowerCase().includes(s) ||
+                                                tag.description.toLowerCase().includes(s);
+                                        }).map((tag) => (
+                                            <div key={tag.tag_id} className="p-4 rounded-xl border border-gray-100 bg-gray-50/30 hover:bg-white hover:border-indigo-100 hover:shadow-md transition-all group">
+                                                <div className="flex items-start justify-between mb-2">
+                                                    <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">{tag.tag_id}</span>
+                                                </div>
+                                                <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-indigo-700 transition-colors">{tag.display_name}</h4>
+                                                <p className="text-xs text-gray-500 leading-relaxed font-medium">{tag.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 )}
                             </div>
-                        </div>
 
-                        <div className="flex-grow overflow-y-auto p-6 scroll-smooth">
-                            {taxData.filter(tag => {
-                                const s = taxSearch.toLowerCase();
-                                return tag.display_name.toLowerCase().includes(s) ||
-                                    tag.tag_id.toLowerCase().includes(s) ||
-                                    tag.description.toLowerCase().includes(s);
-                            }).length === 0 ? (
-                                <div className="text-center py-20">
-                                    <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <FileSearch className="text-gray-300" size={32} />
-                                    </div>
-                                    <h4 className="text-gray-900 font-bold">No matches found</h4>
-                                    <p className="text-gray-500 text-xs mt-1">Try adjusting your search terms</p>
-                                </div>
-                            ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {taxData.filter(tag => {
-                                        const s = taxSearch.toLowerCase();
-                                        return tag.display_name.toLowerCase().includes(s) ||
-                                            tag.tag_id.toLowerCase().includes(s) ||
-                                            tag.description.toLowerCase().includes(s);
-                                    }).map((tag) => (
-                                        <div key={tag.tag_id} className="p-4 rounded-xl border border-gray-100 bg-gray-50/30 hover:bg-white hover:border-indigo-100 hover:shadow-md transition-all group">
-                                            <div className="flex items-start justify-between mb-2">
-                                                <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">{tag.tag_id}</span>
-                                            </div>
-                                            <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-indigo-700 transition-colors">{tag.display_name}</h4>
-                                            <p className="text-xs text-gray-500 leading-relaxed font-medium">{tag.description}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                            <span>{taxData.length} Total Tags</span>
-                            <span>Enterprise Taxonomy 2.0</span>
+                            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                                <span>{taxData.length} Total Tags</span>
+                                <span>Enterprise Taxonomy 2.0</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
