@@ -1,0 +1,15 @@
+{
+  "job_id": "job_ingest_36cb576a-8c02-420f-aa8c-9c8427466e44_1766472946",
+  "created_at": "2025-12-23T08:55:46.853256",
+  "last_updated": "2025-12-23T08:55:57.030006",
+  "usage": {
+    "gemini-2.0-flash": {
+      "input": 11399,
+      "output": 1019,
+      "input_cost": 0.0011399000000000001,
+      "output_cost": 0.00040760000000000004,
+      "total_cost": 0.0015475
+    }
+  },
+  "total_cost_usd": 0.0015475
+}

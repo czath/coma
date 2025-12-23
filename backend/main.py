@@ -71,7 +71,7 @@ async def health_check():
     return {"status": "ok"}
 
 @prevent_sleep_task
-def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: bool, document_type: str):
+async def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: bool, document_type: str):
     try:
         jobs[job_id]["status"] = "processing"
         jobs[job_id]["progress"] = 0
@@ -117,7 +117,7 @@ def process_document(job_id: str, temp_path: str, filename: str, use_ai_tagger: 
         if use_ai_tagger:
             try:
                 tagger = LLMAutoTagger()
-                tagged_content, _ = tagger.tag(content, document_type, progress_callback=update_progress, job_id=job_id)
+                tagged_content, _ = await tagger.tag(content, document_type, progress_callback=update_progress, job_id=job_id)
             except Exception as e:
                 print(f"LLM Tagging failed: {e}. Falling back to Rule-Based.")
                 jobs[job_id]["message"] = "AI Tagging failed, falling back to Rule-Based..."
@@ -167,16 +167,10 @@ async def upload_file(
         # But if restarting, we might want to cleanup? 
         # Since upload creates a NEW temp file, cleanup of *old* job folders is less critical 
         # unless we know the specific old job_id. 
-        # We'll rely on the standard "Generate Unique ID" behavior here.
-        
-        job_id = str(uuid.uuid4())
-        # To make it resumable later, we might want timestamped format?
-        # But /upload is usually the *start*. Resumption usually happens *during* processing.
-        # If we want to resume *this* upload processing later, we need a stable ID?
-        # Let's stick to UUID for upload-initated jobs unless we want to link it precisely.
-        # Actually, for consistency with other endpoints:
+        # Generator Unique ID
         timestamp = int(time.time())
         job_id = f"job_ingest_{uuid.uuid4()}_{timestamp}"
+        print(f"STARTING New Ingestion Job: {job_id}")
 
     filename = file.filename
     
@@ -374,53 +368,6 @@ async def generate_taxonomy(
     return {"job_id": job_id}
 
 
-async def run_hipdam_document_analysis(job_id: str, payload: HipdamAnalysisPayload):
-    try:
-        # Update Status
-        jobs[job_id]["status"] = "processing"
-        jobs[job_id]["progress"] = 0
-        jobs[job_id]["message"] = { "stage": "initializing", "label": "Initializing Agentic Workflow...", "details": {} }
-        
-        # Assuming DocumentProcessor is imported or defined elsewhere
-        # from hipdam.document_processor import DocumentProcessor # Example import
-        # processor = DocumentProcessor(api_key=os.environ.get("GEMINI_API_KEY"))
-        
-        # Placeholder for actual DocumentProcessor logic
-        # In a real scenario, you'd instantiate and call the processor here.
-        # For now, simulate processing.
-        
-        # Example: Simulate progress
-        total_steps = 10
-        for i in range(total_steps):
-            await asyncio.sleep(0.5) # Simulate work
-            jobs[job_id]["progress"] = int(((i + 1) / total_steps) * 100)
-            jobs[job_id]["message"] = f"Processing step {i+1}/{total_steps}..."
-
-        # Simulate a result
-        result = {
-            "summary": f"Analysis of {payload.filename} ({payload.document_type}) completed.",
-            "extracted_data": [
-                {"section": "Introduction", "rules_found": ["Rule A", "Rule B"]},
-                {"section": "Definitions", "rules_found": ["Rule C"]}
-            ]
-        }
-        
-        jobs[job_id]["status"] = "completed"
-        jobs[job_id]["progress"] = 100
-        jobs[job_id]["result"] = result
-        jobs[job_id]["message"] = "Agentic analysis complete."
-
-    except asyncio.CancelledError:
-        print(f"HiPDAM Document Analysis Job {job_id} CANCELLED by system/user.")
-        jobs[job_id]["status"] = "cancelled"
-        jobs[job_id]["error"] = "Job cancelled."
-    except Exception as e:
-        print(f"HiPDAM Document Analysis Job {job_id} failed: {e}")
-        jobs[job_id]["status"] = "failed"
-        jobs[job_id]["error"] = str(e)
-        import traceback
-        traceback.print_exc()
-
 @prevent_sleep_task
 async def run_analysis(job_id: str, content: List[Dict], document_id: str):
     try:
@@ -428,6 +375,11 @@ async def run_analysis(job_id: str, content: List[Dict], document_id: str):
         jobs[job_id]["progress"] = 0
         jobs[job_id]["message"] = "Initializing analysis..."
         
+        # Initialize billing
+        from billing_manager import get_billing_manager
+        bm = get_billing_manager()
+        await bm.initialize_job(job_id)
+
         extractor = RuleExtractor()
         
         def update_progress(current, total, message=None):

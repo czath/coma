@@ -1,0 +1,15 @@
+{
+  "job_id": "job_doc_1766476667171_fvasyl5wa_analyze_1766476737",
+  "created_at": "2025-12-23T09:58:57.647607",
+  "last_updated": "2025-12-23T10:05:24.007171",
+  "usage": {
+    "gemini-2.5-flash": {
+      "input": 173315,
+      "output": 118553,
+      "input_cost": 0.0519945,
+      "output_cost": 0.2963825,
+      "total_cost": 0.34837700000000005
+    }
+  },
+  "total_cost_usd": 0.34837700000000005
+}

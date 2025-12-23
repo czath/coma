@@ -4,7 +4,7 @@ import asyncio
 import json
 import logging
 import traceback
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from pathlib import Path
 
 from hipdam.core import HiPDAMOrchestrator

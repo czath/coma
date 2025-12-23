@@ -1,5 +1,6 @@
 import os
 import time
+import asyncio
 import logging
 import json
 import httpx
@@ -37,7 +38,7 @@ class LLMAutoTagger:
         with open(prompt_path, "r", encoding="utf-8") as f:
             self.base_prompt = f.read()
 
-    def tag(self, content: List[Dict[str, Any]], document_type: str, progress_callback=None, job_id: str=None) -> Tuple[List[Dict[str, Any]], str]:
+    async def tag(self, content: List[Dict[str, Any]], document_type: str, progress_callback=None, job_id: str=None) -> Tuple[List[Dict[str, Any]], str]:
         """
         Main entry point.
         """
@@ -71,7 +72,7 @@ class LLMAutoTagger:
                 llm_input.append(item)
             
             # Get classifications with retry
-            response_items = self._classify_chunk_with_retry(llm_input, document_type, job_id=job_id)
+            response_items = await self._classify_chunk_with_retry(llm_input, document_type, job_id=job_id)
             
             # Merge results
             for item in response_items:
@@ -92,7 +93,7 @@ class LLMAutoTagger:
             if progress_callback:
                 progress_callback(chunk_end, total_blocks)
                 
-            time.sleep(2) # Brief sleep to avoid rate limits
+            await asyncio.sleep(1) # Reduced sleep for async, still avoiding rate limits
 
         # Step 3: Post-Processing (Assign IDs)
         tagged_content = []
@@ -127,7 +128,7 @@ class LLMAutoTagger:
             
         return tagged_content, document_type
 
-    def _classify_chunk_with_retry(self, llm_input: List[Dict], document_type: str, max_retries=5, job_id: str=None) -> List[ClassificationItem]:
+    async def _classify_chunk_with_retry(self, llm_input: List[Dict], document_type: str, max_retries=5, job_id: str=None) -> List[ClassificationItem]:
         """
         Calls LLM to classify a chunk of blocks. Retries if validation fails.
         """
@@ -139,10 +140,7 @@ class LLMAutoTagger:
         
         for attempt in range(max_retries):
             try:
-                # Synchronous call for Tagger as per implementation (unless we switch to aio)
-                # Note: `self.client.models.generate_content` is sync.
-                # `self.client.aio.models.generate_content` is async.
-                response = self.client.models.generate_content(
+                response = await self.client.aio.models.generate_content(
                     model=self.model_name,
                     contents=prompt_content,
                     config=types.GenerateContentConfig(
@@ -156,7 +154,7 @@ class LLMAutoTagger:
 
                 if response.usage_metadata and job_id:
                      bm = get_billing_manager()
-                     bm.track_usage_sync(job_id, self.model_name, response.usage_metadata)
+                     await bm.track_usage(job_id, self.model_name, response.usage_metadata)
 
                 if response.parsed and response.parsed.items:
                     return response.parsed.items
@@ -166,10 +164,10 @@ class LLMAutoTagger:
             except Exception as e:
                 logger.error(f"Attempt {attempt+1} failed: {e}")
                 if "429" in str(e):
-                    time.sleep(backoff)
+                    await asyncio.sleep(backoff)
                     backoff *= 2
                 else:
-                    time.sleep(1)
+                    await asyncio.sleep(1)
         
         print("All retries failed for chunk.")
         return []

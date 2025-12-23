@@ -150,11 +150,15 @@ class ContractPipeline:
         # Post-process hook for normalization
         def normalize_glossary(data):
             # data is list of dicts {term, definition}
+            if not isinstance(data, list): return data
+            normalized = []
             for item in data:
+                if not isinstance(item, dict): continue
                 term = item.get("term", "")
                 # Normalize: lowercase, strip
                 item["normalized_term"] = term.lower().strip()
-            return data
+                normalized.append(item)
+            return normalized
 
         data, flags, trace = await self._execute_task_with_retry(
             worker_cfg, judge_cfg, full_text, job_id, 
@@ -234,7 +238,7 @@ class ContractPipeline:
                     "message": "Worker failed to produce valid JSON.",
                     "severity": "ERROR"
                 })
-                 return None, flags
+                 return None, flags, []
 
             # 2. RUN JUDGE
             print(f"[{datetime.now()}] DEBUG: Running Judge for {task_type} {context_id}...")
@@ -285,7 +289,7 @@ class ContractPipeline:
                         "severity": "WARNING"
                     })
 
-            if judge_data and judge_data.get("verdict") == "ACCEPT":
+            if judge_data and isinstance(judge_data, dict) and judge_data.get("verdict") == "ACCEPT":
                  # Success! (Partial or Full)
                  flags.extend(current_item_flags)
                  

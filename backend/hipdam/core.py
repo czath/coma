@@ -1,5 +1,5 @@
 import asyncio
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import httpx
 from google import genai
 from hipdam.models import ExpertRecommendation, Cluster, JudgeDecision, TraceMap

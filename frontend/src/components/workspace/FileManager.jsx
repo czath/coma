@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useWorkspace } from '../../hooks/useWorkspace';
-import { Upload, Plus, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle, FileSignature } from 'lucide-react';
+import { Upload, Plus, X, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle, FileSignature } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function FileManager() {
@@ -10,6 +10,11 @@ export default function FileManager() {
     const [uploadProgress, setUploadProgress] = useState({}); // { id: { percent: number, message: string } }
     const [activeTaxonomy, setActiveTaxonomy] = useState(null);
     const intervalsRef = useRef({}); // Store intervals to clear on unmount
+    const fileInputRef = useRef(null);
+    const [isTaxModalOpen, setIsTaxModalOpen] = useState(false);
+    const [taxData, setTaxData] = useState([]);
+    const [taxSearch, setTaxSearch] = useState('');
+    const [taxLoading, setTaxLoading] = useState(false);
 
     // Cleanup on unmount
     useEffect(() => {
@@ -77,6 +82,24 @@ export default function FileManager() {
             setActiveTaxonomy(null);
         }
     }, []);
+
+    const fetchTaxonomyContent = async () => {
+        setTaxLoading(true);
+        try {
+            const res = await fetch('http://localhost:8000/taxonomy/active');
+            if (res.ok) {
+                const data = await res.json();
+                setTaxData(data);
+                setIsTaxModalOpen(true);
+            }
+            // Also refresh the filename status
+            await checkTaxonomy();
+        } catch (err) {
+            console.error("Failed to fetch taxonomy content", err);
+        } finally {
+            setTaxLoading(false);
+        }
+    };
 
     useEffect(() => {
         checkTaxonomy();
@@ -762,12 +785,16 @@ export default function FileManager() {
             {/* TIER 2: TOOLBAR */}
             <div className="bg-white border-b border-gray-200 px-8 py-3 flex justify-between items-center shrink-0">
                 <div className="flex items-center">
+                    {/* Context or Navigation breadcrumbs could go here */}
+                </div>
+                <div className="flex items-center gap-4">
                     <button
-                        onClick={checkTaxonomy}
+                        onClick={fetchTaxonomyContent}
                         className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white shadow-sm opacity-90 hover:opacity-100 transition-opacity cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
-                        title={activeTaxonomy ? `Active: ${activeTaxonomy} (Click to refresh)` : 'No Active Taxonomy (Click to refresh)'}
+                        title={activeTaxonomy ? `Active: ${activeTaxonomy} (Click to view contents)` : 'No Active Taxonomy (Click to refresh)'}
+                        disabled={taxLoading}
                     >
-                        <div className={`w-1.5 h-1.5 rounded-full ${activeTaxonomy ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                        {taxLoading ? <Loader className="animate-spin text-gray-400" size={14} /> : <div className={`w-1.5 h-1.5 rounded-full ${activeTaxonomy ? 'bg-green-500' : 'bg-gray-300'}`}></div>}
                         <div className="flex items-center gap-1.5 text-xs font-medium">
                             <span className="text-indigo-500 uppercase tracking-wider text-[10px] font-bold">Global Taxonomy</span>
                             <span className="text-gray-600">
@@ -775,28 +802,32 @@ export default function FileManager() {
                             </span>
                         </div>
                     </button>
-                </div>
-                <div className="flex items-center gap-4">
-                    <label className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full cursor-pointer" title="Add Document">
-                        <Plus size={20} />
-                        <input type="file" multiple className="hidden" onChange={handleFileSelect} />
-                    </label>
+                    {/* + Button removed per user request - drop area handles it */}
                 </div>
             </div>
 
             <div className="max-w-7xl mx-auto p-8">
 
-                {/* Drop Zone */}
+                {/* Drop Zone (Now Clickable) */}
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileSelect}
+                    multiple
+                    className="hidden"
+                    accept=".pdf,.docx,.json"
+                />
                 <div
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
-                    className={`mb-8 border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 ${isDragging ? 'border-indigo-500 bg-indigo-50 scale-[1.01]' : 'border-gray-300 hover:border-indigo-400 bg-white'
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`mb-8 border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer ${isDragging ? 'border-indigo-500 bg-indigo-50 scale-[1.01]' : 'border-gray-300 hover:border-indigo-400 bg-white'
                         }`}
                 >
                     <div className="flex flex-col items-center gap-2 text-gray-500">
                         <Upload size={32} className={isDragging ? 'text-indigo-500' : 'text-gray-400'} />
-                        <p className="font-medium text-gray-700">Drop files here to upload</p>
+                        <p className="font-medium text-gray-700">Click or drop files here to upload</p>
                         <p className="text-xs text-gray-400">Support PDF, DOCX, JSON</p>
                     </div>
                 </div>
@@ -992,6 +1023,86 @@ export default function FileManager() {
                     </table>
                 </div>
             </div>
+
+            {/* Taxonomy Viewer Modal */}
+            {isTaxModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setIsTaxModalOpen(false)}>
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+                        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                            <div>
+                                <h3 className="text-lg font-bold text-gray-900 leading-tight">Global Taxonomy Content</h3>
+                                <p className="text-xs text-gray-500 font-medium font-mono mt-0.5">{activeTaxonomy}</p>
+                            </div>
+                            <button
+                                onClick={() => setIsTaxModalOpen(false)}
+                                className="p-2 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+                            >
+                                <Plus size={20} className="rotate-45" />
+                            </button>
+                        </div>
+
+                        <div className="p-4 border-b border-gray-100 bg-white">
+                            <div className="relative">
+                                <FileSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                                <input
+                                    type="text"
+                                    placeholder="Filter by Name, ID or Description..."
+                                    className="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium"
+                                    value={taxSearch}
+                                    onChange={e => setTaxSearch(e.target.value)}
+                                />
+                                {taxSearch && (
+                                    <button
+                                        onClick={() => setTaxSearch('')}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+                                    >
+                                        <X size={14} />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="flex-grow overflow-y-auto p-6 scroll-smooth">
+                            {taxData.filter(tag => {
+                                const s = taxSearch.toLowerCase();
+                                return tag.display_name.toLowerCase().includes(s) ||
+                                    tag.tag_id.toLowerCase().includes(s) ||
+                                    tag.description.toLowerCase().includes(s);
+                            }).length === 0 ? (
+                                <div className="text-center py-20">
+                                    <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <FileSearch className="text-gray-300" size={32} />
+                                    </div>
+                                    <h4 className="text-gray-900 font-bold">No matches found</h4>
+                                    <p className="text-gray-500 text-xs mt-1">Try adjusting your search terms</p>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {taxData.filter(tag => {
+                                        const s = taxSearch.toLowerCase();
+                                        return tag.display_name.toLowerCase().includes(s) ||
+                                            tag.tag_id.toLowerCase().includes(s) ||
+                                            tag.description.toLowerCase().includes(s);
+                                    }).map((tag) => (
+                                        <div key={tag.tag_id} className="p-4 rounded-xl border border-gray-100 bg-gray-50/30 hover:bg-white hover:border-indigo-100 hover:shadow-md transition-all group">
+                                            <div className="flex items-start justify-between mb-2">
+                                                <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">{tag.tag_id}</span>
+                                            </div>
+                                            <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-indigo-700 transition-colors">{tag.display_name}</h4>
+                                            <p className="text-xs text-gray-500 leading-relaxed font-medium">{tag.description}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                            <span>{taxData.length} Total Tags</span>
+                            <span>Enterprise Taxonomy 2.0</span>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

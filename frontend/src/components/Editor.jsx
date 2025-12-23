@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
 export default function Editor({ content, clauses, onUpdateClauses, selectedClauseIds, onSelectClause, documentType }) {
@@ -371,6 +371,8 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
 
     const availableTypes = getAvailableSectionTypes();
 
+    const [showSkipped, setShowSkipped] = useState(false);
+
     const handleJumpTo = (clause) => {
         const lineIdx = clause.start.line;
         const lineElement = editorRef.current.children[lineIdx];
@@ -381,12 +383,79 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
         setIsJumpMenuOpen(false);
     };
 
-    // Filter clauses for jump menu
-    const filteredClauses = clauses.filter(c => {
+    // Calculate jump items (clauses + optional skips)
+    const jumpItems = useMemo(() => {
+        const items = [...clauses.filter(c => c.end)].map(c => ({ ...c, isSkip: false }));
+
+        if (showSkipped && content.length > 0) {
+            const sortedClauses = [...clauses].filter(c => c.end).sort((a, b) => {
+                if (a.start.line !== b.start.line) return a.start.line - b.start.line;
+                return a.start.ch - b.start.ch;
+            });
+
+            const comparePos = (p1, p2) => {
+                if (p1.line < p2.line) return -1;
+                if (p1.line > p2.line) return 1;
+                if (p1.ch < p2.ch) return -1;
+                if (p1.ch > p2.ch) return 1;
+                return 0;
+            };
+
+            const extractText = (start, end) => {
+                let text = "";
+                if (start.line === end.line) {
+                    text = content[start.line].text.substring(start.ch, end.ch);
+                } else {
+                    text += content[start.line].text.substring(start.ch) + "\n";
+                    for (let i = start.line + 1; i < end.line; i++) {
+                        text += content[i].text + "\n";
+                    }
+                    text += content[end.line].text.substring(0, end.ch);
+                }
+                return text;
+            };
+
+            let currentPos = { line: 0, ch: 0 };
+            sortedClauses.forEach(clause => {
+                if (comparePos(currentPos, clause.start) < 0) {
+                    const gapText = extractText(currentPos, clause.start);
+                    if (gapText.trim().length > 2) {
+                        items.push({
+                            id: `skip_${currentPos.line}_${currentPos.ch}`,
+                            type: 'SKIP',
+                            header: `Untagged: ${gapText.trim().substring(0, 30)}${gapText.trim().length > 30 ? '...' : ''}`,
+                            start: { ...currentPos },
+                            isSkip: true
+                        });
+                    }
+                }
+                currentPos = clause.end;
+            });
+
+            const lastPos = { line: content.length - 1, ch: content[content.length - 1].text.length };
+            if (comparePos(currentPos, lastPos) < 0) {
+                const remainingText = extractText(currentPos, lastPos);
+                if (remainingText.trim().length > 2) {
+                    items.push({
+                        id: `skip_${currentPos.line}_${currentPos.ch}`,
+                        type: 'SKIP',
+                        header: `Untagged: ${remainingText.trim().substring(0, 30)}${remainingText.trim().length > 30 ? '...' : ''}`,
+                        start: { ...currentPos },
+                        isSkip: true
+                    });
+                }
+            }
+        }
+
+        return items.sort((a, b) => (a.start.line - b.start.line) || (a.start.ch - b.start.ch));
+    }, [clauses, content, showSkipped]);
+
+    // Filter jump items
+    const filteredItems = jumpItems.filter(item => {
         if (!jumpSearchTerm) return true;
         const term = jumpSearchTerm.toLowerCase();
-        return (c.header && c.header.toLowerCase().includes(term)) ||
-            (c.type && c.type.toLowerCase().includes(term));
+        return (item.header && item.header.toLowerCase().includes(term)) ||
+            (item.type && item.type.toLowerCase().includes(term));
     });
 
     return (
@@ -396,50 +465,61 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
                     <h2 className="text-sm font-bold text-gray-700 uppercase">Document Editor</h2>
 
                     {/* Jump To Menu */}
-                    <div className="relative" ref={jumpMenuRef}>
-                        <button
-                            onClick={(e) => { e.stopPropagation(); setIsJumpMenuOpen(!isJumpMenuOpen); }}
-                            className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 rounded-md text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors shadow-sm"
-                        >
-                            <span>Jump to Section</span>
-                            <span className="text-[10px] text-gray-400">▼</span>
-                        </button>
+                    <div className="flex items-center gap-3">
+                        <div className="relative" ref={jumpMenuRef}>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); setIsJumpMenuOpen(!isJumpMenuOpen); }}
+                                className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 rounded-md text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors shadow-sm"
+                            >
+                                <span>Jump to Section</span>
+                                <span className="text-[10px] text-gray-400">▼</span>
+                            </button>
 
-                        {isJumpMenuOpen && (
-                            <div className="absolute top-full left-0 mt-1 w-64 max-h-80 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-1 flex flex-col">
-                                {/* Search Input */}
-                                <div className="p-2 border-b border-gray-100 sticky top-0 bg-white z-10">
-                                    <input
-                                        ref={searchInputRef}
-                                        type="text"
-                                        placeholder="Search sections..."
-                                        value={jumpSearchTerm}
-                                        onChange={(e) => setJumpSearchTerm(e.target.value)}
-                                        onClick={(e) => e.stopPropagation()}
-                                        className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:border-indigo-500"
-                                    />
-                                </div>
-
-                                {filteredClauses.length === 0 ? (
-                                    <div className="px-4 py-3 text-xs text-gray-500 text-center italic">
-                                        {clauses.length === 0 ? "No sections defined yet." : "No matching sections."}
+                            {isJumpMenuOpen && (
+                                <div className="absolute top-full left-0 mt-1 w-72 max-h-80 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-1 flex flex-col">
+                                    {/* Search Input */}
+                                    <div className="p-2 border-b border-gray-100 sticky top-0 bg-white z-10">
+                                        <input
+                                            ref={searchInputRef}
+                                            type="text"
+                                            placeholder="Search sections..."
+                                            value={jumpSearchTerm}
+                                            onChange={(e) => setJumpSearchTerm(e.target.value)}
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:border-indigo-500"
+                                        />
                                     </div>
-                                ) : (
-                                    filteredClauses
-                                        .sort((a, b) => (a.start.line - b.start.line) || (a.start.ch - b.start.ch))
-                                        .map(clause => (
+
+                                    {filteredItems.length === 0 ? (
+                                        <div className="px-4 py-3 text-xs text-gray-500 text-center italic">
+                                            {jumpItems.length === 0 ? "No sections defined yet." : "No matching items."}
+                                        </div>
+                                    ) : (
+                                        filteredItems.map(item => (
                                             <button
-                                                key={clause.id}
-                                                onClick={() => handleJumpTo(clause)}
-                                                className="w-full text-left px-4 py-2 hover:bg-indigo-50 text-xs text-gray-700 border-b border-gray-50 last:border-0 flex flex-col gap-0.5"
+                                                key={item.id}
+                                                onClick={() => handleJumpTo(item)}
+                                                className={`w-full text-left px-4 py-2 hover:bg-indigo-50 text-xs text-gray-700 border-b border-gray-50 last:border-0 flex flex-col gap-0.5 ${item.isSkip ? 'bg-orange-50/30' : ''}`}
                                             >
-                                                <span className="font-bold text-indigo-700">{clause.header || 'Untitled Section'}</span>
-                                                <span className="text-[10px] text-gray-500 uppercase">{clause.type}</span>
+                                                <span className={`font-bold ${item.isSkip ? 'text-orange-700' : 'text-indigo-700'}`}>{item.header || 'Untitled Section'}</span>
+                                                <span className={`text-[10px] uppercase font-medium ${item.isSkip ? 'text-orange-500' : 'text-gray-500'}`}>{item.type}</span>
                                             </button>
                                         ))
-                                )}
-                            </div>
-                        )}
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Standalone Toggle for visibility */}
+                        <label className="flex items-center gap-2 px-2 py-1.5 bg-white border border-gray-200 rounded-md cursor-pointer select-none hover:bg-gray-50 transition-colors shadow-sm">
+                            <input
+                                type="checkbox"
+                                checked={showSkipped}
+                                onChange={(e) => setShowSkipped(e.target.checked)}
+                                className="w-3.5 h-3.5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 pointer-events-none"
+                            />
+                            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">Show Skipped</span>
+                        </label>
                     </div>
                 </div>
 
@@ -456,6 +536,7 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
                         selectedClauseIds={selectedClauseIds}
                         onContextMenu={handleContextMenu}
                         onSelectClause={handleClauseClick}
+                        showSkipped={showSkipped}
                     />
                 ))}
             </div>
@@ -523,7 +604,7 @@ export default function Editor({ content, clauses, onUpdateClauses, selectedClau
     );
 }
 
-function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSelectClause }) {
+function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSelectClause, showSkipped }) {
     const text = block.text;
 
     // 1. Collect all interesting points (start/end of clauses) on this line
@@ -634,28 +715,52 @@ function Line({ block, lineIdx, clauses, selectedClauseIds, onContextMenu, onSel
 
             const isActive = coveringClause && selectedClauseIds.includes(coveringClause.id);
 
-            segments.push(
-                <span
-                    data-start-index={p1.idx}
-                    // CONTENT STYLE
-                    // Unselected: bg-blue-50/50 (Subtle)
-                    // Selected: bg-blue-100 (Highlight)
-                    className={`decoration-clone px-0.5 rounded-sm transition-colors ${isActive
-                        ? 'bg-blue-100 text-gray-900'
-                        : coveringClause
-                            ? 'bg-blue-50/50 text-gray-700'
-                            : ''
-                        }`}
-                    onClick={(e) => {
-                        if (coveringClause) {
+            if (!coveringClause && showSkipped && segmentText.trim().length > 0) {
+                // This is a untagged/skip segment being tracked
+                const skipId = `skip_${lineIdx}_${p1.idx}`;
+                const isSelectedSkip = selectedClauseIds.includes(skipId);
+
+                segments.push(
+                    <span
+                        key={skipId}
+                        data-start-index={p1.idx}
+                        className={`decoration-clone px-0.5 rounded-sm transition-colors border-b border-dashed cursor-pointer ${isSelectedSkip
+                            ? 'bg-orange-200 text-gray-900 border-orange-500 shadow-[0_0_0_1px_rgba(249,115,22,0.4)]'
+                            : 'bg-orange-50/40 text-gray-500 border-orange-200 hover:bg-orange-100/50'
+                            }`}
+                        onClick={(e) => {
                             e.stopPropagation();
-                            onSelectClause(coveringClause.id, e);
-                        }
-                    }}
-                >
-                    {segmentText}
-                </span>
-            );
+                            onSelectClause(skipId, e);
+                        }}
+                    >
+                        {segmentText}
+                    </span>
+                );
+            } else {
+                segments.push(
+                    <span
+                        key={`seg-${lineIdx}-${p1.idx}`}
+                        data-start-index={p1.idx}
+                        // CONTENT STYLE
+                        // Unselected: bg-blue-50/50 (Subtle)
+                        // Selected: bg-blue-100 (Highlight)
+                        className={`decoration-clone px-0.5 rounded-sm transition-colors ${isActive
+                            ? 'bg-blue-100 text-gray-900 shadow-[0_0_0_1px_rgba(59,130,246,0.3)]'
+                            : coveringClause
+                                ? 'bg-blue-50/50 text-gray-700'
+                                : ''
+                            }`}
+                        onClick={(e) => {
+                            if (coveringClause) {
+                                e.stopPropagation();
+                                onSelectClause(coveringClause.id, e);
+                            }
+                        }}
+                    >
+                        {segmentText}
+                    </span>
+                );
+            }
         }
 
         // Move i to j-1 so next loop starts at j

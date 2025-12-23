@@ -487,7 +487,7 @@ export default function AnnotateWrapper() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${file.header.filename.replace(/\.[^/.]+$/, "")}_annotated.json`;
+        a.download = `${file.header.filename.replace(/\.[^/.]+$/, "")}_${exportStatus}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -586,7 +586,7 @@ export default function AnnotateWrapper() {
                 if (comparePos(currentPos, clause.start) < 0) {
                     const gapText = extractText(currentPos, clause.start);
                     // Only count if gap is substantial (e.g., > 10 chars)
-                    if (gapText.trim().length > 10) {
+                    if (gapText.trim().length > 2) {
                         skippedCount++;
                     }
                 }
@@ -596,7 +596,7 @@ export default function AnnotateWrapper() {
             const lastPos = { line: content.length - 1, ch: content[content.length - 1].text.length };
             if (comparePos(currentPos, lastPos) < 0) {
                 const remainingText = extractText(currentPos, lastPos);
-                if (remainingText.trim().length > 10) {
+                if (remainingText.trim().length > 2) {
                     skippedCount++;
                 }
             }

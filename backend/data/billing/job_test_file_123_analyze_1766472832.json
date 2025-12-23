@@ -1,0 +1,15 @@
+{
+  "job_id": "job_test_file_123_analyze_1766472832",
+  "created_at": "2025-12-23T08:53:52.438665",
+  "last_updated": "2025-12-23T08:53:58.106878",
+  "usage": {
+    "gemini-2.5-flash": {
+      "input": 1378,
+      "output": 142,
+      "input_cost": 0.00041339999999999997,
+      "output_cost": 0.00035499999999999996,
+      "total_cost": 0.0007684
+    }
+  },
+  "total_cost_usd": 0.0007684
+}
