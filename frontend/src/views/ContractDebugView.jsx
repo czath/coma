@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FileSignature, Home, Upload, Play, AlertTriangle, FileText, Book, List, Activity, Link2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const ContractDebugView = () => {
+    const fileInputRef = useRef(null);
     const [fileLocal, setFileLocal] = useState(null); // The actual JS File object
     const [jsonContent, setJsonContent] = useState(null); // Parsed JSON
     const [jobId, setJobId] = useState(null);
@@ -14,14 +15,18 @@ const ContractDebugView = () => {
 
     const handleFileChange = (e) => {
         const f = e.target.files[0];
+        console.log("File selected:", f ? f.name : "None");
         if (f) {
             setFileLocal(f);
             const reader = new FileReader();
             reader.onload = (ev) => {
                 try {
+                    console.log("Parsing JSON file...");
                     const parsed = JSON.parse(ev.target.result);
                     setJsonContent(parsed);
+                    console.log("JSON parsed successfully:", parsed);
                 } catch (err) {
+                    console.error("Failed to parse JSON:", err);
                     alert("Invalid JSON file");
                 }
             };
@@ -34,18 +39,20 @@ const ContractDebugView = () => {
         setStatus("processing");
         setResult(null);
         setTrace(null);
+        console.log("Starting Debug Analysis...");
 
         try {
             // Call Debug Endpoint
-            const res = await fetch("http://localhost:8000/debug/analyze_contract", {
+            const res = await fetch("http://127.0.0.1:8000/debug/analyze_contract", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ document_content: jsonContent })
             });
             const data = await res.json();
+            console.log("Analysis job started:", data.job_id);
             setJobId(data.job_id);
         } catch (e) {
-            console.error(e);
+            console.error("Analysis failed to start:", e);
             setStatus("failed");
         }
     };
@@ -56,10 +63,11 @@ const ContractDebugView = () => {
 
         const interval = setInterval(async () => {
             try {
-                const res = await fetch(`http://localhost:8000/status/${jobId}`);
+                const res = await fetch(`http://127.0.0.1:8000/status/${jobId}`);
                 if (res.ok) {
                     const data = await res.json();
                     if (data.status === "completed") {
+                        console.log("Analysis completed successfully");
                         setResult(data.result);
                         setTrace(data.trace);
                         setStatus("complete");
@@ -108,14 +116,32 @@ const ContractDebugView = () => {
                             {fileLocal ? fileLocal.name : "No file selected"}
                         </span>
                     </div>
+                    <div className="flex flex-col justify-center ml-4">
+                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Status</span>
+                        <span className={`text-sm font-bold truncate max-w-xs block ${status === 'failed' ? 'text-red-600' :
+                                status === 'complete' ? 'text-green-600' :
+                                    status === 'processing' ? 'text-indigo-600' : 'text-gray-900'
+                            }`}>
+                            {status === 'idle' ? (fileLocal ? "Ready to Analyze" : "Waiting for file...") : status.toUpperCase()}
+                        </span>
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 shadow-sm transition-colors">
-                        <Upload className="w-4 h-4" />
-                        Upload JSON
-                        <input type="file" accept=".json" className="hidden" onChange={handleFileChange} />
-                    </label>
+                    {/* CSS Overlay Method for File Input */}
+                    <div className="relative group">
+                        <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white group-hover:bg-gray-50 shadow-sm transition-colors pointer-events-none">
+                            <Upload className="w-4 h-4" />
+                            Upload JSON
+                        </div>
+                        <input
+                            type="file"
+                            accept=".json"
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                            onChange={handleFileChange}
+                            onClick={(e) => { e.target.value = null; }}
+                        />
+                    </div>
 
                     <button
                         onClick={runDebugAnalysis}
@@ -136,7 +162,9 @@ const ContractDebugView = () => {
                 {!result && (
                     <div className="flex flex-col items-center justify-center h-64 text-gray-400 border-2 border-dashed border-gray-200 rounded-xl bg-white">
                         <FileText className="w-12 h-12 mb-4 text-gray-300" />
-                        <span className="text-sm font-medium">Upload an Annotated JSON file to begin debugging</span>
+                        <span className="text-sm font-medium">
+                            {fileLocal ? "File loaded. Click 'Run Analysis' to proceed." : "Upload an Annotated JSON file to begin debugging"}
+                        </span>
                     </div>
                 )}
 

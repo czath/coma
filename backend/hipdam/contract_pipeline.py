@@ -61,6 +61,12 @@ class ContractPipeline:
             # 1. PROFILE (Global Context)
             if progress_callback: progress_callback(5, 100, "Extracting Term Sheet & Profiling...")
             term_sheet, prof_flags, prof_trace = await self.run_profiler(document_payload, job_id)
+            
+            # Ensure term_sheet is a dict for .get() calls
+            if not isinstance(term_sheet, dict):
+                logger.warning(f"Profiler returned non-dict data: {type(term_sheet)}. Normalizing to empty dict.")
+                term_sheet = {}
+                
             results["term_sheet"] = term_sheet.get("term_sheet", {})
             results["reference_map"] = term_sheet.get("reference_map", []) # New Field
             results["missing_appendices"] = term_sheet.get("missing_appendices", []) # Backwards compat or derived
@@ -198,6 +204,12 @@ class ContractPipeline:
         # Transform into section result format
         # PRESERVE ORIGINAL DATA: Merge analysis into the original section object
         sec_result = section.copy()
+        
+        # Safety for data.get
+        if not isinstance(data, dict):
+            logger.warning(f"Labeler for {sec_id} returned non-dict data: {type(data)}")
+            data = {}
+
         sec_result["analysis"] = {
             "recordTags": data.get("suggested_tags", []) if isinstance(data, dict) else [],
             "verification_status": "VERIFIED" if not flags else "FLAGGED_FOR_PROFESSIONAL_REVIEW",

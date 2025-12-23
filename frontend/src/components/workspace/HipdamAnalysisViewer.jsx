@@ -607,6 +607,127 @@ function GlassHouseModal({ isOpen, sectionId, decisionId, onClose, traceData, is
     );
 }
 
+function RejectedRecordsModal({ isOpen, onClose, decisions, traceData }) {
+    if (!isOpen) return null;
+
+    return (
+        <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+            onClick={onClose}
+        >
+            <div
+                className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
+                onClick={e => e.stopPropagation()}
+            >
+                <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-red-50/50">
+                    <div className="flex items-center gap-3">
+                        <div className="bg-red-100 p-2 rounded-lg text-red-600">
+                            <XCircle size={20} />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-gray-900">Rejected Records</h3>
+                            <p className="text-xs text-gray-500 font-medium">Items filtered out by the AI Auditor</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        className="text-gray-400 hover:text-gray-600 p-1 hover:bg-gray-100 rounded-full transition-colors"
+                    >
+                        <X size={20} />
+                    </button>
+                </div>
+
+                <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/50">
+                    {decisions.length === 0 ? (
+                        <div className="text-center text-gray-400 py-10 italic">No rejected records found.</div>
+                    ) : (
+                        decisions.map((d, i) => {
+                            // Find relevant trace info
+                            let agentRecs = [];
+
+                            if (traceData) {
+                                const secTrace = traceData.find(t => t.section_id === d._sectionId);
+                                if (secTrace) {
+                                    if (d.source_cluster_id) {
+                                        const cluster = secTrace.clusters.find(c => c.id === d.source_cluster_id);
+                                        if (cluster && cluster.recommendation_ids) {
+                                            // Get ALL recommendations (Judge sees all of them)
+                                            agentRecs = cluster.recommendation_ids.map(rid =>
+                                                secTrace.recommendations.find(r => r.id === rid)
+                                            ).filter(Boolean);
+                                        }
+                                    }
+                                }
+                            }
+
+                            return (
+                                <div key={i} className="bg-white p-5 rounded-lg border border-gray-200 shadow-sm flex flex-col gap-4">
+                                    <div className="flex items-start justify-between border-b border-gray-50 pb-3">
+                                        <div className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                            <Bookmark size={12} />
+                                            {d._sectionName}
+                                        </div>
+                                        <span className="text-[10px] font-mono text-gray-300">REF: {d.id?.slice(0, 8)}</span>
+                                    </div>
+
+                                    {/* 1. RATIONALE (Why) */}
+                                    <div>
+                                        <h4 className="text-xs font-bold text-red-600 uppercase mb-2 flex items-center gap-1">
+                                            <Scale size={12} /> Judge Rationale
+                                        </h4>
+                                        <p className="text-sm text-gray-800 font-medium leading-relaxed bg-red-50 p-3 rounded-md border border-red-100 italic">
+                                            "{d.rationale || "No rationale provided."}"
+                                        </p>
+                                    </div>
+
+                                    {/* 2. AGENT INPUTS (What was proposed) */}
+                                    {agentRecs.length > 0 && (
+                                        <div className="border-l-2 border-indigo-100 pl-3 flex flex-col gap-4">
+                                            {agentRecs.map((rec, idx) => (
+                                                <div key={idx}>
+                                                    <h4 className="text-xs font-bold text-indigo-400 uppercase mb-2 flex items-center gap-1">
+                                                        <Bot size={12} /> Agent Proposal {agentRecs.length > 1 ? `#${idx + 1}` : ''} ({rec.source_agent})
+                                                    </h4>
+
+                                                    <div className="bg-slate-50 p-3 rounded text-xs font-mono text-slate-600 overflow-x-auto whitespace-pre-wrap">
+                                                        {JSON.stringify(rec.content, null, 2)}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* 3. VERBATIM SOURCE (Where) FALLBACK */}
+                                    {(d.decision_content?.verbatim_text || d.decision_content?.text || d.decision_content?.plain_text) && agentRecs.length === 0 && (
+                                        <div>
+                                            <h4 className="text-xs font-bold text-gray-400 uppercase mb-1">Source Text (Legacy)</h4>
+                                            <p className="text-sm text-gray-600 italic font-serif border-l-2 border-gray-200 pl-3">
+                                                "{d.decision_content.verbatim_text || d.decision_content.text || d.decision_content.plain_text}"
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })
+                    )}
+                </div>
+
+                <div className="p-4 border-t border-gray-100 bg-white flex justify-end">
+                    <div className="text-xs text-gray-400 font-medium self-center mr-auto">
+                        Total Rejected: {decisions.length}
+                    </div>
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-black transition-colors"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 // --- MAIN COMPONENT ---
 
 export default function HipdamAnalysisViewer({ file, onBack }) {
@@ -625,6 +746,9 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
     const [contextModalOpen, setContextModalOpen] = useState(false);
     const [contextData, setContextData] = useState(null);
 
+    // Rejected Modal State
+    const [rejectedModalOpen, setRejectedModalOpen] = useState(false);
+
     // Search & Filter State
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({
@@ -636,6 +760,7 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
 
     // Initial Data Load Logic
     // Initial Data Load Logic
+    // Initial Data Load Logic
     useEffect(() => {
         // ALWAYS use In-Memory Content (Migration to Browser-Storage Architecture)
         if (file?.hipdam_analyzed_content) {
@@ -644,6 +769,11 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
             console.warn("No in-memory analysis content found. This file may be from a legacy version or failed import.");
             // We intentionally do NOT fetch from disk anymore as per architecture change.
             setError("Analysis data is missing from browser storage.");
+        }
+
+        // Auto-load Trace Data if available (for Rejected Records Modal etc)
+        if (file?.hipdam_trace_content) {
+            setTraceData(file.hipdam_trace_content);
         }
     }, [file]);
 
@@ -761,6 +891,7 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
 
     // Extract Header and Decisions
     let allDecisions = [];
+    let rejectedDecisions = [];
     let analysisMetadata = null;
 
     if (analyzedData && Array.isArray(analyzedData)) {
@@ -769,10 +900,13 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                 analysisMetadata = item.metadata;
             } else if (item.decisions) {
                 item.decisions.forEach(d => {
+                    let rawTitle = item.title || item.section_name || item.section_id || "Unknown Section";
+                    const enrichedDecision = { ...d, _sectionId: item.section_id, _sectionName: rawTitle };
+
                     if (d.is_valid) {
-                        // FIX: Trust backend title explicitly (No frontend truncation/splitting)
-                        let rawTitle = item.title || item.section_name || item.section_id || "Unknown Section";
-                        allDecisions.push({ ...d, _sectionId: item.section_id, _sectionName: rawTitle });
+                        allDecisions.push(enrichedDecision);
+                    } else {
+                        rejectedDecisions.push(enrichedDecision);
                     }
                 });
             }
@@ -900,7 +1034,7 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                     </div>
                 </div>
                 <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                    Analysis Report
+                    Analysis Report | Reference
                 </div>
             </header>
 
@@ -957,8 +1091,15 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                     <div className="bg-indigo-50 text-indigo-700 p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col items-center gap-1">
                         <span className="text-3xl font-black">{displayRecordCount}</span>
                         <span className="text-[10px] font-bold uppercase tracking-wider">Qualified Records</span>
-                        {totalRecordCount > displayRecordCount && (
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">({totalRecordCount} Total)</span>
+
+                        {rejectedDecisions.length > 0 && (
+                            <button
+                                onClick={() => setRejectedModalOpen(true)}
+                                className="mt-2 px-3 py-1 bg-red-100 hover:bg-red-200 border border-red-200 rounded-full text-red-700 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer animate-in fade-in slide-in-from-top-1"
+                            >
+                                <XCircle size={10} />
+                                {rejectedDecisions.length} Rejected
+                            </button>
                         )}
                     </div>
 
@@ -1190,6 +1331,14 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
                     />
                 )
             }
+
+            {/* Rejected Records Modal */}
+            <RejectedRecordsModal
+                isOpen={rejectedModalOpen}
+                onClose={() => setRejectedModalOpen(false)}
+                decisions={rejectedDecisions}
+                traceData={traceData}
+            />
         </div >
     );
 }
