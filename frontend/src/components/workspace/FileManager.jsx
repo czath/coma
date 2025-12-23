@@ -89,6 +89,10 @@ export default function FileManager() {
             const res = await fetch('http://localhost:8000/taxonomy/active');
             if (res.ok) {
                 const data = await res.json();
+                // Sort alphabetically
+                if (Array.isArray(data)) {
+                    data.sort((a, b) => (a.display_name || "").localeCompare(b.display_name || ""));
+                }
                 setTaxData(data);
                 setIsTaxModalOpen(true);
             }
@@ -1125,7 +1129,7 @@ export default function FileManager() {
 
                             <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
                                 <span>{taxData.length} Total Tags</span>
-                                <span>Enterprise Taxonomy 2.0</span>
+                                <span>CORE.AI</span>
                             </div>
                         </div>
                     </div>
