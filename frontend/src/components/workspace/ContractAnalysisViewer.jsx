@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson } from 'lucide-react';
+import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import BillingCard from '../BillingCard';
 
 const ContractAnalysisViewer = ({ file, onBack }) => {
     const navigate = useNavigate();
@@ -25,6 +26,23 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
             </div>
         );
     }
+
+    // --- METRIC CALCULATIONS ---
+    const sectionCount = result.sections?.length || 0;
+    const glossaryCount = result.glossary?.length || 0;
+
+    // Reference Metrics
+    const refTotal = result.reference_map?.length || 0;
+    const refValid = result.reference_map?.filter(r => r.status === 'VALID').length || 0;
+    const refMissing = result.reference_map?.filter(r => r.status === 'MISSING').length || 0;
+    const refOther = refTotal - refValid - refMissing;
+
+    // Flag Metrics
+    const flagTotal = result.clarificationFlags?.length || 0;
+    const flagCritical = result.clarificationFlags?.filter(f => f.severity === 'CRITICAL').length || 0;
+    const flagHigh = result.clarificationFlags?.filter(f => f.severity === 'HIGH').length || 0;
+    const flagMedium = result.clarificationFlags?.filter(f => f.severity === 'MEDIUM').length || 0;
+    const flagLow = result.clarificationFlags?.filter(f => f.severity === 'LOW').length || 0;
 
     // Export Functionality
     const handleExport = () => {
@@ -69,7 +87,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-gray-50 font-sans overflow-hidden">
+        <div className="flex flex-col h-screen bg-gray-50 font-sans overflow-hidden relative">
+
             {/* TIER 1: BRAND HEADER */}
             <header className="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center shrink-0">
                 <div className="flex items-center gap-3">
@@ -129,220 +148,307 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 </div>
             </div>
 
-            {/* --- MAIN CONTENT --- */}
-            <div className="flex-1 p-8 overflow-y-auto">
-                <div className="flex flex-col gap-6 max-w-6xl mx-auto">
-                    {/* Tabs */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-1 flex items-center gap-1 sticky top-0 z-10">
-                        {[
-                            { id: "terms", label: "Term Sheet", icon: FileText },
-                            { id: "references", label: "References", icon: Link2 },
-                            { id: "glossary", label: "Glossary", icon: Book },
-                            { id: "flags", label: "Flags", icon: AlertTriangle },
-                            { id: "sections", label: "Analyzed Sections", icon: List },
-                            { id: "traces", label: "Agent Trace", icon: Activity },
-                        ].map(tab => (
-                            <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === tab.id
-                                    ? "bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-200"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                    }`}
-                            >
-                                <tab.icon className="w-4 h-4" />
-                                {tab.label}
-                            </button>
-                        ))}
+            {/* --- MAIN LAYOUT (SPLIT VIEW) --- */}
+            <div className="flex flex-1 overflow-hidden min-h-0 relative p-6 gap-6">
+
+                {/* LEFT PANEL: Control & Summary Cards (Fixed 1/4) */}
+                <div className="w-80 flex flex-col shrink-0 z-10 overflow-y-auto pb-20 gap-4 h-full no-scrollbar">
+
+                    {/* GROUP 1: DOCUMENT STATS (List Style) */}
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm divide-y divide-gray-100 overflow-hidden">
+                        {/* Sections */}
+                        <div className="p-3 flex justify-between items-center hover:bg-gray-50 transition-colors cursor-default">
+                            <div className="flex items-center gap-3">
+                                <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-md">
+                                    <List size={16} />
+                                </div>
+                                <span className="text-sm font-medium text-gray-700">Sections</span>
+                            </div>
+                            <span className="text-sm font-bold text-gray-900">{sectionCount}</span>
+                        </div>
+
+                        {/* Glossary */}
+                        <div className="p-3 flex justify-between items-center hover:bg-gray-50 transition-colors cursor-default">
+                            <div className="flex items-center gap-3">
+                                <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-md">
+                                    <Book size={16} />
+                                </div>
+                                <span className="text-sm font-medium text-gray-700">Glossary</span>
+                            </div>
+                            <span className="text-sm font-bold text-gray-900">{glossaryCount}</span>
+                        </div>
                     </div>
 
-                    {/* Viewport */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden min-h-[600px] flex flex-col">
+                    <div className="h-4"></div>
 
-                        {/* TERM SHEET TAB */}
-                        {activeTab === "terms" && (
-                            <div className="h-full flex flex-col">
-                                {result.clarificationFlags && result.clarificationFlags.filter(f => f.target_element_id === "term_sheet" && f.type === "VERIFICATION_FAILED").length > 0 && (
-                                    <div className="bg-red-50 border-b border-red-100 p-4 flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
-                                        <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
-                                        <div>
-                                            <h4 className="text-sm font-bold text-red-900">Verification Failed</h4>
-                                            <ul className="list-disc list-inside mt-1 text-sm text-red-700 space-y-1">
-                                                {result.clarificationFlags.filter(f => f.target_element_id === "term_sheet" && f.type === "VERIFICATION_FAILED").map((f, i) => (
-                                                    <li key={i}>{f.message}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                )}
-                                <div className="p-6">
-                                    {result.term_sheet ? (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            {Object.entries(result.term_sheet).map(([key, value]) => (
-                                                <div key={key} className="p-4 bg-gray-50 rounded-lg border border-gray-100">
-                                                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">
-                                                        {key.replace(/_/g, " ")}
-                                                    </span>
-                                                    <div className="text-sm font-medium text-gray-900 break-words">
-                                                        {typeof value === 'object' ? JSON.stringify(value, null, 2) : (value || "N/A")}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="text-center text-gray-400 py-10">No term sheet data extracted.</div>
-                                    )}
+                    {/* GROUP 2: ISSUES (List Style) */}
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm divide-y divide-gray-100 overflow-hidden">
+                        {/* Referencing Issues */}
+                        <div className="p-3 flex justify-between items-center hover:bg-red-50 group transition-colors cursor-default">
+                            <div className="flex items-center gap-3">
+                                <div className="p-1.5 bg-red-100 text-red-600 rounded-md">
+                                    <Link2 size={16} />
                                 </div>
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-red-700 transition-colors">Broken Refs</span>
                             </div>
-                        )}
+                            <span className="text-sm font-bold text-gray-900 group-hover:text-red-700 transition-colors">
+                                {refTotal - refValid}
+                            </span>
+                        </div>
 
-                        {/* REFERENCES TAB */}
-                        {activeTab === "references" && (
-                            <div className="flex flex-col divide-y divide-gray-100">
-                                {result.reference_map && result.reference_map.map((ref, i) => (
-                                    <div key={i} className="p-4 hover:bg-gray-50 transition-colors">
-                                        <div className="flex items-center justify-between mb-1">
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-bold text-sm text-gray-900">{ref.ref_text}</span>
-                                                <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${ref.type === 'APPENDIX' ? 'bg-blue-100 text-blue-800' :
-                                                    ref.type === 'PLACEHOLDER' ? 'bg-orange-100 text-orange-800' :
-                                                        'bg-gray-100 text-gray-600'
-                                                    }`}>{ref.type}</span>
-                                            </div>
-                                            <span className={`text-xs font-bold px-2 py-1 rounded ${ref.status === 'VALID' ? 'text-green-600 bg-green-50' :
-                                                ref.status === 'MISSING' ? 'text-red-600 bg-red-50' :
-                                                    'text-amber-600 bg-amber-50'
-                                                }`}>{ref.status}</span>
-                                        </div>
-                                        <p className="text-sm text-gray-600 italic">"{ref.context}"</p>
-                                    </div>
+                        {/* Analysis Issues */}
+                        <div className="p-3 flex justify-between items-center hover:bg-amber-50 group transition-colors cursor-default">
+                            <div className="flex items-center gap-3">
+                                <div className="p-1.5 bg-amber-100 text-amber-600 rounded-md">
+                                    <AlertTriangle size={16} />
+                                </div>
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-amber-700 transition-colors">Analysis Risks</span>
+                            </div>
+                            <span className="text-sm font-bold text-gray-900 group-hover:text-amber-700 transition-colors">
+                                {flagTotal}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* 5. DOCUMENT TAGS (New Section) */}
+                    {(file?.header?.documentTags || []).length > 0 && (
+                        <div className="pt-2 px-1">
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Document Tags</span>
+                            <div className="flex flex-wrap gap-1.5">
+                                {(file.header.documentTags).map((tag, i) => (
+                                    <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 text-gray-600 border border-gray-200 rounded text-[10px] font-bold uppercase">
+                                        <Tag size={10} />
+                                        {tag}
+                                    </span>
                                 ))}
-                                {(!result.reference_map || result.reference_map.length === 0) && (
-                                    <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
-                                        <Link2 className="mb-2 opacity-50" />
-                                        No references found.
-                                    </div>
-                                )}
                             </div>
-                        )}
+                        </div>
+                    )}
 
-                        {/* GLOSSARY TAB */}
-                        {activeTab === "glossary" && (
-                            <div className="flex flex-col h-full overflow-auto">
-                                {result.clarificationFlags && result.clarificationFlags.filter(f => f.target_element_id === "dictionary" && f.type === "VERIFICATION_FAILED").length > 0 && (
-                                    <div className="bg-amber-50 border-b border-amber-100 p-4 flex items-start gap-3 sticky top-0 z-10">
-                                        <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                                        <div>
-                                            <h4 className="text-sm font-bold text-amber-900">Reliability Warning</h4>
-                                            <ul className="list-disc list-inside mt-1 text-sm text-amber-700 space-y-1">
-                                                {result.clarificationFlags.filter(f => f.target_element_id === "dictionary" && f.type === "VERIFICATION_FAILED").map((f, i) => (
-                                                    <li key={i}>{f.message}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                )}
-                                <div className="flex flex-col divide-y divide-gray-100">
-                                    {result.glossary && result.glossary.map((g, i) => (
-                                        <div key={i} className="p-4 hover:bg-gray-50 transition-colors">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                <span className="font-bold text-sm text-gray-900">{g.term}</span>
-                                                <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1 rounded">({g.normalized_term})</span>
+                    {/* 6. USAGE & BILLING CARD (Pinned Bottom of List, but flows naturally) */}
+                    <div className="mt-auto">
+                        <BillingCard
+                            jobId={localStorage.getItem(`job_analyze_${file.header.id}_contract`) || localStorage.getItem(`job_analyze_${file.header.id}`) || localStorage.getItem(`job_${file.header.id}`)}
+                            status="analyzed"
+                        />
+                    </div>
+                </div>
+
+                {/* RIGHT PANEL: Main Content Area */}
+                <div className="flex-1 flex flex-col overflow-hidden relative">
+                    <div className="flex flex-col gap-6 max-w-6xl mx-auto w-full h-full">
+                        {/* Tabs */}
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-1 flex items-center gap-1 shrink-0">
+                            {[
+                                { id: "terms", label: "Term Sheet", icon: FileText },
+                                { id: "references", label: "References", icon: Link2 },
+                                { id: "glossary", label: "Glossary", icon: Book },
+                                { id: "flags", label: "Issues", icon: AlertTriangle },
+                                { id: "sections", label: "Analyzed Sections", icon: List },
+                                { id: "traces", label: "Agent Trace", icon: Activity },
+                            ].map(tab => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === tab.id
+                                        ? "bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-200"
+                                        : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                        }`}
+                                >
+                                    <tab.icon className="w-4 h-4" />
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Viewport */}
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col flex-1 h-full min-h-0">
+
+                            {/* TERM SHEET TAB */}
+                            {activeTab === "terms" && (
+                                <div className="h-full flex flex-col overflow-y-auto">
+                                    {result.clarificationFlags && result.clarificationFlags.filter(f => f.target_element_id === "term_sheet" && f.type === "VERIFICATION_FAILED").length > 0 && (
+                                        <div className="bg-red-50 border-b border-red-100 p-4 flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
+                                            <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                                            <div>
+                                                <h4 className="text-sm font-bold text-red-900">Verification Failed</h4>
+                                                <ul className="list-disc list-inside mt-1 text-sm text-red-700 space-y-1">
+                                                    {result.clarificationFlags.filter(f => f.target_element_id === "term_sheet" && f.type === "VERIFICATION_FAILED").map((f, i) => (
+                                                        <li key={i}>{f.message}</li>
+                                                    ))}
+                                                </ul>
                                             </div>
-                                            <p className="text-sm text-gray-600 pl-4 border-l-2 border-indigo-100">{g.definition}</p>
+                                        </div>
+                                    )}
+                                    <div className="p-6">
+                                        {result.term_sheet ? (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                {Object.entries(result.term_sheet).map(([key, value]) => (
+                                                    <div key={key} className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">
+                                                            {key.replace(/_/g, " ")}
+                                                        </span>
+                                                        <div className="text-sm font-medium text-gray-900 break-words">
+                                                            {typeof value === 'object' ? JSON.stringify(value, null, 2) : (value || "N/A")}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="text-center text-gray-400 py-10">No term sheet data extracted.</div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* REFERENCES TAB */}
+                            {activeTab === "references" && (
+                                <div className="flex flex-col divide-y divide-gray-100 overflow-y-auto h-full">
+                                    {result.reference_map && result.reference_map.map((ref, i) => (
+                                        <div key={i} className="p-4 hover:bg-gray-50 transition-colors">
+                                            <div className="flex items-center justify-between mb-1">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-bold text-sm text-gray-900">{ref.ref_text}</span>
+                                                    <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${ref.type === 'APPENDIX' ? 'bg-blue-100 text-blue-800' :
+                                                        ref.type === 'PLACEHOLDER' ? 'bg-orange-100 text-orange-800' :
+                                                            'bg-gray-100 text-gray-600'
+                                                        }`}>{ref.type}</span>
+                                                </div>
+                                                <span className={`text-xs font-bold px-2 py-1 rounded ${ref.status === 'VALID' ? 'text-green-600 bg-green-50' :
+                                                    ref.status === 'MISSING' ? 'text-red-600 bg-red-50' :
+                                                        'text-amber-600 bg-amber-50'
+                                                    }`}>{ref.status}</span>
+                                            </div>
+                                            <p className="text-sm text-gray-600 italic">"{ref.context}"</p>
                                         </div>
                                     ))}
-                                    {(!result.glossary || result.glossary.length === 0) && (
+                                    {(!result.reference_map || result.reference_map.length === 0) && (
                                         <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
-                                            <Book className="mb-2 opacity-50" />
-                                            No definitions found.
+                                            <Link2 className="mb-2 opacity-50" />
+                                            No references found.
                                         </div>
                                     )}
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* FLAGS TAB */}
-                        {activeTab === "flags" && (
-                            <div className="flex flex-col divide-y divide-gray-100">
-                                {result.clarificationFlags && result.clarificationFlags.map((f, i) => (
-                                    <div key={i} className="p-4 hover:bg-red-50 flex gap-4 transition-colors">
-                                        <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                                        <div>
-                                            <h4 className="text-sm font-bold text-gray-900">{f.type}</h4>
-                                            <p className="text-sm text-gray-700 mt-1">{f.message}</p>
-                                            <div className="mt-2 flex gap-2">
-                                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
-                                                    Target: {f.target_element_id}
-                                                </span>
-                                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${f.severity === 'CRITICAL' ? 'bg-red-100 text-red-800 border-red-200' :
-                                                    f.severity === 'HIGH' ? 'bg-orange-100 text-orange-800 border-orange-200' :
-                                                        'bg-yellow-50 text-yellow-800 border-yellow-200'
-                                                    }`}>
-                                                    Severity: {f.severity}
-                                                </span>
+                            {/* GLOSSARY TAB */}
+                            {activeTab === "glossary" && (
+                                <div className="flex flex-col h-full overflow-y-auto">
+                                    {result.clarificationFlags && result.clarificationFlags.filter(f => f.target_element_id === "dictionary" && f.type === "VERIFICATION_FAILED").length > 0 && (
+                                        <div className="bg-amber-50 border-b border-amber-100 p-4 flex items-start gap-3 sticky top-0 z-10">
+                                            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                                            <div>
+                                                <h4 className="text-sm font-bold text-amber-900">Reliability Warning</h4>
+                                                <ul className="list-disc list-inside mt-1 text-sm text-amber-700 space-y-1">
+                                                    {result.clarificationFlags.filter(f => f.target_element_id === "dictionary" && f.type === "VERIFICATION_FAILED").map((f, i) => (
+                                                        <li key={i}>{f.message}</li>
+                                                    ))}
+                                                </ul>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                                {(!result.clarificationFlags || result.clarificationFlags.length === 0) && (
-                                    <div className="p-12 text-center text-green-600 text-sm flex flex-col items-center gap-2">
-                                        <div className="p-3 bg-green-100 rounded-full">
-                                            <Sparkles className="w-6 h-6 text-green-600" />
-                                        </div>
-                                        <p className="font-medium">Clean Analysis</p>
-                                        <span className="text-gray-400">No flags or issues detected.</span>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-                        {/* SECTIONS TAB */}
-                        {activeTab === "sections" && (
-                            <div className="p-6 bg-gray-50 h-full overflow-y-auto">
-                                <div className="space-y-4">
-                                    {result.sections && result.sections.map((s, i) => (
-                                        <div key={i} className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow">
-                                            <div className="flex justify-between items-start mb-2">
-                                                <div className="font-bold text-indigo-700 text-sm">{s.id}</div>
-                                                <span className={`px-2 py-0.5 rounded text-xs font-bold ${s.analysis.verification_status === "VERIFIED" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
-                                                    }`}>
-                                                    {s.analysis.verification_status}
-                                                </span>
+                                    )}
+                                    <div className="flex flex-col divide-y divide-gray-100">
+                                        {result.glossary && result.glossary.map((g, i) => (
+                                            <div key={i} className="p-4 hover:bg-gray-50 transition-colors">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <span className="font-bold text-sm text-gray-900">{g.term}</span>
+                                                    <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1 rounded">({g.normalized_term})</span>
+                                                </div>
+                                                <p className="text-sm text-gray-600 pl-4 border-l-2 border-indigo-100">{g.definition}</p>
                                             </div>
-                                            <div className="text-xs text-gray-500 mb-2">
-                                                <span className="font-bold text-gray-700 mr-2">Tags:</span>
-                                                {s.analysis.recordTags && s.analysis.recordTags.length > 0 ? (
-                                                    <div className="inline-flex gap-1 flex-wrap mt-1">
-                                                        {s.analysis.recordTags.map(t => (
-                                                            <span key={t} className="bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded border border-gray-200">{t}</span>
-                                                        ))}
+                                        ))}
+                                        {(!result.glossary || result.glossary.length === 0) && (
+                                            <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
+                                                <Book className="mb-2 opacity-50" />
+                                                No definitions found.
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* FLAGS TAB */}
+                            {activeTab === "flags" && (
+                                <div className="flex flex-col divide-y divide-gray-100 overflow-y-auto h-full">
+                                    {result.clarificationFlags && result.clarificationFlags.map((f, i) => (
+                                        <div key={i} className="p-4 hover:bg-red-50 flex gap-4 transition-colors">
+                                            <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                                            <div>
+                                                <h4 className="text-sm font-bold text-gray-900">{f.type}</h4>
+                                                <p className="text-sm text-gray-700 mt-1">{f.message}</p>
+                                                <div className="mt-2 flex gap-2">
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                                                        Target: {f.target_element_id}
+                                                    </span>
+                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${f.severity === 'CRITICAL' ? 'bg-red-100 text-red-800 border-red-200' :
+                                                        f.severity === 'HIGH' ? 'bg-orange-100 text-orange-800 border-orange-200' :
+                                                            'bg-yellow-50 text-yellow-800 border-yellow-200'
+                                                        }`}>
+                                                        Severity: {f.severity}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {(!result.clarificationFlags || result.clarificationFlags.length === 0) && (
+                                        <div className="p-12 text-center text-green-600 text-sm flex flex-col items-center gap-2">
+                                            <div className="p-3 bg-green-100 rounded-full">
+                                                <Sparkles className="w-6 h-6 text-green-600" />
+                                            </div>
+                                            <p className="font-medium">Clean Analysis</p>
+                                            <span className="text-gray-400">No flags or issues detected.</span>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* SECTIONS TAB */}
+                            {activeTab === "sections" && (
+                                <div className="p-6 bg-gray-50 h-full overflow-y-auto">
+                                    <div className="space-y-4">
+                                        {result.sections && result.sections.map((s, i) => (
+                                            <div key={i} className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div className="font-bold text-indigo-700 text-sm">{s.id}</div>
+                                                    <span className={`px-2 py-0.5 rounded text-xs font-bold ${s.analysis.verification_status === "VERIFIED" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
+                                                        }`}>
+                                                        {s.analysis.verification_status}
+                                                    </span>
+                                                </div>
+                                                <div className="text-xs text-gray-500 mb-2">
+                                                    <span className="font-bold text-gray-700 mr-2">Tags:</span>
+                                                    {s.analysis.recordTags && s.analysis.recordTags.length > 0 ? (
+                                                        <div className="inline-flex gap-1 flex-wrap mt-1">
+                                                            {s.analysis.recordTags.map(t => (
+                                                                <span key={t} className="bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded border border-gray-200">{t}</span>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        "None"
+                                                    )}
+                                                </div>
+
+                                                {s.analysis.judge_notes && (
+                                                    <div className="bg-slate-50 p-2 rounded text-xs text-slate-600 italic border border-slate-100">
+                                                        <span className="font-bold not-italic text-slate-700 mr-1">Judge Notes:</span>
+                                                        {s.analysis.judge_notes}
                                                     </div>
-                                                ) : (
-                                                    "None"
                                                 )}
                                             </div>
-
-                                            {s.analysis.judge_notes && (
-                                                <div className="bg-slate-50 p-2 rounded text-xs text-slate-600 italic border border-slate-100">
-                                                    <span className="font-bold not-italic text-slate-700 mr-1">Judge Notes:</span>
-                                                    {s.analysis.judge_notes}
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* TRACE TAB */}
-                        {activeTab === "traces" && (
-                            <div className="relative h-full">
-                                <pre className="p-6 text-xs text-gray-700 font-mono overflow-auto h-full bg-gray-50 selection:bg-indigo-100">
-                                    {trace ? JSON.stringify(trace, null, 2) : "No trace execution data available."}
-                                </pre>
-                            </div>
-                        )}
+                            {/* TRACE TAB */}
+                            {activeTab === "traces" && (
+                                <div className="relative h-full">
+                                    <pre className="p-6 text-xs text-gray-700 font-mono overflow-auto h-full bg-gray-50 selection:bg-indigo-100">
+                                        {trace ? JSON.stringify(trace, null, 2) : "No trace execution data available."}
+                                    </pre>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
