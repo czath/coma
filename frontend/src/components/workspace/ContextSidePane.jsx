@@ -22,6 +22,14 @@ const ContextSidePane = ({
     const scrollRef = useRef(null);
     const panelRef = useRef(null);
 
+    // --- RESET ON CLOSE ---
+    useEffect(() => {
+        if (!isOpen) {
+            setMatches([]);
+            setCurrentMatchIndex(0);
+        }
+    }, [isOpen]);
+
     // --- CLICK OUTSIDE TO CLOSE ---
     useEffect(() => {
         const handleClickOutside = (event) => {
