@@ -50,12 +50,32 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     const flagLow = result.clarificationFlags?.filter(f => f.severity === 'LOW').length || 0;
 
     // --- CONTEXT VIEWER LOGIC ---
-    const handleViewContext = (citation, title = "Reference") => {
-        if (!citation || !file.content) return;
+    const handleViewContext = (citationOrTerm, title = "Reference", mode = "CITATION", extraData = {}) => {
+        if (!citationOrTerm || !file.content) return;
 
-        // 1. Try to find the citation in blocks
+        if (mode === 'MATCHES') {
+            // New Match Mode (Glossary): Let the SidePane scan all content
+            setContextData({
+                type: 'MATCHES',
+                term: citationOrTerm,
+                sourceTitle: title,
+                ...extraData // Pass definition or other metadata
+            });
+            setContextSidePaneOpen(true);
+            return;
+        }
+
+        // CITATION Mode (Term Sheet/Refs): Fuzzy find specific block
         const blocks = file.content;
-        let foundBlockIndex = blocks.findIndex(b => b.text && b.text.includes(citation.substring(0, 50))); // Fuzzy start match
+        // ... (rest of function) ...
+        <button
+            onClick={() => handleViewContext(g.term, "Glossary Term", "MATCHES", { definition: g.definition })}
+            className="text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity p-1"
+            title="Find in Document"
+        >
+            <Search size={14} />
+        </button>
+        let foundBlockIndex = blocks.findIndex(b => b.text && b.text.includes(citationOrTerm.substring(0, 50))); // Fuzzy start match
 
         if (foundBlockIndex !== -1) {
             // Logic to find header
@@ -82,17 +102,17 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
             setContextData({
                 type: 'CITATION',
-                citation: citation,
+                citation: citationOrTerm,
                 fullText: contextText,
                 sourceTitle: headerText
             });
         } else {
             // Check structured sections as fallback
-            const foundSection = file.sections?.find(sec => sec.content.includes(citation));
+            const foundSection = file.sections?.find(sec => sec.content.includes(citationOrTerm));
             if (foundSection) {
                 setContextData({
                     type: 'CITATION',
-                    citation: citation,
+                    citation: citationOrTerm,
                     fullText: foundSection.content,
                     sourceTitle: foundSection.name || "Section"
                 });
@@ -100,8 +120,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 // Fallback: Just show citation
                 setContextData({
                     type: 'CITATION',
-                    citation: citation,
-                    fullText: null, // Will default to showing citation only
+                    citation: citationOrTerm,
+                    fullText: null,
                     sourceTitle: "Source Text Not Found"
                 });
             }
@@ -502,7 +522,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                         <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1 rounded">({g.normalized_term})</span>
                                                     </div>
                                                     <button
-                                                        onClick={() => handleViewContext(g.term, "Glossary Term")}
+                                                        onClick={() => handleViewContext(g.term, "Glossary Term", "MATCHES", { definition: g.definition })}
                                                         className="text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity p-1"
                                                         title="Find in Document"
                                                     >
