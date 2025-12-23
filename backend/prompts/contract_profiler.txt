@@ -6,9 +6,11 @@ The user will provide the **FULL TEXT** of a contract agreement.
 ### TASKS
 
 #### 1. Term Sheet Extraction
-Extract the following key metadata (return `null` if not found):
-- `contract_title`: Title.
-- `parties`: List of objects `{ "name": "...", "role": "..." }`.
+Extract the following key metadata (return `null` if not found).
+**IMPORTANT**: For each field, return an object `{ "value": "...", "citation": "..." }`. The `citation` must be a short, verbatim snippet from the text that proves the value.
+
+- `contract_title`: Title (e.g. `{ "value": "Service Agreement", "citation": "SERVICE AGREEMENT made this..." }`).
+- `parties`: List of objects `{ "name": "...", "role": "...", "citation": "..." }`.
 - `effective_date`: Start date.
 - `expiry_date`: End date.
 - `governing_law`: Jurisdiction.
@@ -28,7 +30,11 @@ Return strictly VALID JSON:
 
 ```json
 {
-  "term_sheet": { ... },
+  "term_sheet": { 
+      "contract_title": { "value": "Master Services Agreement", "citation": "MASTER SERVICES AGREEMENT" },
+      "effective_date": { "value": "2024-01-01", "citation": "effective as of January 1, 2024" },
+      ...
+  },
   "reference_map": [
     { 
        "ref_text": "Clause 12", 

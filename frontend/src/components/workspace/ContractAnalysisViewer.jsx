@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette } from 'lucide-react';
+import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BillingCard from '../BillingCard';
+import ContextSidePane from '../workspace/ContextSidePane';
 
 const ContractAnalysisViewer = ({ file, onBack }) => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("terms"); // terms, glossary, flags, sections, traces
+
+    // Context Viewer State
+    const [contextSidePaneOpen, setContextSidePaneOpen] = useState(false);
+    const [contextData, setContextData] = useState(null); // { type, text/citation, matches }
 
     // Extract results from file object
     // Expecting: file.contract_analyzed_content (analysis result)
@@ -43,6 +48,66 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     const flagHigh = result.clarificationFlags?.filter(f => f.severity === 'HIGH').length || 0;
     const flagMedium = result.clarificationFlags?.filter(f => f.severity === 'MEDIUM').length || 0;
     const flagLow = result.clarificationFlags?.filter(f => f.severity === 'LOW').length || 0;
+
+    // --- CONTEXT VIEWER LOGIC ---
+    const handleViewContext = (citation, title = "Reference") => {
+        if (!citation || !file.content) return;
+
+        // 1. Try to find the citation in blocks
+        const blocks = file.content;
+        let foundBlockIndex = blocks.findIndex(b => b.text && b.text.includes(citation.substring(0, 50))); // Fuzzy start match
+
+        if (foundBlockIndex !== -1) {
+            // Logic to find header
+            let startIndex = foundBlockIndex;
+            let headerText = "Document Section";
+            for (let i = foundBlockIndex; i >= 0; i--) {
+                const b = blocks[i];
+                const type = (b.type || "").toUpperCase();
+                if (type.includes("HEADER") || type.includes("START")) {
+                    headerText = b.title || b.text;
+                    startIndex = i;
+                    break;
+                }
+            }
+
+            // Construct Context (Header -> Next Header)
+            let contextText = "";
+            for (let i = startIndex; i < blocks.length; i++) {
+                const b = blocks[i];
+                const type = (b.type || "").toUpperCase();
+                if (i > startIndex && (type.includes("HEADER") || type.includes("START"))) break;
+                contextText += (b.text || "") + "\n";
+            }
+
+            setContextData({
+                type: 'CITATION',
+                citation: citation,
+                fullText: contextText,
+                sourceTitle: headerText
+            });
+        } else {
+            // Check structured sections as fallback
+            const foundSection = file.sections?.find(sec => sec.content.includes(citation));
+            if (foundSection) {
+                setContextData({
+                    type: 'CITATION',
+                    citation: citation,
+                    fullText: foundSection.content,
+                    sourceTitle: foundSection.name || "Section"
+                });
+            } else {
+                // Fallback: Just show citation
+                setContextData({
+                    type: 'CITATION',
+                    citation: citation,
+                    fullText: null, // Will default to showing citation only
+                    sourceTitle: "Source Text Not Found"
+                });
+            }
+        }
+        setContextSidePaneOpen(true);
+    };
 
     // Export Functionality
     const handleExport = () => {
@@ -237,8 +302,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 {/* RIGHT PANEL: Main Content Area */}
                 <div className="flex-1 flex flex-col overflow-hidden relative">
                     <div className="flex flex-col gap-6 max-w-6xl mx-auto w-full h-full">
-                        {/* Tabs */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-1 flex items-center gap-1 shrink-0">
+                        {/* Tabs (V3: Segmented Control) */}
+                        <div className="bg-gray-100 p-1 rounded-lg flex items-center gap-1 w-fit mb-4">
                             {[
                                 { id: "terms", label: "Term Sheet", icon: FileText },
                                 { id: "references", label: "References", icon: Link2 },
@@ -250,12 +315,12 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === tab.id
-                                        ? "bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-200"
-                                        : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                    className={`flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === tab.id
+                                        ? "bg-white text-gray-900 shadow-sm"
+                                        : "text-gray-500 hover:text-gray-700"
                                         }`}
                                 >
-                                    <tab.icon className="w-4 h-4" />
+                                    <tab.icon size={14} />
                                     {tab.label}
                                 </button>
                             ))}
@@ -266,7 +331,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                             {/* TERM SHEET TAB */}
                             {activeTab === "terms" && (
-                                <div className="h-full flex flex-col overflow-y-auto">
+                                <div className="h-full flex flex-col overflow-y-auto bg-gray-50/50">
                                     {result.clarificationFlags && result.clarificationFlags.filter(f => f.target_element_id === "term_sheet" && f.type === "VERIFICATION_FAILED").length > 0 && (
                                         <div className="bg-red-50 border-b border-red-100 p-4 flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
                                             <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
@@ -280,32 +345,98 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                             </div>
                                         </div>
                                     )}
-                                    <div className="p-6">
+                                    <div className="p-8 max-w-5xl mx-auto w-full">
                                         {result.term_sheet ? (
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                {Object.entries(result.term_sheet).map(([key, value]) => (
-                                                    <div key={key} className="p-4 bg-gray-50 rounded-lg border border-gray-100">
-                                                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">
-                                                            {key.replace(/_/g, " ")}
-                                                        </span>
-                                                        <div className="text-sm font-medium text-gray-900 break-words">
-                                                            {typeof value === 'object' ? JSON.stringify(value, null, 2) : (value || "N/A")}
-                                                        </div>
+                                            <div className="space-y-8">
+                                                {/* Header & Title */}
+                                                <div>
+                                                    <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-2 block">Executive Summary</span>
+                                                    <h1 className="text-3xl font-black text-gray-900 leading-tight">
+                                                        {result.term_sheet.contract_title || "Untitled Agreement"}
+                                                    </h1>
+                                                </div>
+
+                                                {/* Parties (Dynamic) */}
+                                                {result.term_sheet.parties && Array.isArray(result.term_sheet.parties) && result.term_sheet.parties.length > 0 && (
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        {result.term_sheet.parties.map((party, idx) => (
+                                                            <div key={idx} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-start gap-4">
+                                                                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                                                                    <Users size={20} />
+                                                                </div>
+                                                                <div>
+                                                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
+                                                                        {party.role || "Party"}
+                                                                    </span>
+                                                                    <div className="text-lg font-bold text-gray-900">
+                                                                        {party.name}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                ))}
+                                                )}
+
+                                                {/* Dynamic Key Terms Grid */}
+                                                <div>
+                                                    <h3 className="text-sm font-bold text-gray-900 border-b border-gray-200 pb-2 mb-4">Key Terms</h3>
+                                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                                        {Object.entries(result.term_sheet)
+                                                            .filter(([key]) => !['contract_title', 'parties'].includes(key))
+                                                            .map(([key, item]) => {
+                                                                // Handle both legacy string and new object {value, citation} formats
+                                                                const isObject = typeof item === 'object' && item !== null && item.value;
+                                                                const displayValue = isObject ? item.value : item;
+                                                                const citation = isObject ? item.citation : null;
+
+                                                                return (
+                                                                    <div key={key} className="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:border-indigo-200 transition-colors flex flex-col justify-between group">
+                                                                        <div>
+                                                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 block truncate" title={key.replace(/_/g, " ")}>
+                                                                                {key.replace(/_/g, " ")}
+                                                                            </span>
+                                                                            <div className="text-sm font-medium text-gray-900 break-words mb-2">
+                                                                                {displayValue || "—"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                        {citation && (
+                                                                            <button
+                                                                                onClick={() => handleViewContext(citation, key.replace(/_/g, " "))}
+                                                                                className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                                            >
+                                                                                <Eye size={12} /> View Context
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                    </div>
+                                                </div>
                                             </div>
                                         ) : (
-                                            <div className="text-center text-gray-400 py-10">No term sheet data extracted.</div>
+                                            <div className="text-center text-gray-400 py-20 flex flex-col items-center">
+                                                <FileText className="w-12 h-12 text-gray-200 mb-4" />
+                                                <p>No term sheet data extracted.</p>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
                             )}
 
+                            <ContextSidePane
+                                isOpen={contextSidePaneOpen}
+                                onClose={() => setContextSidePaneOpen(false)}
+                                title={contextData?.sourceTitle || "Context"}
+                                contextData={contextData}
+                                fileContent={file.content}
+                            />
+
                             {/* REFERENCES TAB */}
                             {activeTab === "references" && (
                                 <div className="flex flex-col divide-y divide-gray-100 overflow-y-auto h-full">
                                     {result.reference_map && result.reference_map.map((ref, i) => (
-                                        <div key={i} className="p-4 hover:bg-gray-50 transition-colors">
+                                        <div key={i} className="p-4 hover:bg-gray-50 transition-colors group">
                                             <div className="flex items-center justify-between mb-1">
                                                 <div className="flex items-center gap-2">
                                                     <span className="font-bold text-sm text-gray-900">{ref.ref_text}</span>
@@ -314,12 +445,27 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                             'bg-gray-100 text-gray-600'
                                                         }`}>{ref.type}</span>
                                                 </div>
-                                                <span className={`text-xs font-bold px-2 py-1 rounded ${ref.status === 'VALID' ? 'text-green-600 bg-green-50' :
-                                                    ref.status === 'MISSING' ? 'text-red-600 bg-red-50' :
-                                                        'text-amber-600 bg-amber-50'
-                                                    }`}>{ref.status}</span>
+                                                <div className="flex items-center gap-2">
+                                                    {(ref.context || ref.ref_text) && (
+                                                        <button
+                                                            onClick={() => handleViewContext(ref.context || ref.ref_text, "Reference Context")}
+                                                            className="text-indigo-600 hover:text-indigo-800 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                            title="View in Context"
+                                                        >
+                                                            <Eye size={16} />
+                                                        </button>
+                                                    )}
+                                                    <span className={`text-xs font-bold px-2 py-1 rounded ${ref.status === 'VALID' ? 'text-green-600 bg-green-50' :
+                                                        ref.status === 'MISSING' ? 'text-red-600 bg-red-50' :
+                                                            'text-amber-600 bg-amber-50'
+                                                        }`}>{ref.status}</span>
+                                                </div>
                                             </div>
-                                            <p className="text-sm text-gray-600 italic">"{ref.context}"</p>
+                                            {ref.context && (
+                                                <p className="text-xs text-gray-500 font-mono mt-1 italic pl-1 border-l-2 border-gray-200">
+                                                    "{ref.context}"
+                                                </p>
+                                            )}
                                         </div>
                                     ))}
                                     {(!result.reference_map || result.reference_map.length === 0) && (
@@ -349,10 +495,19 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                     )}
                                     <div className="flex flex-col divide-y divide-gray-100">
                                         {result.glossary && result.glossary.map((g, i) => (
-                                            <div key={i} className="p-4 hover:bg-gray-50 transition-colors">
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <span className="font-bold text-sm text-gray-900">{g.term}</span>
-                                                    <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1 rounded">({g.normalized_term})</span>
+                                            <div key={i} className="p-4 hover:bg-gray-50 transition-colors group">
+                                                <div className="flex items-center justify-between mb-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="font-bold text-sm text-gray-900">{g.term}</span>
+                                                        <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1 rounded">({g.normalized_term})</span>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => handleViewContext(g.term, "Glossary Term")}
+                                                        className="text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity p-1"
+                                                        title="Find in Document"
+                                                    >
+                                                        <Search size={14} />
+                                                    </button>
                                                 </div>
                                                 <p className="text-sm text-gray-600 pl-4 border-l-2 border-indigo-100">{g.definition}</p>
                                             </div>
