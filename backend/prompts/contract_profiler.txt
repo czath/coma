@@ -57,6 +57,20 @@ Mark these as **invalid** with reason "Placeholder or incomplete reference".
    - **EXTERNAL_REFERENCE_MATERIAL**: References to documents NOT in the source text (no technical ID).
    - **PLACEHOLDER**: Incomplete references like "TBD", "To be agreed". **Always mark as invalid**.
 
+# MATCHING GUIDANCE
+
+**Diverse Clause Formats**: Contracts use varied formatting. When matching references to section IDs:
+- "Clause 12" / "Section 12" / "Article 12" / "Chapter 12" → all refer to section with header starting with "12"
+- "Annex A" / "Appendix A" / "Schedule A" → match to section with "A" in header
+- Be flexible but precise - match the semantic reference to the actual section structure
+
+**Placeholder Detection**: Use judgment on whether a section is substantive:
+- Clear placeholders: "TBD", "To be removed", "[X]", "Placeholder text"
+- Substantive content: Even if brief, if it contains actual legal language/requirements, it's valid
+- When uncertain, mark as valid and let the user decide
+
+**Self-References**: DO NOT extract references like "this clause", "this section", "herein" - they are noise to the user.
+
 # VALIDATION CHECKLIST (APPLY TO EVERY REFERENCE)
 Before setting `is_valid: true`, verify ALL of these:
 1. ✓ Reference is NOT abstract/plural ("any SOW", "all schedules") → If yes, set `is_valid: false, invalid_reason: "Abstract/plural reference"`

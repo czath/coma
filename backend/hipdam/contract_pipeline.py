@@ -269,12 +269,9 @@ class ContractPipeline:
             judge_verdict = "ACCEPT" if ref.get("is_valid", True) else "REJECT"
             judge_reason = ref.get("invalid_reason", "")
             
-            # CHECK: Self-reference (always valid)
+            # CHECK: Self-reference (filter out - not useful for user)
             if "this clause" in source_context or "this section" in source_context or "herein" in source_context:
-                ref["judge_verdict"] = judge_verdict
-                ref["system_verdict"] = "ACCEPT"
-                ref["is_valid"] = True if judge_verdict == "ACCEPT" else False
-                validated_refs.append(ref)
+                # Skip adding to validated_refs - self-references are not shown
                 continue
             
             # Initialize system verdict
