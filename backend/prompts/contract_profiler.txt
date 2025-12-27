@@ -66,18 +66,43 @@ Before setting `is_valid: true`, verify ALL of these:
 
 # FEW-SHOT LIBRARY
 
-### [VALID REFERENCES]
-- `c_1` contains: "Subject to Section 12.1..."
-  - Available sections include `c_12` with header "12. INDEMNIFICATION"
-  - Output: `{type: "CROSS_REFERENCE", is_valid: true, source_context: "Subject to Section 12.1", source_id: "c_1", target_section_id: "c_12", target_clause: "12.1"}`
+### [VALID REFERENCES - SHOW HEADER LOOKUP]
 
-- `c_3` contains: "Services per Section 5.1 of the MSA"
-  - Available sections include `app_msa` with header "Maintenance and Support Agreement (MSA)"
-  - Output: `{type: "APPENDIX", is_valid: true, source_context: "Services per Section 5.1 of the MSA", source_id: "c_3", target_section_id: "app_msa", target_clause: "5.1"}`
+**Example 1: Simple cross-reference**
+- Source section `c_1` contains: "Subject to Section 12.1..."
+- Available sections include: `{"id": "c_12", "type": "CLAUSE", "header": "12. INDEMNIFICATION", ...}`
+- **Process**: Reference mentions "Section 12.1" → Find section with header starting with "12" → Found `c_12`
+- **Output**: 
+```json
+{
+  "type": "CROSS_REFERENCE",
+  "is_valid": true,
+  "source_id": "c_1",
+  "source_header": "1. DEFINITIONS",
+  "source_context": "Subject to Section 12.1",
+  "target_section_id": "c_12",
+  "target_header": "12. INDEMNIFICATION",
+  "target_clause": "12.1"
+}
+```
 
-- `c_2` contains: "Refer to Annex B..."
-  - Available sections include `annex_b` with type="APPENDIX"
-  - Output: `{type: "APPENDIX", is_valid: true, source_context: "Refer to Annex B", source_id: "c_2", target_section_id: "annex_b"}`
+**Example 2: Reference to appendix with sub-clause**
+- Source section `c_3` contains: "Services per Section 5.1 of the MSA"
+- Available sections include: `{"id": "app_msa", "type": "APPENDIX", "header": "Maintenance and Support Agreement (MSA)", ...}`
+- **Process**: Reference mentions "MSA" → Find section with "MSA" in header → Found `app_msa`
+- **Output**:
+```json
+{
+  "type": "APPENDIX",
+  "is_valid": true,
+  "source_id": "c_3",
+  "source_header": "3. STATEMENTS OF WORK",
+  "source_context": "Services per Section 5.1 of the MSA",
+  "target_section_id": "app_msa",
+  "target_header": "Maintenance and Support Agreement (MSA)",
+  "target_clause": "5.1"
+}
+```
 
 ### [INVALID REFERENCES - MUST REJECT]
 - "any statements of work" → `{is_valid: false, invalid_reason: "Abstract/plural reference - not a specific cross-reference"}`
@@ -94,11 +119,38 @@ Return strictly valid JSON:
     {
        "type": "CROSS_REFERENCE | APPENDIX | EXTERNAL_REFERENCE_MATERIAL | PLACEHOLDER",
        "is_valid": true | false,
-       "source_section_id": "technical_id",
-       "source_context": "verbatim excerpt",
-       "target_section_id": "technical_id or null",
-       "target_header": "verbatim header or null",
+       "source_id": "technical_id from available_sections",
+       "source_header": "header from available_sections",
+       "source_context": "verbatim excerpt of the referring text",
+       "target_section_id": "technical_id from available_sections or null",
+       "target_header": "header from available_sections or null",
+       "target_clause": "sub-clause number if applicable (e.g., '5.1', '12.3') or omit",
        "invalid_reason": "explanation if is_valid=false"
+    }
+  ]
+}
+```
+
+**CRITICAL OUTPUT RULES** - FOLLOW EXACTLY:
+
+1. **For EVERY reference, you MUST look up the headers from `available_sections`**:
+   - Find the target section in `available_sections` by matching the referenced section to an `id`
+   - Copy the EXACT `header` value from that section into `target_header`
+   - If target not found in `available_sections`, set `target_section_id: null` and `target_header: null`
+
+2. **Field Requirements**:
+   - `source_id`: REQUIRED - exact `id` from `available_sections` where reference appears
+   - `source_header`: REQUIRED - exact `header` from `available_sections` for source
+   - `target_section_id`: REQUIRED - exact `id` from `available_sections` for target, or `null`
+   - `target_header`: REQUIRED - exact `header` from `available_sections` for target, or `null`
+   - `target_clause`: OPTIONAL - only if reference mentions sub-clause (e.g., "5.1")
+
+3. **Header Lookup Example**:
+   - Reference says: "Per Section 12..."
+   - You find in `available_sections`: `{"id": "c_12", "header": "12. INDEMNIFICATION", ...}`
+   - Output: `{"target_section_id": "c_12", "target_header": "12. INDEMNIFICATION"}`
+
+**NEVER leave `target_header` empty for valid references - always look it up from `available_sections`!**
     }
   ]
 }
