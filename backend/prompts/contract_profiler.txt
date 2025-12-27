@@ -141,9 +141,10 @@ Before setting `is_valid: true`, verify ALL of these:
 - "all applicable Schedules" → `{is_valid: false, invalid_reason: "Abstract/plural reference"}`
 
 # OUTPUT FORMAT
-Return strictly valid JSON:
+Return strictly valid JSON with BOTH term_sheet and reference_map:
 ```json
 {
+  "term_sheet": {},
   "reference_map": [
     {
        "type": "CROSS_REFERENCE | APPENDIX | EXTERNAL_REFERENCE_MATERIAL | PLACEHOLDER",
@@ -159,6 +160,8 @@ Return strictly valid JSON:
   ]
 }
 ```
+
+**CRITICAL**: The output MUST have BOTH keys: `term_sheet` (empty object) and `reference_map` (array of references).
 
 **CRITICAL OUTPUT RULES** - FOLLOW EXACTLY:
 
