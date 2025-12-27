@@ -138,10 +138,11 @@ class ContractPipeline:
         """
         import json
         
-        # BUILD STRUCTURED INPUT - Skip HEADER and SKIP blocks
+        # BUILD STRUCTURED INPUT - Skip HEADER and SKIP blocks only
+        # NOTE: INFO (TOC) sections ARE included as source (for validation) but will be rejected as targets
         structured_sections = []
         for block in doc_payload:
-            # Skip metadata and unprocessed sections
+            # Skip only metadata blocks - INFO blocks are included
             if block.get("type") in ["HEADER", "SKIP"]:
                 continue
             
@@ -261,10 +262,20 @@ class ContractPipeline:
         for ref in reference_map:
             target_id = ref.get("target_section_id") or ref.get("target_id")
             target_clause = ref.get("target_clause")
+            target_header = ref.get("target_header", "")
+            source_context = ref.get("source_context", "").lower()
             
             # Preserve judge verdict (if present)
             judge_verdict = "ACCEPT" if ref.get("is_valid", True) else "REJECT"
             judge_reason = ref.get("invalid_reason", "")
+            
+            # CHECK: Self-reference (always valid)
+            if "this clause" in source_context or "this section" in source_context or "herein" in source_context:
+                ref["judge_verdict"] = judge_verdict
+                ref["system_verdict"] = "ACCEPT"
+                ref["is_valid"] = True if judge_verdict == "ACCEPT" else False
+                validated_refs.append(ref)
+                continue
             
             # Initialize system verdict
             system_verdict = None
@@ -296,6 +307,20 @@ class ContractPipeline:
                 validated_refs.append(ref)
                 continue
             
+            # SYSTEM CHECK 2b: Target header contains placeholder phrases
+            placeholder_phrases = ["to be removed", "tbd", "to be determined", "placeholder", "[x]", "xxx"]
+            if target_header and any(phrase in target_header.lower() for phrase in placeholder_phrases):
+                system_verdict = "REJECT"
+                system_reason = f"Target header contains placeholder: '{target_header}'"
+                
+                ref["system_verdict"] = system_verdict
+                ref["system_reason"] = system_reason
+                ref["judge_verdict"] = judge_verdict
+                ref["is_valid"] = False
+                ref["invalid_reason"] = system_reason
+                validated_refs.append(ref)
+                continue
+            
             # SYSTEM CHECK 3: Sub-clause validation (if target_clause specified)
             if target_id and target_clause:
                 target_content = section_text.get(target_id, "")
@@ -314,9 +339,17 @@ class ContractPipeline:
                     continue
                 
                 # Enhanced: Verify it's a section header (not just substring)
-                # Pattern: "5.1 " or "5.1\t" at start of line
-                pattern = rf"^{re.escape(target_clause)}[\s\t]"
-                if not re.search(pattern, target_content, re.MULTILINE):
+                # Pattern: Match "12" in headers like "12.\t" or "12.1 " or "12 "
+                # Need to handle: "12." at start of header for clause "12"
+                escaped_clause = re.escape(target_clause)
+                # Allow: "12." or "12\s" or "12\t" at start of line/header
+                pattern = rf"^{escaped_clause}[\.\s\t]"
+                
+                # Also check if clause appears in header itself (for headers like "12.\tTITLE")
+                header_match = target_header and re.search(pattern, target_header)
+                content_match = re.search(pattern, target_content, re.MULTILINE)
+                
+                if not (header_match or content_match):
                     system_verdict = "REJECT"
                     system_reason = f"'{target_clause}' exists but not as section header in '{target_id}'"
                     

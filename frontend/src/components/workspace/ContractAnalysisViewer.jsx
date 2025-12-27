@@ -7,7 +7,7 @@ import ContextSidePane from '../workspace/ContextSidePane';
 const ContractAnalysisViewer = ({ file, onBack }) => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("references"); // Start on references to show mock data
-    const [useMockData, setUseMockData] = useState(true); // Toggle for mock data // terms, glossary, flags, sections, traces
+    const [useMockData, setUseMockData] = useState(false); // Toggle for mock data // terms, glossary, flags, sections, traces
 
     // Context Viewer State
     const [contextSidePaneOpen, setContextSidePaneOpen] = useState(false);
@@ -597,8 +597,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 <div className="flex items-center gap-2">
                                                     {/* Status Badge - Smaller */}
                                                     <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded border ${ref.is_valid !== false
-                                                            ? 'text-green-700 bg-green-50 border-green-200'
-                                                            : 'text-white bg-red-600 border-red-700'
+                                                        ? 'text-green-700 bg-green-50 border-green-200'
+                                                        : 'text-white bg-red-600 border-red-700'
                                                         }`}>
                                                         {ref.is_valid !== false ? 'VALID' : 'INVALID'}
                                                     </span>
