@@ -6,7 +6,8 @@ import ContextSidePane from '../workspace/ContextSidePane';
 
 const ContractAnalysisViewer = ({ file, onBack }) => {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("terms"); // terms, glossary, flags, sections, traces
+    const [activeTab, setActiveTab] = useState("references"); // Start on references to show mock data
+    const [useMockData, setUseMockData] = useState(true); // Toggle for mock data // terms, glossary, flags, sections, traces
 
     // Context Viewer State
     const [contextSidePaneOpen, setContextSidePaneOpen] = useState(false);
@@ -16,8 +17,96 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     // Extract results from file object
     // Expecting: file.contract_analyzed_content (analysis result)
     // Expecting: file.contract_trace_content (trace)
-    const result = file?.contract_analyzed_content;
+    let result = file?.contract_analyzed_content;
     const trace = file?.contract_trace_content;
+
+    // MOCK DATA for UI testing
+    if (useMockData && result?.reference_map) {
+        result = {
+            ...result,
+            reference_map: [
+                {
+                    source_id: "c_1",
+                    source_header: "1. DEFINITIONS",
+                    source_context: "Refer to Clause 4 for complete licensing terms and conditions",
+                    target_section_id: "c_4",
+                    target_header: "4. GRANT OF LICENSES",
+                    is_valid: true,
+                    judge_verdict: "ACCEPT",
+                    system_verdict: "ACCEPT"
+                },
+                {
+                    source_id: "c_2",
+                    source_header: "2. PURPOSE",
+                    source_context: "Subject to the terms in Clause 3.1 and Appendix MSA",
+                    target_section_id: "c_3",
+                    target_clause: "3.1",
+                    target_header: "3. STATEMENTS OF WORK",
+                    is_valid: true,
+                    judge_verdict: "ACCEPT",
+                    system_verdict: "ACCEPT"
+                },
+                {
+                    source_id: "c_3",
+                    source_header: "3. STATEMENTS OF WORK",
+                    source_context: "Professional services must comply with Section 5.1 of the MSA",
+                    target_section_id: "app_msa",
+                    target_clause: "5.1",
+                    target_header: "Maintenance and Support Agreement (MSA)",
+                    is_valid: true,
+                    judge_verdict: "ACCEPT",
+                    system_verdict: "ACCEPT"
+                },
+                {
+                    source_id: "c_3",
+                    source_header: "3. STATEMENTS OF WORK",
+                    source_context: "Template is attached as Appendix SOW",
+                    target_section_id: null,
+                    is_valid: false,
+                    invalid_reason: "Referenced appendix 'SOW' not found in document",
+                    judge_verdict: "REJECT",
+                    judge_reason: "Appendix SOW is not present in the available sections list",
+                    system_verdict: "N/A"
+                },
+                {
+                    source_id: "c_5",
+                    source_header: "5. DELIVERY",
+                    source_context: "As defined in any applicable schedules or appendices",
+                    target_section_id: null,
+                    is_valid: false,
+                    invalid_reason: "Abstract/plural reference - not specific enough",
+                    judge_verdict: "REJECT",
+                    judge_reason: "Reference to 'any applicable schedules' is abstract and plural",
+                    system_verdict: "N/A"
+                },
+                {
+                    source_id: "c_1",
+                    source_header: "1. DEFINITIONS",
+                    source_context: "See the Table of Contents for section overview",
+                    target_section_id: "h_toc",
+                    target_header: "TABLE OF CONTENTS",
+                    is_valid: false,
+                    invalid_reason: "Target 'h_toc' is Table of Contents/Index, not substantive content",
+                    judge_verdict: "ACCEPT",
+                    system_verdict: "REJECT",
+                    system_reason: "Section h_toc has type='INFO' (TOC/Index)"
+                },
+                {
+                    source_id: "c_4",
+                    source_header: "4. GRANT OF LICENSES",
+                    source_context: "Per Section 2.5 regarding software modifications",
+                    target_section_id: "c_2",
+                    target_clause: "2.5",
+                    target_header: "2. PURPOSE",
+                    is_valid: false,
+                    invalid_reason: "Sub-clause '2.5' not found in section 'c_2'",
+                    judge_verdict: "ACCEPT",
+                    system_verdict: "REJECT",
+                    system_reason: "'2.5' exists but not as section header in 'c_2'"
+                }
+            ]
+        };
+    }
 
     if (!result) {
         return (
@@ -37,11 +126,14 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     const sectionCount = result.sections?.length || 0;
     const glossaryCount = result.glossary?.length || 0;
 
-    // Reference Metrics
+    // Reference Metrics (updated for dual verdict)
     const refTotal = result.reference_map?.length || 0;
-    const refValid = result.reference_map?.filter(r => r.status === 'VALID').length || 0;
-    const refMissing = result.reference_map?.filter(r => r.status === 'MISSING').length || 0;
-    const refOther = refTotal - refValid - refMissing;
+    const refValid = result.reference_map?.filter(r => r.is_valid !== false).length || 0;
+    const refInvalid = refTotal - refValid;
+
+    // Verdict breakdown
+    const judgeRejects = result.reference_map?.filter(r => r.judge_verdict === 'REJECT').length || 0;
+    const systemRejects = result.reference_map?.filter(r => r.system_verdict === 'REJECT').length || 0;
 
     // Flag Metrics
     const flagTotal = result.clarificationFlags?.length || 0;
@@ -270,15 +362,18 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                     {/* GROUP 2: ISSUES (List Style) */}
                     <div className="bg-white rounded-xl border border-gray-200 shadow-sm divide-y divide-gray-100 overflow-hidden">
                         {/* Referencing Issues */}
-                        <div className="p-3 flex justify-between items-center hover:bg-red-50 group transition-colors cursor-default">
+                        <div
+                            className="p-3 flex justify-between items-center hover:bg-red-50 group transition-colors cursor-default"
+                            title={`${judgeRejects} rejected by Judge, ${systemRejects} rejected by System`}
+                        >
                             <div className="flex items-center gap-3">
                                 <div className="p-1.5 bg-red-100 text-red-600 rounded-md">
                                     <Link2 size={16} />
                                 </div>
-                                <span className="text-sm font-medium text-gray-700 group-hover:text-red-700 transition-colors">Broken Refs</span>
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-red-700 transition-colors">Invalid Refs</span>
                             </div>
                             <span className="text-sm font-bold text-gray-900 group-hover:text-red-700 transition-colors">
-                                {refTotal - refValid}
+                                {refInvalid}
                             </span>
                         </div>
 
@@ -367,7 +462,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                         </div>
                                     )}
                                     <div className="p-8 max-w-5xl mx-auto w-full">
-                                        {result.term_sheet ? (
+                                        {result.term_sheet && Object.keys(result.term_sheet).length > 0 ? (
                                             <div className="space-y-8">
                                                 {/* Header & Title */}
                                                 <div>
@@ -378,7 +473,6 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                             : result.term_sheet.contract_title) || "Untitled Agreement"}
                                                     </h1>
                                                 </div>
-
                                                 {/* Parties (Dynamic) */}
                                                 {result.term_sheet.parties && Array.isArray(result.term_sheet.parties) && result.term_sheet.parties.length > 0 && (
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -453,9 +547,20 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className="text-center text-gray-400 py-20 flex flex-col items-center">
-                                                <FileText className="w-12 h-12 text-gray-200 mb-4" />
-                                                <p>No term sheet data extracted.</p>
+                                            <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200 shadow-sm max-w-2xl mx-auto px-10">
+                                                <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 text-indigo-600">
+                                                    <Sparkles size={40} />
+                                                </div>
+                                                <h2 className="text-2xl font-black text-gray-900 mb-4 tracking-tight uppercase">Stage 1: Reference Isolation</h2>
+                                                <p className="text-gray-500 leading-relaxed font-medium">
+                                                    The Term Sheet extraction is currently <span className="text-indigo-600 font-bold">DISABLED</span> to validate reference mapping precision.
+                                                </p>
+                                                <div className="mt-8 p-4 bg-indigo-50 rounded-xl text-left border border-indigo-100 flex gap-4 items-start">
+                                                    <AlertTriangle className="text-indigo-600 shrink-0 mt-0.5" size={18} />
+                                                    <span className="text-xs font-bold text-indigo-700 leading-tight uppercase tracking-wide">
+                                                        Verification is focused exclusively on audit-driven reference mapping to resolve TOC and blacklist issues.
+                                                    </span>
+                                                </div>
                                             </div>
                                         )}
                                     </div>
@@ -472,43 +577,135 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                             {/* REFERENCES TAB */}
                             {activeTab === "references" && (
-                                <div className="flex flex-col divide-y divide-gray-100 overflow-y-auto h-full">
+                                <div className="flex flex-col divide-y divide-gray-100 overflow-y-auto h-full bg-gray-50/30">
                                     {result.reference_map && result.reference_map.map((ref, i) => (
-                                        <div key={i} className="p-4 hover:bg-gray-50 transition-colors group">
-                                            <div className="flex items-center justify-between mb-1">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="font-bold text-sm text-gray-900">{ref.ref_text}</span>
-                                                    <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${ref.type === 'APPENDIX' ? 'bg-blue-100 text-blue-800' :
-                                                        ref.type === 'PLACEHOLDER' ? 'bg-orange-100 text-orange-800' :
-                                                            'bg-gray-100 text-gray-600'
+                                        <div key={i} className="p-5 hover:bg-white transition-all group border-l-4 border-transparent hover:border-indigo-500 hover:shadow-sm">
+
+                                            {/* TIER 1: HEADER & STATUS */}
+                                            <div className="flex items-center justify-between mb-3">
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`p-1.5 rounded-md ${ref.type === 'APPENDIX' ? 'bg-blue-50 text-blue-600' :
+                                                        ref.type === 'EXTERNAL_REFERENCE_MATERIAL' ? 'bg-teal-50 text-teal-600' :
+                                                            'bg-gray-50 text-gray-500'}`}>
+                                                        <Link2 size={16} />
+                                                    </div>
+                                                    <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${ref.type === 'APPENDIX' ? 'bg-blue-50 text-blue-700 border-blue-100' :
+                                                        ref.type === 'EXTERNAL_REFERENCE_MATERIAL' ? 'bg-teal-50 text-teal-700 border-teal-100' :
+                                                            'bg-gray-50 text-gray-600 border-gray-200'
                                                         }`}>{ref.type}</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
-                                                    {(ref.context || ref.ref_text) && (
-                                                        <button
-                                                            onClick={() => handleViewContext(ref.context || ref.ref_text, "Reference Context")}
-                                                            className="text-indigo-600 hover:text-indigo-800 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                            title="View in Context"
-                                                        >
-                                                            <Eye size={16} />
-                                                        </button>
-                                                    )}
-                                                    <span className={`text-xs font-bold px-2 py-1 rounded ${ref.status === 'VALID' ? 'text-green-600 bg-green-50' :
-                                                        ref.status === 'MISSING' ? 'text-red-600 bg-red-50' :
-                                                            'text-amber-600 bg-amber-50'
-                                                        }`}>{ref.status}</span>
+                                                    {/* Status Badge - Smaller */}
+                                                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded border ${ref.is_valid !== false
+                                                            ? 'text-green-700 bg-green-50 border-green-200'
+                                                            : 'text-white bg-red-600 border-red-700'
+                                                        }`}>
+                                                        {ref.is_valid !== false ? 'VALID' : 'INVALID'}
+                                                    </span>
                                                 </div>
                                             </div>
-                                            {ref.context && (
-                                                <p className="text-xs text-gray-500 font-mono mt-1 italic pl-1 border-l-2 border-gray-200">
-                                                    "{ref.context}"
-                                                </p>
-                                            )}
+
+                                            {/* TIER 2: SOURCE & TARGET MAPPING */}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                                {/* Source Column */}
+                                                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/source">
+                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">Source Context</span>
+                                                    <p className="text-xs text-gray-800 font-medium leading-relaxed pr-8 line-clamp-2">
+                                                        "{ref.source_context || ref.ref_text || "Metadata Only"}"
+                                                    </p>
+                                                    {(ref.source_context || ref.ref_text) && (
+                                                        <button
+                                                            onClick={() => handleViewContext(ref.source_context || ref.ref_text, "Source Citation")}
+                                                            className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/source:opacity-100"
+                                                            title="Jump to Source"
+                                                        >
+                                                            <Search size={14} />
+                                                        </button>
+                                                    )}
+                                                </div>
+
+                                                {/* Target Column - Show validation details if invalid */}
+                                                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/target">
+                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">
+                                                        {ref.is_valid !== false ? 'Target Definition' : 'Invalid Reference'}
+                                                    </span>
+
+                                                    {ref.is_valid !== false ? (
+                                                        // VALID: Show target details
+                                                        <div className="pr-8">
+                                                            <div className="text-xs font-bold text-indigo-700 flex items-center gap-1 mb-1">
+                                                                <Tag size={12} className="shrink-0" />
+                                                                {ref.target_section_id || ref.target_id || "N/A"}
+                                                                {ref.target_clause && (
+                                                                    <span className="text-purple-600 font-black ml-1">
+                                                                        § {ref.target_clause}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <p className="text-xs text-gray-600 line-clamp-2 font-medium">
+                                                                {ref.target_header || "No specific header provided"}
+                                                            </p>
+                                                        </div>
+                                                    ) : (
+                                                        // INVALID: Show validation details here
+                                                        <div className="space-y-2">
+                                                            {/* Main reason */}
+                                                            <p className="text-xs font-bold text-red-900 leading-tight">
+                                                                {ref.invalid_reason || 'No specific reason provided'}
+                                                            </p>
+
+                                                            {/* Show verdict breakdown */}
+                                                            <div className="flex gap-3 text-[10px]">
+                                                                {ref.judge_verdict && (
+                                                                    <div>
+                                                                        <span className="font-black text-gray-400">Judge:</span>
+                                                                        <span className={`ml-1 font-bold ${ref.judge_verdict === 'ACCEPT' ? 'text-blue-600' : 'text-amber-600'
+                                                                            }`}>
+                                                                            {ref.judge_verdict}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                                {ref.system_verdict && ref.system_verdict !== 'N/A' && (
+                                                                    <div>
+                                                                        <span className="font-black text-gray-400">System:</span>
+                                                                        <span className={`ml-1 font-bold ${ref.system_verdict === 'ACCEPT' ? 'text-green-600' : 'text-red-600'
+                                                                            }`}>
+                                                                            {ref.system_verdict}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
+                                                            {/* Additional details if different from main reason */}
+                                                            {ref.system_reason && ref.system_reason !== ref.invalid_reason && (
+                                                                <p className="text-[10px] text-gray-500 italic">
+                                                                    System: {ref.system_reason}
+                                                                </p>
+                                                            )}
+                                                            {ref.judge_reason && ref.judge_reason !== ref.invalid_reason && (
+                                                                <p className="text-[10px] text-gray-500 italic">
+                                                                    Judge: {ref.judge_reason}
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                    )}
+
+                                                    {ref.target_header && ref.is_valid !== false && (
+                                                        <button
+                                                            onClick={() => handleViewContext(ref.target_header, "Target Section")}
+                                                            className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/target:opacity-100"
+                                                            title="Jump to Target"
+                                                        >
+                                                            <Search size={14} />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
                                     ))}
                                     {(!result.reference_map || result.reference_map.length === 0) && (
                                         <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
-                                            <Link2 className="mb-2 opacity-50" />
+                                            <Link2 className="mb-2 opacity-50" size={32} />
                                             No references found.
                                         </div>
                                     )}

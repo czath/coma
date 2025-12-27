@@ -132,18 +132,220 @@ class ContractPipeline:
     # --- SUBMODULES ---
 
     async def run_profiler(self, doc_payload, job_id):
-        # V3 Strategy: GLOBAL CONTEXT (Full Text)
-        # Filter out blocks without text (e.g. Header metadata)
-        valid_texts = [b.get("text", "") for b in doc_payload if b.get("text")]
-        full_text = "\n".join(valid_texts)
+        """
+        Extract cross-references from contract document.
+        Phase 1: Provides structured input to Worker LLM (section IDs, types, headers)
+        """
+        import json
+        
+        # BUILD STRUCTURED INPUT - Skip HEADER and SKIP blocks
+        structured_sections = []
+        for block in doc_payload:
+            # Skip metadata and unprocessed sections
+            if block.get("type") in ["HEADER", "SKIP"]:
+                continue
+            
+            structured_sections.append({
+                "id": block.get("id"),
+                "type": block.get("type"),
+                "header": block.get("header", ""),
+                "text": block.get("text", "")[:300]  # Include preview for context
+            })
+        
+        # Prepare structured input for Worker
+        worker_input = {
+            "instruction": "Extract all cross-references. Use ONLY the section IDs provided in 'available_sections'.",
+            "available_sections": structured_sections
+        }
         
         worker_cfg = self.config["PROFILER_WORKER"]
         judge_cfg = self.config["PROFILER_JUDGE"]
         
-        return await self._execute_task_with_retry(
-            worker_cfg, judge_cfg, full_text, job_id, 
-            task_type="PROFILER", context_id="term_sheet"
+        # Send structured input (as JSON string)
+        structured_input_str = json.dumps(worker_input, indent=2)
+        
+        data, flags, trace = await self._execute_task_with_retry(
+            worker_cfg, judge_cfg, structured_input_str, job_id,
+            task_type="PROFILER", context_id="term_sheet",
+            doc_payload=doc_payload  # Pass for validation
         )
+        
+        # Phase 2: Apply programmatic validation
+        if data and isinstance(data, dict) and "reference_map" in data:
+            data["reference_map"] = self._validate_reference_map(
+                data["reference_map"], 
+                doc_payload
+            )
+            # Deduplicate after validation
+            data["reference_map"] = self._deduplicate_references(data["reference_map"])
+        
+        return data, flags, trace
+    
+    def _deduplicate_references(self, ref_map):
+        """
+        Deduplicate reference_map entries and resolve conflicts.
+        Rules:
+        1. Same source_context + target_section_id = one entry
+        2. If conflict (same target, different validity), keep valid one
+        3. Simplify to just is_valid flag (True/False)
+        """
+        if not ref_map or not isinstance(ref_map, list):
+            return ref_map
+        
+        # Group by (source_context, target_section_id) as key
+        grouped = {}
+        for item in ref_map:
+            source_ctx = (item.get('source_context') or '').strip()
+            target_id = (item.get('target_section_id') or '').strip()
+            
+            # Skip empty entries
+            if not source_ctx:
+                continue
+                
+            key = (source_ctx, target_id)
+            
+            if key not in grouped:
+                grouped[key] = item
+            else:
+                # Conflict resolution: prefer valid over invalid
+                existing = grouped[key]
+                existing_valid = existing.get('is_valid', True)
+                new_valid = item.get('is_valid', True)
+                
+                if new_valid and not existing_valid:
+                    # New one is valid, replace
+                    grouped[key] = item
+                elif not new_valid and existing_valid:
+                    # Keep existing valid one
+                    pass
+                # If both same validity, keep first one
+        
+        return list(grouped.values())
+    
+    def _validate_reference_map(self, reference_map: list, doc_payload: list) -> list:
+        """
+        Phase 2: Programmatically validate each reference against document structure.
+        Adds system_verdict to track structural validation separate from judge verdict.
+        
+        Validation checks:
+        1. Target section exists in document
+        2. Target is not type="INFO" (Table of Contents/Index)
+        3. If target_clause specified, verify it exists as section header in target
+        
+        Returns: Updated reference_map with validation fields
+        """
+        import re
+        
+        # Build indexes
+        section_index = {}  # {id: {"type": ..., "header": ...}}
+        section_text = {}   # {id: full_text}
+        info_sections = set()  # IDs of type="INFO"
+        
+        for block in doc_payload:
+            if block.get("type") in ["HEADER", "SKIP"]:
+                continue
+            
+            sid = block.get("id")
+            if sid:
+                section_index[sid] = {
+                    "type": block.get("type"),
+                    "header": block.get("header", "")
+                }
+                section_text[sid] = block.get("text", "")
+                
+                if block.get("type") == "INFO":
+                    info_sections.add(sid)
+        
+        validated_refs = []
+        
+        for ref in reference_map:
+            target_id = ref.get("target_section_id") or ref.get("target_id")
+            target_clause = ref.get("target_clause")
+            
+            # Preserve judge verdict (if present)
+            judge_verdict = "ACCEPT" if ref.get("is_valid", True) else "REJECT"
+            judge_reason = ref.get("invalid_reason", "")
+            
+            # Initialize system verdict
+            system_verdict = None
+            system_reason = None
+            
+            # SYSTEM CHECK 1: Target must exist
+            if target_id and target_id not in section_index:
+                system_verdict = "REJECT"
+                system_reason = f"Section '{target_id}' does not exist in document"
+                
+                ref["system_verdict"] = system_verdict
+                ref["system_reason"] = system_reason
+                ref["judge_verdict"] = judge_verdict
+                ref["is_valid"] = False
+                ref["invalid_reason"] = system_reason
+                validated_refs.append(ref)
+                continue
+            
+            # SYSTEM CHECK 2: Target cannot be TOC (type="INFO")
+            if target_id and target_id in info_sections:
+                system_verdict = "REJECT"
+                system_reason = f"Target '{target_id}' is Table of Contents/Index, not substantive content"
+                
+                ref["system_verdict"] = system_verdict
+                ref["system_reason"] = system_reason
+                ref["judge_verdict"] = judge_verdict
+                ref["is_valid"] = False
+                ref["invalid_reason"] = system_reason
+                validated_refs.append(ref)
+                continue
+            
+            # SYSTEM CHECK 3: Sub-clause validation (if target_clause specified)
+            if target_id and target_clause:
+                target_content = section_text.get(target_id, "")
+                
+                # Check if clause number exists in target
+                if target_clause not in target_content:
+                    system_verdict = "REJECT"
+                    system_reason = f"Sub-clause '{target_clause}' not found in section '{target_id}'"
+                    
+                    ref["system_verdict"] = system_verdict
+                    ref["system_reason"] = system_reason
+                    ref["judge_verdict"] = judge_verdict
+                    ref["is_valid"] = False
+                    ref["invalid_reason"] = system_reason
+                    validated_refs.append(ref)
+                    continue
+                
+                # Enhanced: Verify it's a section header (not just substring)
+                # Pattern: "5.1 " or "5.1\t" at start of line
+                pattern = rf"^{re.escape(target_clause)}[\s\t]"
+                if not re.search(pattern, target_content, re.MULTILINE):
+                    system_verdict = "REJECT"
+                    system_reason = f"'{target_clause}' exists but not as section header in '{target_id}'"
+                    
+                    ref["system_verdict"] = system_verdict
+                    ref["system_reason"] = system_reason
+                    ref["judge_verdict"] = judge_verdict
+                    ref["is_valid"] = False
+                    ref["invalid_reason"] = system_reason
+                    validated_refs.append(ref)
+                    continue
+            
+            # ALL SYSTEM CHECKS PASSED
+            system_verdict = "ACCEPT"
+            
+            # Final validity: Judge verdict takes precedence if it rejected
+            if judge_verdict == "REJECT":
+                ref["is_valid"] = False
+                ref["invalid_reason"] = judge_reason or "Rejected by judge"
+            else:
+                ref["is_valid"] = True
+                ref["invalid_reason"] = None
+            
+            ref["judge_verdict"] = judge_verdict
+            ref["system_verdict"] = system_verdict
+            
+            validated_refs.append(ref)
+        
+        return validated_refs
+
 
     async def run_dictionary(self, doc_payload, job_id):
         # V3 Strategy: Start with Full Text to catch inline definitions too.
@@ -275,34 +477,75 @@ class ContractPipeline:
             
             judge_data = self._parse_json(judge_response)
             
-            # Extract Item-Level Flags
+            # 3. ANALYZE VERDICT
+            verifier_decision = "REJECT"  # Default fallback
+            if isinstance(judge_data, dict):
+                verifier_decision = judge_data.get("verdict") or judge_data.get("decision") or "REJECT"
+
+            # Extract Item-Level Flags (Consolidated)
             current_item_flags = []
-            if judge_data and "invalid_items" in judge_data:
+            invalid_refs = {}  # Track invalid refs: {ref_text: reason}
+            
+            if isinstance(judge_data, dict) and "invalid_items" in judge_data:
                 for item in judge_data["invalid_items"]:
-                    # Try to find a good ID. 'term' or 'ref_text'
-                    tgt = item.get("term") or item.get("ref_text") or "unknown_element"
+                    tgt = item.get("term") or item.get("ref_text") or item.get("ref") or "unknown"
                     msg = item.get("reason", "Invalid item")
+                    invalid_refs[tgt] = msg
+                    
                     current_item_flags.append({
                         "id": f"flag_{context_id}_{tgt[:20]}", 
-                        "target_element_id": f"{context_id}", # Keep generic for now so banner shows up, detailed msg has info. Or maybe context_id is enough?
-                        # ACTUALLY: The banner looks for target_element_id == "dictionary". 
-                        # If I change it, banner might hide. Let's keep context_id matching banner logic for now, 
-                        # OR update banner to look for prefix.
-                        # User wants list. Banner shows list.
-                        # Let's use specific ID for future highlighting, but ensure type matches banner query?
-                        # Banner query: f.target_element_id === "dictionary" && f.type === "VERIFICATION_FAILED"
-                        # If I want multiple banners, I duplicate. 
-                        # If I want one banner with list... 
-                        # Let's just create ONE HIGH LEVEL flag if there are errors, with a summary message?
-                        # No, user asked for LIST.
-                        # Safe bet: Append these flags. Update banner to show ALL verification failures for this context.
+                        "target_element_id": f"{task_type}_item",
                         "type": "VERIFICATION_FAILED",
-                        "message": f"Item '{tgt}': {msg}",
+                        "message": f"Auditor rejected '{tgt}': {msg}",
                         "severity": "WARNING"
                     })
 
-            if judge_data and isinstance(judge_data, dict) and judge_data.get("verdict") == "ACCEPT":
-                 # Success! (Partial or Full)
+            if verifier_decision == "REJECT":
+                # Mark invalid items instead of removing them
+                if isinstance(judge_data, dict) and invalid_refs and isinstance(worker_data, dict):
+                    if "reference_map" in worker_data:
+                        for item in worker_data["reference_map"]:
+                            source_ctx = item.get('source_context', '')
+                            # Check if this reference was flagged as invalid
+                            for invalid_ref, reason in invalid_refs.items():
+                                if invalid_ref in source_ctx or source_ctx in invalid_ref:
+                                    item['is_valid'] = False
+                                    item['invalid_reason'] = reason
+                                    break
+                            else:
+                                # Not explicitly flagged, assume valid for this iteration
+                                item['is_valid'] = True
+
+                # Failure case & Retry Logic
+                attempt += 1
+                current_temp += temp_inc
+                
+                # Safe access for logging and trace
+                reason = "Unknown failure"
+                summary = "Unknown failure"
+                if isinstance(judge_data, dict):
+                    reason = judge_data.get('reason') or judge_data.get('summary') or "Rejected by Auditor"
+                    summary = judge_data.get('summary') or judge_data.get('reason') or judge_data.get('global_comment') or "No explanation provided"
+
+                logger.warning(f"Verification Failed for {task_type} {context_id}. Retrying ({attempt}/{max_retries}). Reason: {reason}")
+                
+                trace_history.append({
+                    "attempt": attempt,
+                    "timestamp": datetime.now().isoformat(),
+                    "verifier_feedback": summary,
+                    "verifier_decision": "REJECT",
+                    "invalid_items": list(invalid_refs.keys()),
+                    "worker_output": worker_data,
+                    "worker_raw": worker_response,
+                    "judge_raw": judge_response
+                })
+                
+            elif verifier_decision == "ACCEPT":
+                 # Success! Mark all as valid
+                 if isinstance(worker_data, dict) and "reference_map" in worker_data:
+                     for item in worker_data["reference_map"]:
+                         item['is_valid'] = True
+                 
                  flags.extend(current_item_flags)
                  
                  trace_history.append({
@@ -316,29 +559,10 @@ class ContractPipeline:
                 })
                  return worker_data, flags, trace_history
             
-            # Failure case
-            attempt += 1
-            current_temp += temp_inc
-            logger.warning(f"Verification Failed for {task_type} {context_id}. Retrying ({attempt}/{max_retries}). Reason: {judge_data.get('reason')}")
-            
-            # Add to trace
-
-            trace_history.append({
-                "attempt": attempt,
-                "timestamp": datetime.now().isoformat(),
-                "verifier_feedback": judge_data.get('summary') or judge_data.get('reason') or judge_data.get('global_comment'),
-                "verifier_decision": "REJECT",
-                "worker_output": worker_data,
-                "worker_raw": worker_response,
-                "judge_raw": judge_response
-            })
-            
-        # If exhausted retries
         # If exhausted retries
         if current_item_flags:
             # We have specific errors from the last attempt
             flags.extend(current_item_flags)
-            # Add a generic wrapper flag just in case UI needs it for the main banner header
             flags.append({
                 "id": f"flag_final_{context_id}",
                 "target_element_id": context_id,
@@ -348,7 +572,10 @@ class ContractPipeline:
             })
         else:
             # Generic fallback
-            last_reason = judge_data.get('summary') or judge_data.get('reason') or judge_data.get('global_comment') or 'Unknown'
+            last_reason = "Unknown"
+            if isinstance(judge_data, dict):
+                last_reason = judge_data.get('summary') or judge_data.get('reason') or judge_data.get('global_comment') or 'Unknown'
+            
             flags.append({
                 "id": f"flag_final_{context_id}",
                 "target_element_id": context_id,
@@ -404,13 +631,24 @@ class ContractPipeline:
             return "{}"
 
     def _parse_json(self, text):
+        if not text: return None
         try:
-            if text.startswith("```json"):
-                text = text[7:-3]
-            elif text.startswith("```"):
-                text = text[3:-3]
-            return json.loads(text)
-        except:
+            import re
+            # Try to find JSON block with backticks
+            match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", text)
+            if match:
+                clean_text = match.group(1).strip()
+            else:
+                # Fallback: try to find anything between { } or [ ]
+                match = re.search(r"(\{[\s\S]*\}|\[[\s\S]*\])", text)
+                if match:
+                    clean_text = match.group(1).strip()
+                else:
+                    clean_text = text.strip()
+            
+            return json.loads(clean_text)
+        except Exception as e:
+            logger.warning(f"JSON Parse Failure: {e}. Raw snippet: {text[:100]}...")
             return None
 
     def _load_taxonomy(self):
