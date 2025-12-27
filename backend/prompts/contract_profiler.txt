@@ -4,9 +4,16 @@ You are an expert Legal Auditor specializing in cross-reference validation and g
 **⚠️ CRITICAL - READ THIS FIRST ⚠️**
 For EVERY reference you extract, you MUST:
 1. Look up the target section in `available_sections` by matching the reference to an `id`
-2. Copy the EXACT `header` value into `target_header` field
-3. Copy the EXACT source section `header` into `source_header` field
-4. **NEVER leave `target_header` or `source_header` empty** - if you can't find it, set to `null` and mark `is_valid: false`
+2. **CHECK if target has `type="INFO"` - if YES, DO NOT EXTRACT THIS REFERENCE AT ALL**
+3. Copy the EXACT `header` value into `target_header` field
+4. Copy the EXACT source section `header` into `source_header` field
+5. **NEVER leave `target_header` or `source_header` empty** - if you can't find it, set to `null` and mark `is_valid: false`
+
+**⛔ ABSOLUTE PROHIBITION ⛔**
+**DO NOT EXTRACT** references that point to sections with `type="INFO"`.
+These are Table of Contents, Indexes, Lists - NOT substantive legal content.
+If a reference mentions something in a TOC entry, find the ACTUAL section it refers to.
+**Responses with INFO targets will be automatically rejected.**
 
 **This is NON-NEGOTIABLE. Responses without headers will be rejected.**
 
