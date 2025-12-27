@@ -425,7 +425,11 @@ class ContractPipeline:
 
     # --- CORE EXECUTION LOGIC ---
 
-    async def _execute_task_with_retry(self, worker_cfg, judge_cfg, input_text, job_id, task_type, context_id):
+    async def _execute_task_with_retry(self, worker_cfg, judge_cfg, input_text, job_id, task_type, context_id, **kwargs):
+        """
+        Worker-Judge retryloop with structured input support.
+        Phase 3: Passes doc_payload to Judge for structural validation.
+        """
         max_retries = self.config["RETRY_STRATEGY"]["max_retries"]
         temp_inc = self.config["RETRY_STRATEGY"]["temp_increment"]
         
@@ -456,19 +460,46 @@ class ContractPipeline:
 
             # 2. RUN JUDGE
             print(f"[{datetime.now()}] DEBUG: Running Judge for {task_type} {context_id}...")
-            # Judge sees Input + Worker Output
-            # We construct a USER PROMPT that presents the data.
-            # The SYSTEM INSTRUCTION is loaded from the file in _call_llm via judge_cfg.
             
-            judge_user_content = f"""
-            ### SOURCE TEXT
-            {input_text} 
+            # Phase 3: Send structured data to Judge if doc_payload provided
+            if kwargs.get("doc_payload"):
+                # Build available sections list for Judge
+                available_sections = [
+                    {
+                        "id": b.get("id"),
+                        "type": b.get("type"),
+                        "header": b.get("header", "")
+                    }
+                    for b in kwargs["doc_payload"]
+                    if b.get("type") not in ["HEADER", "SKIP"]
+                ]
+                
+                judge_user_content = f"""
+### AVAILABLE SECTIONS
+{json.dumps(available_sections, indent=2)}
 
-            ### EXTRACTED DATA
-            {json.dumps(worker_data, indent=2)}
-            
-            Evaluate the Extracted Data against the Source Text according to your System Instructions.
-            """
+### WORKER EXTRACTION
+{json.dumps(worker_data, indent=2)}
+
+Evaluate the Worker's extraction. Verify:
+1. All target_section_id values exist in AVAILABLE SECTIONS
+2. No references to type="INFO" sections (Table of Contents)
+3. No abstract/plural references (e.g., "any schedules", "all appendices")
+4. No placeholders (e.g., "XX", "TBD", "[...]")
+
+Provide your verdict and list any invalid items.
+"""
+            else:
+                # Fallback to old method if doc_payload not provided
+                judge_user_content = f"""
+### SOURCE TEXT
+{input_text} 
+
+### EXTRACTED DATA
+{json.dumps(worker_data, indent=2)}
+
+Evaluate the Extracted Data against the Source Text according to your System Instructions.
+"""
             
             # is_raw_prompt=False enforces loading the system_instruction from file/config
             judge_response = await self._call_llm(
