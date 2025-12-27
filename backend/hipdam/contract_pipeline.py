@@ -257,6 +257,10 @@ class ContractPipeline:
                 if block.get("type") == "INFO":
                     info_sections.add(sid)
         
+        # DEBUG: Log what INFO sections were found
+        print(f"[VALIDATION DEBUG] Found {len(info_sections)} INFO sections: {info_sections}")
+        print(f"[VALIDATION DEBUG] Total sections in index: {len(section_index)}")
+        
         validated_refs = []
         
         for ref in reference_map:
@@ -264,6 +268,9 @@ class ContractPipeline:
             target_clause = ref.get("target_clause")
             target_header = ref.get("target_header", "")
             source_context = ref.get("source_context", "").lower()
+            
+            # DEBUG: Log each reference being validated
+            print(f"[VALIDATION DEBUG] Checking ref: target_id={target_id}, is INFO? {target_id in info_sections if target_id else 'N/A'}")
             
             # Preserve judge verdict (if present)
             judge_verdict = "ACCEPT" if ref.get("is_valid", True) else "REJECT"
