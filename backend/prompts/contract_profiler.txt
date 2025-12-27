@@ -59,10 +59,16 @@ Mark these as **invalid** with reason "Placeholder or incomplete reference".
 
 # MATCHING GUIDANCE
 
-**Diverse Clause Formats**: Contracts use varied formatting. When matching references to section IDs:
-- "Clause 12" / "Section 12" / "Article 12" / "Chapter 12" → all refer to section with header starting with "12"
-- "Annex A" / "Appendix A" / "Schedule A" → match to section with "A" in header
-- Be flexible but precise - match the semantic reference to the actual section structure
+**Diverse Clause Number Formats**: The NUMBER may be referenced differently, but respect the TYPE:
+- "Clause 12" / "Section 12" / "Article 12" / "Chapter 12" → all refer to a numbered section in the main body
+- Match to section where header starts with "12" (e.g., "12. TITLE" or "12.\tTITLE")
+
+**CRITICAL - Respect Exact Terminology for Attachments**:
+- "Annex A" ONLY matches sections with "Annex A" in header (NOT "Appendix A" or "Exhibit A")
+- "Appendix A" ONLY matches sections with "Appendix A" in header
+- "Exhibit A" ONLY matches sections with "Exhibit A" in header
+- These terms are **NOT interchangeable** - use exact terminology from the reference
+- If reference says "Annex A" but only "Appendix A" exists, mark as INVALID (target not found)
 
 **Placeholder Detection**: Use judgment on whether a section is substantive:
 - Clear placeholders: "TBD", "To be removed", "[X]", "Placeholder text"
