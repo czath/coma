@@ -106,10 +106,11 @@ class ReferenceProfiler:
             
             # Stage 5: Protocol validation
             self.logger.info(f"[{job_id}] Stage 5: Protocol validation...")
-            final_refs, warnings = self._protocol_validate(validated_refs, inputs, job_id)
+            final_refs, warnings, protocol_stats = self._protocol_validate(validated_refs, inputs, job_id)
             
             # Stage 6: Format output
-            result = self._format_output(final_refs, warnings, candidate_refs, rejected_refs, inputs)
+            result = self._format_output(final_refs, warnings, candidate_refs, rejected_refs, protocol_stats, inputs)
+            
             
             self.logger.info(f"[{job_id}] Reference extraction complete: {result['stats']['final_count']} references")
             
@@ -563,6 +564,7 @@ class ReferenceProfiler:
             # Get validation status first
             validation = ref.get("validation", {})
             is_valid = validation.get("is_valid", False)  # Fail-safe default
+            invalid_reason = validation.get("reasoning", "") if not is_valid else None
             
             # CHECK: If BOTH is_valid=false AND target=UNKNOWN, skip target checks (broken reference)
             is_broken_reference = (not is_valid and target_id == "UNKNOWN")
@@ -572,37 +574,38 @@ class ReferenceProfiler:
                 if target_id not in inputs["section_index"]:
                     stats["target_not_found"] += 1
                     self.logger.warning(f"[{job_id}] Target {target_id} not in section index")
-                    continue
+                    # KEEP instead of dropping - mark as invalid
+                    is_valid = False
+                    invalid_reason = f"Protocol violation: Target '{target_id}' not found in section index."
             
             # CHECK 2: INFO prohibition (skip if broken reference)
-            if not is_broken_reference:
+            if not is_broken_reference and is_valid:  # Only check if still valid
                 if target_id in inputs["info_section_ids"]:
                     stats["info_target"] += 1
                     self.logger.warning(f"[{job_id}] Target {target_id} is INFO section")
-                    continue
+                    # KEEP instead of dropping - mark as invalid
+                    is_valid = False
+                    invalid_reason = f"Protocol violation: Cannot reference INFO/TOC section '{target_id}' as a target."
             
             # CHECK 3: Deduplication (applies to all refs)
             pair_key = (source_id, target_id)
             if pair_key in seen_pairs:
                 stats["duplicates"] += 1
-                continue
+                # KEEP instead of dropping - mark as invalid
+                is_valid = False
+                invalid_reason = f"Protocol violation: Duplicate reference (already extracted)."
+                # Don't skip - still add to output so user can see duplicates
             seen_pairs.add(pair_key)
             
-            # CHECK 4: Self-reference (WARNING only, not deletion)
+            # CHECK 4: Self-reference (track in stats, visible in References tab with is_self_reference flag)
             if validation.get("is_self_reference", False):
                 stats["self_reference_warnings"] += 1
-                warnings.append({
-                    "type": "self_reference",
-                    "source_id": source_id,
-                    "target_id": target_id,
-                    "source_verbatim": ref.get("source", {}).get("verbatim", "")
-                })
             
             # Count rejections for stats
             if not is_valid:
                 stats["judge_rejected"] += 1
             
-            # PASS: Add to final output (both valid AND invalid - user needs to see both)
+            # KEEP ALL: Add to final output (valid, invalid, and protocol violations)
             # Structure for frontend
             final_ref = {
                 "source_id": source_id,
@@ -610,10 +613,10 @@ class ReferenceProfiler:
                 "source_context": ref.get("source", {}).get("verbatim", ""),  # Full verbatim sentence
                 "target_id": target_id,
                 "target_header": ref.get("target", {}).get("header", ""),
-                "target_type": inputs["section_index"][target_id]["type"] if not is_broken_reference else "UNKNOWN",
+                "target_type": inputs["section_index"][target_id]["type"] if (not is_broken_reference and target_id in inputs["section_index"]) else "UNKNOWN",
                 "is_valid": is_valid,
                 "is_self_reference": validation.get("is_self_reference", False),
-                "invalid_reason": validation.get("reasoning", "") if not is_valid else None
+                "invalid_reason": invalid_reason
             }
             
             final_refs.append(final_ref)
@@ -626,26 +629,53 @@ class ReferenceProfiler:
             "warnings": warnings
         })
         
-        self.logger.info(f"[{job_id}] Protocol validation: {stats['passed']}/{stats['input_count']} passed")
+        self.logger.info(f"[{job_id}] Protocol validation: {stats['passed']}/{stats['input_count']} passed (keeping all for transparency)")
         
-        return final_refs, warnings
+        return final_refs, warnings, stats
     
     def _format_output(self, final_refs: List[Dict[str, Any]], warnings: List[Dict[str, Any]], 
-                      candidate_refs: List[Dict[str, Any]], rejected_refs: List[Dict[str, Any]], inputs: Dict[str, Any]) -> Dict[str, Any]:
+                      candidate_refs: List[Dict[str, Any]], rejected_refs: List[Dict[str, Any]], 
+                      protocol_stats: Dict[str, Any], inputs: Dict[str, Any]) -> Dict[str, Any]:
         """Stage 6: Format final output"""
+        # Count truly valid references (is_valid=true in final_refs)
+        valid_count = sum(1 for ref in final_refs if ref.get("is_valid", False))
+        invalid_count = sum(1 for ref in final_refs if not ref.get("is_valid", False))
+        
+        # Calculate judge rejections (invalid_count minus protocol rejections)
+        protocol_rejected = protocol_stats.get("target_not_found", 0) + \
+                           protocol_stats.get("info_target", 0) + \
+                           protocol_stats.get("duplicates", 0)
+        judge_rejected = invalid_count - protocol_rejected
+        
         return {
             "reference_map": final_refs,
             "rejected_map": rejected_refs,
             "warnings": warnings,
             "stats": {
+                # Legacy stats (for backwards compatibility)
                 "extracted": len(candidate_refs),
-            "rejected_stage3": len(rejected_refs),
-                "validated": len(final_refs),
-                "final_count": len(final_refs),
+                "rejected_stage3": len(rejected_refs),
+                "rejected_judge": invalid_count,
+                "validated": valid_count,
+                "final_count": valid_count,
                 "warnings": len(warnings),
                 "target_candidates": len(inputs["target_document"]),
                 "total_sections": len(inputs["section_index"]),
-                "info_sections": len(inputs["info_section_ids"])
+                "info_sections": len(inputs["info_section_ids"]),
+                
+                # Pipeline summary (new format for UI)
+                "pipeline": {
+                    "s1_submitted": len(candidate_refs),
+                    "s3_rejected_validation": len(rejected_refs),
+                    "s4_rejected_judge": judge_rejected,
+                    "s5_rejected_protocol": protocol_rejected,
+                    "s5_protocol_breakdown": {
+                        "target_not_found": protocol_stats.get("target_not_found", 0),
+                        "info_target": protocol_stats.get("info_target", 0),
+                        "duplicates": protocol_stats.get("duplicates", 0)
+                    },
+                    "final_valid": valid_count
+                }
             }
         }
     

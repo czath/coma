@@ -888,50 +888,73 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                             {/* TRACE TAB */}
                             {activeTab === "traces" && (
                                 <div className="h-full flex flex-col overflow-hidden">
+
                                     {/* Rejected References Section */}
-                                    {trace?.rejected_map && trace.rejected_map.length > 0 && (
-                                        <div className="border-b border-gray-200 bg-amber-50">
-                                            <div className="p-4 border-b border-amber-100 bg-amber-100">
-                                                <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2">
-                                                    <XCircle size={16} className="text-amber-700" />
-                                                    Rejected References ({trace.rejected_map.length})
-                                                </h3>
-                                                <p className="text-xs text-amber-700 mt-1">References that were extracted but failed validation</p>
-                                            </div>
-                                            <div className="max-h-96 overflow-y-auto">
-                                                {trace.rejected_map.map((rej, idx) => (
-                                                    <div key={idx} className="p-4 border-b border-amber-100 hover:bg-amber-100/50 transition-colors">
-                                                        <div className="flex items-start gap-3">
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="flex items-center gap-2 mb-2">
-                                                                    <span className="px-2 py-0.5 rounded text-xs font-bold bg-gray-800 text-white">
-                                                                        {rej.candidate?.source_id || 'unknown'}
-                                                                    </span>
-                                                                    <span className="text-gray-400">→</span>
-                                                                    <span className="px-2 py-0.5 rounded text-xs font-bold bg-gray-600 text-white">
-                                                                        {rej.candidate?.target_id || 'unknown'}
-                                                                    </span>
-                                                                    <span className={`ml-auto px-2 py-0.5 rounded text-xs font-bold ${rej.code === 'TARGET_VERBATIM_MISMATCH' ? 'bg-red-100 text-red-700' :
+                                    {(() => {
+                                        // Combine both types of rejections
+                                        const stage3Rejections = trace?.rejected_map || [];
+                                        const judgeRejections = (trace?.reference_map || [])
+                                            .filter(ref => ref.is_valid === false)
+                                            .map(ref => ({
+                                                candidate: {
+                                                    source_id: ref.source_id,
+                                                    target_id: ref.target_id,
+                                                    source_verbatim: ref.source_context
+                                                },
+                                                reason: ref.invalid_reason,
+                                                code: 'JUDGE_REJECTED'
+                                            }));
+
+                                        const allRejections = [...stage3Rejections, ...judgeRejections];
+
+                                        return allRejections.length > 0 && (
+                                            <div className="border-b border-gray-200 bg-amber-50">
+                                                <div className="p-4 border-b border-amber-100 bg-amber-100">
+                                                    <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2">
+                                                        <XCircle size={16} className="text-amber-700" />
+                                                        All Rejected References ({allRejections.length})
+                                                    </h3>
+                                                    <p className="text-xs text-amber-700 mt-1">
+                                                        Stage 3: {stage3Rejections.length} validation failures |
+                                                        Judge: {judgeRejections.length} broken/invalid references
+                                                    </p>
+                                                </div>
+                                                <div className="max-h-96 overflow-y-auto">
+                                                    {allRejections.map((rej, idx) => (
+                                                        <div key={idx} className="p-4 border-b border-amber-100 hover:bg-amber-100/50 transition-colors">
+                                                            <div className="flex items-start gap-3">
+                                                                <div className="flex-1 min-w-0">
+                                                                    <div className="flex items-center gap-2 mb-2">
+                                                                        <span className="px-2 py-0.5 rounded text-xs font-bold bg-gray-800 text-white">
+                                                                            {rej.candidate?.source_id || 'unknown'}
+                                                                        </span>
+                                                                        <span className="text-gray-400">→</span>
+                                                                        <span className="px-2 py-0.5 rounded text-xs font-bold bg-gray-600 text-white">
+                                                                            {rej.candidate?.target_id || 'unknown'}
+                                                                        </span>
+                                                                        <span className={`ml-auto px-2 py-0.5 rounded text-xs font-bold ${rej.code === 'TARGET_VERBATIM_MISMATCH' ? 'bg-red-100 text-red-700' :
                                                                             rej.code === 'SOURCE_VERBATIM_MISMATCH' ? 'bg-orange-100 text-orange-700' :
-                                                                                'bg-gray-100 text-gray-700'
-                                                                        }`}>
-                                                                        {rej.code}
-                                                                    </span>
-                                                                </div>
-                                                                <p className="text-xs text-amber-800 font-medium mb-1">{rej.reason}</p>
-                                                                {rej.candidate?.source_verbatim && (
-                                                                    <div className="mt-2 text-xs text-gray-600 bg-white/50 p-2 rounded border border-amber-200">
-                                                                        <span className="font-bold text-gray-700">Source: </span>
-                                                                        "{rej.candidate.source_verbatim.substring(0, 120)}{rej.candidate.source_verbatim.length > 120 ? '...' : ''}"
+                                                                                rej.code === 'JUDGE_REJECTED' ? 'bg-purple-100 text-purple-700' :
+                                                                                    'bg-gray-100 text-gray-700'
+                                                                            }`}>
+                                                                            {rej.code}
+                                                                        </span>
                                                                     </div>
-                                                                )}
+                                                                    <p className="text-xs text-amber-800 font-medium mb-1">{rej.reason}</p>
+                                                                    {rej.candidate?.source_verbatim && (
+                                                                        <div className="mt-2 text-xs text-gray-600 bg-white/50 p-2 rounded border border-amber-200">
+                                                                            <span className="font-bold text-gray-700">Source: </span>
+                                                                            "{rej.candidate.source_verbatim.substring(0, 120)}{rej.candidate.source_verbatim.length > 120 ? '...' : ''}"
+                                                                        </div>
+                                                                    )}
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        );
+                                    })()}
 
                                     {/* Raw Trace Data */}
                                     <div className="flex-1 overflow-auto bg-gray-50">

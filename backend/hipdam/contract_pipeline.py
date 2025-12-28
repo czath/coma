@@ -168,8 +168,9 @@ class ContractPipeline:
             "verifier_decision": "ACCEPT" if result.get("stats", {}).get("final_count", 0) > 0 else "REJECT",
             "verifier_feedback": f"Extracted {result.get('stats', {}).get('extracted', 0)} candidates, validated {result.get('stats', {}).get('final_count', 0)} references",
             "worker_output": {
+                "stats": result.get("stats", {}),
                 "reference_map": result.get("reference_map", []),
-                "stats": result.get("stats", {})
+                "rejected_map": result.get("rejected_map", [])  # Include rejected references
             },
             "worker_raw": f"[V6 Architecture] Worker extracted {result.get('stats', {}).get('extracted', 0)} candidate references",
             "judge_raw": f"[V6 Architecture] Judge validated {result.get('stats', {}).get('validated', 0)} references, warnings: {result.get('stats', {}).get('warnings', 0)}"
