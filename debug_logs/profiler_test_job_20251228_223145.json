@@ -1,0 +1,78 @@
+{
+  "timestamp": "2025-12-28T22:31:45.809497",
+  "job_id": "test_job",
+  "stage": "STAGE1_INPUT_PREP",
+  "data": {
+    "source_document_count": 1,
+    "target_document_count": 0,
+    "info_section_ids": [
+      "h_1"
+    ],
+    "source_document": [
+      {
+        "id": "h_1",
+        "type": "INFO",
+        "header": "CONTENTS",
+        "text": "CONTENTS\n1.\tDEFINITIONS\t3\n2.\tPURPOSE OF THIS AGREEMENT\t6"
+      }
+    ],
+    "target_document": []
+  }
+}
+================================================================================
+{
+  "timestamp": "2025-12-28T22:31:45.811456",
+  "job_id": "test_job",
+  "stage": "STAGE3_VALIDATION_ENRICHMENT",
+  "data": {
+    "stats": {
+      "input_count": 3,
+      "missing_fields": 3,
+      "source_not_found": 0,
+      "source_verbatim_not_found": 0,
+      "target_verbatim_not_found": 0,
+      "info_target_rejected": 0,
+      "passed": 0
+    },
+    "enriched_references": [],
+    "rejected_references": [
+      {
+        "candidate": {
+          "source_id": "h_1",
+          "verbatim": "1. DEFINITIONS ...................... 3",
+          "target_id": "c_1",
+          "target_header": "DEFINITIONS",
+          "source_context": "context",
+          "label": "Scenario A (Dots+Page)"
+        },
+        "reason": "Missing required fields",
+        "code": "MISSING_FIELDS"
+      },
+      {
+        "candidate": {
+          "source_id": "h_1",
+          "verbatim": "1. DEFINITIONS",
+          "target_id": "c_1",
+          "target_header": "DEFINITIONS",
+          "source_context": "context",
+          "label": "Scenario B (Title Clean)"
+        },
+        "reason": "Missing required fields",
+        "code": "MISSING_FIELDS"
+      },
+      {
+        "candidate": {
+          "source_id": "h_1",
+          "verbatim": "1.\tDEFINITIONS\t3",
+          "target_id": "c_1",
+          "target_header": "DEFINITIONS",
+          "source_context": "context",
+          "label": "Scenario C (Existing Exact)"
+        },
+        "reason": "Missing required fields",
+        "code": "MISSING_FIELDS"
+      }
+    ]
+  }
+}
+================================================================================

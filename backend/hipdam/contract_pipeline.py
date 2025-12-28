@@ -14,6 +14,7 @@ import hipdam.agents
 # We'll use direct client calls for finer control over the Worker-Judge loop specific to this pipeline
 
 from billing_manager import get_billing_manager
+from hipdam.reference_profiler import ReferenceProfiler
 
 logger = logging.getLogger("contract_pipeline")
 logger.setLevel(logging.INFO)
@@ -133,54 +134,48 @@ class ContractPipeline:
 
     async def run_profiler(self, doc_payload, job_id):
         """
-        Extract cross-references from contract document.
-        Phase 1: Provides structured input to Worker LLM (section IDs, types, headers)
+        Extract cross-references from contract document using ReferenceProfiler.
+        V6 Architecture: Delegates to separate reference_profiler module.
         """
-        import json
+        # Initialize profiler
+        profiler = ReferenceProfiler(self.client, self.config, self.billing)
         
-        # BUILD STRUCTURED INPUT - Skip HEADER and SKIP blocks only
-        # NOTE: INFO (TOC) sections ARE included as source (for validation) but will be rejected as targets
-        structured_sections = []
-        for block in doc_payload:
-            # Skip only metadata blocks - INFO blocks are included
-            if block.get("type") in ["HEADER", "SKIP"]:
-                continue
-            
-            structured_sections.append({
-                "id": block.get("id"),
-                "type": block.get("type"),
-                "header": block.get("header", ""),
-                "text": block.get("text", "")[:300]  # Include preview for context
-            })
+        # Extract and validate references
+        result = await profiler.extract_references(doc_payload, job_id)
         
-        # Prepare structured input for Worker
-        worker_input = {
-            "instruction": "Extract all cross-references. Use ONLY the section IDs provided in 'available_sections'.",
-            "available_sections": structured_sections
+        # Format output for compatibility with existing pipeline
+        term_sheet = {
+            "term_sheet": {},  # Empty for now
+            "reference_map": result["reference_map"],
+            "missing_appendices": []  # Deprecated field
         }
         
-        worker_cfg = self.config["PROFILER_WORKER"]
-        judge_cfg = self.config["PROFILER_JUDGE"]
+        flags = []
+        # Convert warnings to flags if needed
+        for warning in result.get("warnings", []):
+            flags.append({
+                "id": f"flag_profiler_{warning.get('type')}_{warning.get('source_id', '')}",
+                "target_element_id": warning.get("source_id", ""),
+                "type": "REFERENCE_WARNING",
+                "message": f"{warning.get('type')}: {warning.get('reference_text', '')} - {warning.get('reason', '')}",
+                "severity": "WARNING"
+            })
         
-        # Send structured input (as JSON string)
-        structured_input_str = json.dumps(worker_input, indent=2)
+        # Trace data for debugging - match expected structure
+        trace = [{
+            "attempt": 1,
+            "timestamp": datetime.now().isoformat(),
+            "verifier_decision": "ACCEPT" if result.get("stats", {}).get("final_count", 0) > 0 else "REJECT",
+            "verifier_feedback": f"Extracted {result.get('stats', {}).get('extracted', 0)} candidates, validated {result.get('stats', {}).get('final_count', 0)} references",
+            "worker_output": {
+                "reference_map": result.get("reference_map", []),
+                "stats": result.get("stats", {})
+            },
+            "worker_raw": f"[V6 Architecture] Worker extracted {result.get('stats', {}).get('extracted', 0)} candidate references",
+            "judge_raw": f"[V6 Architecture] Judge validated {result.get('stats', {}).get('validated', 0)} references, warnings: {result.get('stats', {}).get('warnings', 0)}"
+        }]
         
-        data, flags, trace = await self._execute_task_with_retry(
-            worker_cfg, judge_cfg, structured_input_str, job_id,
-            task_type="PROFILER", context_id="term_sheet",
-            doc_payload=doc_payload  # Pass for validation
-        )
-        
-        # Phase 2: Apply programmatic validation
-        if data and isinstance(data, dict) and "reference_map" in data:
-            data["reference_map"] = self._validate_reference_map(
-                data["reference_map"], 
-                doc_payload
-            )
-            # Deduplicate after validation
-            data["reference_map"] = self._deduplicate_references(data["reference_map"])
-        
-        return data, flags, trace
+        return term_sheet, flags, trace
     
     def _deduplicate_references(self, ref_map):
         """
@@ -257,10 +252,6 @@ class ContractPipeline:
                 if block.get("type") == "INFO":
                     info_sections.add(sid)
         
-        # DEBUG: Log what INFO sections were found
-        print(f"[VALIDATION DEBUG] Found {len(info_sections)} INFO sections: {info_sections}")
-        print(f"[VALIDATION DEBUG] Total sections in index: {len(section_index)}")
-        
         validated_refs = []
         
         for ref in reference_map:
@@ -268,9 +259,6 @@ class ContractPipeline:
             target_clause = ref.get("target_clause")
             target_header = ref.get("target_header", "")
             source_context = ref.get("source_context", "").lower()
-            
-            # DEBUG: Log each reference being validated
-            print(f"[VALIDATION DEBUG] Checking ref: target_id={target_id}, is INFO? {target_id in info_sections if target_id else 'N/A'}")
             
             # Preserve judge verdict (if present)
             judge_verdict = "ACCEPT" if ref.get("is_valid", True) else "REJECT"
@@ -281,12 +269,26 @@ class ContractPipeline:
                 # Skip adding to validated_refs - self-references are not shown
                 continue
             
+            
             # Initialize system verdict
             system_verdict = None
             system_reason = None
             
+            # SYSTEM CHECK 0: Target ID must be present
+            if not target_id:
+                system_verdict = "REJECT"
+                system_reason = "No target section ID provided"
+                
+                ref["system_verdict"] = system_verdict
+                ref["system_reason"] = system_reason
+                ref["judge_verdict"] = judge_verdict
+                ref["is_valid"] = False
+                ref["invalid_reason"] = system_reason
+                validated_refs.append(ref)
+                continue
+            
             # SYSTEM CHECK 1: Target must exist
-            if target_id and target_id not in section_index:
+            if target_id not in section_index:
                 system_verdict = "REJECT"
                 system_reason = f"Section '{target_id}' does not exist in document"
                 
@@ -298,24 +300,15 @@ class ContractPipeline:
                 validated_refs.append(ref)
                 continue
             
+            # Clean IDs
+            if target_id and isinstance(target_id, str):
+                target_id = target_id.strip()
+            
             # SYSTEM CHECK 2: Target cannot be TOC (type="INFO")
+            # Strict architectural check - reliance on upstream parser typing
             if target_id and target_id in info_sections:
                 system_verdict = "REJECT"
                 system_reason = f"Target '{target_id}' is Table of Contents/Index, not substantive content"
-                
-                ref["system_verdict"] = system_verdict
-                ref["system_reason"] = system_reason
-                ref["judge_verdict"] = judge_verdict
-                ref["is_valid"] = False
-                ref["invalid_reason"] = system_reason
-                validated_refs.append(ref)
-                continue
-            
-            # SYSTEM CHECK 2b: Target header contains placeholder phrases
-            placeholder_phrases = ["to be removed", "tbd", "to be determined", "placeholder", "[x]", "xxx"]
-            if target_header and any(phrase in target_header.lower() for phrase in placeholder_phrases):
-                system_verdict = "REJECT"
-                system_reason = f"Target header contains placeholder: '{target_header}'"
                 
                 ref["system_verdict"] = system_verdict
                 ref["system_reason"] = system_reason
@@ -380,6 +373,87 @@ class ContractPipeline:
             ref["system_verdict"] = system_verdict
             
             validated_refs.append(ref)
+        
+        # COMPREHENSIVE VALIDATION REPORT
+        print("\n" + "="*80)
+        print("VALIDATION REPORT")
+        print("="*80)
+        
+        # Document Structure Summary
+        print(f"\n📋 DOCUMENT STRUCTURE:")
+        print(f"  Total sections indexed: {len(section_index)}")
+        type_counts = {}
+        for sid, info in section_index.items():
+            stype = info.get("type", "UNKNOWN")
+            type_counts[stype] = type_counts.get(stype, 0) + 1
+        for stype, count in sorted(type_counts.items()):
+            print(f"    {stype}: {count} sections")
+        
+        # INFO Sections Detail
+        print(f"\n📑 INFO SECTIONS (TOC/Index - {len(info_sections)} found):")
+        if info_sections:
+            for sid in sorted(info_sections):
+                header = section_index.get(sid, {}).get("header", "NO HEADER")
+                print(f"    {sid}: {header}")
+        else:
+            print("    (None found)")
+        
+        # Validation Results Summary
+        print(f"\n✓ VALIDATION RESULTS:")
+        print(f"  Total references validated: {len(validated_refs)}")
+        valid_count = sum(1 for r in validated_refs if r.get("is_valid") != False)
+        invalid_count = len(validated_refs) - valid_count
+        print(f"    Valid: {valid_count}")
+        print(f"    Invalid: {invalid_count}")
+        
+        # Invalid References Breakdown
+        if invalid_count > 0:
+            print(f"\n❌ INVALID REFERENCES BREAKDOWN:")
+            rejection_reasons = {}
+            info_targets = []
+            info_target_details = []
+            for r in validated_refs:
+                if r.get("is_valid") == False:
+                    reason = r.get("system_reason") or r.get("invalid_reason", "Unknown")
+                    rejection_reasons[reason] = rejection_reasons.get(reason, 0) + 1
+                    target = r.get("target_section_id") or r.get("target_id")
+                    if target and target in info_sections:
+                        info_targets.append(f"{r.get('source_context', 'N/A')[:50]} → {target}")
+                        info_target_details.append({
+                            "source": r.get("source_id"),
+                            "target": target,
+                            "context": r.get("source_context", "")[:80]
+                        })
+            
+            for reason, count in sorted(rejection_reasons.items(), key=lambda x: -x[1]):
+                print(f"    {count}x: {reason}")
+            
+            if info_targets:
+                print(f"\n  ⚠️ References targeting INFO sections ({len(info_targets)}):")
+                for ref_detail in info_targets[:10]:  # Show first 10
+                    print(f"      {ref_detail}")
+                if len(info_targets) > 10:
+                    print(f"      ... and {len(info_targets) - 10} more")
+            
+            # Also check: did LLM output any INFO targets that WEREN'T caught?
+            llm_info_targets = []
+            for r in validated_refs:
+                target = r.get("target_section_id") or r.get("target_id")
+                if target and target in info_sections and r.get("is_valid") != False:
+                    llm_info_targets.append({
+                        "target": target,
+                        "is_valid": r.get("is_valid"),
+                        "source": r.get("source_id"),
+                        "context": r.get("source_context", "")[:60]
+                    })
+            
+            if llm_info_targets:
+                print(f"\n  🚨 VALIDATOR FAILURE - INFO targets NOT rejected ({len(llm_info_targets)}):")
+                for item in llm_info_targets:
+                    print(f"      {item['source']} → {item['target']} [is_valid={item['is_valid']}]")
+                    print(f"        Context: {item['context']}")
+        
+        print("="*80 + "\n")
         
         return validated_refs
 

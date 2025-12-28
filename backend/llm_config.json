@@ -34,7 +34,7 @@
             "name": "Contract Profiler Judge",
             "model": "gemini-2.5-flash",
             "temperature": 0.0,
-            "max_output_tokens": 8192,
+            "max_output_tokens": 65536,
             "prompt_file": "prompts/judge_profiler.txt"
         },
         "DICTIONARY_WORKER": {
@@ -48,7 +48,7 @@
             "name": "Glossary Harvester Judge",
             "model": "gemini-2.5-flash",
             "temperature": 0.0,
-            "max_output_tokens": 8192,
+            "max_output_tokens": 65536,
             "prompt_file": "prompts/judge_glossary.txt"
         },
         "LABELER_WORKER": {
@@ -62,7 +62,7 @@
             "name": "Clause Labeler Judge",
             "model": "gemini-2.5-flash",
             "temperature": 0.0,
-            "max_output_tokens": 8192,
+            "max_output_tokens": 65536,
             "prompt_file": "prompts/judge_labeler.txt"
         },
         "RETRY_STRATEGY": {

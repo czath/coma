@@ -1,0 +1,170 @@
+Source Log: C:\Users\czoumber\.gemini\antigravity\scratch\coma\backend\debug_logs\profiler_job_contract_d48e8c8e-030d-4c82-942c-f5cf8579867c_1766946580_20251228_202941.json
+Total Candidates: 80
+Passed Stage 3: 47
+Rejected in Stage 3: 33
+
+RECORD #1:
+  Source ID: h_1
+  Source Verbatim: 1.	DEFINITIONS	3
+  Target ID: c_1
+----------------------------------------
+RECORD #2:
+  Source ID: h_1
+  Source Verbatim: 2.	PURPOSE OF THIS AGREEMENT	6
+  Target ID: c_2
+----------------------------------------
+RECORD #3:
+  Source ID: h_1
+  Source Verbatim: 3.	CUSTOMER PROJECTS AND STATEMENTS OF WORK	6
+  Target ID: c_3
+----------------------------------------
+RECORD #4:
+  Source ID: h_1
+  Source Verbatim: 4.	GRANT OF LICENSES AND OTHER RIGHTS	7
+  Target ID: c_4
+----------------------------------------
+RECORD #5:
+  Source ID: h_1
+  Source Verbatim: 5.	DELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES	8
+  Target ID: c_5
+----------------------------------------
+RECORD #6:
+  Source ID: h_1
+  Source Verbatim: 6.	ORDERING PROCEDURE	9
+  Target ID: c_6
+----------------------------------------
+RECORD #7:
+  Source ID: h_1
+  Source Verbatim: 7.	INITIAL TESTING AND ACCEPTANCE	9
+  Target ID: c_7
+----------------------------------------
+RECORD #8:
+  Source ID: h_1
+  Source Verbatim: 8.	DOCUMENTATION	10
+  Target ID: c_8
+----------------------------------------
+RECORD #9:
+  Source ID: h_1
+  Source Verbatim: 9.	PAYMENTS	10
+  Target ID: c_9
+----------------------------------------
+RECORD #10:
+  Source ID: h_1
+  Source Verbatim: 10.	WARRANTIES	11
+  Target ID: c_10
+----------------------------------------
+RECORD #11:
+  Source ID: h_1
+  Source Verbatim: 11.	OPEN SOURCE SOFTWARE	12
+  Target ID: c_11
+----------------------------------------
+RECORD #12:
+  Source ID: h_1
+  Source Verbatim: 12.	INTELLECTUAL PROPERTY RIGHTS	12
+  Target ID: c_12
+----------------------------------------
+RECORD #13:
+  Source ID: h_1
+  Source Verbatim: 13.	PRODUCT LIABILITY	14
+  Target ID: c_13
+----------------------------------------
+RECORD #14:
+  Source ID: h_1
+  Source Verbatim: 14.	QUALITY ASSURANCE; SECURITY REQUIREMENTS	14
+  Target ID: c_14
+----------------------------------------
+RECORD #15:
+  Source ID: h_1
+  Source Verbatim: 15.	COMPLIANCE AND ETHICS	15
+  Target ID: c_15
+----------------------------------------
+RECORD #16:
+  Source ID: h_1
+  Source Verbatim: 16.	MAINTENANCE AND SUPPORT	17
+  Target ID: c_16
+----------------------------------------
+RECORD #17:
+  Source ID: h_1
+  Source Verbatim: 17.	CONFIDENTIALITY	17
+  Target ID: c_17
+----------------------------------------
+RECORD #18:
+  Source ID: h_1
+  Source Verbatim: 18.	TERM AND TERMINATION	18
+  Target ID: c_18
+----------------------------------------
+RECORD #19:
+  Source ID: h_1
+  Source Verbatim: 19.	EFFECT OF TERMINATION	18
+  Target ID: c_19
+----------------------------------------
+RECORD #20:
+  Source ID: h_1
+  Source Verbatim: 20.	FORCE MAJEURE	18
+  Target ID: c_20
+----------------------------------------
+RECORD #21:
+  Source ID: h_1
+  Source Verbatim: 21.	EXPORT CONTROL AND CUSTOMS REQUIREMENTS	19
+  Target ID: c_21
+----------------------------------------
+RECORD #22:
+  Source ID: h_1
+  Source Verbatim: 22.	LIMITATION OF LIABILITY AND INSURANCE	20
+  Target ID: c_22
+----------------------------------------
+RECORD #23:
+  Source ID: h_1
+  Source Verbatim: 23.	SUBCONTRACTORS	20
+  Target ID: c_23
+----------------------------------------
+RECORD #24:
+  Source ID: h_1
+  Source Verbatim: 24.	DATA PROTECTION	20
+  Target ID: c_24
+----------------------------------------
+RECORD #25:
+  Source ID: h_1
+  Source Verbatim: 25.	FINAL PROVISIONS	21
+  Target ID: c_25
+----------------------------------------
+RECORD #26:
+  Source ID: h_2
+  Source Verbatim: Product Appendix (“PA”)
+  Target ID: a_1
+----------------------------------------
+RECORD #27:
+  Source ID: h_2
+  Source Verbatim: Maintenance and Support Agreement (“MSA”)
+  Target ID: a_3
+----------------------------------------
+RECORD #28:
+  Source ID: h_2
+  Source Verbatim: Insurance Requirements
+  Target ID: UNKNOWN
+----------------------------------------
+RECORD #29:
+  Source ID: h_2
+  Source Verbatim: Template: Statement of Work (“SOW”)
+  Target ID: UNKNOWN
+----------------------------------------
+RECORD #30:
+  Source ID: h_2
+  Source Verbatim: Security Requirements
+  Target ID: UNKNOWN
+----------------------------------------
+RECORD #31:
+  Source ID: h_2
+  Source Verbatim: US Specific Provisions
+  Target ID: UNKNOWN
+----------------------------------------
+RECORD #32:
+  Source ID: h_2
+  Source Verbatim: Data Protection Appendix
+  Target ID: UNKNOWN
+----------------------------------------
+RECORD #33:
+  Source ID: h_2
+  Source Verbatim: The Supplier and Zebracorp desire that the Supplier provides certain software products and services to Zebracorp and its customers, including Software as a Service (“SaaS”), as further described in and pursuant to the Software as a Service Appendix to this Agreement.
+  Target ID: UNKNOWN
+----------------------------------------

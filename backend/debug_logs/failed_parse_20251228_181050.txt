@@ -1,0 +1,13 @@
+Response length: 135589
+First 1000 chars:
+```json
+{
+  "candidate_references": [
+    {
+      "source_id": "h_1",
+      "source_verbatim": "1.\tDEFINITIONS\t3",
+      "target_id": "c_1",
+      "target_verbatim": "c_1 1.\tDEFINITIONS\nFor the purposes of this Agreement, the capitalized terms below shall have the following meanings:\n\u201cAffiliate\u201d of a Party shall mean an entity:\n(i) \twhich is directly or indirectly controlling such Party;\n(ii) \twhich is under the same direct or indirect ownership or control as such Party; or\n(iii)\twhich is directly or indirectly owned or controlled by such Party.\nFor these purposes, an entity shall be treated as being controlled by another if that other entity has fifty percent (50 %) or more of votes in such entity, is able to direct its affairs and/or to control the composition of its board of directors or equivalent body.\n\u201cAgreement\u201d shall mean this Software License Agreement for Applications including all Appendices and any other document specifically incorporated he
+
+Last 1000 chars:
+ as reasonably requested by the Supplier. Provided, however, that if the infringement relates to Results of Service, Supplier is only required to indemnify Zebracorp if the alleged infringement is related to Supplier\u2019s work on the Results of Service.\n12.5\tNotwithstanding the Supplier's primary right to have control over defense, Zebracorp may take all necessary steps, at the expense of the Supplier, to defend itself until the Supplier, to the reasonable satisfaction of Zebracorp, assigns a counsel and initiates defense in a professional manner.\n12.6\tIn addition to what is set forth above in Clause 12.5, if Zebracorp's continued use of the Licensed Product, the SaaS and/or the Results of Services is restricted or threatened to be restricted as a result of any such claim, demand, suit or action alleging infringement, the Supplier shall (without limiting its indemnity obligation above) at its expense and at Zebracorp's request either (1) modify the Licensed Product, the SaaS and/

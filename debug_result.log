@@ -1,0 +1,10 @@
+DEBUG: Matched Strategy 1: '1. definitions'
+[test_job] Target section not found: c_1 (will mark as invalid)
+DEBUG: Matched Strategy 1: '1. definitions'
+[test_job] Target section not found: c_1 (will mark as invalid)
+[test_job] Target section not found: c_1 (will mark as invalid)
+
+--- TEST RESULTS ---
+[ERROR] Scenario A (Dots+Page) not found in output?
+[ERROR] Scenario B (Title Clean) not found in output?
+[ERROR] Scenario C (Existing Exact) not found in output?
