@@ -584,15 +584,9 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                             {/* TIER 1: HEADER & STATUS */}
                                             <div className="flex items-center justify-between mb-3">
                                                 <div className="flex items-center gap-3">
-                                                    <div className={`p-1.5 rounded-md ${ref.type === 'APPENDIX' ? 'bg-blue-50 text-blue-600' :
-                                                        ref.type === 'EXTERNAL_REFERENCE_MATERIAL' ? 'bg-teal-50 text-teal-600' :
-                                                            'bg-gray-50 text-gray-500'}`}>
+                                                    <div className="p-1.5 rounded-md bg-gray-50 text-gray-500">
                                                         <Link2 size={16} />
                                                     </div>
-                                                    <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${ref.type === 'APPENDIX' ? 'bg-blue-50 text-blue-700 border-blue-100' :
-                                                        ref.type === 'EXTERNAL_REFERENCE_MATERIAL' ? 'bg-teal-50 text-teal-700 border-teal-100' :
-                                                            'bg-gray-50 text-gray-600 border-gray-200'
-                                                        }`}>{ref.type}</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     {/* Status Badge - Smaller */}
@@ -609,13 +603,13 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                                                 {/* Source Column */}
                                                 <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/source">
-                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">Source Context</span>
+                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">Ref Source</span>
                                                     <p className="text-xs text-gray-800 font-medium leading-relaxed pr-8 line-clamp-2">
-                                                        "{ref.source_context || ref.ref_text || "Metadata Only"}"
+                                                        "{ref.source_context || "Metadata Only"}"
                                                     </p>
-                                                    {(ref.source_context || ref.ref_text) && (
+                                                    {ref.source_context && (
                                                         <button
-                                                            onClick={() => handleViewContext(ref.source_context || ref.ref_text, "Source Citation")}
+                                                            onClick={() => handleViewContext(ref.source_context, "Source Citation")}
                                                             className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/source:opacity-100"
                                                             title="Jump to Source"
                                                         >
@@ -627,7 +621,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 {/* Target Column - Show validation details if invalid */}
                                                 <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/target">
                                                     <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">
-                                                        {ref.is_valid !== false ? 'Target Definition' : 'Invalid Reference'}
+                                                        {ref.is_valid !== false ? 'Ref Target' : 'Invalid Reference'}
                                                     </span>
 
                                                     {ref.is_valid !== false ? (
@@ -690,15 +684,40 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                         </div>
                                                     )}
 
-                                                    {ref.target_header && ref.is_valid !== false && (
+
+                                                    {ref.is_valid !== false && (ref.target_id || ref.target_header) && (
                                                         <button
-                                                            onClick={() => handleViewContext(ref.target_header, "Target Section")}
+                                                            onClick={() => {
+                                                                const targetId = ref.target_id || ref.target_section_id;
+                                                                if (targetId && file.content) {
+                                                                    // Find the ONE block with this ID (IDs are unique)
+                                                                    const targetBlock = file.content.find(b => b.id === targetId);
+
+                                                                    if (targetBlock) {
+                                                                        // Display this block's content directly
+                                                                        setContextData({
+                                                                            type: 'CITATION',
+                                                                            citation: ref.target_header || targetId,
+                                                                            fullText: targetBlock.text || "",
+                                                                            sourceTitle: targetBlock.header || ref.target_header || targetId
+                                                                        });
+                                                                        setContextSidePaneOpen(true);
+                                                                    } else {
+                                                                        // ID not found, fallback to header search
+                                                                        handleViewContext(ref.target_header, "Target Section");
+                                                                    }
+                                                                } else if (ref.target_header) {
+                                                                    // No ID, use header search
+                                                                    handleViewContext(ref.target_header, "Target Section");
+                                                                }
+                                                            }}
                                                             className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/target:opacity-100"
                                                             title="Jump to Target"
                                                         >
                                                             <Search size={14} />
                                                         </button>
                                                     )}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -868,12 +887,64 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                             {/* TRACE TAB */}
                             {activeTab === "traces" && (
-                                <div className="relative h-full">
-                                    <pre className="p-6 text-xs text-gray-700 font-mono overflow-auto h-full bg-gray-50 selection:bg-indigo-100">
-                                        {trace ? JSON.stringify(trace, null, 2) : "No trace execution data available."}
-                                    </pre>
+                                <div className="h-full flex flex-col overflow-hidden">
+                                    {/* Rejected References Section */}
+                                    {trace?.rejected_map && trace.rejected_map.length > 0 && (
+                                        <div className="border-b border-gray-200 bg-amber-50">
+                                            <div className="p-4 border-b border-amber-100 bg-amber-100">
+                                                <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2">
+                                                    <XCircle size={16} className="text-amber-700" />
+                                                    Rejected References ({trace.rejected_map.length})
+                                                </h3>
+                                                <p className="text-xs text-amber-700 mt-1">References that were extracted but failed validation</p>
+                                            </div>
+                                            <div className="max-h-96 overflow-y-auto">
+                                                {trace.rejected_map.map((rej, idx) => (
+                                                    <div key={idx} className="p-4 border-b border-amber-100 hover:bg-amber-100/50 transition-colors">
+                                                        <div className="flex items-start gap-3">
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="flex items-center gap-2 mb-2">
+                                                                    <span className="px-2 py-0.5 rounded text-xs font-bold bg-gray-800 text-white">
+                                                                        {rej.candidate?.source_id || 'unknown'}
+                                                                    </span>
+                                                                    <span className="text-gray-400">→</span>
+                                                                    <span className="px-2 py-0.5 rounded text-xs font-bold bg-gray-600 text-white">
+                                                                        {rej.candidate?.target_id || 'unknown'}
+                                                                    </span>
+                                                                    <span className={`ml-auto px-2 py-0.5 rounded text-xs font-bold ${rej.code === 'TARGET_VERBATIM_MISMATCH' ? 'bg-red-100 text-red-700' :
+                                                                            rej.code === 'SOURCE_VERBATIM_MISMATCH' ? 'bg-orange-100 text-orange-700' :
+                                                                                'bg-gray-100 text-gray-700'
+                                                                        }`}>
+                                                                        {rej.code}
+                                                                    </span>
+                                                                </div>
+                                                                <p className="text-xs text-amber-800 font-medium mb-1">{rej.reason}</p>
+                                                                {rej.candidate?.source_verbatim && (
+                                                                    <div className="mt-2 text-xs text-gray-600 bg-white/50 p-2 rounded border border-amber-200">
+                                                                        <span className="font-bold text-gray-700">Source: </span>
+                                                                        "{rej.candidate.source_verbatim.substring(0, 120)}{rej.candidate.source_verbatim.length > 120 ? '...' : ''}"
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Raw Trace Data */}
+                                    <div className="flex-1 overflow-auto bg-gray-50">
+                                        <div className="p-4 border-b border-gray-200 bg-gray-100">
+                                            <h4 className="text-xs font-bold text-gray-600 uppercase tracking-wider">Full Trace Data</h4>
+                                        </div>
+                                        <pre className="p-6 text-xs text-gray-700 font-mono selection:bg-indigo-100">
+                                            {trace ? JSON.stringify(trace, null, 2) : "No trace execution data available."}
+                                        </pre>
+                                    </div>
                                 </div>
                             )}
+
                         </div>
                     </div>
                 </div>
