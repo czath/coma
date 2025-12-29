@@ -773,19 +773,33 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                         <div className="flex-1 flex flex-col gap-4 overflow-hidden">
                                             <div className="bg-transparent sticky top-0 z-10 pb-2">
                                                 <div className="flex items-center justify-between mb-3 px-1">
-                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Source Sections</h4>
-                                                    {selectedTarget && <span className="text-[9px] font-bold text-indigo-600 bg-white px-2 py-0.5 rounded-full shadow-sm border border-indigo-100 italic">Refs to {selectedTarget}</span>}
+                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Referencing Sources</h4>
                                                 </div>
                                                 <div className="relative group">
                                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300 group-focus-within:text-indigo-500 transition-colors" />
                                                     <input
                                                         type="text"
-                                                        placeholder="Filter sources..."
+                                                        placeholder="Filter referencing sources..."
                                                         value={sourceSearch}
                                                         onChange={(e) => setSourceSearch(e.target.value)}
-                                                        className="w-full bg-white border border-slate-200 rounded-2xl py-2.5 pl-10 pr-4 text-xs font-medium focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all outline-none shadow-sm"
+                                                        className="w-full bg-white border border-slate-200 rounded-2xl py-2.5 pl-10 pr-10 text-xs font-medium focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all outline-none shadow-sm"
                                                     />
+                                                    {sourceSearch && (
+                                                        <button
+                                                            onClick={() => setSourceSearch('')}
+                                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 transition-all"
+                                                        >
+                                                            <X size={14} />
+                                                        </button>
+                                                    )}
                                                 </div>
+                                                {selectedTarget && (
+                                                    <div className="mt-2 px-1">
+                                                        <span className="text-[9px] font-bold text-indigo-600 bg-white px-2 py-1 rounded-full shadow-sm border border-indigo-100 italic">
+                                                            References to {selectedTarget}
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </div>
 
                                             <div className="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-6">
@@ -799,14 +813,13 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                             key={s}
                                                             onClick={() => selectSource(s)}
                                                             className={`rounded-[24px] transition-all cursor-pointer border-2 ${isSelected
-                                                                ? 'bg-indigo-50 border-indigo-600 shadow-xl shadow-indigo-100/50 z-10 scale-[1.01]'
-                                                                : 'bg-white border-white hover:border-slate-200 shadow-sm'
+                                                                ? 'bg-indigo-50 border-indigo-600 shadow-xl shadow-indigo-100/50 z-10'
+                                                                : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
                                                                 }`}
                                                         >
                                                             <div className="p-5">
                                                                 <div className="flex justify-between items-center mb-1">
                                                                     <span className={`text-[11px] font-black uppercase tracking-tight ${isSelected ? 'text-indigo-700' : 'text-slate-900'}`}>{s}</span>
-                                                                    {isSelected ? <CheckCircle2 size={16} className="text-indigo-600" /> : (isContextuallyExpanded ? <ChevronDown size={16} className="text-indigo-400" /> : <ChevronRight size={16} className="text-slate-200 group-hover:text-slate-400" />)}
                                                                 </div>
                                                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{isSelected ? 'Active Focus' : `Connects to ${selectedTarget || 'Targets'}`}</p>
                                                             </div>
@@ -815,20 +828,24 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                 <div className="px-5 pb-5 pt-2 border-t border-indigo-100/50 bg-indigo-50/30 rounded-b-[24px] animate-in slide-in-from-top-2 duration-300">
                                                                     <div className="space-y-3">
                                                                         {refsForThisSelection.map((r, i) => (
-                                                                            <div key={i} className="p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm relative group/ref">
+                                                                            <div key={i} className="p-4 bg-indigo-50 rounded-2xl border border-indigo-200 shadow-sm relative group/ref">
                                                                                 <div className="flex items-center justify-between mb-3">
                                                                                     <div className="flex items-center gap-2">
                                                                                         <div className={`w-2 h-2 rounded-full ${r.is_valid !== false ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
-                                                                                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{r.is_valid !== false ? 'Verified Reference' : 'Broken Link'}</span>
                                                                                     </div>
                                                                                     <button
                                                                                         onClick={(e) => { e.stopPropagation(); setVerbatimRef(r); }}
-                                                                                        className="p-2 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                                                                                        className="p-2.5 rounded-xl bg-indigo-100 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-md border border-indigo-200"
                                                                                     >
-                                                                                        <ZoomIn size={14} />
+                                                                                        <ZoomIn size={18} />
                                                                                     </button>
                                                                                 </div>
                                                                                 <p className="text-[12px] text-slate-600 font-medium leading-relaxed italic line-clamp-3">"{r.source_context}"</p>
+                                                                                {r.is_valid === false && (
+                                                                                    <p className="mt-2 text-[10px] font-normal text-red-500 flex items-center gap-1">
+                                                                                        {r.invalid_reason || 'Risk detected'}
+                                                                                    </p>
+                                                                                )}
                                                                             </div>
                                                                         ))}
                                                                     </div>
@@ -839,36 +856,44 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 }) : (
                                                     <div className="text-center py-12 text-slate-300">
                                                         <Search size={32} className="mx-auto mb-3 opacity-20" />
-                                                        <p className="text-[10px] font-black uppercase tracking-widest">No Sources Found</p>
+                                                        <p className="text-[10px] font-black uppercase tracking-widest">No Referencing Sources Found</p>
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
 
-                                        {/* Bridge Divider */}
-                                        <div className="w-px h-full bg-slate-200/50 relative flex items-center justify-center shrink-0">
-                                            <div className="p-3 bg-white rounded-[20px] border border-slate-200 text-slate-300 shadow-xl shadow-slate-200/50">
-                                                <Link size={18} />
-                                            </div>
-                                        </div>
 
                                         {/* Target Pillar */}
                                         <div className="flex-1 flex flex-col gap-4 overflow-hidden">
                                             <div className="bg-transparent sticky top-0 z-10 pb-2">
                                                 <div className="flex items-center justify-between mb-3 px-1 flex-row-reverse">
-                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Target Sections</h4>
-                                                    {selectedSource && <span className="text-[9px] font-bold text-indigo-600 bg-white px-2 py-0.5 rounded-full shadow-sm border border-indigo-100 italic">Refs from {selectedSource}</span>}
+                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Referenced Targets</h4>
                                                 </div>
                                                 <div className="relative group">
                                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300 group-focus-within:text-indigo-500 transition-colors" />
                                                     <input
                                                         type="text"
-                                                        placeholder="Filter targets..."
+                                                        placeholder="Filter referenced targets..."
                                                         value={targetSearch}
                                                         onChange={(e) => setTargetSearch(e.target.value)}
-                                                        className="w-full bg-white border border-slate-200 rounded-2xl py-2.5 pl-10 pr-4 text-xs font-medium focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all outline-none shadow-sm text-right"
+                                                        className="w-full bg-white border border-slate-200 rounded-2xl py-2.5 pl-10 pr-10 text-xs font-medium focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all outline-none shadow-sm text-right"
                                                     />
+                                                    {targetSearch && (
+                                                        <button
+                                                            onClick={() => setTargetSearch('')}
+                                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 transition-all"
+                                                        >
+                                                            <X size={14} />
+                                                        </button>
+                                                    )}
                                                 </div>
+                                                {selectedSource && (
+                                                    <div className="mt-2 px-1 text-right">
+                                                        <span className="text-[9px] font-bold text-indigo-600 bg-white px-2 py-1 rounded-full shadow-sm border border-indigo-100 italic">
+                                                            Referenced by {selectedSource}
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </div>
 
                                             <div className="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-6">
@@ -882,14 +907,13 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                             key={t}
                                                             onClick={() => selectTarget(t)}
                                                             className={`rounded-[24px] transition-all cursor-pointer border-2 ${isSelected
-                                                                ? 'bg-indigo-50 border-indigo-600 shadow-xl shadow-indigo-100/50 z-10 scale-[1.01]'
-                                                                : 'bg-white border-white hover:border-slate-200 shadow-sm'
+                                                                ? 'bg-indigo-50 border-indigo-600 shadow-xl shadow-indigo-100/50 z-10'
+                                                                : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
                                                                 }`}
                                                         >
                                                             <div className="p-5">
                                                                 <div className="flex justify-between items-center mb-1 flex-row-reverse">
                                                                     <span className={`text-[11px] font-black uppercase tracking-tight ${isSelected ? 'text-indigo-700' : 'text-slate-900'}`}>{t}</span>
-                                                                    {isSelected ? <CheckCircle2 size={16} className="text-indigo-600" /> : (isContextuallyExpanded ? <ChevronDown size={16} className="text-indigo-400" /> : <ChevronRight size={16} className="text-slate-200 group-hover:text-slate-400" />)}
                                                                 </div>
                                                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-right">{isSelected ? 'Active Focus' : `Referenced by ${selectedSource || 'Sources'}`}</p>
                                                             </div>
@@ -898,25 +922,22 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                 <div className="px-5 pb-5 pt-2 border-t border-indigo-100/50 bg-indigo-50/30 rounded-b-[24px] animate-in slide-in-from-top-2 duration-300">
                                                                     <div className="space-y-3">
                                                                         {refsForThisSelection.map((r, i) => (
-                                                                            <div key={i} className="p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm relative group/ref text-right">
+                                                                            <div key={i} className="p-4 bg-indigo-50 rounded-2xl border border-indigo-200 shadow-sm relative group/ref text-right">
                                                                                 <div className="flex items-center justify-between mb-3 flex-row-reverse">
                                                                                     <div className="flex items-center gap-2 flex-row-reverse">
                                                                                         <div className={`w-2 h-2 rounded-full ${r.is_valid !== false ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
-                                                                                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">
-                                                                                            {r.is_valid !== false ? 'Validated Link' : 'Validation Error'}
-                                                                                        </span>
                                                                                     </div>
                                                                                     <button
                                                                                         onClick={(e) => { e.stopPropagation(); setVerbatimRef(r); }}
-                                                                                        className="p-2 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                                                                                        className="p-2.5 rounded-xl bg-indigo-100 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-md border border-indigo-200"
                                                                                     >
-                                                                                        <ZoomIn size={14} />
+                                                                                        <ZoomIn size={18} />
                                                                                     </button>
                                                                                 </div>
                                                                                 <p className="text-[12px] text-slate-600 font-medium leading-relaxed italic line-clamp-3">"{r.source_context}"</p>
                                                                                 {r.is_valid === false && (
-                                                                                    <p className="mt-2 text-[9px] font-black text-red-500 uppercase tracking-widest flex items-center gap-1 justify-end">
-                                                                                        <AlertTriangle size={10} /> {r.invalid_reason || 'Risk Detected'}
+                                                                                    <p className="mt-2 text-[10px] font-normal text-red-500 flex items-center gap-1 justify-end">
+                                                                                        {r.invalid_reason || 'Risk detected'}
                                                                                     </p>
                                                                                 )}
                                                                             </div>
@@ -929,7 +950,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 }) : (
                                                     <div className="text-center py-12 text-slate-300">
                                                         <Search size={32} className="mx-auto mb-3 opacity-20" />
-                                                        <p className="text-[10px] font-black uppercase tracking-widest">No Targets Found</p>
+                                                        <p className="text-[10px] font-black uppercase tracking-widest">No Referenced Targets Found</p>
                                                     </div>
                                                 )}
                                             </div>
@@ -1237,16 +1258,21 @@ const VerbatimLookupModal = ({ refData, sections, onClose }) => {
     const targetSection = sections?.find(s => s.id === (refData.target_id || refData.target_section_id));
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-            <div className="bg-white rounded-[32px] shadow-2xl w-full max-w-7xl h-[85vh] flex flex-col overflow-hidden border border-slate-200 animate-in zoom-in-95 duration-300">
+        <div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300"
+            onClick={onClose}
+        >
+            <div
+                className="bg-white rounded-[32px] shadow-2xl w-full max-w-7xl h-[85vh] flex flex-col overflow-hidden border border-slate-200 animate-in zoom-in-95 duration-300"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10 shrink-0">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-100">
                             <ZoomIn size={24} />
                         </div>
                         <div>
-                            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Verbatim Context Review</h2>
-                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Dual-Section Evidence Verification</p>
+                            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Source Viewer</h2>
                         </div>
                     </div>
                     <button onClick={onClose} className="w-12 h-12 rounded-2xl hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors">
@@ -1261,9 +1287,6 @@ const VerbatimLookupModal = ({ refData, sections, onClose }) => {
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Source Section</span>
                                 <span className="text-[11px] font-black uppercase text-indigo-600 tracking-tight leading-none">{refData.source_header || refData.source_id}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="px-2 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[9px] font-black uppercase border border-indigo-100">Focal Fragment</span>
                             </div>
                         </div>
                         <div ref={sourceContainerRef} className="flex-1 p-8 overflow-y-auto leading-relaxed text-slate-700 text-sm font-medium">
@@ -1284,9 +1307,6 @@ const VerbatimLookupModal = ({ refData, sections, onClose }) => {
                                 <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Target Section</span>
                                 <span className="text-[11px] font-black uppercase text-purple-600 tracking-tight leading-none">{refData.target_header || refData.target_section_id}</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="px-2 py-1 rounded-full bg-purple-50 text-purple-600 text-[9px] font-black uppercase border border-purple-100">Referenced Goal</span>
-                            </div>
                         </div>
                         <div ref={targetContainerRef} className="flex-1 p-8 overflow-y-auto leading-relaxed text-slate-700 text-sm font-medium">
                             {targetSection ? (
@@ -1299,18 +1319,6 @@ const VerbatimLookupModal = ({ refData, sections, onClose }) => {
                             )}
                         </div>
                     </div>
-                </div>
-
-                <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-between items-center shrink-0">
-                    <div className="flex items-center gap-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-4">
-                        <div className="p-1.5 bg-amber-50 rounded-lg text-amber-500 border border-amber-100">
-                            <AlertTriangle size={14} />
-                        </div>
-                        Always verify against the physical document for audit-grade certainty.
-                    </div>
-                    <button onClick={onClose} className="px-10 py-3 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 active:scale-95">
-                        Finish Review
-                    </button>
                 </div>
             </div>
         </div>
