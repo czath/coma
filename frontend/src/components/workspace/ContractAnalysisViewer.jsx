@@ -544,11 +544,11 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                         <div className="flex justify-center gap-8 mb-4 mt-0">
                             {[
                                 { id: "terms", label: "Key Terms", icon: FileText },
-                                { id: "references", label: "References", icon: Link2 },
                                 { id: "glossary", label: "Glossary", icon: Book },
+                                { id: "sections", label: "Section Tags", icon: List },
+                                { id: "references", label: "References", icon: Link2 },
                                 { id: "flags", label: "Issues", icon: AlertTriangle },
-                                { id: "sections", label: "Analyzed Sections", icon: List },
-                                { id: "traces", label: "Agent Trace", icon: Activity },
+                                { id: "traces", label: "Trace", icon: Activity },
                             ].map(tab => (
                                 <button
                                     key={tab.id}
@@ -746,9 +746,9 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                     {/* L3: Global Filter Bar */}
                                     <div className="p-4 bg-white border-b border-slate-200 shrink-0">
                                         <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Reference Analytics</h3>
-                                            <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
-                                                {filteredRefsForPillars.length} / {result?.reference_map?.length || 0} Visible
+                                            <div></div>
+                                            <span className="text-[10px] font-bold text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
+                                                {filteredRefsForPillars.length} / {result?.reference_map?.length || 0} references
                                             </span>
                                         </div>
                                         <div className="flex gap-2">
@@ -773,7 +773,10 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                         <div className="flex-1 flex flex-col gap-4 overflow-hidden">
                                             <div className="bg-transparent sticky top-0 z-10 pb-2">
                                                 <div className="flex items-center justify-between mb-3 px-1">
-                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Referencing Sources</h4>
+                                                    <div className="flex items-center gap-2">
+                                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Referencing Sources</h4>
+                                                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-bold text-[9px] border border-slate-200">{displaySources.length}</span>
+                                                    </div>
                                                 </div>
                                                 <div className="relative group">
                                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300 group-focus-within:text-indigo-500 transition-colors" />
@@ -867,7 +870,10 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                         <div className="flex-1 flex flex-col gap-4 overflow-hidden">
                                             <div className="bg-transparent sticky top-0 z-10 pb-2">
                                                 <div className="flex items-center justify-between mb-3 px-1 flex-row-reverse">
-                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Referenced Targets</h4>
+                                                    <div className="flex items-center gap-2 flex-row-reverse">
+                                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Referenced Targets</h4>
+                                                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-bold text-[9px] border border-slate-200">{displayTargets.length}</span>
+                                                    </div>
                                                 </div>
                                                 <div className="relative group">
                                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300 group-focus-within:text-indigo-500 transition-colors" />
