@@ -37,7 +37,8 @@ For every field containing an `evidence` list:
 - ❌ Source attribution is wrong (wrong section ID).
 - ❌ Snippet mixed text from multiple sections.
 
-## Remember
-1. **Be strict** - each piece of evidence must be tied to a valid section.
-2. **Check veracity** - exact quotes only.
-3. **No hallucination tolerance**.
+### 4. Special Field Rules
+- **epidemic_failure**: This field refers to **Product Defect Rates** (e.g., >5% failure rate).
+  - ❌ REJECT key phrases: "Force Majeure", "Pandemic", "Disease", "Covid-19".
+  - If the extracted text refers to Acts of God/Disease → `is_valid: false`.
+

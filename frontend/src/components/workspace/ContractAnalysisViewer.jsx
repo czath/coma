@@ -146,7 +146,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
     // --- CONTEXT VIEWER LOGIC ---
     const handleViewContext = (citationOrTerm, title = "Reference", mode = "CITATION", extraData = {}) => {
-        if (!citationOrTerm || !file.content) return;
+        // Robust check: allow either file.content OR result.sections (contract analysis model)
+        if (!citationOrTerm || (!file.content && !result?.sections)) return;
 
         if (mode === 'MATCHES') {
             setContextData({
@@ -623,7 +624,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                                                                         {item.evidence?.length > 0 && (
                                                                             <button
-                                                                                onClick={() => handleViewContext(displayValue, key.replace(/_/g, " "), 'CITATION', item)}
+                                                                                onClick={() => handleViewContext(punchline, key.replace(/_/g, " "), 'CITATION', item)}
                                                                                 className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
                                                                             >
                                                                                 <Eye size={12} /> View Context
@@ -661,7 +662,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                 onClose={() => setContextSidePaneOpen(false)}
                                 title={contextData?.sourceTitle || "Context"}
                                 contextData={contextData}
-                                fileContent={file.content}
+                                fileContent={file.content || result?.sections || []}
                             />
 
                             {/* REFERENCES TAB */}

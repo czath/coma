@@ -40,7 +40,7 @@ for all the below fields provide layman summaries
 - **`termination`**: Style: **Layman Summary**
 - **`indemnification`**: Style: **Layman Summary**
 - **`limitation_of_liability`**: Style: **Layman Summary**
-- **`epidemic_failure`**: Style: **Layman Summary**
+- **`epidemic_failure`**: Style: **Layman Summary** (caution: epidemic failure is NOT related to epidemics covered by force majeure!)
 
 # FORMATTING LOGIC
 1. **DETERMINE STYLE**: For each field above, check if it requires a "Layman Summary" or "Strict Verbatim".

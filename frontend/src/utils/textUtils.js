@@ -13,22 +13,66 @@ export const normalizeText = (str) => {
 /**
  * Creates a professional-grade flexible regex from a citation string.
  */
+/**
+ * Creates a professional-grade flexible regex from a citation string.
+ * NOW RESILIENT: Ignores minor punctuation differences.
+ */
 export const createFlexibleRegex = (text) => {
     if (!text) return null;
     const cleanText = text.trim();
     const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    const escapedParts = cleanText
-        .split(/[\s\n\u00A0]+/)
-        .filter(part => part.length > 0)
-        .map(part => escapeRegExp(part));
+    // Split by non-word characters (whitespace, punctuation) to get pure "words"
+    const parts = cleanText.split(/[\W_]+/).filter(part => part.length > 0);
 
-    let pattern = escapedParts.join("[\\s\\n\\u00A0]+");
+    if (parts.length === 0) return null;
 
+    const escapedParts = parts.map(part => escapeRegExp(part));
+
+    // Match any sequence of non-word chars (whitespace, punctuation, etc.) between words
+    // Allow 1+ non-word characters
+    let pattern = escapedParts.join("[\\W_]+");
+
+    // Boundary checks (start/end of word)
+    // If the original text started/ended with a word char, enforce boundary
     if (/^\w/.test(cleanText)) pattern = `\\b${pattern}`;
     if (/\w$/.test(cleanText)) pattern = `${pattern}\\b`;
 
     return new RegExp(pattern, 'gi');
+};
+
+/**
+ * Helper: Find sentence boundaries around a match index.
+ */
+const expandToSentence = (text, start, end) => {
+    if (!text) return { start, end };
+
+    // Look backwards for sentence end (. ? !) or newline
+    let newStart = start;
+    while (newStart > 0) {
+        const char = text[newStart - 1];
+        if (/[.?!]/.test(char) || char === '\n') {
+            break;
+        }
+        newStart--;
+    }
+    // Trim leading whitespace from expansion
+    while (newStart < start && /\s/.test(text[newStart])) {
+        newStart++;
+    }
+
+    // Look forwards for sentence end
+    let newEnd = end;
+    while (newEnd < text.length) {
+        const char = text[newEnd];
+        if (/[.?!]/.test(char) || char === '\n') {
+            newEnd++; // Include the punctuation
+            break;
+        }
+        newEnd++;
+    }
+
+    return { start: newStart, end: newEnd };
 };
 
 /**
@@ -79,7 +123,7 @@ export const findCitationInSections = (sections, citation) => {
 
 /**
  * Splits text into highlight segments.
- * Now with ROBUST FALLBACK for fuzzy citations.
+ * Now with SENTENCE EXPANSION and REFINED FALLBACK.
  */
 export const getHighlightSegments = (text, term, def, activeIndex = 0) => {
     if (!text) return [];
@@ -101,40 +145,54 @@ export const getHighlightSegments = (text, term, def, activeIndex = 0) => {
         let m;
         let count = 0;
         while ((m = termRegex.exec(text)) !== null) {
+            // [NEW] SENTENCE EXPANSION
+            // Expand the match to cover the full sentence
+            const { start, end } = expandToSentence(text, m.index, m.index + m[0].length);
+
             termRanges.push({
-                start: m.index,
-                end: m.index + m[0].length,
+                start: start,
+                end: end,
                 type: 'TERM',
                 isActive: count === activeIndex,
-                index: count
+                index: count,
+                isExpanded: true
             });
             count++;
         }
     }
 
-    // --- NEW: ROBUST ANCHORED MATCHING FALLBACK ---
-    // If no ranges found for the term, try matching "anchors" (word chunks)
+    // --- REFINED: ROBUST ANCHORED MATCHING FALLBACK ---
+    // Only if main regex failed completely
     if (term && termRanges.length === 0) {
-        const words = term.split(/[\s\n\u00A0]+/).filter(w => w.length > 2);
+        const words = term.split(/[\W_]+/).filter(w => w.length > 3); // Increased min word length to 4 chars
 
         if (words.length > 0) {
-            // Strategy: Create anchors of 3-4 words each
+            // Strategy: Create anchors of 4-5 words each (Larger anchors)
             const anchors = [];
-            for (let i = 0; i < words.length; i += 3) {
-                anchors.push(words.slice(i, i + 3).join(" "));
+            for (let i = 0; i < words.length; i += 4) {
+                // Ensure anchor is long enough to be unique-ish
+                const chunk = words.slice(i, i + 4);
+                if (chunk.join(" ").length > 15) { // Min valid anchor char length
+                    anchors.push(chunk.join(" "));
+                }
             }
 
             anchors.forEach((anchor, anchorIdx) => {
                 const ar = createFlexibleRegex(anchor);
                 if (ar) {
                     let m;
+                    // We only want the BEST match for anchors, not scattered ones.
+                    // But anchors are partial. Let's just find the first occurrence of each anchor
+                    // and verify proximity? Too complex for client.
+                    // Simpler: Just highlight the anchors but DO NOT EXPAND scattered ones.
+                    // And DO NOT mark them all 'active' aggressively.
                     while ((m = ar.exec(text)) !== null) {
                         termRanges.push({
                             start: m.index,
                             end: m.index + m[0].length,
                             type: 'TERM',
-                            isActive: true, // For anchors, we treat all as active to show the "coverage"
-                            index: anchorIdx
+                            isActive: false, // Scattered anchors are passive context
+                            index: -1 // Ignored for navigation usually
                         });
                     }
                 }
