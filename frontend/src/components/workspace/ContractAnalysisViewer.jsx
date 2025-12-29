@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark, Store, Building, MapPin, Maximize2, X, ChevronDown, ChevronUp, Check, ArrowRightLeft } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark, Store, Building, MapPin, Maximize2, X, ChevronDown, ChevronUp, Check, ArrowRightLeft, ZoomIn, CheckCircle2, Link, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BillingCard from '../BillingCard';
 import ContextSidePane from '../workspace/ContextSidePane';
@@ -16,13 +16,72 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     const [glossarySort, setGlossarySort] = useState('alpha');
     const [referenceFilter, setReferenceFilter] = useState('all'); // all, valid, invalid, self-ref
 
+    // NEW PRECISE TWIN PILLAR STATES
+    const [selectedSource, setSelectedSource] = useState(null);
+    const [selectedTarget, setSelectedTarget] = useState(null);
+    const [sourceSearch, setSourceSearch] = useState('');
+    const [targetSearch, setTargetSearch] = useState('');
+    const [verbatimRef, setVerbatimRef] = useState(null);
+
     // Extract results from file object
     // Expecting: file.contract_analyzed_content (analysis result)
     // Expecting: file.contract_trace_content (trace)
     let result = file?.contract_analyzed_content;
     const trace = file?.contract_trace_content;
 
-    // MOCK DATA for UI testing
+    // --- TWIN PILLAR LOGIC ---
+    // Helper to get display header
+    const getSourceHeader = (ref) => ref.source_header || ref.source_id || "Unknown Source";
+    const getTargetHeader = (ref) => ref.target_header || ref.target_section_id || "Unknown Target";
+
+    // Filter references based on global status filter (L3)
+    const filteredRefsForPillars = (result?.reference_map || []).filter(ref => {
+        if (referenceFilter === 'all') return true;
+        if (referenceFilter === 'valid') return ref.is_valid !== false;
+        if (referenceFilter === 'invalid') return ref.is_valid === false;
+        if (referenceFilter === 'self-ref') return ref.is_self_reference;
+        return true;
+    });
+
+    // Deduplicate Source and Target lists for pillars (and apply L4 search)
+    let displaySources = Array.from(new Set(filteredRefsForPillars.map(getSourceHeader)))
+        .filter(s => s.toLowerCase().includes(sourceSearch.toLowerCase()));
+
+    let displayTargets = Array.from(new Set(filteredRefsForPillars.map(getTargetHeader)))
+        .filter(t => t.toLowerCase().includes(targetSearch.toLowerCase()));
+
+    // Mutual "Hard" Filtering Logic
+    if (selectedSource) {
+        displayTargets = Array.from(new Set(
+            filteredRefsForPillars
+                .filter(r => getSourceHeader(r) === selectedSource)
+                .map(getTargetHeader)
+        ));
+    } else if (selectedTarget) {
+        displaySources = Array.from(new Set(
+            filteredRefsForPillars
+                .filter(r => getTargetHeader(r) === selectedTarget)
+                .map(getSourceHeader)
+        ));
+    }
+
+    const selectSource = (s) => {
+        if (selectedSource === s) setSelectedSource(null);
+        else {
+            setSelectedSource(s);
+            setSelectedTarget(null);
+        }
+    };
+
+    const selectTarget = (t) => {
+        if (selectedTarget === t) setSelectedTarget(null);
+        else {
+            setSelectedTarget(t);
+            setSelectedSource(null);
+        }
+    };
+
+    // --- MOCK DATA for UI testing ---
     if (useMockData && result?.reference_map) {
         result = {
             ...result,
@@ -683,236 +742,208 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                             {/* REFERENCES TAB */}
                             {activeTab === "references" && (
-                                <div className="flex flex-col h-full bg-gray-50/30">
-                                    {/* Filter Controls */}
-                                    {result.reference_map && result.reference_map.length > 0 && (() => {
-                                        // Calculate counts
-                                        const totalCount = result.reference_map.length;
-                                        const validCount = result.reference_map.filter(r => r.is_valid !== false).length;
-                                        const invalidCount = result.reference_map.filter(r => r.is_valid === false).length;
-                                        const selfRefCount = result.reference_map.filter(r => r.is_self_reference).length;
+                                <div className="flex flex-col h-full bg-slate-50/50 overflow-hidden">
+                                    {/* L3: Global Filter Bar */}
+                                    <div className="p-4 bg-white border-b border-slate-200 shrink-0">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Reference Analytics</h3>
+                                            <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
+                                                {filteredRefsForPillars.length} / {result?.reference_map?.length || 0} Visible
+                                            </span>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            {['all', 'valid', 'invalid', 'self-ref'].map(f => (
+                                                <button
+                                                    key={f}
+                                                    onClick={() => setReferenceFilter(f)}
+                                                    className={`px-5 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all border ${referenceFilter === f
+                                                        ? 'bg-indigo-600 text-white border-indigo-700 shadow-md'
+                                                        : 'bg-white text-slate-400 border-slate-200 hover:border-indigo-400'
+                                                        }`}
+                                                >
+                                                    {f.replace('-', ' ')}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
 
-                                        // Filter references based on selection
-                                        const filteredRefs = result.reference_map.filter(ref => {
-                                            if (referenceFilter === 'all') return true;
-                                            if (referenceFilter === 'valid') return ref.is_valid !== false;
-                                            if (referenceFilter === 'invalid') return ref.is_valid === false;
-                                            if (referenceFilter === 'self-ref') return ref.is_self_reference;
-                                            return true;
-                                        });
-
-                                        return (
-                                            <>
-                                                <div className="p-4 bg-white border-b border-gray-200">
-                                                    <div className="flex items-center justify-between mb-3">
-                                                        <h3 className="text-sm font-bold text-gray-700">Filter References</h3>
-                                                        <span className="text-xs text-gray-500">
-                                                            Showing <span className="font-bold text-indigo-600">{filteredRefs.length}</span> of {totalCount}
-                                                        </span>
-                                                    </div>
-                                                    <div className="flex gap-2 flex-wrap">
-                                                        <button
-                                                            onClick={() => setReferenceFilter('all')}
-                                                            className={`px-3 py-1.5 text-xs font-bold rounded border transition-all ${referenceFilter === 'all'
-                                                                ? 'bg-indigo-600 text-white border-indigo-700'
-                                                                : 'bg-white text-gray-600 border-gray-300 hover:border-indigo-400'
-                                                                }`}
-                                                        >
-                                                            All ({totalCount})
-                                                        </button>
-                                                        <button
-                                                            onClick={() => setReferenceFilter('valid')}
-                                                            className={`px-3 py-1.5 text-xs font-bold rounded border transition-all ${referenceFilter === 'valid'
-                                                                ? 'bg-green-600 text-white border-green-700'
-                                                                : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'
-                                                                }`}
-                                                        >
-                                                            Valid ({validCount})
-                                                        </button>
-                                                        <button
-                                                            onClick={() => setReferenceFilter('invalid')}
-                                                            className={`px-3 py-1.5 text-xs font-bold rounded border transition-all ${referenceFilter === 'invalid'
-                                                                ? 'bg-red-600 text-white border-red-700'
-                                                                : 'bg-white text-gray-600 border-gray-300 hover:border-red-400'
-                                                                }`}
-                                                        >
-                                                            Invalid ({invalidCount})
-                                                        </button>
-                                                        {selfRefCount > 0 && (
-                                                            <button
-                                                                onClick={() => setReferenceFilter('self-ref')}
-                                                                className={`px-3 py-1.5 text-xs font-bold rounded border transition-all ${referenceFilter === 'self-ref'
-                                                                    ? 'bg-orange-600 text-white border-orange-700'
-                                                                    : 'bg-white text-gray-600 border-gray-300 hover:border-orange-400'
-                                                                    }`}
-                                                            >
-                                                                ⚠ Self-Ref ({selfRefCount})
-                                                            </button>
-                                                        )}
-                                                    </div>
+                                    {/* Pillar Layout */}
+                                    <div className="flex-1 flex gap-8 p-6 overflow-hidden bg-slate-50/30">
+                                        {/* Source Pillar */}
+                                        <div className="flex-1 flex flex-col gap-4 overflow-hidden">
+                                            <div className="bg-transparent sticky top-0 z-10 pb-2">
+                                                <div className="flex items-center justify-between mb-3 px-1">
+                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Source Sections</h4>
+                                                    {selectedTarget && <span className="text-[9px] font-bold text-indigo-600 bg-white px-2 py-0.5 rounded-full shadow-sm border border-indigo-100 italic">Refs to {selectedTarget}</span>}
                                                 </div>
+                                                <div className="relative group">
+                                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300 group-focus-within:text-indigo-500 transition-colors" />
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Filter sources..."
+                                                        value={sourceSearch}
+                                                        onChange={(e) => setSourceSearch(e.target.value)}
+                                                        className="w-full bg-white border border-slate-200 rounded-2xl py-2.5 pl-10 pr-4 text-xs font-medium focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all outline-none shadow-sm"
+                                                    />
+                                                </div>
+                                            </div>
 
-                                                <div className="flex-1 overflow-y-auto divide-y divide-gray-100">
-                                                    {filteredRefs.map((ref, i) => (
-                                                        <div key={i} className="p-5 hover:bg-white transition-all group border-l-4 border-transparent hover:border-indigo-500 hover:shadow-sm">
+                                            <div className="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-6">
+                                                {displaySources.length > 0 ? displaySources.map(s => {
+                                                    const isSelected = selectedSource === s;
+                                                    const isContextuallyExpanded = selectedTarget !== null;
+                                                    const refsForThisSelection = selectedTarget ? filteredRefsForPillars.filter(r => getSourceHeader(r) === s && getTargetHeader(r) === selectedTarget) : [];
 
-                                                            {/* TIER 1: HEADER & STATUS */}
-                                                            <div className="flex items-center justify-between mb-3">
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className="p-1.5 rounded-md bg-gray-50 text-gray-500">
-                                                                        <Link2 size={16} />
+                                                    return (
+                                                        <div
+                                                            key={s}
+                                                            onClick={() => selectSource(s)}
+                                                            className={`rounded-[24px] transition-all cursor-pointer border-2 ${isSelected
+                                                                ? 'bg-indigo-50 border-indigo-600 shadow-xl shadow-indigo-100/50 z-10 scale-[1.01]'
+                                                                : 'bg-white border-white hover:border-slate-200 shadow-sm'
+                                                                }`}
+                                                        >
+                                                            <div className="p-5">
+                                                                <div className="flex justify-between items-center mb-1">
+                                                                    <span className={`text-[11px] font-black uppercase tracking-tight ${isSelected ? 'text-indigo-700' : 'text-slate-900'}`}>{s}</span>
+                                                                    {isSelected ? <CheckCircle2 size={16} className="text-indigo-600" /> : (isContextuallyExpanded ? <ChevronDown size={16} className="text-indigo-400" /> : <ChevronRight size={16} className="text-slate-200 group-hover:text-slate-400" />)}
+                                                                </div>
+                                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{isSelected ? 'Active Focus' : `Connects to ${selectedTarget || 'Targets'}`}</p>
+                                                            </div>
+
+                                                            {isContextuallyExpanded && (
+                                                                <div className="px-5 pb-5 pt-2 border-t border-indigo-100/50 bg-indigo-50/30 rounded-b-[24px] animate-in slide-in-from-top-2 duration-300">
+                                                                    <div className="space-y-3">
+                                                                        {refsForThisSelection.map((r, i) => (
+                                                                            <div key={i} className="p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm relative group/ref">
+                                                                                <div className="flex items-center justify-between mb-3">
+                                                                                    <div className="flex items-center gap-2">
+                                                                                        <div className={`w-2 h-2 rounded-full ${r.is_valid !== false ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
+                                                                                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{r.is_valid !== false ? 'Verified Reference' : 'Broken Link'}</span>
+                                                                                    </div>
+                                                                                    <button
+                                                                                        onClick={(e) => { e.stopPropagation(); setVerbatimRef(r); }}
+                                                                                        className="p-2 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                                                                                    >
+                                                                                        <ZoomIn size={14} />
+                                                                                    </button>
+                                                                                </div>
+                                                                                <p className="text-[12px] text-slate-600 font-medium leading-relaxed italic line-clamp-3">"{r.source_context}"</p>
+                                                                            </div>
+                                                                        ))}
                                                                     </div>
                                                                 </div>
-                                                                <div className="flex items-center gap-2">
-                                                                    {/* Self-Reference Warning */}
-                                                                    {ref.is_self_reference && (
-                                                                        <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded border text-orange-700 bg-orange-50 border-orange-200">
-                                                                            ⚠ SELF-REF
-                                                                        </span>
-                                                                    )}
-                                                                    {/* Status Badge - Smaller */}
-                                                                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded border ${ref.is_valid !== false
-                                                                        ? 'text-green-700 bg-green-50 border-green-200'
-                                                                        : 'text-white bg-red-600 border-red-700'
-                                                                        }`}>
-                                                                        {ref.is_valid !== false ? 'VALID' : 'INVALID'}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* TIER 2: SOURCE & TARGET MAPPING */}
-                                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                                                                {/* Source Column */}
-                                                                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/source">
-                                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">Ref Source</span>
-                                                                    <p className="text-xs text-gray-800 font-medium leading-relaxed pr-8 line-clamp-2">
-                                                                        "{ref.source_context || "Metadata Only"}"
-                                                                    </p>
-                                                                    {ref.source_context && (
-                                                                        <button
-                                                                            onClick={() => handleViewContext(ref.source_context, ref.source_header || "Source Citation")}
-                                                                            className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/source:opacity-100"
-                                                                            title="Jump to Source"
-                                                                        >
-                                                                            <Search size={14} />
-                                                                        </button>
-                                                                    )}
-                                                                </div>
-
-                                                                {/* Target Column - Show validation details if invalid */}
-                                                                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/target">
-                                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">
-                                                                        {ref.is_valid !== false ? 'Ref Target' : 'Invalid Reference'}
-                                                                    </span>
-
-                                                                    {ref.is_valid !== false ? (
-                                                                        // VALID: Show target details
-                                                                        <div className="pr-8">
-                                                                            <div className="text-xs font-bold text-indigo-700 flex items-center gap-1 mb-1">
-                                                                                <Tag size={12} className="shrink-0" />
-                                                                                {ref.target_section_id || ref.target_id || "N/A"}
-                                                                                {ref.target_clause && (
-                                                                                    <span className="text-purple-600 font-black ml-1">
-                                                                                        § {ref.target_clause}
-                                                                                    </span>
-                                                                                )}
-                                                                            </div>
-                                                                            <p className="text-xs text-gray-600 line-clamp-2 font-medium">
-                                                                                {ref.target_header || "No specific header provided"}
-                                                                            </p>
-                                                                        </div>
-                                                                    ) : (
-                                                                        // INVALID: Show validation details here
-                                                                        <div className="space-y-2">
-                                                                            {/* Main reason */}
-                                                                            <p className="text-xs font-bold text-red-900 leading-tight">
-                                                                                {ref.invalid_reason || 'No specific reason provided'}
-                                                                            </p>
-
-                                                                            {/* Show verdict breakdown */}
-                                                                            <div className="flex gap-3 text-[10px]">
-                                                                                {ref.judge_verdict && (
-                                                                                    <div>
-                                                                                        <span className="font-black text-gray-400">Judge:</span>
-                                                                                        <span className={`ml-1 font-bold ${ref.judge_verdict === 'ACCEPT' ? 'text-blue-600' : 'text-amber-600'
-                                                                                            }`}>
-                                                                                            {ref.judge_verdict}
-                                                                                        </span>
-                                                                                    </div>
-                                                                                )}
-                                                                                {ref.system_verdict && ref.system_verdict !== 'N/A' && (
-                                                                                    <div>
-                                                                                        <span className="font-black text-gray-400">System:</span>
-                                                                                        <span className={`ml-1 font-bold ${ref.system_verdict === 'ACCEPT' ? 'text-green-600' : 'text-red-600'
-                                                                                            }`}>
-                                                                                            {ref.system_verdict}
-                                                                                        </span>
-                                                                                    </div>
-                                                                                )}
-                                                                            </div>
-
-                                                                            {/* Additional details if different from main reason */}
-                                                                            {ref.system_reason && ref.system_reason !== ref.invalid_reason && (
-                                                                                <p className="text-[10px] text-gray-500 italic">
-                                                                                    System: {ref.system_reason}
-                                                                                </p>
-                                                                            )}
-                                                                            {ref.judge_reason && ref.judge_reason !== ref.invalid_reason && (
-                                                                                <p className="text-[10px] text-gray-500 italic">
-                                                                                    Judge: {ref.judge_reason}
-                                                                                </p>
-                                                                            )}
-                                                                        </div>
-                                                                    )}
-
-
-                                                                    {ref.is_valid !== false && (ref.target_id || ref.target_header) && (
-                                                                        <button
-                                                                            onClick={() => {
-                                                                                const targetId = ref.target_id || ref.target_section_id;
-                                                                                if (targetId && result.sections) {
-                                                                                    // Find the section with this ID
-                                                                                    const targetSection = result.sections.find(s => s.id === targetId);
-
-                                                                                    if (targetSection) {
-                                                                                        // Display this section's content directly
-                                                                                        setViewContext({
-                                                                                            type: 'CITATION',
-                                                                                            citation: ref.target_header || targetId,
-                                                                                            fullText: targetSection.text || "",
-                                                                                            sourceTitle: targetSection.title || targetSection.header || ref.target_header || targetId,
-                                                                                            highlight: ref.target_clause || null // Highlight the clause if provided
-                                                                                        });
-                                                                                    } else {
-                                                                                        // ID not found, fallback to header search
-                                                                                        handleViewContext(ref.target_header, ref.target_header || "Target Section");
-                                                                                    }
-                                                                                } else if (ref.target_header) {
-                                                                                    // No ID, use header search
-                                                                                    handleViewContext(ref.target_header, ref.target_header || "Target Section");
-                                                                                }
-                                                                            }}
-                                                                            className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/target:opacity-100"
-                                                                            title="Jump to Target"
-                                                                        >
-                                                                            <Search size={14} />
-                                                                        </button>
-                                                                    )}
-
-                                                                </div>
-                                                            </div>
+                                                            )}
                                                         </div>
-                                                    ))}
-                                                    {(!result.reference_map || result.reference_map.length === 0) && (
-                                                        <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
-                                                            <Link2 className="mb-2 opacity-50" size={32} />
-                                                            No references found.
-                                                        </div>
-                                                    )}
+                                                    );
+                                                }) : (
+                                                    <div className="text-center py-12 text-slate-300">
+                                                        <Search size={32} className="mx-auto mb-3 opacity-20" />
+                                                        <p className="text-[10px] font-black uppercase tracking-widest">No Sources Found</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Bridge Divider */}
+                                        <div className="w-px h-full bg-slate-200/50 relative flex items-center justify-center shrink-0">
+                                            <div className="p-3 bg-white rounded-[20px] border border-slate-200 text-slate-300 shadow-xl shadow-slate-200/50">
+                                                <Link size={18} />
+                                            </div>
+                                        </div>
+
+                                        {/* Target Pillar */}
+                                        <div className="flex-1 flex flex-col gap-4 overflow-hidden">
+                                            <div className="bg-transparent sticky top-0 z-10 pb-2">
+                                                <div className="flex items-center justify-between mb-3 px-1 flex-row-reverse">
+                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Target Sections</h4>
+                                                    {selectedSource && <span className="text-[9px] font-bold text-indigo-600 bg-white px-2 py-0.5 rounded-full shadow-sm border border-indigo-100 italic">Refs from {selectedSource}</span>}
                                                 </div>
-                                            </>
-                                        );
-                                    })()}
+                                                <div className="relative group">
+                                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300 group-focus-within:text-indigo-500 transition-colors" />
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Filter targets..."
+                                                        value={targetSearch}
+                                                        onChange={(e) => setTargetSearch(e.target.value)}
+                                                        className="w-full bg-white border border-slate-200 rounded-2xl py-2.5 pl-10 pr-4 text-xs font-medium focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all outline-none shadow-sm text-right"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-6">
+                                                {displayTargets.length > 0 ? displayTargets.map(t => {
+                                                    const isSelected = selectedTarget === t;
+                                                    const isContextuallyExpanded = selectedSource !== null;
+                                                    const refsForThisSelection = selectedSource ? filteredRefsForPillars.filter(r => getTargetHeader(r) === t && getSourceHeader(r) === selectedSource) : [];
+
+                                                    return (
+                                                        <div
+                                                            key={t}
+                                                            onClick={() => selectTarget(t)}
+                                                            className={`rounded-[24px] transition-all cursor-pointer border-2 ${isSelected
+                                                                ? 'bg-indigo-50 border-indigo-600 shadow-xl shadow-indigo-100/50 z-10 scale-[1.01]'
+                                                                : 'bg-white border-white hover:border-slate-200 shadow-sm'
+                                                                }`}
+                                                        >
+                                                            <div className="p-5">
+                                                                <div className="flex justify-between items-center mb-1 flex-row-reverse">
+                                                                    <span className={`text-[11px] font-black uppercase tracking-tight ${isSelected ? 'text-indigo-700' : 'text-slate-900'}`}>{t}</span>
+                                                                    {isSelected ? <CheckCircle2 size={16} className="text-indigo-600" /> : (isContextuallyExpanded ? <ChevronDown size={16} className="text-indigo-400" /> : <ChevronRight size={16} className="text-slate-200 group-hover:text-slate-400" />)}
+                                                                </div>
+                                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-right">{isSelected ? 'Active Focus' : `Referenced by ${selectedSource || 'Sources'}`}</p>
+                                                            </div>
+
+                                                            {isContextuallyExpanded && (
+                                                                <div className="px-5 pb-5 pt-2 border-t border-indigo-100/50 bg-indigo-50/30 rounded-b-[24px] animate-in slide-in-from-top-2 duration-300">
+                                                                    <div className="space-y-3">
+                                                                        {refsForThisSelection.map((r, i) => (
+                                                                            <div key={i} className="p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm relative group/ref text-right">
+                                                                                <div className="flex items-center justify-between mb-3 flex-row-reverse">
+                                                                                    <div className="flex items-center gap-2 flex-row-reverse">
+                                                                                        <div className={`w-2 h-2 rounded-full ${r.is_valid !== false ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
+                                                                                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">
+                                                                                            {r.is_valid !== false ? 'Validated Link' : 'Validation Error'}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <button
+                                                                                        onClick={(e) => { e.stopPropagation(); setVerbatimRef(r); }}
+                                                                                        className="p-2 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                                                                                    >
+                                                                                        <ZoomIn size={14} />
+                                                                                    </button>
+                                                                                </div>
+                                                                                <p className="text-[12px] text-slate-600 font-medium leading-relaxed italic line-clamp-3">"{r.source_context}"</p>
+                                                                                {r.is_valid === false && (
+                                                                                    <p className="mt-2 text-[9px] font-black text-red-500 uppercase tracking-widest flex items-center gap-1 justify-end">
+                                                                                        <AlertTriangle size={10} /> {r.invalid_reason || 'Risk Detected'}
+                                                                                    </p>
+                                                                                )}
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                }) : (
+                                                    <div className="text-center py-12 text-slate-300">
+                                                        <Search size={32} className="mx-auto mb-3 opacity-20" />
+                                                        <p className="text-[10px] font-black uppercase tracking-widest">No Targets Found</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* L5: Verbatim Detail Modal */}
+                                    {verbatimRef && (
+                                        <VerbatimLookupModal
+                                            refData={verbatimRef}
+                                            sections={result?.sections}
+                                            onClose={() => setVerbatimRef(null)}
+                                        />
+                                    )}
                                 </div>
                             )}
 
@@ -1158,6 +1189,131 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 </div>
             </div>
         </div >
+    );
+};
+
+// --- SUB-COMPONENTS ---
+
+const HighlightText = ({ text, highlight }) => {
+    if (!highlight || !text) return text;
+    // Escape special characters in highlight string for RegEx
+    const escapedHighlight = highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const parts = text.split(new RegExp(`(${escapedHighlight})`, 'gi'));
+    return (
+        <span>
+            {parts.map((part, i) =>
+                part.toLowerCase() === highlight.toLowerCase()
+                    ? <mark key={i} className="bg-yellow-100 text-slate-900 px-0.5 rounded shadow-sm font-bold no-italic border-b-2 border-yellow-400">{part}</mark>
+                    : part
+            )}
+        </span>
+    );
+};
+
+const VerbatimLookupModal = ({ refData, sections, onClose }) => {
+    const sourceContainerRef = useRef(null);
+    const targetContainerRef = useRef(null);
+
+    useEffect(() => {
+        if (refData) {
+            // Give a small timeout to ensure content is rendered before scrolling
+            const timer = setTimeout(() => {
+                if (sourceContainerRef.current) {
+                    const mark = sourceContainerRef.current.querySelector('mark');
+                    if (mark) mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                if (targetContainerRef.current) {
+                    const mark = targetContainerRef.current.querySelector('mark');
+                    if (mark) mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 300);
+            return () => clearTimeout(timer);
+        }
+    }, [refData]);
+
+    if (!refData) return null;
+
+    const sourceSection = sections?.find(s => s.id === refData.source_id);
+    const targetSection = sections?.find(s => s.id === (refData.target_id || refData.target_section_id));
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
+            <div className="bg-white rounded-[32px] shadow-2xl w-full max-w-7xl h-[85vh] flex flex-col overflow-hidden border border-slate-200 animate-in zoom-in-95 duration-300">
+                <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10 shrink-0">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-100">
+                            <ZoomIn size={24} />
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Verbatim Context Review</h2>
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Dual-Section Evidence Verification</p>
+                        </div>
+                    </div>
+                    <button onClick={onClose} className="w-12 h-12 rounded-2xl hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors">
+                        <X size={24} />
+                    </button>
+                </div>
+
+                <div className="flex-1 p-8 grid grid-cols-2 gap-8 overflow-hidden bg-slate-50/30">
+                    {/* Source View */}
+                    <div className="flex flex-col h-full overflow-hidden bg-white rounded-3xl border border-slate-100 shadow-sm">
+                        <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between shrink-0 bg-slate-50/50">
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Source Section</span>
+                                <span className="text-[11px] font-black uppercase text-indigo-600 tracking-tight leading-none">{refData.source_header || refData.source_id}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="px-2 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[9px] font-black uppercase border border-indigo-100">Focal Fragment</span>
+                            </div>
+                        </div>
+                        <div ref={sourceContainerRef} className="flex-1 p-8 overflow-y-auto leading-relaxed text-slate-700 text-sm font-medium">
+                            {sourceSection ? (
+                                <HighlightText text={sourceSection.text} highlight={refData.source_context} />
+                            ) : (
+                                <div className="p-4 bg-indigo-50/30 rounded-2xl border border-indigo-100/50 italic text-slate-600">
+                                    <HighlightText text={refData.source_context} highlight={refData.source_context} />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Target View */}
+                    <div className="flex flex-col h-full overflow-hidden bg-white rounded-3xl border border-slate-100 shadow-sm">
+                        <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between shrink-0 bg-slate-50/50">
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Target Section</span>
+                                <span className="text-[11px] font-black uppercase text-purple-600 tracking-tight leading-none">{refData.target_header || refData.target_section_id}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="px-2 py-1 rounded-full bg-purple-50 text-purple-600 text-[9px] font-black uppercase border border-purple-100">Referenced Goal</span>
+                            </div>
+                        </div>
+                        <div ref={targetContainerRef} className="flex-1 p-8 overflow-y-auto leading-relaxed text-slate-700 text-sm font-medium">
+                            {targetSection ? (
+                                <HighlightText text={targetSection.text} highlight={refData.target_clause || refData.target_header} />
+                            ) : (
+                                <div className="p-12 text-center text-slate-300">
+                                    <AlertTriangle size={32} className="mx-auto mb-3 opacity-20" />
+                                    <p className="text-[10px] font-black uppercase tracking-widest">Target Context Missing</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-between items-center shrink-0">
+                    <div className="flex items-center gap-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-4">
+                        <div className="p-1.5 bg-amber-50 rounded-lg text-amber-500 border border-amber-100">
+                            <AlertTriangle size={14} />
+                        </div>
+                        Always verify against the physical document for audit-grade certainty.
+                    </div>
+                    <button onClick={onClose} className="px-10 py-3 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 active:scale-95">
+                        Finish Review
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 };
 
