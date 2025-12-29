@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark, Store, Building, MapPin } from 'lucide-react';
+import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark, Store, Building, MapPin, Maximize2, X, ChevronDown, ChevronUp, Check, ArrowRightLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BillingCard from '../BillingCard';
 import ContextSidePane from '../workspace/ContextSidePane';
@@ -12,7 +12,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
     // Context Viewer State
     const [contextSidePaneOpen, setContextSidePaneOpen] = useState(false);
-    const [contextData, setContextData] = useState(null); // { type, text/citation, matches }
+    const [viewContext, setViewContext] = useState(null); // { type, text/citation, matches }
+    const [expandedTermKey, setExpandedTermKey] = useState(null); // Inline Expansion State
     const [glossarySort, setGlossarySort] = useState('alpha');
     const [referenceFilter, setReferenceFilter] = useState('all'); // all, valid, invalid, self-ref
 
@@ -150,7 +151,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
         if (!citationOrTerm || (!file.content && !result?.sections)) return;
 
         if (mode === 'MATCHES') {
-            setContextData({
+            setViewContext({
                 type: 'MATCHES',
                 term: citationOrTerm,
                 sourceTitle: title,
@@ -174,7 +175,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 };
             });
 
-            setContextData({
+            setViewContext({
                 type: 'MATCHES',
                 term: citationOrTerm,
                 sourceTitle: title,
@@ -190,7 +191,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
         const match = findCitationInSections(result?.sections, citationOrTerm);
 
         if (match) {
-            setContextData({
+            setViewContext({
                 type: 'CITATION',
                 citation: citationOrTerm,
                 fullText: match.contextText,
@@ -201,7 +202,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
             // Fallback for HiPDAM references (which might use separate analyzed content array)
             const hipdamMatch = findCitationInSections(result?.hipdam_analyzed_content, citationOrTerm);
             if (hipdamMatch) {
-                setContextData({
+                setViewContext({
                     type: 'CITATION',
                     citation: citationOrTerm,
                     fullText: hipdamMatch.contextText,
@@ -209,7 +210,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                     highlight: citationOrTerm
                 });
             } else {
-                setContextData({
+                setViewContext({
                     type: 'CITATION',
                     citation: citationOrTerm,
                     fullText: null,
@@ -416,10 +417,77 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 {/* RIGHT PANEL: Main Content Area */}
                 <div className="flex-1 flex flex-col overflow-hidden relative">
                     <div className="flex flex-col gap-6 max-w-6xl mx-auto w-full h-full">
-                        {/* Tabs (V3: Segmented Control) */}
-                        <div className="bg-gray-100 p-1 rounded-lg flex items-center gap-1 w-fit mb-4">
+                        {/* Persistent Header (Concept 01 ID Card + Concept 03 Connection) */}
+                        {result.term_sheet && result.term_sheet.parties && Array.isArray(result.term_sheet.parties) && result.term_sheet.parties.length > 0 && (
+                            <>
+                                <div className="bg-slate-900 rounded-2xl shadow-sm border border-slate-800 overflow-hidden relative mb-1">
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -mr-16 -mt-16 pointer-events-none"></div>
+                                    <div className="relative z-10 p-8 text-white">
+                                        {(() => {
+                                            const contractTitle = result.term_sheet.contract_title?.value || result.term_sheet.contract_title || "Contract Agreement";
+                                            const displayTitle = typeof contractTitle === 'object' ? JSON.stringify(contractTitle) : contractTitle;
+                                            return (
+                                                <h3 className="text-3xl font-black leading-tight mb-8 break-words whitespace-pre-wrap outfit">{displayTitle}</h3>
+                                            );
+                                        })()}
+
+                                        <div className="flex flex-wrap items-start gap-8">
+                                            {result.term_sheet.parties.map((party, index) => (
+                                                <div key={index} className="flex items-start gap-4 min-w-[200px] flex-1">
+                                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shrink-0">
+                                                        {(() => {
+                                                            const role = (party.role || "").toLowerCase();
+                                                            if (role.includes("supplier") || role.includes("vendor") || role.includes("provider") || role.includes("seller") || role.includes("licensor")) return <Store size={20} className="text-white" />;
+                                                            return <Building size={20} className="text-white" />;
+                                                        })()}
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-[10px] uppercase font-bold text-indigo-300 mb-1 flex items-center gap-2 outfit">
+                                                            {party.role || "Party"}
+                                                            {party.validation && (
+                                                                party.validation.is_valid !== false ? <CheckCircle size={10} className="text-emerald-400" /> : <AlertTriangle size={10} className="text-red-400" />
+                                                            )}
+                                                        </div>
+                                                        <div className="font-bold text-lg leading-tight mb-1 text-white outfit">{party.name}</div>
+                                                        {party.address && (
+                                                            <div className="flex items-start gap-2 mt-1">
+                                                                <div className="text-xs text-slate-400 leading-relaxed max-w-[280px]">{party.address}</div>
+                                                                <a
+                                                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(party.address)}`}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-indigo-400 hover:text-indigo-200 shrink-0 mt-0.5"
+                                                                    title="View on Google Maps"
+                                                                >
+                                                                    <MapPin size={12} />
+                                                                </a>
+                                                            </div>
+                                                        )}
+                                                        {party.evidence?.length > 0 && (
+                                                            <button
+                                                                onClick={() => handleViewContext(party.name, party.name || "Party", 'CITATION', party)}
+                                                                className="text-[10px] font-bold text-indigo-400 hover:text-indigo-200 flex items-center gap-1 mt-2"
+                                                            >
+                                                                <Eye size={12} /> View Context
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                    {/* Separator if not last item */}
+                                                    {index < result.term_sheet.parties.length - 1 && (
+                                                        <div className="hidden lg:block h-auto min-h-[40px] w-px bg-white/10 ml-8 self-stretch"></div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {/* Concept 09: Dot Navigation */}
+                        <div className="flex justify-center gap-8 mb-4 mt-0">
                             {[
-                                { id: "terms", label: "Term Sheet", icon: FileText },
+                                { id: "terms", label: "Key Terms", icon: FileText },
                                 { id: "references", label: "References", icon: Link2 },
                                 { id: "glossary", label: "Glossary", icon: Book },
                                 { id: "flags", label: "Issues", icon: AlertTriangle },
@@ -429,13 +497,12 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === tab.id
-                                        ? "bg-white text-gray-900 shadow-sm"
-                                        : "text-gray-500 hover:text-gray-700"
-                                        }`}
+                                    className="flex flex-col items-center gap-2 group"
                                 >
-                                    <tab.icon size={14} />
-                                    {tab.label}
+                                    <div className={`text-xs font-bold transition-colors ${activeTab === tab.id ? 'text-slate-900' : 'text-slate-400 group-hover:text-slate-700'}`}>
+                                        {tab.label}
+                                    </div>
+                                    <div className={`w-1.5 h-1.5 rounded-full transition-all ${activeTab === tab.id ? 'bg-indigo-600 scale-125' : 'bg-slate-200 group-hover:bg-slate-300'}`}></div>
                                 </button>
                             ))}
                         </div>
@@ -462,178 +529,119 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                     <div className="p-8 max-w-5xl mx-auto w-full">
                                         {result.term_sheet && Object.keys(result.term_sheet).length > 0 ? (
                                             <div className="space-y-8">
-                                                {/* Header & Title */}
+                                                {/* Header & Title removed (redundant) */}
+
+                                                {/* Parties moved to persistent header (redundant) */}
+
+                                                {/* Dynamic Key Terms Grid (Concept 10: Focus Modal) */}
                                                 <div>
-                                                    <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-2 block">Executive Summary</span>
-                                                    <div className="flex items-center gap-3">
-                                                        <h1 className="text-3xl font-black text-gray-900 leading-tight">
-                                                            {(() => {
-                                                                const titleObj = result.term_sheet.contract_title;
-                                                                if (typeof titleObj === 'object' && titleObj !== null) {
-                                                                    return titleObj.summary || titleObj.value || "Untitled Agreement";
-                                                                }
-                                                                return titleObj || "Untitled Agreement";
-                                                            })()}
-                                                        </h1>
-                                                        {typeof result.term_sheet.contract_title === 'object' && result.term_sheet.contract_title?.validation && (
-                                                            <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded border border-gray-100 shadow-sm" title={result.term_sheet.contract_title.validation.reasoning}>
-                                                                {result.term_sheet.contract_title.validation.is_valid !== false ? (
-                                                                    <CheckCircle size={14} className="text-green-500" />
-                                                                ) : (
-                                                                    <XCircle size={14} className="text-red-500" />
-                                                                )}
-                                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">Validated</span>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                {/* Parties (Dynamic) */}
-                                                {result.term_sheet.parties && Array.isArray(result.term_sheet.parties) && result.term_sheet.parties.length > 0 && (
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        {result.term_sheet.parties.map((party, idx) => (
-                                                            <div
-                                                                key={idx}
-                                                                className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-start gap-4 group relative"
-                                                            >
-                                                                {/* Custom Tooltip */}
-                                                                {party.validation?.reasoning && (
-                                                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-[10px] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 w-64 leading-relaxed font-medium text-center isolate">
-                                                                        {party.validation.reasoning}
-                                                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-x-4 border-x-transparent border-t-4 border-t-gray-900"></div>
-                                                                    </div>
-                                                                )}
-                                                                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg shrink-0">
-                                                                    {(() => {
-                                                                        const role = (party.role || "").toLowerCase();
-                                                                        if (role.includes("supplier") || role.includes("vendor") || role.includes("provider") || role.includes("seller") || role.includes("licensor")) return <Store size={20} />;
-                                                                        if (role.includes("client") || role.includes("customer") || role.includes("buyer") || role.includes("purchaser") || role.includes("licensee")) return <Building size={20} />;
-                                                                        return <Building size={20} />;
-                                                                    })()}
-                                                                </div>
-                                                                <div className="flex-1 min-w-0">
-                                                                    <div className="flex items-center justify-between gap-2 mb-1">
-                                                                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">
-                                                                            {party.role || "Party"}
-                                                                        </span>
-                                                                        {party.validation && (
-                                                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                                {party.validation.is_valid !== false ? (
-                                                                                    <CheckCircle size={14} className="text-green-500" />
-                                                                                ) : (
-                                                                                    <XCircle size={14} className="text-red-500" />
-                                                                                )}
-                                                                            </div>
-                                                                        )}
-                                                                    </div>
-                                                                    <div className="text-lg font-bold text-gray-900 truncate" title={party.name}>
-                                                                        {party.name}
-                                                                    </div>
-                                                                    {party.address && (
-                                                                        <div className="mt-2 flex items-start gap-2">
-                                                                            <MapPin size={14} className="text-indigo-400 mt-0.5 shrink-0" />
-                                                                            <div className="flex-1 min-w-0">
-                                                                                <div className="flex items-start justify-between gap-3">
-                                                                                    <span className="text-xs text-gray-500 line-clamp-2 leading-relaxed" title={party.address}>
-                                                                                        {party.address}
-                                                                                    </span>
-                                                                                    <a
-                                                                                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(party.address)}`}
-                                                                                        target="_blank"
-                                                                                        rel="noopener noreferrer"
-                                                                                        className="shrink-0 px-2 py-0.5 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded text-[9px] font-bold uppercase hover:bg-indigo-100 transition-colors flex items-center gap-1"
-                                                                                    >
-                                                                                        <MapPin size={10} /> See in Map
-                                                                                    </a>
+                                                    {/* Header removed */}
+                                                    {/* Split Screen Master-Detail Layout (Concept 01) */}
+                                                    {(() => {
+                                                        const allTerms = Object.entries(result.term_sheet)
+                                                            .filter(([key]) => !['contract_title', 'parties'].includes(key));
+
+                                                        // Default to first term if nothing selected
+                                                        const activeKey = expandedTermKey || (allTerms.length > 0 ? allTerms[0][0] : null);
+                                                        const activeItemEntry = allTerms.find(([k]) => k === activeKey);
+                                                        const activeItem = activeItemEntry ? activeItemEntry[1] : null;
+
+                                                        return (
+                                                            <div className="flex h-[600px] bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden box-border">
+                                                                {/* Master List (Left Pane) */}
+                                                                <div className="w-1/3 border-r border-slate-100 overflow-y-auto bg-slate-50/50 no-scrollbar">
+                                                                    {allTerms.map(([key, item]) => {
+                                                                        const isObject = typeof item === 'object' && item !== null && ('value' in item || 'summary' in item);
+                                                                        let punchline = isObject ? (item.summary || item.value) : item;
+                                                                        if (typeof punchline === 'object' && punchline !== null) punchline = JSON.stringify(punchline);
+                                                                        const displayTitle = key.replace(/_/g, ' ');
+                                                                        const isActive = activeKey === key;
+
+                                                                        return (
+                                                                            <div
+                                                                                key={key}
+                                                                                onClick={() => setExpandedTermKey(key)}
+                                                                                className={`p-4 border-b border-slate-100 cursor-pointer transition-all duration-200 group ${isActive ? 'bg-white border-l-4 border-l-indigo-600 shadow-sm z-10 relative' : 'hover:bg-slate-100 border-l-4 border-l-transparent'}`}
+                                                                            >
+                                                                                <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600'}`}>
+                                                                                    {displayTitle}
+                                                                                </div>
+                                                                                <div className={`font-bold leading-tight line-clamp-2 ${isActive ? 'text-slate-900' : 'text-slate-700'}`}>
+                                                                                    {punchline || "—"}
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-                                                                    )}
-                                                                    <div className="flex gap-4 mt-3">
-                                                                        {party.evidence?.length > 0 && (
-                                                                            <button
-                                                                                onClick={() => handleViewContext(party.name, party.name || "Party", 'CITATION', party)}
-                                                                                className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                                            >
-                                                                                <Eye size={12} /> View Context
-                                                                            </button>
-                                                                        )}
-                                                                    </div>
+                                                                        );
+                                                                    })}
                                                                 </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                )}
 
-                                                {/* Dynamic Key Terms Grid */}
-                                                <div>
-                                                    <h3 className="text-sm font-bold text-gray-900 border-b border-gray-200 pb-2 mb-4">Key Terms</h3>
-                                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                                        {Object.entries(result.term_sheet)
-                                                            .filter(([key]) => !['contract_title', 'parties'].includes(key))
-                                                            .map(([key, item]) => {
-                                                                // Handle both legacy string and new object {value, citation} formats
-                                                                // Robust check: ensure it has value property, even if empty string
-                                                                const isObject = typeof item === 'object' && item !== null && ('value' in item || 'summary' in item);
+                                                                {/* Detail Pane (Right Pane) */}
+                                                                <div className="w-2/3 flex flex-col bg-white h-full overflow-hidden relative">
+                                                                    {activeItem ? ((() => {
+                                                                        const isObject = typeof activeItem === 'object' && activeItem !== null && ('value' in activeItem || 'summary' in activeItem);
+                                                                        let punchline = isObject ? (activeItem.summary || activeItem.value) : activeItem;
+                                                                        if (typeof punchline === 'object' && punchline !== null) punchline = JSON.stringify(punchline);
+                                                                        const displayTitle = activeKey.replace(/_/g, ' ');
 
-                                                                let punchline = isObject ? (item.summary || item.value) : item;
-                                                                let detailedValue = isObject ? item.value : null;
+                                                                        return (
+                                                                            <>
+                                                                                {/* Detail Header */}
+                                                                                <div className="p-8 pb-4 border-b border-slate-50 flex-shrink-0">
+                                                                                    <div className="mb-4">
+                                                                                        <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                                                                                            {displayTitle}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <h3 className="text-3xl font-black text-slate-900 font-['Outfit'] leading-tight">
+                                                                                        {punchline || "—"}
+                                                                                    </h3>
+                                                                                </div>
 
-                                                                // Failsafe: if punchline is still an object (unexpected structure), stringify or fallback
-                                                                if (typeof punchline === 'object' && punchline !== null) {
-                                                                    punchline = JSON.stringify(punchline);
-                                                                }
+                                                                                {/* Scrollable Content */}
+                                                                                <div className="p-8 pt-6 overflow-y-auto flex-1 no-scrollbar">
+                                                                                    <div className="prose prose-sm prose-slate max-w-none mb-8">
+                                                                                        <p className="leading-relaxed text-slate-600 text-base">
+                                                                                            {activeItem.value || "No detailed explanation available for this term."}
+                                                                                        </p>
+                                                                                    </div>
 
-                                                                const validation = isObject ? item.validation : null;
+                                                                                    {/* Validation Box */}
+                                                                                    {activeItem.validation && (
+                                                                                        <div className={`p-4 rounded-xl border mb-6 ${activeItem.validation.is_valid !== false ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'}`}>
+                                                                                            <div className="flex items-center gap-2 mb-2">
+                                                                                                {activeItem.validation.is_valid !== false ? <CheckCircle size={14} className="text-emerald-600" /> : <AlertTriangle size={14} className="text-red-600" />}
+                                                                                                <span className={`text-[10px] font-bold uppercase tracking-wider ${activeItem.validation.is_valid !== false ? 'text-emerald-700' : 'text-red-700'}`}>
+                                                                                                    {activeItem.validation.is_valid !== false ? "VERIFIED" : "VERIFICATION FAILED"}
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <p className={`text-sm ${activeItem.validation.is_valid !== false ? 'text-emerald-800' : 'text-red-800'}`}>
+                                                                                                {activeItem.validation.reasoning}
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
 
-                                                                return (
-                                                                    <div
-                                                                        key={key}
-                                                                        className={`p-4 bg-white rounded-xl border shadow-sm transition-all flex flex-col justify-between group relative ${validation?.is_valid === false ? 'border-red-200 bg-red-50/10' : 'border-gray-200 hover:border-indigo-200'}`}
-                                                                    >
-                                                                        {/* Custom Tooltip (Reasoning + Detailed Value) */}
-                                                                        {(validation?.reasoning || (detailedValue && detailedValue !== punchline)) && (
-                                                                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-[10px] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 w-64 leading-relaxed font-medium text-center isolate">
-                                                                                {detailedValue && detailedValue !== punchline && (
-                                                                                    <div className="mb-2 pb-2 border-b border-white/10 text-white font-bold uppercase tracking-tighter">
-                                                                                        {detailedValue}
+                                                                                {/* Footer Actions */}
+                                                                                {activeItem.evidence?.length > 0 && (
+                                                                                    <div className="p-6 border-t border-slate-100 bg-slate-50/30 mt-auto flex-shrink-0">
+                                                                                        <button
+                                                                                            onClick={() => handleViewContext(activeKey, (activeItem.summary || activeItem.value), 'CITATION', activeItem)}
+                                                                                            className="flex items-center gap-2 text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors bg-white border border-indigo-100 hover:border-indigo-300 px-4 py-2.5 rounded-lg shadow-sm"
+                                                                                        >
+                                                                                            <Eye size={16} /> View Source Evidence ({activeItem.evidence.length})
+                                                                                        </button>
                                                                                     </div>
                                                                                 )}
-                                                                                {validation?.reasoning || (validation?.is_valid !== false ? "Validated" : "Issues Found")}
-                                                                                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-x-4 border-x-transparent border-t-4 border-t-gray-900"></div>
-                                                                            </div>
-                                                                        )}
-                                                                        {/* Validation Status Icon (Hover Only) */}
-                                                                        {validation && (
-                                                                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 backdrop-blur-sm rounded-full p-0.5">
-                                                                                {validation.is_valid !== false ? (
-                                                                                    <CheckCircle size={14} className="text-green-500" />
-                                                                                ) : (
-                                                                                    <XCircle size={14} className="text-red-500" />
-                                                                                )}
-                                                                            </div>
-                                                                        )}
-
-                                                                        <div>
-                                                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 block truncate pr-5" title={key.replace(/_/g, " ")}>
-                                                                                {key.replace(/_/g, " ")}
-                                                                            </span>
-                                                                            <div className="text-sm font-medium text-gray-900 break-words mb-2">
-                                                                                {punchline || "—"}
-                                                                            </div>
+                                                                            </>
+                                                                        );
+                                                                    })()) : (
+                                                                        <div className="flex flex-col items-center justify-center h-full text-slate-400">
+                                                                            <p>Select a term to view details</p>
                                                                         </div>
-
-                                                                        {item.evidence?.length > 0 && (
-                                                                            <button
-                                                                                onClick={() => handleViewContext(punchline, key.replace(/_/g, " "), 'CITATION', item)}
-                                                                                className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                                            >
-                                                                                <Eye size={12} /> View Context
-                                                                            </button>
-                                                                        )}
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                    </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })()}
                                                 </div>
                                             </div>
                                         ) : (
@@ -657,13 +665,18 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                 </div>
                             )}
 
-                            <ContextSidePane
-                                isOpen={contextSidePaneOpen}
-                                onClose={() => setContextSidePaneOpen(false)}
-                                title={contextData?.sourceTitle || "Context"}
-                                contextData={contextData}
-                                fileContent={file.content || result?.sections || []}
-                            />
+
+
+                            {viewContext && (
+                                <ContextSidePane
+                                    isOpen={true}
+                                    contextData={viewContext}
+                                    fileContent={file.content || result?.sections || []}
+                                    onClose={() => setViewContext(null)}
+                                />
+                            )}
+
+                            {/* Term Detail Modal (Focus Mode) */}
 
                             {/* REFERENCES TAB */}
                             {activeTab === "references" && (

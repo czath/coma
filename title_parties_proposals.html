@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title & Parties UI Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .outfit {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="p-8 space-y-12">
+
+    <header class="max-w-4xl mx-auto text-center mb-16">
+        <h1 class="text-4xl font-black text-slate-900 outfit mb-4">Title & Parties UI Proposals</h1>
+        <p class="text-lg text-slate-600">Exploring 10 different ways to present the Contract Title and Involved
+            Parties.</p>
+    </header>
+
+    <!-- Concept 01: The "ID Card" Header -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">01</span>
+            <h2 class="text-xl font-bold outfit">The "ID Card" Header</h2>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-900 p-8 text-white relative overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -mr-16 -mt-16">
+                </div>
+                <div class="relative z-10">
+                    <div class="text-xs font-bold text-indigo-300 uppercase tracking-widest mb-2">Contract Title</div>
+                    <h3 class="text-3xl font-black outfit leading-tight mb-6">Master Services Agreement (MSA) v2.4</h3>
+
+                    <div class="flex items-center gap-8">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                                <i data-lucide="building-2" class="text-white"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase font-bold text-indigo-300">Provider</div>
+                                <div class="font-bold text-lg">Acme Corp Inc.</div>
+                            </div>
+                        </div>
+                        <div class="h-8 w-px bg-white/20"></div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                                <i data-lucide="users" class="text-white"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase font-bold text-indigo-300">Client</div>
+                                <div class="font-bold text-lg">Globex Corporation</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 02: Minimalist Split -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">02</span>
+            <h2 class="text-xl font-bold outfit">Minimalist Split</h2>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-8 flex items-center justify-between">
+            <div class="w-1/2 pr-8 border-r border-slate-100">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Document</span>
+                <h3 class="text-2xl font-black text-slate-900 outfit">Software License Agreement</h3>
+            </div>
+            <div class="w-1/2 pl-8 flex gap-4">
+                <div class="flex-1 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Licensor</span>
+                    <div class="font-bold text-slate-700">TechStream Solutions</div>
+                </div>
+                <div class="flex-1 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Licensee</span>
+                    <div class="font-bold text-slate-700">Northwind Traders</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 03: The "Connect" Visual -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">03</span>
+            <h2 class="text-xl font-bold outfit">The "Connect" Visual</h2>
+        </div>
+        <div
+            class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl border border-indigo-100 p-8 text-center relative overflow-hidden">
+            <div class="relative z-10 flex items-center justify-center gap-12">
+                <div class="text-right">
+                    <div class="text-xl font-bold text-slate-800">Alpha Dynamics</div>
+                    <div class="text-xs font-bold text-slate-400 uppercase">Service Provider</div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <div
+                        class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-indigo-100 text-indigo-600 mb-2">
+                        <i data-lucide="arrow-right-left" size="20"></i>
+                    </div>
+                    <span
+                        class="px-3 py-1 bg-white text-xs font-bold text-indigo-900 rounded-full shadow-sm border border-indigo-100">
+                        Consulting Agreement
+                    </span>
+                </div>
+
+                <div class="text-left">
+                    <div class="text-xl font-bold text-slate-800">Omega Holdings</div>
+                    <div class="text-xs font-bold text-slate-400 uppercase">Client</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 04: Compact Clean Cards -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">04</span>
+            <h2 class="text-xl font-bold outfit">Compact Clean Cards</h2>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                <span class="text-xs font-bold text-slate-400 uppercase mb-1">Contract</span>
+                <div class="font-black text-xl text-slate-900 outfit">Non-Disclosure Agreement</div>
+            </div>
+            <div class="bg-white p-6 rounded-xl border-l-4 border-l-emerald-500 border border-slate-200 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <span
+                        class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md uppercase">Disclosing</span>
+                    <i data-lucide="check-circle" class="text-emerald-500" size="16"></i>
+                </div>
+                <div class="font-bold text-slate-900">Innovative Labs LLC</div>
+                <div class="text-xs text-slate-500 mt-1">123 Research Park, Boston MA</div>
+            </div>
+            <div class="bg-white p-6 rounded-xl border-l-4 border-l-blue-500 border border-slate-200 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <span
+                        class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md uppercase">Receiving</span>
+                    <i data-lucide="check-circle" class="text-blue-500" size="16"></i>
+                </div>
+                <div class="font-bold text-slate-900">Venture Capital Partners</div>
+                <div class="text-xs text-slate-500 mt-1">456 Money Lane, NYC NY</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 05: Document Artifact Style -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">05</span>
+            <h2 class="text-xl font-bold outfit">Document Artifact Style</h2>
+        </div>
+        <div class="bg-[#fcfbf9] border border-[#e5e0d8] p-10 rounded-xl relative shadow-sm max-w-3xl mx-auto">
+            <div
+                class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-gray-200 via-gray-400 to-gray-200 opacity-50">
+            </div>
+            <div class="text-center mb-8">
+                <h3 class="font-serif text-2xl font-bold text-slate-800 tracking-tight">EMPLOYMENT AGREEMENT</h3>
+                <div class="h-px w-32 bg-slate-300 mx-auto mt-4"></div>
+            </div>
+            <div class="flex justify-between text-sm text-slate-700 font-serif">
+                <div class="text-center w-1/3">
+                    <div class="uppercase tracking-widest text-[10px] text-slate-400 font-sans mb-1">Employer</div>
+                    <div class="font-bold border-b border-dotted border-slate-400 pb-1">TechGiant Systems</div>
+                </div>
+                <div class="text-center font-style-italic text-slate-400 px-4 pt-4">&mdash; and &mdash;</div>
+                <div class="text-center w-1/3">
+                    <div class="uppercase tracking-widest text-[10px] text-slate-400 font-sans mb-1">Employee</div>
+                    <div class="font-bold border-b border-dotted border-slate-400 pb-1">Jane A. Doe</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 06: Data Grid Rows -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">06</span>
+            <h2 class="text-xl font-bold outfit">Data Grid Rows</h2>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg overflow-hidden divide-y divide-slate-100">
+            <div class="flex items-center cursor-pointer hover:bg-slate-50 p-4">
+                <div class="w-1/4 text-xs font-bold text-slate-400 uppercase tracking-wider">Document Title</div>
+                <div class="w-3/4 font-medium text-slate-900">Partnership Dissolution Agreement</div>
+            </div>
+            <div class="flex items-center cursor-pointer hover:bg-slate-50 p-4">
+                <div class="w-1/4 text-xs font-bold text-slate-400 uppercase tracking-wider">Party A (Departing)</div>
+                <div class="w-3/4 flex justify-between items-center">
+                    <span class="font-medium text-slate-900">John Smith</span>
+                    <button class="text-xs text-indigo-600 font-bold hover:underline">View Details</button>
+                </div>
+            </div>
+            <div class="flex items-center cursor-pointer hover:bg-slate-50 p-4">
+                <div class="w-1/4 text-xs font-bold text-slate-400 uppercase tracking-wider">Party B (Remaining)</div>
+                <div class="w-3/4 flex justify-between items-center">
+                    <span class="font-medium text-slate-900">Smith & Co. Enterprises</span>
+                    <button class="text-xs text-indigo-600 font-bold hover:underline">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 07: Focus Chips -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">07</span>
+            <h2 class="text-xl font-bold outfit">Focus Chips</h2>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+            <div class="bg-slate-900 text-white px-4 py-2 rounded-lg font-bold shadow-sm flex items-center gap-2">
+                <i data-lucide="file-text" size="16"></i>
+                Service Level Agreement
+            </div>
+            <div class="h-6 w-px bg-slate-300 mx-2"></div>
+            <div
+                class="bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-full text-sm font-medium shadow-sm hover:border-indigo-300 cursor-pointer flex items-center gap-2 transition-colors">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                Provider: <span class="font-bold">CloudNet Inc.</span>
+            </div>
+            <div
+                class="bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-full text-sm font-medium shadow-sm hover:border-indigo-300 cursor-pointer flex items-center gap-2 transition-colors">
+                <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+                Client: <span class="font-bold">RetailGiant Ltd.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 08: The "Participants" Sidebar Style -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">08</span>
+            <h2 class="text-xl font-bold outfit">Participants Sidebar Style</h2>
+        </div>
+        <div class="flex gap-1">
+            <div
+                class="w-16 bg-slate-100 rounded-l-xl flex items-center justify-center border-y border-l border-slate-200">
+                <div class="text-[10px] font-bold text-slate-400 rotate-180" style="writing-mode: vertical-rl;">PARTIES
+                </div>
+            </div>
+            <div class="flex-1 bg-white border border-slate-200 p-6 rounded-r-xl flex items-center gap-8">
+                <div class="flex-1">
+                    <h3 class="text-sm text-slate-500 font-medium mb-1">Contract</h3>
+                    <div class="font-bold text-xl text-slate-900">Lease Agreement</div>
+                </div>
+                <div class="flex -space-x-4">
+                    <div class="w-12 h-12 rounded-full border-2 border-white bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-sm shadow-sm"
+                        title="Landlord">
+                        L
+                    </div>
+                    <div class="w-12 h-12 rounded-full border-2 border-white bg-pink-100 flex items-center justify-center text-pink-700 font-bold text-sm shadow-sm"
+                        title="Tenant">
+                        T
+                    </div>
+                    <div
+                        class="w-12 h-12 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-slate-500 text-xs font-bold shadow-sm">
+                        +1
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 09: Status Bar Integration -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">09</span>
+            <h2 class="text-xl font-bold outfit">Status Bar Integration</h2>
+        </div>
+        <div
+            class="w-full bg-slate-800 text-slate-300 p-4 rounded-xl shadow-lg flex items-center justify-between text-sm">
+            <div class="flex items-center gap-4">
+                <span class="font-bold text-white tracking-wide">IP ASSIGNMENT AGREEMENT</span>
+                <span class="px-2 py-0.5 bg-slate-700 rounded text-xs">v1.0</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                    <span class="text-white font-medium">Assignor: John Doe</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                    <span class="text-white font-medium">Assignee: TechCorp</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept 10: Glassmorphism Overlay -->
+    <section class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-6">
+            <span class="bg-indigo-600 text-white px-3 py-1 text-xs font-bold rounded-full">10</span>
+            <h2 class="text-xl font-bold outfit">Glassmorphism Overlay</h2>
+        </div>
+        <div
+            class="relative bg-gradient-to-br from-purple-600 to-indigo-700 p-10 rounded-2xl overflow-hidden text-white">
+            <div
+                class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10">
+            </div>
+
+            <div class="relative z-10 flex justify-between items-end">
+                <div>
+                    <div
+                        class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-lg text-xs font-bold mb-3 border border-white/10">
+                        CONFIDENTIAL
+                    </div>
+                    <h3 class="text-3xl font-black outfit tracking-tight">Merger Plan</h3>
+                </div>
+
+                <div class="flex gap-3">
+                    <div
+                        class="px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/20 transition-colors cursor-pointer text-center min-w-[120px]">
+                        <div class="text-[10px] uppercase font-bold text-white/60 mb-1">Acquirer</div>
+                        <div class="font-bold">MegaCorp</div>
+                    </div>
+                    <div
+                        class="px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/20 transition-colors cursor-pointer text-center min-w-[120px]">
+                        <div class="text-[10px] uppercase font-bold text-white/60 mb-1">Target</div>
+                        <div class="font-bold">SmallBiz</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

@@ -118,7 +118,7 @@ const ContextSidePane = ({
     const currentMatch = matches[currentMatchIndex];
 
     return (
-        <div ref={panelRef} className="fixed inset-y-0 right-0 w-[550px] bg-white shadow-2xl border-l border-gray-200 z-[60] transform transition-transform duration-300 ease-in-out flex flex-col">
+        <div ref={panelRef} className="fixed inset-y-0 right-0 w-[550px] bg-white shadow-2xl border-l border-gray-200 z-[150] transform transition-transform duration-300 ease-in-out flex flex-col">
             {/* Header */}
             <div className="p-4 border-b border-gray-100 bg-gray-50 shrink-0">
                 <div className="flex items-center justify-between mb-2">
