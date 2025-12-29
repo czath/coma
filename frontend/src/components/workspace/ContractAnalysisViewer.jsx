@@ -3,6 +3,7 @@ import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Lin
 import { useNavigate } from 'react-router-dom';
 import BillingCard from '../BillingCard';
 import ContextSidePane from '../workspace/ContextSidePane';
+import { findCitationInSections, normalizeText } from '../../utils/textUtils';
 
 const ContractAnalysisViewer = ({ file, onBack }) => {
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     const [contextSidePaneOpen, setContextSidePaneOpen] = useState(false);
     const [contextData, setContextData] = useState(null); // { type, text/citation, matches }
     const [glossarySort, setGlossarySort] = useState('alpha');
+    const [referenceFilter, setReferenceFilter] = useState('all'); // all, valid, invalid, self-ref
 
     // Extract results from file object
     // Expecting: file.contract_analyzed_content (analysis result)
@@ -147,70 +149,65 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
         if (!citationOrTerm || !file.content) return;
 
         if (mode === 'MATCHES') {
-            // New Match Mode (Glossary): Let the SidePane scan all content
             setContextData({
                 type: 'MATCHES',
                 term: citationOrTerm,
                 sourceTitle: title,
-                ...extraData // Pass definition or other metadata
+                ...extraData
             });
             setContextSidePaneOpen(true);
             return;
         }
 
-        // CITATION Mode (Term Sheet/Refs): Fuzzy find specific block
-        const blocks = file.content;
-        // ... (rest of function) ...
-        <button
-            onClick={() => handleViewContext(g.term, "Glossary Term", "MATCHES", { definition: g.definition })}
-            className="text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity p-1"
-            title="Find in Document"
-        >
-            <Search size={14} />
-        </button>
-        let foundBlockIndex = blocks.findIndex(b => b.text && b.text.includes(citationOrTerm.substring(0, 50))); // Fuzzy start match
+        // CITATION / EVIDENCE Mode (Term Sheet/Refs)
+        // Check for new multi-evidence structure first
+        if (extraData?.evidence && Array.isArray(extraData.evidence) && extraData.evidence.length > 0) {
+            // Transform evidence list into MATCHES for nav support
+            const evidenceMatches = extraData.evidence.map(ev => {
+                const targetSection = result?.sections?.find(s => s.id === ev.section_id);
+                return {
+                    headerTitle: targetSection?.title || targetSection?.header || ev.section_id || "Section Evidence",
+                    text: targetSection?.text || ev.verbatim, // Use section text if found
+                    matchTerm: ev.verbatim,
+                    occurrenceInBlock: 0
+                };
+            });
 
-        if (foundBlockIndex !== -1) {
-            // Logic to find header
-            let startIndex = foundBlockIndex;
-            let headerText = "Document Section";
-            for (let i = foundBlockIndex; i >= 0; i--) {
-                const b = blocks[i];
-                const type = (b.type || "").toUpperCase();
-                if (type.includes("HEADER") || type.includes("START")) {
-                    headerText = b.title || b.text;
-                    startIndex = i;
-                    break;
-                }
-            }
+            setContextData({
+                type: 'MATCHES',
+                term: citationOrTerm,
+                sourceTitle: title,
+                matches: evidenceMatches,
+                // Override internal match calculation in SidePane by providing pre-calculated matches
+                providedMatches: evidenceMatches
+            });
+            setContextSidePaneOpen(true);
+            return;
+        }
 
-            // Construct Context (Header -> Next Header)
-            let contextText = "";
-            for (let i = startIndex; i < blocks.length; i++) {
-                const b = blocks[i];
-                const type = (b.type || "").toUpperCase();
-                if (i > startIndex && (type.includes("HEADER") || type.includes("START"))) break;
-                contextText += (b.text || "") + "\n";
-            }
+        // Fallback: Using NATIVE SECTION utility for single lookups
+        const match = findCitationInSections(result?.sections, citationOrTerm);
 
+        if (match) {
             setContextData({
                 type: 'CITATION',
                 citation: citationOrTerm,
-                fullText: contextText,
-                sourceTitle: headerText
+                fullText: match.contextText,
+                sourceTitle: match.headerTitle,
+                highlight: citationOrTerm
             });
         } else {
-            // Check structured sections as fallback
-            const foundSection = file.sections?.find(sec => sec.content.includes(citationOrTerm));
-            if (foundSection) {
+            // Fallback for HiPDAM references (which might use separate analyzed content array)
+            const hipdamMatch = findCitationInSections(result?.hipdam_analyzed_content, citationOrTerm);
+            if (hipdamMatch) {
                 setContextData({
                     type: 'CITATION',
                     citation: citationOrTerm,
-                    fullText: foundSection.content,
-                    sourceTitle: foundSection.name || "Section"
+                    fullText: hipdamMatch.contextText,
+                    sourceTitle: hipdamMatch.headerTitle,
+                    highlight: citationOrTerm
                 });
             } else {
-                // Fallback: Just show citation
                 setContextData({
                     type: 'CITATION',
                     citation: citationOrTerm,
@@ -467,11 +464,27 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 {/* Header & Title */}
                                                 <div>
                                                     <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-2 block">Executive Summary</span>
-                                                    <h1 className="text-3xl font-black text-gray-900 leading-tight">
-                                                        {(typeof result.term_sheet.contract_title === 'object' && result.term_sheet.contract_title?.value
-                                                            ? result.term_sheet.contract_title.value
-                                                            : result.term_sheet.contract_title) || "Untitled Agreement"}
-                                                    </h1>
+                                                    <div className="flex items-center gap-3">
+                                                        <h1 className="text-3xl font-black text-gray-900 leading-tight">
+                                                            {(() => {
+                                                                const titleObj = result.term_sheet.contract_title;
+                                                                if (typeof titleObj === 'object' && titleObj !== null) {
+                                                                    return titleObj.value || "Untitled Agreement";
+                                                                }
+                                                                return titleObj || "Untitled Agreement";
+                                                            })()}
+                                                        </h1>
+                                                        {typeof result.term_sheet.contract_title === 'object' && result.term_sheet.contract_title?.validation && (
+                                                            <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded border border-gray-100 shadow-sm" title={result.term_sheet.contract_title.validation.reasoning}>
+                                                                {result.term_sheet.contract_title.validation.is_valid !== false ? (
+                                                                    <CheckCircle size={14} className="text-green-500" />
+                                                                ) : (
+                                                                    <XCircle size={14} className="text-red-500" />
+                                                                )}
+                                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">Validated</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                                 {/* Parties (Dynamic) */}
                                                 {result.term_sheet.parties && Array.isArray(result.term_sheet.parties) && result.term_sheet.parties.length > 0 && (
@@ -482,20 +495,46 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                     <Users size={20} />
                                                                 </div>
                                                                 <div className="flex-1 min-w-0">
-                                                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
-                                                                        {party.role || "Party"}
-                                                                    </span>
+                                                                    <div className="flex items-center justify-between gap-2 mb-1">
+                                                                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">
+                                                                            {party.role || "Party"}
+                                                                        </span>
+                                                                        {party.validation && (
+                                                                            <div title={party.validation.reasoning}>
+                                                                                {party.validation.is_valid !== false ? (
+                                                                                    <CheckCircle size={14} className="text-green-500" />
+                                                                                ) : (
+                                                                                    <XCircle size={14} className="text-red-500" />
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
                                                                     <div className="text-lg font-bold text-gray-900 truncate" title={party.name}>
                                                                         {party.name}
                                                                     </div>
-                                                                    {party.citation && (
-                                                                        <button
-                                                                            onClick={() => handleViewContext(party.citation, party.name || "Party")}
-                                                                            className="mt-2 text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                                        >
-                                                                            <Eye size={12} /> View Context
-                                                                        </button>
+                                                                    {party.address && (
+                                                                        <div className="mt-1 text-xs text-gray-500 flex flex-col gap-1">
+                                                                            <span className="line-clamp-2" title={party.address}>{party.address}</span>
+                                                                            <a
+                                                                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(party.address)}`}
+                                                                                target="_blank"
+                                                                                rel="noopener noreferrer"
+                                                                                className="text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1 w-fit"
+                                                                            >
+                                                                                <Link2 size={12} /> Verify Address
+                                                                            </a>
+                                                                        </div>
                                                                     )}
+                                                                    <div className="flex gap-4 mt-3">
+                                                                        {party.evidence?.length > 0 && (
+                                                                            <button
+                                                                                onClick={() => handleViewContext(party.name, party.name || "Party", 'CITATION', party)}
+                                                                                className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                                            >
+                                                                                <Eye size={12} /> View Context
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         ))}
@@ -519,22 +558,39 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                     displayValue = JSON.stringify(displayValue);
                                                                 }
 
-                                                                const citation = isObject ? item.citation : null;
+                                                                const validation = isObject ? item.validation : null;
 
                                                                 return (
-                                                                    <div key={key} className="p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:border-indigo-200 transition-colors flex flex-col justify-between group">
+                                                                    <div key={key} className={`p-4 bg-white rounded-xl border shadow-sm transition-all flex flex-col justify-between group relative ${validation?.is_valid === false ? 'border-red-200 bg-red-50/10' : 'border-gray-200 hover:border-indigo-200'}`}>
+                                                                        {/* Validation Status Icon */}
+                                                                        {validation && (
+                                                                            <div className="absolute top-2 right-2">
+                                                                                {validation.is_valid !== false ? (
+                                                                                    <CheckCircle size={14} className="text-green-500" />
+                                                                                ) : (
+                                                                                    <XCircle size={14} className="text-red-500" />
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+
                                                                         <div>
-                                                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 block truncate" title={key.replace(/_/g, " ")}>
+                                                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 block truncate pr-5" title={key.replace(/_/g, " ")}>
                                                                                 {key.replace(/_/g, " ")}
                                                                             </span>
                                                                             <div className="text-sm font-medium text-gray-900 break-words mb-2">
                                                                                 {displayValue || "—"}
                                                                             </div>
+
+                                                                            {validation?.reasoning && (
+                                                                                <p className="text-[9px] text-gray-400 leading-tight italic line-clamp-2 group-hover:line-clamp-none transition-all mb-2">
+                                                                                    {validation.reasoning}
+                                                                                </p>
+                                                                            )}
                                                                         </div>
 
-                                                                        {citation && (
+                                                                        {item.evidence?.length > 0 && (
                                                                             <button
-                                                                                onClick={() => handleViewContext(citation, key.replace(/_/g, " "))}
+                                                                                onClick={() => handleViewContext(displayValue, key.replace(/_/g, " "), 'CITATION', item)}
                                                                                 className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
                                                                             >
                                                                                 <Eye size={12} /> View Context
@@ -548,17 +604,17 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                             </div>
                                         ) : (
                                             <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200 shadow-sm max-w-2xl mx-auto px-10">
-                                                <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 text-indigo-600">
-                                                    <Sparkles size={40} />
+                                                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-400">
+                                                    <FileText size={40} />
                                                 </div>
-                                                <h2 className="text-2xl font-black text-gray-900 mb-4 tracking-tight uppercase">Stage 1: Reference Isolation</h2>
+                                                <h2 className="text-2xl font-black text-gray-900 mb-4 tracking-tight uppercase">No Term Sheet Data</h2>
                                                 <p className="text-gray-500 leading-relaxed font-medium">
-                                                    The Term Sheet extraction is currently <span className="text-indigo-600 font-bold">DISABLED</span> to validate reference mapping precision.
+                                                    The Term Sheet extraction did not yield any structured results for this document.
                                                 </p>
-                                                <div className="mt-8 p-4 bg-indigo-50 rounded-xl text-left border border-indigo-100 flex gap-4 items-start">
-                                                    <AlertTriangle className="text-indigo-600 shrink-0 mt-0.5" size={18} />
-                                                    <span className="text-xs font-bold text-indigo-700 leading-tight uppercase tracking-wide">
-                                                        Verification is focused exclusively on audit-driven reference mapping to resolve TOC and blacklist issues.
+                                                <div className="mt-8 p-4 bg-gray-50 rounded-xl text-left border border-gray-100 flex gap-4 items-start">
+                                                    <Sparkles className="text-indigo-600 shrink-0 mt-0.5" size={18} />
+                                                    <span className="text-xs font-bold text-gray-600 leading-tight uppercase tracking-wide">
+                                                        Ensure the document follows a standard contract structure to improve extraction results.
                                                     </span>
                                                 </div>
                                             </div>
@@ -577,157 +633,237 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                             {/* REFERENCES TAB */}
                             {activeTab === "references" && (
-                                <div className="flex flex-col divide-y divide-gray-100 overflow-y-auto h-full bg-gray-50/30">
-                                    {result.reference_map && result.reference_map.map((ref, i) => (
-                                        <div key={i} className="p-5 hover:bg-white transition-all group border-l-4 border-transparent hover:border-indigo-500 hover:shadow-sm">
+                                <div className="flex flex-col h-full bg-gray-50/30">
+                                    {/* Filter Controls */}
+                                    {result.reference_map && result.reference_map.length > 0 && (() => {
+                                        // Calculate counts
+                                        const totalCount = result.reference_map.length;
+                                        const validCount = result.reference_map.filter(r => r.is_valid !== false).length;
+                                        const invalidCount = result.reference_map.filter(r => r.is_valid === false).length;
+                                        const selfRefCount = result.reference_map.filter(r => r.is_self_reference).length;
 
-                                            {/* TIER 1: HEADER & STATUS */}
-                                            <div className="flex items-center justify-between mb-3">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="p-1.5 rounded-md bg-gray-50 text-gray-500">
-                                                        <Link2 size={16} />
+                                        // Filter references based on selection
+                                        const filteredRefs = result.reference_map.filter(ref => {
+                                            if (referenceFilter === 'all') return true;
+                                            if (referenceFilter === 'valid') return ref.is_valid !== false;
+                                            if (referenceFilter === 'invalid') return ref.is_valid === false;
+                                            if (referenceFilter === 'self-ref') return ref.is_self_reference;
+                                            return true;
+                                        });
+
+                                        return (
+                                            <>
+                                                <div className="p-4 bg-white border-b border-gray-200">
+                                                    <div className="flex items-center justify-between mb-3">
+                                                        <h3 className="text-sm font-bold text-gray-700">Filter References</h3>
+                                                        <span className="text-xs text-gray-500">
+                                                            Showing <span className="font-bold text-indigo-600">{filteredRefs.length}</span> of {totalCount}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex gap-2 flex-wrap">
+                                                        <button
+                                                            onClick={() => setReferenceFilter('all')}
+                                                            className={`px-3 py-1.5 text-xs font-bold rounded border transition-all ${referenceFilter === 'all'
+                                                                ? 'bg-indigo-600 text-white border-indigo-700'
+                                                                : 'bg-white text-gray-600 border-gray-300 hover:border-indigo-400'
+                                                                }`}
+                                                        >
+                                                            All ({totalCount})
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setReferenceFilter('valid')}
+                                                            className={`px-3 py-1.5 text-xs font-bold rounded border transition-all ${referenceFilter === 'valid'
+                                                                ? 'bg-green-600 text-white border-green-700'
+                                                                : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'
+                                                                }`}
+                                                        >
+                                                            Valid ({validCount})
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setReferenceFilter('invalid')}
+                                                            className={`px-3 py-1.5 text-xs font-bold rounded border transition-all ${referenceFilter === 'invalid'
+                                                                ? 'bg-red-600 text-white border-red-700'
+                                                                : 'bg-white text-gray-600 border-gray-300 hover:border-red-400'
+                                                                }`}
+                                                        >
+                                                            Invalid ({invalidCount})
+                                                        </button>
+                                                        {selfRefCount > 0 && (
+                                                            <button
+                                                                onClick={() => setReferenceFilter('self-ref')}
+                                                                className={`px-3 py-1.5 text-xs font-bold rounded border transition-all ${referenceFilter === 'self-ref'
+                                                                    ? 'bg-orange-600 text-white border-orange-700'
+                                                                    : 'bg-white text-gray-600 border-gray-300 hover:border-orange-400'
+                                                                    }`}
+                                                            >
+                                                                ⚠ Self-Ref ({selfRefCount})
+                                                            </button>
+                                                        )}
                                                     </div>
                                                 </div>
-                                                <div className="flex items-center gap-2">
-                                                    {/* Status Badge - Smaller */}
-                                                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded border ${ref.is_valid !== false
-                                                        ? 'text-green-700 bg-green-50 border-green-200'
-                                                        : 'text-white bg-red-600 border-red-700'
-                                                        }`}>
-                                                        {ref.is_valid !== false ? 'VALID' : 'INVALID'}
-                                                    </span>
-                                                </div>
-                                            </div>
 
-                                            {/* TIER 2: SOURCE & TARGET MAPPING */}
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                                                {/* Source Column */}
-                                                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/source">
-                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">Ref Source</span>
-                                                    <p className="text-xs text-gray-800 font-medium leading-relaxed pr-8 line-clamp-2">
-                                                        "{ref.source_context || "Metadata Only"}"
-                                                    </p>
-                                                    {ref.source_context && (
-                                                        <button
-                                                            onClick={() => handleViewContext(ref.source_context, "Source Citation")}
-                                                            className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/source:opacity-100"
-                                                            title="Jump to Source"
-                                                        >
-                                                            <Search size={14} />
-                                                        </button>
-                                                    )}
-                                                </div>
+                                                <div className="flex-1 overflow-y-auto divide-y divide-gray-100">
+                                                    {filteredRefs.map((ref, i) => (
+                                                        <div key={i} className="p-5 hover:bg-white transition-all group border-l-4 border-transparent hover:border-indigo-500 hover:shadow-sm">
 
-                                                {/* Target Column - Show validation details if invalid */}
-                                                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/target">
-                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">
-                                                        {ref.is_valid !== false ? 'Ref Target' : 'Invalid Reference'}
-                                                    </span>
-
-                                                    {ref.is_valid !== false ? (
-                                                        // VALID: Show target details
-                                                        <div className="pr-8">
-                                                            <div className="text-xs font-bold text-indigo-700 flex items-center gap-1 mb-1">
-                                                                <Tag size={12} className="shrink-0" />
-                                                                {ref.target_section_id || ref.target_id || "N/A"}
-                                                                {ref.target_clause && (
-                                                                    <span className="text-purple-600 font-black ml-1">
-                                                                        § {ref.target_clause}
+                                                            {/* TIER 1: HEADER & STATUS */}
+                                                            <div className="flex items-center justify-between mb-3">
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="p-1.5 rounded-md bg-gray-50 text-gray-500">
+                                                                        <Link2 size={16} />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-2">
+                                                                    {/* Self-Reference Warning */}
+                                                                    {ref.is_self_reference && (
+                                                                        <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded border text-orange-700 bg-orange-50 border-orange-200">
+                                                                            ⚠ SELF-REF
+                                                                        </span>
+                                                                    )}
+                                                                    {/* Status Badge - Smaller */}
+                                                                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded border ${ref.is_valid !== false
+                                                                        ? 'text-green-700 bg-green-50 border-green-200'
+                                                                        : 'text-white bg-red-600 border-red-700'
+                                                                        }`}>
+                                                                        {ref.is_valid !== false ? 'VALID' : 'INVALID'}
                                                                     </span>
-                                                                )}
-                                                            </div>
-                                                            <p className="text-xs text-gray-600 line-clamp-2 font-medium">
-                                                                {ref.target_header || "No specific header provided"}
-                                                            </p>
-                                                        </div>
-                                                    ) : (
-                                                        // INVALID: Show validation details here
-                                                        <div className="space-y-2">
-                                                            {/* Main reason */}
-                                                            <p className="text-xs font-bold text-red-900 leading-tight">
-                                                                {ref.invalid_reason || 'No specific reason provided'}
-                                                            </p>
-
-                                                            {/* Show verdict breakdown */}
-                                                            <div className="flex gap-3 text-[10px]">
-                                                                {ref.judge_verdict && (
-                                                                    <div>
-                                                                        <span className="font-black text-gray-400">Judge:</span>
-                                                                        <span className={`ml-1 font-bold ${ref.judge_verdict === 'ACCEPT' ? 'text-blue-600' : 'text-amber-600'
-                                                                            }`}>
-                                                                            {ref.judge_verdict}
-                                                                        </span>
-                                                                    </div>
-                                                                )}
-                                                                {ref.system_verdict && ref.system_verdict !== 'N/A' && (
-                                                                    <div>
-                                                                        <span className="font-black text-gray-400">System:</span>
-                                                                        <span className={`ml-1 font-bold ${ref.system_verdict === 'ACCEPT' ? 'text-green-600' : 'text-red-600'
-                                                                            }`}>
-                                                                            {ref.system_verdict}
-                                                                        </span>
-                                                                    </div>
-                                                                )}
+                                                                </div>
                                                             </div>
 
-                                                            {/* Additional details if different from main reason */}
-                                                            {ref.system_reason && ref.system_reason !== ref.invalid_reason && (
-                                                                <p className="text-[10px] text-gray-500 italic">
-                                                                    System: {ref.system_reason}
-                                                                </p>
-                                                            )}
-                                                            {ref.judge_reason && ref.judge_reason !== ref.invalid_reason && (
-                                                                <p className="text-[10px] text-gray-500 italic">
-                                                                    Judge: {ref.judge_reason}
-                                                                </p>
-                                                            )}
+                                                            {/* TIER 2: SOURCE & TARGET MAPPING */}
+                                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                                                {/* Source Column */}
+                                                                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/source">
+                                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">Ref Source</span>
+                                                                    <p className="text-xs text-gray-800 font-medium leading-relaxed pr-8 line-clamp-2">
+                                                                        "{ref.source_context || "Metadata Only"}"
+                                                                    </p>
+                                                                    {ref.source_context && (
+                                                                        <button
+                                                                            onClick={() => handleViewContext(ref.source_context, "Source Citation")}
+                                                                            className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/source:opacity-100"
+                                                                            title="Jump to Source"
+                                                                        >
+                                                                            <Search size={14} />
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+
+                                                                {/* Target Column - Show validation details if invalid */}
+                                                                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group/target">
+                                                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tight block mb-1">
+                                                                        {ref.is_valid !== false ? 'Ref Target' : 'Invalid Reference'}
+                                                                    </span>
+
+                                                                    {ref.is_valid !== false ? (
+                                                                        // VALID: Show target details
+                                                                        <div className="pr-8">
+                                                                            <div className="text-xs font-bold text-indigo-700 flex items-center gap-1 mb-1">
+                                                                                <Tag size={12} className="shrink-0" />
+                                                                                {ref.target_section_id || ref.target_id || "N/A"}
+                                                                                {ref.target_clause && (
+                                                                                    <span className="text-purple-600 font-black ml-1">
+                                                                                        § {ref.target_clause}
+                                                                                    </span>
+                                                                                )}
+                                                                            </div>
+                                                                            <p className="text-xs text-gray-600 line-clamp-2 font-medium">
+                                                                                {ref.target_header || "No specific header provided"}
+                                                                            </p>
+                                                                        </div>
+                                                                    ) : (
+                                                                        // INVALID: Show validation details here
+                                                                        <div className="space-y-2">
+                                                                            {/* Main reason */}
+                                                                            <p className="text-xs font-bold text-red-900 leading-tight">
+                                                                                {ref.invalid_reason || 'No specific reason provided'}
+                                                                            </p>
+
+                                                                            {/* Show verdict breakdown */}
+                                                                            <div className="flex gap-3 text-[10px]">
+                                                                                {ref.judge_verdict && (
+                                                                                    <div>
+                                                                                        <span className="font-black text-gray-400">Judge:</span>
+                                                                                        <span className={`ml-1 font-bold ${ref.judge_verdict === 'ACCEPT' ? 'text-blue-600' : 'text-amber-600'
+                                                                                            }`}>
+                                                                                            {ref.judge_verdict}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ref.system_verdict && ref.system_verdict !== 'N/A' && (
+                                                                                    <div>
+                                                                                        <span className="font-black text-gray-400">System:</span>
+                                                                                        <span className={`ml-1 font-bold ${ref.system_verdict === 'ACCEPT' ? 'text-green-600' : 'text-red-600'
+                                                                                            }`}>
+                                                                                            {ref.system_verdict}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+
+                                                                            {/* Additional details if different from main reason */}
+                                                                            {ref.system_reason && ref.system_reason !== ref.invalid_reason && (
+                                                                                <p className="text-[10px] text-gray-500 italic">
+                                                                                    System: {ref.system_reason}
+                                                                                </p>
+                                                                            )}
+                                                                            {ref.judge_reason && ref.judge_reason !== ref.invalid_reason && (
+                                                                                <p className="text-[10px] text-gray-500 italic">
+                                                                                    Judge: {ref.judge_reason}
+                                                                                </p>
+                                                                            )}
+                                                                        </div>
+                                                                    )}
+
+
+                                                                    {ref.is_valid !== false && (ref.target_id || ref.target_header) && (
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                const targetId = ref.target_id || ref.target_section_id;
+                                                                                if (targetId && result.sections) {
+                                                                                    // Find the section with this ID
+                                                                                    const targetSection = result.sections.find(s => s.id === targetId);
+
+                                                                                    if (targetSection) {
+                                                                                        // Display this section's content directly
+                                                                                        setContextData({
+                                                                                            type: 'CITATION',
+                                                                                            citation: ref.target_header || targetId,
+                                                                                            fullText: targetSection.text || "",
+                                                                                            sourceTitle: targetSection.title || targetSection.header || ref.target_header || targetId,
+                                                                                            highlight: ref.target_clause || null // Highlight the clause if provided
+                                                                                        });
+                                                                                        setContextSidePaneOpen(true);
+                                                                                    } else {
+                                                                                        // ID not found, fallback to header search
+                                                                                        handleViewContext(ref.target_header, "Target Section");
+                                                                                    }
+                                                                                } else if (ref.target_header) {
+                                                                                    // No ID, use header search
+                                                                                    handleViewContext(ref.target_header, "Target Section");
+                                                                                }
+                                                                            }}
+                                                                            className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/target:opacity-100"
+                                                                            title="Jump to Target"
+                                                                        >
+                                                                            <Search size={14} />
+                                                                        </button>
+                                                                    )}
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                    {(!result.reference_map || result.reference_map.length === 0) && (
+                                                        <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
+                                                            <Link2 className="mb-2 opacity-50" size={32} />
+                                                            No references found.
                                                         </div>
                                                     )}
-
-
-                                                    {ref.is_valid !== false && (ref.target_id || ref.target_header) && (
-                                                        <button
-                                                            onClick={() => {
-                                                                const targetId = ref.target_id || ref.target_section_id;
-                                                                if (targetId && file.content) {
-                                                                    // Find the ONE block with this ID (IDs are unique)
-                                                                    const targetBlock = file.content.find(b => b.id === targetId);
-
-                                                                    if (targetBlock) {
-                                                                        // Display this block's content directly
-                                                                        setContextData({
-                                                                            type: 'CITATION',
-                                                                            citation: ref.target_header || targetId,
-                                                                            fullText: targetBlock.text || "",
-                                                                            sourceTitle: targetBlock.header || ref.target_header || targetId
-                                                                        });
-                                                                        setContextSidePaneOpen(true);
-                                                                    } else {
-                                                                        // ID not found, fallback to header search
-                                                                        handleViewContext(ref.target_header, "Target Section");
-                                                                    }
-                                                                } else if (ref.target_header) {
-                                                                    // No ID, use header search
-                                                                    handleViewContext(ref.target_header, "Target Section");
-                                                                }
-                                                            }}
-                                                            className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/target:opacity-100"
-                                                            title="Jump to Target"
-                                                        >
-                                                            <Search size={14} />
-                                                        </button>
-                                                    )}
-
                                                 </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    {(!result.reference_map || result.reference_map.length === 0) && (
-                                        <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
-                                            <Link2 className="mb-2 opacity-50" size={32} />
-                                            No references found.
-                                        </div>
-                                    )}
+                                            </>
+                                        );
+                                    })()}
                                 </div>
                             )}
 
@@ -968,7 +1104,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                 </div>
                             )}
 
-                        </div>
+                        </div >
                     </div>
                 </div>
             </div>

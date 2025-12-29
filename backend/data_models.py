@@ -103,3 +103,43 @@ class GeneralTaxonomyTag(BaseModel):
     tag_id: str = Field(description="Unique semantic slug for the tag (e.g., TAG_PAYMENT_TERMS)")
     display_name: str = Field(description="Human-readable name of the tag")
     description: str = Field(description="Detailed definition of the tag's purpose")
+
+# --- Term Sheet Models ---
+
+class EvidenceItem(BaseModel):
+    verbatim: str = Field(description="Verbatim snippet from the text.")
+    section_id: str = Field(description="The ID of the section containing this snippet.")
+
+class ValidationResult(BaseModel):
+    is_valid: bool = Field(description="Whether the extracted value is accurate and cited correctly")
+    confidence: str = Field(description="Confidence level: high, medium, low")
+    reasoning: str = Field(description="Reasoning for the validation status or extraction failure")
+
+class TermSheetField(BaseModel):
+    value: Optional[str] = Field(description="Short, plain English (layman) summary/value of the field. NOT verbatim.", default=None)
+    evidence: List[EvidenceItem] = Field(description="List of specific verbatim snippets and their source section IDs.", default=[])
+    validation: ValidationResult = Field(description="REQUIRED: Validation status from the judge. Must contain is_valid, confidence, and reasoning.")
+
+class Party(BaseModel):
+    name: str = Field(description="Full legal name of the party. MUST BE VERBATIM.")
+    role: str = Field(description="Role (e.g., Client, Supplier, Contractor). MUST BE VERBATIM.")
+    address: Optional[str] = Field(description="Registered address or place of business. MUST BE VERBATIM.", default=None)
+    evidence: List[EvidenceItem] = Field(description="List of specific verbatim snippets and their source section IDs for the party.", default=[])
+    validation: ValidationResult = Field(description="REQUIRED: Validation status from the judge. Must contain is_valid, confidence, and reasoning.")
+
+class TermSheetResponse(BaseModel):
+    contract_title: TermSheetField = Field(description="Official title of the agreement. Style: STRICT VERBATIM.")
+    effective_date: TermSheetField = Field(description="Date the agreement becomes effective. Style: Layman Summary.")
+    expiry_and_renewal_term: TermSheetField = Field(description="Date/duration and renewal conditions. Style: Layman Summary.")
+    parties: List[Party]
+    governing_law: TermSheetField = Field(description="Jurisdiction and applicable laws. Style: Layman Summary.")
+    dispute_resolution: TermSheetField = Field(description="Method and venue for resolving conflicts. Style: Layman Summary.")
+    payment_terms: TermSheetField = Field(description="Invoicing and payment cycles. Style: Layman Summary.")
+    payment_milestones: TermSheetField = Field(description="Specific deliverables tied to payments. Style: Layman Summary.")
+    warranty: TermSheetField = Field(description="Scope and duration of warranties. Style: Layman Summary.")
+    liquidated_damages: TermSheetField = Field(description="Penalties for specific breaches. Style: Layman Summary.")
+    termination: TermSheetField = Field(description="Conditions and notice for ending agreement. Style: Layman Summary.")
+    limitation_of_liability: TermSheetField = Field(description="Caps or exclusions on responsibility. Style: Layman Summary.")
+    indemnification: TermSheetField = Field(description="Obligations to compensate for losses. Style: Layman Summary.")
+    epidemic_failure: TermSheetField = Field(description="Terms regarding widespread defects. Style: Layman Summary.")
+

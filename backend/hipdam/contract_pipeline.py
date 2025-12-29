@@ -26,7 +26,7 @@ class ContractPipeline:
         self.client = genai.Client(
             api_key=api_key,
             http_options={
-                'api_version': 'v1alpha',
+                'api_version': 'v1beta',
                 'httpx_client': httpx.Client(verify=False, timeout=300),
                 'httpx_async_client': httpx.AsyncClient(verify=False, timeout=300)
             }
@@ -137,15 +137,20 @@ class ContractPipeline:
         Extract cross-references from contract document using ReferenceProfiler.
         V6 Architecture: Delegates to separate reference_profiler module.
         """
-        # Initialize profiler
+        # Initialize profilers
         profiler = ReferenceProfiler(self.client, self.config, self.billing)
+        from hipdam.term_sheet_profiler import TermSheetProfiler
+        ts_profiler = TermSheetProfiler(self.client, self.config, self.billing)
         
-        # Extract and validate references
+        # Extract term sheet (Worker-Judge pipeline)
+        term_sheet_data = await ts_profiler.extract_term_sheet(doc_payload, job_id)
+        
+        # Extract references
         result = await profiler.extract_references(doc_payload, job_id)
         
         # Format output for compatibility with existing pipeline
         term_sheet = {
-            "term_sheet": {},  # Empty for now
+            "term_sheet": term_sheet_data,  # Now populated with validated data!
             "reference_map": result["reference_map"],
             "missing_appendices": []  # Deprecated field
         }
@@ -166,9 +171,10 @@ class ContractPipeline:
             "attempt": 1,
             "timestamp": datetime.now().isoformat(),
             "verifier_decision": "ACCEPT" if result.get("stats", {}).get("final_count", 0) > 0 else "REJECT",
-            "verifier_feedback": f"Extracted {result.get('stats', {}).get('extracted', 0)} candidates, validated {result.get('stats', {}).get('final_count', 0)} references",
+            "verifier_feedback": f"Term Sheet: {len(term_sheet_data)} fields. References: Extracted {result.get('stats', {}).get('extracted', 0)} candidates, validated {result.get('stats', {}).get('final_count', 0)}",
             "worker_output": {
                 "stats": result.get("stats", {}),
+                "term_sheet": term_sheet_data, # Include term sheet in trace
                 "reference_map": result.get("reference_map", []),
                 "rejected_map": result.get("rejected_map", [])  # Include rejected references
             },

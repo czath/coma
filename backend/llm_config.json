@@ -65,6 +65,20 @@
             "max_output_tokens": 65536,
             "prompt_file": "prompts/judge_labeler.txt"
         },
+        "TERM_SHEET_WORKER": {
+            "name": "Term Sheet Extractor Worker",
+            "model": "gemini-2.5-flash",
+            "temperature": 0.0,
+            "max_output_tokens": 65536,
+            "prompt_file": "prompts/term_sheet_worker.txt"
+        },
+        "TERM_SHEET_JUDGE": {
+            "name": "Term Sheet Validator Judge",
+            "model": "gemini-2.5-flash",
+            "temperature": 0.0,
+            "max_output_tokens": 65536,
+            "prompt_file": "prompts/judge_term_sheet.txt"
+        },
         "RETRY_STRATEGY": {
             "max_retries": 1,
             "temp_increment": 0.2
