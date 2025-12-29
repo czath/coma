@@ -123,9 +123,6 @@ const ContextSidePane = ({
             <div className="p-5 border-b border-gray-100 bg-gray-50/50 shrink-0">
                 <div className="flex items-center justify-between">
                     <div className="overflow-hidden pr-4">
-                        <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest block mb-0.5 opacity-70">
-                            {title || "Context Viewer"}
-                        </span>
                         <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2 truncate uppercase tracking-tight">
                             <span className="truncate" title={currentMatch?.headerTitle || "Section Details"}>
                                 {currentMatch?.headerTitle || "Section Details"}
