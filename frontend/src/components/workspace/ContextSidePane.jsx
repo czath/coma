@@ -120,13 +120,16 @@ const ContextSidePane = ({
     return (
         <div ref={panelRef} className="fixed inset-y-0 right-0 w-[550px] bg-white shadow-2xl border-l border-gray-200 z-[150] transform transition-transform duration-300 ease-in-out flex flex-col">
             {/* Header */}
-            <div className="p-4 border-b border-gray-100 bg-gray-50 shrink-0">
-                <div className="flex items-center justify-between mb-2">
-                    <div className="overflow-hidden">
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Context Viewer</span>
-                        <h3 className="font-bold text-gray-800 text-sm flex items-center gap-2 truncate pr-2">
-                            <FileText size={14} className="text-indigo-600 shrink-0" />
-                            <span className="truncate" title={title}>{title}</span>
+            <div className="p-5 border-b border-gray-100 bg-gray-50/50 shrink-0">
+                <div className="flex items-center justify-between">
+                    <div className="overflow-hidden pr-4">
+                        <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest block mb-0.5 opacity-70">
+                            {title || "Context Viewer"}
+                        </span>
+                        <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2 truncate uppercase tracking-tight">
+                            <span className="truncate" title={currentMatch?.headerTitle || "Section Details"}>
+                                {currentMatch?.headerTitle || "Section Details"}
+                            </span>
                         </h3>
                     </div>
                     <button onClick={onClose} className="p-1.5 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-600 transition-colors shrink-0">

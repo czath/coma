@@ -17,8 +17,8 @@ For every field containing an `evidence` list:
 
 ### 2. Value-Style Alignment & Summarization
 - **Style: Layman Summary**: 
-  - The `summary` MUST be an ultra-short punchline (2-5 words).
-  - The `value` MUST be a simplified 1-2 sentence description.
+  - The `summary` MUST be an ultra-short punchline (2-8 words).
+  - The `value` MUST be a comprehensive plain English explanation.
   - If either is a verbatim copy of a long clause, mark `is_valid: false`.
 - **Style: Strict Verbatim**: Both `summary` and `value` MUST be exact copies from the document.
 
@@ -38,7 +38,8 @@ For every field containing an `evidence` list:
 - ❌ Snippet mixed text from multiple sections.
 
 ### 4. Special Field Rules
-- **epidemic_failure**: This field refers to **Product Defect Rates** (e.g., >5% failure rate).
-  - ❌ REJECT key phrases: "Force Majeure", "Pandemic", "Disease", "Covid-19".
-  - If the extracted text refers to Acts of God/Disease → `is_valid: false`.
+- **epidemic_failure**: Ensure this refers to **product defect rates** (systematic failure), NOT "Force Majeure" or "Pandemics".
+- **Reasonable Omission**: If a field is `null` (not found), assess if the omission is **REASONABLE** for this contract type.
+  - Example: "Epidemic Failure" is standard in manufacturing but rare in generic services → Omission is VALID (`is_valid: true`).
+  - Only mark `is_valid: false` if a **critical**, standard clause for this specific contract type is missing.
 

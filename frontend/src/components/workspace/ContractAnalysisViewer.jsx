@@ -11,7 +11,6 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     const [useMockData, setUseMockData] = useState(false); // Toggle for mock data // terms, glossary, flags, sections, traces
 
     // Context Viewer State
-    const [contextSidePaneOpen, setContextSidePaneOpen] = useState(false);
     const [viewContext, setViewContext] = useState(null); // { type, text/citation, matches }
     const [expandedTermKey, setExpandedTermKey] = useState(null); // Inline Expansion State
     const [glossarySort, setGlossarySort] = useState('alpha');
@@ -157,7 +156,6 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 sourceTitle: title,
                 ...extraData
             });
-            setContextSidePaneOpen(true);
             return;
         }
 
@@ -183,7 +181,6 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 // Override internal match calculation in SidePane by providing pre-calculated matches
                 providedMatches: evidenceMatches
             });
-            setContextSidePaneOpen(true);
             return;
         }
 
@@ -218,7 +215,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                 });
             }
         }
-        setContextSidePaneOpen(true);
+
     };
 
     // Export Functionality
@@ -427,13 +424,13 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                             const contractTitle = result.term_sheet.contract_title?.value || result.term_sheet.contract_title || "Contract Agreement";
                                             const displayTitle = typeof contractTitle === 'object' ? JSON.stringify(contractTitle) : contractTitle;
                                             return (
-                                                <h3 className="text-3xl font-black leading-tight mb-8 break-words whitespace-pre-wrap outfit">{displayTitle}</h3>
+                                                <h3 className="text-3xl font-black leading-tight mb-8 break-words whitespace-pre-wrap outfit text-center">{displayTitle}</h3>
                                             );
                                         })()}
 
-                                        <div className="flex flex-wrap items-start gap-8">
+                                        <div className="flex flex-wrap items-start justify-center gap-8">
                                             {result.term_sheet.parties.map((party, index) => (
-                                                <div key={index} className="flex items-start gap-4 min-w-[200px] flex-1">
+                                                <div key={index} className="flex items-start gap-4 min-w-[200px] text-left">
                                                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shrink-0">
                                                         {(() => {
                                                             const role = (party.role || "").toLowerCase();
@@ -465,7 +462,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                         )}
                                                         {party.evidence?.length > 0 && (
                                                             <button
-                                                                onClick={() => handleViewContext(party.name, party.name || "Party", 'CITATION', party)}
+                                                                onClick={() => handleViewContext(party.name, party.name, 'CITATION', party)}
                                                                 className="text-[10px] font-bold text-indigo-400 hover:text-indigo-200 flex items-center gap-1 mt-2"
                                                             >
                                                                 <Eye size={12} /> View Context
@@ -566,7 +563,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                                 <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600'}`}>
                                                                                     {displayTitle}
                                                                                 </div>
-                                                                                <div className={`font-bold leading-tight line-clamp-2 ${isActive ? 'text-slate-900' : 'text-slate-700'}`}>
+                                                                                <div className={`text-sm font-bold leading-tight line-clamp-2 ${isActive ? 'text-slate-900' : 'text-slate-700'}`}>
                                                                                     {punchline || "—"}
                                                                                 </div>
                                                                             </div>
@@ -586,10 +583,30 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                             <>
                                                                                 {/* Detail Header */}
                                                                                 <div className="p-8 pb-4 border-b border-slate-50 flex-shrink-0">
-                                                                                    <div className="mb-4">
+                                                                                    <div className="flex items-center justify-between mb-4">
                                                                                         <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
                                                                                             {displayTitle}
                                                                                         </span>
+
+                                                                                        <div className="flex items-center gap-3">
+                                                                                            {/* View Evidence Button (Moved) */}
+                                                                                            {activeItem.evidence?.length > 0 && (
+                                                                                                <button
+                                                                                                    onClick={() => handleViewContext(activeKey, displayTitle, 'CITATION', activeItem)}
+                                                                                                    className="flex items-center gap-1.5 text-[10px] font-bold text-indigo-500 hover:text-indigo-700 transition-colors uppercase tracking-wide bg-indigo-50/50 hover:bg-indigo-50 px-2 py-1 rounded-md"
+                                                                                                    title="View Evidence"
+                                                                                                >
+                                                                                                    <Eye size={12} /> View Evidence
+                                                                                                </button>
+                                                                                            )}
+
+                                                                                            {/* Verified Icon (Moved) */}
+                                                                                            {activeItem.validation && (
+                                                                                                <div title={activeItem.validation.is_valid !== false ? "Verified" : "Verification Failed"}>
+                                                                                                    {activeItem.validation.is_valid !== false ? <CheckCircle size={16} className="text-emerald-500" /> : <AlertTriangle size={16} className="text-red-500" />}
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
                                                                                     </div>
                                                                                     <h3 className="text-3xl font-black text-slate-900 font-['Outfit'] leading-tight">
                                                                                         {punchline || "—"}
@@ -606,14 +623,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                                                                                     {/* Validation Box */}
                                                                                     {activeItem.validation && (
-                                                                                        <div className={`p-4 rounded-xl border mb-6 ${activeItem.validation.is_valid !== false ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'}`}>
-                                                                                            <div className="flex items-center gap-2 mb-2">
-                                                                                                {activeItem.validation.is_valid !== false ? <CheckCircle size={14} className="text-emerald-600" /> : <AlertTriangle size={14} className="text-red-600" />}
-                                                                                                <span className={`text-[10px] font-bold uppercase tracking-wider ${activeItem.validation.is_valid !== false ? 'text-emerald-700' : 'text-red-700'}`}>
-                                                                                                    {activeItem.validation.is_valid !== false ? "VERIFIED" : "VERIFICATION FAILED"}
-                                                                                                </span>
-                                                                                            </div>
-                                                                                            <p className={`text-sm ${activeItem.validation.is_valid !== false ? 'text-emerald-800' : 'text-red-800'}`}>
+                                                                                        <div className="mb-6 opacity-60 hover:opacity-100 transition-opacity">
+                                                                                            <p className="text-xs text-slate-400 leading-relaxed italic border-l-2 border-slate-200 pl-3">
                                                                                                 {activeItem.validation.reasoning}
                                                                                             </p>
                                                                                         </div>
@@ -621,16 +632,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                                 </div>
 
                                                                                 {/* Footer Actions */}
-                                                                                {activeItem.evidence?.length > 0 && (
-                                                                                    <div className="p-6 border-t border-slate-100 bg-slate-50/30 mt-auto flex-shrink-0">
-                                                                                        <button
-                                                                                            onClick={() => handleViewContext(activeKey, (activeItem.summary || activeItem.value), 'CITATION', activeItem)}
-                                                                                            className="flex items-center gap-2 text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors bg-white border border-indigo-100 hover:border-indigo-300 px-4 py-2.5 rounded-lg shadow-sm"
-                                                                                        >
-                                                                                            <Eye size={16} /> View Source Evidence ({activeItem.evidence.length})
-                                                                                        </button>
-                                                                                    </div>
-                                                                                )}
+
                                                                             </>
                                                                         );
                                                                     })()) : (
@@ -670,6 +672,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                             {viewContext && (
                                 <ContextSidePane
                                     isOpen={true}
+                                    title={viewContext.sourceTitle}
                                     contextData={viewContext}
                                     fileContent={file.content || result?.sections || []}
                                     onClose={() => setViewContext(null)}
@@ -787,7 +790,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                     </p>
                                                                     {ref.source_context && (
                                                                         <button
-                                                                            onClick={() => handleViewContext(ref.source_context, "Source Citation")}
+                                                                            onClick={() => handleViewContext(ref.source_context, ref.source_header || "Source Citation")}
                                                                             className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/source:opacity-100"
                                                                             title="Jump to Source"
                                                                         >
@@ -873,21 +876,20 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                                                                                     if (targetSection) {
                                                                                         // Display this section's content directly
-                                                                                        setContextData({
+                                                                                        setViewContext({
                                                                                             type: 'CITATION',
                                                                                             citation: ref.target_header || targetId,
                                                                                             fullText: targetSection.text || "",
                                                                                             sourceTitle: targetSection.title || targetSection.header || ref.target_header || targetId,
                                                                                             highlight: ref.target_clause || null // Highlight the clause if provided
                                                                                         });
-                                                                                        setContextSidePaneOpen(true);
                                                                                     } else {
                                                                                         // ID not found, fallback to header search
-                                                                                        handleViewContext(ref.target_header, "Target Section");
+                                                                                        handleViewContext(ref.target_header, ref.target_header || "Target Section");
                                                                                     }
                                                                                 } else if (ref.target_header) {
                                                                                     // No ID, use header search
-                                                                                    handleViewContext(ref.target_header, "Target Section");
+                                                                                    handleViewContext(ref.target_header, ref.target_header || "Target Section");
                                                                                 }
                                                                             }}
                                                                             className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-md transition-colors opacity-0 group-hover/target:opacity-100"
@@ -974,7 +976,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                             </div>
 
                                                             <button
-                                                                onClick={() => handleViewContext(g.term, "Glossary Term", "MATCHES", { definition: g.definition })}
+                                                                onClick={() => handleViewContext(g.term, g.term, "MATCHES", { definition: g.definition })}
                                                                 className="text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity p-1 shrink-0"
                                                                 title="Find in Document"
                                                             >
