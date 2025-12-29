@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark } from 'lucide-react';
+import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark, Store, Building, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BillingCard from '../BillingCard';
 import ContextSidePane from '../workspace/ContextSidePane';
@@ -469,7 +469,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                             {(() => {
                                                                 const titleObj = result.term_sheet.contract_title;
                                                                 if (typeof titleObj === 'object' && titleObj !== null) {
-                                                                    return titleObj.value || "Untitled Agreement";
+                                                                    return titleObj.summary || titleObj.value || "Untitled Agreement";
                                                                 }
                                                                 return titleObj || "Untitled Agreement";
                                                             })()}
@@ -490,9 +490,24 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 {result.term_sheet.parties && Array.isArray(result.term_sheet.parties) && result.term_sheet.parties.length > 0 && (
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                         {result.term_sheet.parties.map((party, idx) => (
-                                                            <div key={idx} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-start gap-4 group relative">
+                                                            <div
+                                                                key={idx}
+                                                                className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-start gap-4 group relative"
+                                                            >
+                                                                {/* Custom Tooltip */}
+                                                                {party.validation?.reasoning && (
+                                                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-[10px] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 w-64 leading-relaxed font-medium text-center isolate">
+                                                                        {party.validation.reasoning}
+                                                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-x-4 border-x-transparent border-t-4 border-t-gray-900"></div>
+                                                                    </div>
+                                                                )}
                                                                 <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg shrink-0">
-                                                                    <Users size={20} />
+                                                                    {(() => {
+                                                                        const role = (party.role || "").toLowerCase();
+                                                                        if (role.includes("supplier") || role.includes("vendor") || role.includes("provider") || role.includes("seller") || role.includes("licensor")) return <Store size={20} />;
+                                                                        if (role.includes("client") || role.includes("customer") || role.includes("buyer") || role.includes("purchaser") || role.includes("licensee")) return <Building size={20} />;
+                                                                        return <Building size={20} />;
+                                                                    })()}
                                                                 </div>
                                                                 <div className="flex-1 min-w-0">
                                                                     <div className="flex items-center justify-between gap-2 mb-1">
@@ -500,7 +515,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                             {party.role || "Party"}
                                                                         </span>
                                                                         {party.validation && (
-                                                                            <div title={party.validation.reasoning}>
+                                                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                                                                                 {party.validation.is_valid !== false ? (
                                                                                     <CheckCircle size={14} className="text-green-500" />
                                                                                 ) : (
@@ -513,16 +528,23 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                         {party.name}
                                                                     </div>
                                                                     {party.address && (
-                                                                        <div className="mt-1 text-xs text-gray-500 flex flex-col gap-1">
-                                                                            <span className="line-clamp-2" title={party.address}>{party.address}</span>
-                                                                            <a
-                                                                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(party.address)}`}
-                                                                                target="_blank"
-                                                                                rel="noopener noreferrer"
-                                                                                className="text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1 w-fit"
-                                                                            >
-                                                                                <Link2 size={12} /> Verify Address
-                                                                            </a>
+                                                                        <div className="mt-2 flex items-start gap-2">
+                                                                            <MapPin size={14} className="text-indigo-400 mt-0.5 shrink-0" />
+                                                                            <div className="flex-1 min-w-0">
+                                                                                <div className="flex items-start justify-between gap-3">
+                                                                                    <span className="text-xs text-gray-500 line-clamp-2 leading-relaxed" title={party.address}>
+                                                                                        {party.address}
+                                                                                    </span>
+                                                                                    <a
+                                                                                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(party.address)}`}
+                                                                                        target="_blank"
+                                                                                        rel="noopener noreferrer"
+                                                                                        className="shrink-0 px-2 py-0.5 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded text-[9px] font-bold uppercase hover:bg-indigo-100 transition-colors flex items-center gap-1"
+                                                                                    >
+                                                                                        <MapPin size={10} /> See in Map
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     )}
                                                                     <div className="flex gap-4 mt-3">
@@ -550,21 +572,38 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                             .map(([key, item]) => {
                                                                 // Handle both legacy string and new object {value, citation} formats
                                                                 // Robust check: ensure it has value property, even if empty string
-                                                                const isObject = typeof item === 'object' && item !== null && 'value' in item;
+                                                                const isObject = typeof item === 'object' && item !== null && ('value' in item || 'summary' in item);
 
-                                                                let displayValue = isObject ? item.value : item;
-                                                                // Failsafe: if displayValue is still an object (unexpected structure), stringify or fallback
-                                                                if (typeof displayValue === 'object' && displayValue !== null) {
-                                                                    displayValue = JSON.stringify(displayValue);
+                                                                let punchline = isObject ? (item.summary || item.value) : item;
+                                                                let detailedValue = isObject ? item.value : null;
+
+                                                                // Failsafe: if punchline is still an object (unexpected structure), stringify or fallback
+                                                                if (typeof punchline === 'object' && punchline !== null) {
+                                                                    punchline = JSON.stringify(punchline);
                                                                 }
 
                                                                 const validation = isObject ? item.validation : null;
 
                                                                 return (
-                                                                    <div key={key} className={`p-4 bg-white rounded-xl border shadow-sm transition-all flex flex-col justify-between group relative ${validation?.is_valid === false ? 'border-red-200 bg-red-50/10' : 'border-gray-200 hover:border-indigo-200'}`}>
-                                                                        {/* Validation Status Icon */}
+                                                                    <div
+                                                                        key={key}
+                                                                        className={`p-4 bg-white rounded-xl border shadow-sm transition-all flex flex-col justify-between group relative ${validation?.is_valid === false ? 'border-red-200 bg-red-50/10' : 'border-gray-200 hover:border-indigo-200'}`}
+                                                                    >
+                                                                        {/* Custom Tooltip (Reasoning + Detailed Value) */}
+                                                                        {(validation?.reasoning || (detailedValue && detailedValue !== punchline)) && (
+                                                                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-[10px] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 w-64 leading-relaxed font-medium text-center isolate">
+                                                                                {detailedValue && detailedValue !== punchline && (
+                                                                                    <div className="mb-2 pb-2 border-b border-white/10 text-white font-bold uppercase tracking-tighter">
+                                                                                        {detailedValue}
+                                                                                    </div>
+                                                                                )}
+                                                                                {validation?.reasoning || (validation?.is_valid !== false ? "Validated" : "Issues Found")}
+                                                                                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-x-4 border-x-transparent border-t-4 border-t-gray-900"></div>
+                                                                            </div>
+                                                                        )}
+                                                                        {/* Validation Status Icon (Hover Only) */}
                                                                         {validation && (
-                                                                            <div className="absolute top-2 right-2">
+                                                                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 backdrop-blur-sm rounded-full p-0.5">
                                                                                 {validation.is_valid !== false ? (
                                                                                     <CheckCircle size={14} className="text-green-500" />
                                                                                 ) : (
@@ -578,14 +617,8 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                                 {key.replace(/_/g, " ")}
                                                                             </span>
                                                                             <div className="text-sm font-medium text-gray-900 break-words mb-2">
-                                                                                {displayValue || "—"}
+                                                                                {punchline || "—"}
                                                                             </div>
-
-                                                                            {validation?.reasoning && (
-                                                                                <p className="text-[9px] text-gray-400 leading-tight italic line-clamp-2 group-hover:line-clamp-none transition-all mb-2">
-                                                                                    {validation.reasoning}
-                                                                                </p>
-                                                                            )}
                                                                         </div>
 
                                                                         {item.evidence?.length > 0 && (

@@ -15,9 +15,12 @@ For every field containing an `evidence` list:
 - If a snippet is not found in the specified section → `is_valid: false`.
 - **No Hallucination**: If the worker concatenated text from different sections into a single `verbatim` string, mark as `is_valid: false` (must be pure to one section).
 
-### 2. Value-Style Alignment
-- **Style: Layman Summary**: The `value` MUST be a simplified description. If it's a verbatim copy, mark `is_valid: false`.
-- **Style: Strict Verbatim**: The `value`/`name` MUST be an exact copy from the document.
+### 2. Value-Style Alignment & Summarization
+- **Style: Layman Summary**: 
+  - The `summary` MUST be an ultra-short punchline (2-5 words).
+  - The `value` MUST be a simplified 1-2 sentence description.
+  - If either is a verbatim copy of a long clause, mark `is_valid: false`.
+- **Style: Strict Verbatim**: Both `summary` and `value` MUST be exact copies from the document.
 
 ### 3. Completeness
 - All parties mentioned must have valid evidence.

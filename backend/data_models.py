@@ -116,7 +116,8 @@ class ValidationResult(BaseModel):
     reasoning: str = Field(description="Reasoning for the validation status or extraction failure")
 
 class TermSheetField(BaseModel):
-    value: Optional[str] = Field(description="Short, plain English (layman) summary/value of the field. NOT verbatim.", default=None)
+    summary: Optional[str] = Field(description="INSTANT PUNCHLINE: Ultra-short (2-5 words) summary for UI cards (e.g., 'Net 30', 'Delaware Law').", default=None)
+    value: Optional[str] = Field(description="DETAILED LAYMAN: 1-2 sentence plain English summary of the provision.", default=None)
     evidence: List[EvidenceItem] = Field(description="List of specific verbatim snippets and their source section IDs.", default=[])
     validation: ValidationResult = Field(description="REQUIRED: Validation status from the judge. Must contain is_valid, confidence, and reasoning.")
 
