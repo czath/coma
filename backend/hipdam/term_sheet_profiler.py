@@ -232,6 +232,8 @@ class TermSheetProfiler:
         parsed = parse_llm_json(response)
         if parsed is None:
             self.logger.error(f"[{job_id}] {stage} JSON parse failure")
+            # Log the raw failed response for debugging
+            self._debug_log(job_id, f"{stage}_PARSE_FAILURE_RAW", response)
             return {}
             
         return parsed

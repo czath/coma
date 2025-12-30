@@ -44,7 +44,7 @@ import asyncio
 from datetime import datetime
 from glob import glob
 from data_models import GeneralTaxonomyTag
-from analyzers.rule_extractor import RuleExtractor
+# from analyzers.rule_extractor import RuleExtractor
 from utils.power_management import prevent_sleep_task
 import traceback
 
@@ -495,11 +495,11 @@ async def run_analysis(job_id: str, content: List[Dict], document_id: str):
         import traceback
         traceback.print_exc()
 
-@app.post("/analyze_document")
-async def analyze_document(
-    payload: AnalysisPayload,
-    background_tasks: BackgroundTasks
-):
+# @app.post("/analyze_document")
+# async def analyze_document(
+#     payload: AnalysisPayload,
+#     background_tasks: BackgroundTasks
+# ):
     """
     Receives the full document JSON, extracts Rules/Taxonomy,
     and returns a Job ID to poll for the result.
@@ -621,7 +621,7 @@ async def analyze_section_hipdam(
 
 
 # Linguistic Analysis Feature -----------------------------------------------
-from analyzers.semantic_annotator import SemanticAnnotator
+# from analyzers.semantic_annotator import SemanticAnnotator
 
 class LinguisticAnalysisPayload(BaseModel):
     document_content: Dict[str, Any] # Full document object
@@ -778,13 +778,13 @@ async def run_linguistic_analysis(job_id: str, full_doc: Dict[str, Any]):
         import traceback
         traceback.print_exc()
 
-@app.post("/analyze_linguistic")
-async def analyze_linguistic_document(
-    payload: LinguisticAnalysisPayload,
-    background_tasks: BackgroundTasks,
-    resume_job_id: Optional[str] = None,
-    force_restart: bool = False
-):
+# @app.post("/analyze_linguistic")
+# async def analyze_linguistic_document(
+#     payload: LinguisticAnalysisPayload,
+#     background_tasks: BackgroundTasks,
+#     resume_job_id: Optional[str] = None,
+#     force_restart: bool = False
+# ):
     """
     Triggers Linguistic Analysis (Process Type: 'annotate').
     """

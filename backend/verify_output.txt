@@ -1,7 +1,0 @@
-Total Enriched (Passed): 3
-
-Results:
-Candidate '1. DEFINITIONS 3...': PASS
-Candidate '1. DEFINITIONS...': PASS
-Candidate '2. REGULAR CLAUSE...': FAIL
-Candidate 'This is strictly bod...': PASS

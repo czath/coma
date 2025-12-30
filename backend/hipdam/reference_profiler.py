@@ -430,10 +430,23 @@ class ReferenceProfiler:
             enriched_refs.append(enriched_ref)
             validation_stats["passed"] += 1
         
-        # Debug log
+        # Debug log - Truncate long 'extract' fields to prevent log bloat
+        debug_enriched = []
+        for ref in enriched_refs:
+            debug_ref = ref.copy()
+            if "source" in debug_ref:
+                debug_ref["source"] = debug_ref["source"].copy()
+                if "extract" in debug_ref["source"] and debug_ref["source"]["extract"]:
+                     debug_ref["source"]["extract"] = debug_ref["source"]["extract"][:100] + "... [TRUNCATED]"
+            if "target" in debug_ref:
+                debug_ref["target"] = debug_ref["target"].copy()
+                if "extract" in debug_ref["target"] and debug_ref["target"]["extract"]:
+                     debug_ref["target"]["extract"] = debug_ref["target"]["extract"][:100] + "... [TRUNCATED]"
+            debug_enriched.append(debug_ref)
+
         self._debug_log(job_id, "STAGE3_VALIDATION_ENRICHMENT", {
             "stats": validation_stats,
-            "enriched_references": enriched_refs,
+            "enriched_references": debug_enriched, # Log truncated version
             "rejected_references": rejected_refs
         })
         

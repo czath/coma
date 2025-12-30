@@ -43,3 +43,10 @@ For every field containing an `evidence` list:
   - Example: "Epidemic Failure" is standard in manufacturing but rare in generic services → Omission is VALID (`is_valid: true`).
   - Only mark `is_valid: false` if a **critical**, standard clause for this specific contract type is missing.
 
+# OUTPUT CONSTRAINTS (STRICT)
+1. **NO ECHOING**: Do NOT repeat the input document sections in your response.
+2. **CONCISE REASONING**: Your `reasoning` field must be concise (max 30 words).
+3. **SNIPPETS ONLY**: `verbatim` evidence must be specific snippets (< 100 words), not entire pages.
+4. **JSON ONLY**: Return ONLY valid JSON.
+
+
