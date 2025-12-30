@@ -219,14 +219,7 @@ function ContextModal({ data, onClose }) {
                         )
                     })()}
                 </div>
-                <div className="p-4 border-t border-gray-100 bg-gray-50 text-right">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-black transition-colors"
-                    >
-                        Close
-                    </button>
-                </div>
+
             </div>
         </div>
     );
@@ -353,7 +346,7 @@ function DecisionCard({ decision, onViewTrace, onViewContext, hasTrace }) {
                             "{verbatimText}"
                             {onViewContext && (
                                 <button
-                                    onClick={(e) => { e.stopPropagation(); onViewContext(verbatimText); }}
+                                    onClick={(e) => { e.stopPropagation(); onViewContext(verbatimText, decision._sectionId); }}
                                     className="absolute bottom-2 right-2 bg-white/90 border border-slate-200 shadow-sm text-slate-600 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity hover:text-indigo-600 hover:border-indigo-200"
                                 >
                                     <Eye size={12} /> View in Context
@@ -821,27 +814,27 @@ export default function HipdamAnalysisViewer({ file, onBack }) {
     const filename = file?.header?.filename || "Unknown Document";
 
     // Handle View Context
-    const handleViewContext = (quote) => {
+    const handleViewContext = (quote, sectionId) => {
         if (!file) return;
 
-        // 1. Try to find the Quote in file.content blocks
-        const blocks = file.content || [];
-
-        let foundBlockIndex = blocks.findIndex(b => b.text && b.text.includes(quote.substring(0, 50)));
-
-        if (foundBlockIndex === -1 && file.sections) {
-            // Fallback for structured sections (if used)
-            const foundSection = file.sections.find(sec => sec.content.includes(quote));
-            if (foundSection) {
+        // 1. Direct Lookup by Section ID (Strict Design)
+        if (sectionId) {
+            const block = (file.content || []).find(b => b.id === sectionId);
+            if (block) {
                 setContextData({
-                    title: foundSection.name || foundSection.title || "Context",
-                    text: foundSection.content,
+                    title: block.header || block.title || "Context",
+                    text: block.text || "",
                     highlight: quote
                 });
                 setContextModalOpen(true);
                 return;
             }
         }
+
+        // Fallback Logic (Only if ID lookups fail)
+        // 1. Try to find the Quote in file.content blocks
+        const blocks = file.content || [];
+        let foundBlockIndex = blocks.findIndex(b => b.text && b.text.includes(quote.substring(0, 50)));
 
         if (foundBlockIndex !== -1) {
             // Work backwards to find header
