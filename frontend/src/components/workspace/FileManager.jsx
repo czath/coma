@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useWorkspace } from '../../hooks/useWorkspace';
-import { Upload, Plus, X, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle, FileSignature } from 'lucide-react';
+import { Upload, Plus, X, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle, FileSignature, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function FileManager() {
@@ -1092,34 +1092,47 @@ export default function FileManager() {
             {
                 isTaxModalOpen && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setIsTaxModalOpen(false)}>
-                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-                            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                                <div>
-                                    <h3 className="text-lg font-bold text-gray-900 leading-tight">Global Taxonomy Content</h3>
-                                    <p className="text-xs text-gray-500 font-medium font-mono mt-0.5">{activeTaxonomy}</p>
+                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+
+                            {/* Header */}
+                            <div className="px-8 py-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0 z-20">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-100">
+                                        <BookOpen size={20} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-black text-gray-900 leading-tight uppercase tracking-tight">Global Taxonomy</h3>
+                                        <div className="flex items-center gap-2 mt-0.5">
+                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">{activeTaxonomy}</span>
+                                            <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                                            <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest">{taxData.length} Terms</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <button
                                     onClick={() => setIsTaxModalOpen(false)}
-                                    className="p-2 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+                                    className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
                                 >
-                                    <Plus size={20} className="rotate-45" />
+                                    <X size={24} />
                                 </button>
                             </div>
 
-                            <div className="p-4 border-b border-gray-100 bg-white">
-                                <div className="relative">
-                                    <FileSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                            {/* Search Bar */}
+                            <div className="px-8 py-4 border-b border-gray-100 bg-gray-50/50 shrink-0">
+                                <div className="relative max-w-2xl mx-auto w-full group">
+                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
                                     <input
                                         type="text"
-                                        placeholder="Filter by Name, ID or Description..."
-                                        className="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium"
+                                        placeholder="Search terms, definitions, or IDs..."
+                                        className="w-full pl-12 pr-12 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-medium shadow-sm"
                                         value={taxSearch}
                                         onChange={e => setTaxSearch(e.target.value)}
+                                        autoFocus
                                     />
                                     {taxSearch && (
                                         <button
                                             onClick={() => setTaxSearch('')}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
                                         >
                                             <X size={14} />
                                         </button>
@@ -1127,43 +1140,95 @@ export default function FileManager() {
                                 </div>
                             </div>
 
-                            <div className="flex-grow overflow-y-auto p-6 scroll-smooth">
-                                {taxData.filter(tag => {
-                                    const s = taxSearch.toLowerCase();
-                                    return tag.display_name.toLowerCase().includes(s) ||
-                                        tag.tag_id.toLowerCase().includes(s) ||
-                                        tag.description.toLowerCase().includes(s);
-                                }).length === 0 ? (
-                                    <div className="text-center py-20">
-                                        <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                            <FileSearch className="text-gray-300" size={32} />
-                                        </div>
-                                        <h4 className="text-gray-900 font-bold">No matches found</h4>
-                                        <p className="text-gray-500 text-xs mt-1">Try adjusting your search terms</p>
-                                    </div>
-                                ) : (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {taxData.filter(tag => {
-                                            const s = taxSearch.toLowerCase();
-                                            return tag.display_name.toLowerCase().includes(s) ||
-                                                tag.tag_id.toLowerCase().includes(s) ||
-                                                tag.description.toLowerCase().includes(s);
-                                        }).map((tag) => (
-                                            <div key={tag.tag_id} className="p-4 rounded-xl border border-gray-100 bg-gray-50/30 hover:bg-white hover:border-indigo-100 hover:shadow-md transition-all group">
-                                                <div className="flex items-start justify-between mb-2">
-                                                    <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">{tag.tag_id}</span>
-                                                </div>
-                                                <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-indigo-700 transition-colors">{tag.display_name}</h4>
-                                                <p className="text-xs text-gray-500 leading-relaxed font-medium">{tag.description}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            {/* Main Content Area (Split Pane) */}
+                            <div className="flex flex-1 overflow-hidden relative bg-white">
+                                {(() => {
+                                    // 1. FILTER
+                                    const filteredData = taxData.filter(tag => {
+                                        const s = taxSearch.toLowerCase();
+                                        return tag.display_name.toLowerCase().includes(s) ||
+                                            tag.tag_id.toLowerCase().includes(s) ||
+                                            tag.description.toLowerCase().includes(s);
+                                    });
 
-                            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                                <span>{taxData.length} Total Tags</span>
-                                <span>CORE.AI</span>
+                                    if (filteredData.length === 0) {
+                                        return (
+                                            <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                                                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                                                    <Search className="text-gray-300" size={32} />
+                                                </div>
+                                                <h4 className="text-gray-900 font-bold mb-1">No matches found</h4>
+                                                <p className="text-xs">Try adjusting your search terms</p>
+                                            </div>
+                                        );
+                                    }
+
+                                    // 2. GROUP BY LETTER
+                                    const groups = {};
+                                    filteredData.forEach(tag => {
+                                        const letter = (tag.display_name[0] || '?').toUpperCase();
+                                        if (!groups[letter]) groups[letter] = [];
+                                        groups[letter].push(tag);
+                                    });
+
+                                    const sortedLetters = Object.keys(groups).sort();
+
+                                    return (
+                                        <>
+                                            {/* Left Sidebar: A-Z Navigation */}
+                                            <div className="w-14 bg-white border-r border-gray-100 flex flex-col items-center py-6 overflow-y-auto no-scrollbar shrink-0 z-10">
+                                                {sortedLetters.map(letter => (
+                                                    <a
+                                                        key={letter}
+                                                        href={`#tax-letter-${letter}`}
+                                                        className="w-8 h-8 flex items-center justify-center text-xs font-bold text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all mb-1 font-serif"
+                                                    >
+                                                        {letter}
+                                                    </a>
+                                                ))}
+                                            </div>
+
+                                            {/* Right Content: Terms List */}
+                                            <div className="flex-1 overflow-y-auto p-8 scroll-smooth" id="tax-scroll-container">
+                                                <div className="max-w-4xl mx-auto space-y-12 pb-20">
+                                                    {sortedLetters.map(letter => (
+                                                        <div key={letter} id={`tax-letter-${letter}`} className="scroll-mt-6">
+                                                            {/* Letter Header */}
+                                                            <div className="flex items-center gap-4 mb-6 border-b border-gray-100 pb-2">
+                                                                <span className="text-4xl font-black text-gray-200 font-serif">
+                                                                    {letter}
+                                                                </span>
+                                                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">
+                                                                    {groups[letter].length} Terms
+                                                                </span>
+                                                            </div>
+
+                                                            {/* Terms Grid */}
+                                                            <div className="grid grid-cols-1 gap-6">
+                                                                {groups[letter].sort((a, b) => a.display_name.localeCompare(b.display_name)).map((tag) => (
+                                                                    <div key={tag.tag_id} className="group relative pl-4 border-l-2 border-transparent hover:border-indigo-500 transition-all">
+                                                                        <div className="flex items-baseline justify-between mb-1.5 gap-4">
+                                                                            <h3 className="text-base font-bold text-gray-900 group-hover:text-indigo-700 transition-colors">
+                                                                                {tag.display_name}
+                                                                            </h3>
+                                                                            {/* System ID Pill */}
+                                                                            <span className="shrink-0 text-[10px] font-bold text-indigo-500 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md shadow-sm font-mono tracking-wide">
+                                                                                {tag.tag_id}
+                                                                            </span>
+                                                                        </div>
+                                                                        <p className="text-sm text-gray-600 leading-relaxed max-w-3xl">
+                                                                            {tag.description}
+                                                                        </p>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })()}
                             </div>
                         </div>
                     </div>

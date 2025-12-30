@@ -15,7 +15,14 @@ Manual Tags: {manual_tags}
    - `tag_id`: A semantic, UPPER_CASE_SLUG (e.g., PAYMENT_TERMS). **DO NOT use prefixes like "TAG_" or "NEW_TAG_".**
    - `display_name`: Human-readable name.
    - `description`: A clear, concise definition.
-4. **Uniqueness**: Ensure no duplicate definitions exist for the same concept.
+5. **Definition Style (CRITICAL)**:
+   - **DO NOT** start definitions with "Defines the...", "This tag represents...", or similar meta-phrasing.
+   - **DO** use direct, noun-phrase definitions.
+   - *Bad*: "Defines the specific agreement, including appendices."
+   - *Good*: "The specific agreement, including appendices and incorporated documents."
+   - *Bad*: "Defines the prohibition of offering bribes..."
+   - *Good*: "The prohibition of offering, authorizing, soliciting, accepting, or giving anything of value to improperly influence a party."
+6. **Uniqueness**: Ensure no duplicate definitions exist for the same concept.
 
 ### OUTPUT FORMAT
 Return ONLY a JSON list of tag objects.
