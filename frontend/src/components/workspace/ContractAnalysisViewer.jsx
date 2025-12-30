@@ -976,81 +976,148 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
                             {/* GLOSSARY TAB */}
                             {activeTab === "glossary" && (
-                                <div className="flex flex-col h-full overflow-hidden">
+                                <div className="flex flex-col h-full bg-slate-50 overflow-hidden">
                                     {/* Toolbar */}
-                                    <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between bg-white shrink-0">
-                                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                                            {result.glossary?.length || 0} Terms
-                                        </span>
-                                        <div className="flex bg-gray-100 rounded-lg p-0.5">
+                                    <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-white shrink-0 shadow-sm z-20">
+                                        <div className="flex items-center gap-3">
+                                            <Book className="w-4 h-4 text-indigo-600" />
+                                            <span className="text-xs font-black text-slate-800 uppercase tracking-widest">
+                                                {result.glossary?.length || 0} Terms Defined
+                                            </span>
+                                        </div>
+                                        <div className="flex bg-slate-100 rounded-lg p-1 border border-slate-200">
                                             <button
                                                 onClick={() => setGlossarySort('alpha')}
-                                                className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${glossarySort === 'alpha' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                                className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-wider rounded-md transition-all flex items-center gap-2 ${glossarySort === 'alpha' ? 'bg-white text-indigo-700 shadow-sm ring-1 ring-black/5' : 'text-slate-500 hover:text-slate-700'}`}
                                             >
-                                                A-Z
+                                                <div className="flex flex-col text-[8px] leading-none font-serif opacity-50"><span>A</span><span>Z</span></div>
+                                                Alphabetical
                                             </button>
                                             <button
                                                 onClick={() => setGlossarySort('seq')}
-                                                className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${glossarySort === 'seq' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                                className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-wider rounded-md transition-all flex items-center gap-2 ${glossarySort === 'seq' ? 'bg-white text-indigo-700 shadow-sm ring-1 ring-black/5' : 'text-slate-500 hover:text-slate-700'}`}
                                             >
-                                                #
+                                                <List size={10} className="opacity-50" />
+                                                By Section
                                             </button>
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-col divide-y divide-gray-100 overflow-y-auto">
-                                        {result.glossary && [...result.glossary]
-                                            .sort((a, b) => {
-                                                if (glossarySort === 'alpha') return a.term.localeCompare(b.term);
-                                                return 0; // Sequential (original order)
-                                            })
-                                            .map((g, i) => {
-                                                // Find specific flags for this term
-                                                const hasIssues = result.clarificationFlags && result.clarificationFlags.some(f =>
-                                                    f.target_element_id === "dictionary" &&
-                                                    f.type === "VERIFICATION_FAILED" &&
-                                                    (f.message.includes(`'${g.term}'`) || f.message.includes(`"${g.term}"`))
-                                                );
-
-                                                return (
-                                                    <div key={i} className="p-4 hover:bg-gray-50 transition-colors group">
-                                                        <div className="flex items-start justify-between mb-1 gap-2">
-                                                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                                                <span className="font-bold text-sm text-gray-900">{g.term}</span>
-
-                                                                {g.source_reference && g.source_reference !== "Global" && (
-                                                                    <div className="flex items-center gap-1 text-xs text-gray-400 font-medium">
-                                                                        <Bookmark size={10} className="text-gray-400" />
-                                                                        <span>{g.source_reference}</span>
-                                                                    </div>
-                                                                )}
-
-                                                                {/* Inline Warning Pill */}
-                                                                {hasIssues && (
-                                                                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 border border-amber-200 uppercase tracking-wide cursor-help" title="Reliability Warning: Check Issues Tab">
-                                                                        Review
-                                                                    </span>
-                                                                )}
-                                                            </div>
-
-                                                            <button
-                                                                onClick={() => handleViewContext(g.term, g.term, "MATCHES", { definition: g.definition })}
-                                                                className="text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity p-1 shrink-0"
-                                                                title="Find in Document"
-                                                            >
-                                                                <Search size={14} />
-                                                            </button>
-                                                        </div>
-                                                        <p className="text-sm text-gray-600 pl-3 border-l-2 border-indigo-100 leading-relaxed">{g.definition}</p>
-                                                    </div>
-                                                );
-                                            })}
-                                        {(!result.glossary || result.glossary.length === 0) && (
-                                            <div className="p-12 text-center text-gray-400 text-sm flex flex-col items-center">
-                                                <Book className="mb-2 opacity-50" />
-                                                No definitions found.
+                                    <div className="flex flex-1 overflow-hidden relative">
+                                        {/* A-Z Sidebar (Sticky) - Only visible in Alpha mode */}
+                                        {glossarySort === 'alpha' && (
+                                            <div className="w-10 bg-white border-r border-slate-200 flex flex-col items-center py-6 overflow-y-auto no-scrollbar z-10 shadow-[4px_0_24px_-12px_rgba(0,0,0,0.1)]">
+                                                {Array.from(new Set((result.glossary || []).map(g => g.term[0].toUpperCase()))).sort().map(letter => (
+                                                    <a
+                                                        key={letter}
+                                                        href={`#glossary-letter-${letter}`}
+                                                        className="w-6 h-6 flex items-center justify-center text-[10px] font-bold text-slate-400 hover:text-indigo-600 hover:bg-slate-50 rounded-full transition-colors mb-1"
+                                                    >
+                                                        {letter}
+                                                    </a>
+                                                ))}
                                             </div>
                                         )}
+
+                                        {/* Main Content Area */}
+                                        <div className="flex-1 overflow-y-auto p-8 scroll-smooth" id="glossary-container">
+                                            {(!result.glossary || result.glossary.length === 0) ? (
+                                                <div className="h-full flex flex-col items-center justify-center text-slate-400">
+                                                    <Book size={48} className="mb-4 opacity-20" />
+                                                    <p className="font-bold text-sm">No definitions found in this document.</p>
+                                                </div>
+                                            ) : (
+                                                <div className="max-w-4xl mx-auto space-y-12 pb-20">
+                                                    {(() => {
+                                                        const groups = {};
+                                                        const glossary = [...result.glossary];
+
+                                                        // Grouping
+                                                        glossary.forEach(g => {
+                                                            let key = '';
+                                                            if (glossarySort === 'alpha') {
+                                                                key = g.term[0].toUpperCase();
+                                                            } else {
+                                                                // Extract section ID sort key roughly
+                                                                key = g.source_reference !== "Global" ? g.source_reference : "Global";
+                                                            }
+                                                            if (!groups[key]) groups[key] = [];
+                                                            groups[key].push(g);
+                                                        });
+
+                                                        // Sorting Groups
+                                                        const sortedKeys = Object.keys(groups).sort((a, b) => {
+                                                            if (glossarySort === 'alpha') return a.localeCompare(b);
+                                                            // Simple heuristic sort for sections (length then value)
+                                                            return a.length - b.length || a.localeCompare(b);
+                                                        });
+
+                                                        return sortedKeys.map(groupKey => (
+                                                            <div key={groupKey} id={glossarySort === 'alpha' ? `glossary-letter-${groupKey}` : undefined} className="scroll-mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                                                                {/* Group Header */}
+                                                                <div className="flex items-center gap-4 mb-6 border-b border-slate-200 pb-2">
+                                                                    <span className={`text-4xl font-black text-slate-300 ${glossarySort === 'alpha' ? 'font-serif' : 'font-sans'}`}>
+                                                                        {groupKey}
+                                                                    </span>
+                                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded-full">
+                                                                        {groups[groupKey].length} Terms
+                                                                    </span>
+                                                                </div>
+
+                                                                {/* Terms List */}
+                                                                <div className="space-y-6">
+                                                                    {groups[groupKey].sort((a, b) => a.term.localeCompare(b.term)).map((g, i) => {
+                                                                        // Flags Check
+                                                                        const hasIssues = result.clarificationFlags && result.clarificationFlags.some(f =>
+                                                                            f.target_element_id === "dictionary" &&
+                                                                            f.type === "VERIFICATION_FAILED" &&
+                                                                            (f.message.includes(`'${g.term}'`) || f.message.includes(`"${g.term}"`))
+                                                                        );
+
+                                                                        return (
+                                                                            <div key={i} className="group relative pl-4 border-l-2 border-transparent hover:border-indigo-500 transition-all">
+                                                                                <div className="flex items-baseline justify-between mb-1.5">
+                                                                                    <h3 className="text-base font-bold text-slate-900 group-hover:text-indigo-700 transition-colors">
+                                                                                        {g.term}
+                                                                                        {hasIssues && (
+                                                                                            <span className="ml-2 inline-flex items-center text-[9px] font-black uppercase text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-100 tracking-wider align-middle" title="Check Issues Tab">
+                                                                                                Warning
+                                                                                            </span>
+                                                                                        )}
+                                                                                    </h3>
+                                                                                    {/* Source Pill */}
+                                                                                    {g.source_reference && g.source_reference !== "Global" && (
+                                                                                        <span className="text-[10px] font-bold text-slate-400 bg-white border border-slate-200 px-2 py-0.5 rounded-md shadow-sm group-hover:bg-slate-50 transition-colors flex items-center gap-1">
+                                                                                            <Bookmark size={10} className="text-slate-300" />
+                                                                                            {g.source_reference}
+                                                                                        </span>
+                                                                                    )}
+                                                                                </div>
+
+                                                                                <p className="text-sm text-slate-600 leading-relaxed max-w-3xl">
+                                                                                    {g.definition}
+                                                                                </p>
+
+                                                                                {/* Action Buttons (Reveal on Hover) */}
+                                                                                <div className="absolute top-0 -left-10 h-full flex flex-col justify-start opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                                    <button
+                                                                                        onClick={() => handleViewContext(g.term, g.source_reference || g.term, "MATCHES", { definition: g.definition })}
+                                                                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white text-indigo-600 shadow-md border border-slate-100 hover:scale-110 active:scale-95 transition-all"
+                                                                                        title="Find all occurrences"
+                                                                                    >
+                                                                                        <Search size={14} />
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        );
+                                                                    })}
+                                                                </div>
+                                                            </div>
+                                                        ));
+                                                    })()}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             )}

@@ -63,6 +63,11 @@ const ContextSidePane = ({
             const getHeader = (idx) => {
                 for (let i = idx; i >= 0; i--) {
                     const b = fileContent[i];
+                    // Support for analysis section objects (direct header/title property)
+                    if (b.header) return b.header;
+                    if (b.title) return b.title;
+
+                    // Support for annotated content blocks (type property)
                     const type = (b.type || "").toUpperCase();
                     if (type.includes("HEADER") || type.includes("START") || type.includes("TITLE")) {
                         return b.title || b.text;
@@ -124,8 +129,8 @@ const ContextSidePane = ({
                 <div className="flex items-center justify-between">
                     <div className="overflow-hidden pr-4">
                         <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2 truncate uppercase tracking-tight">
-                            <span className="truncate" title={currentMatch?.headerTitle || "Section Details"}>
-                                {currentMatch?.headerTitle || "Section Details"}
+                            <span className="truncate" title={currentMatch?.headerTitle || title || contextData?.sourceTitle || "Context Viewer"}>
+                                {currentMatch?.headerTitle || title || contextData?.sourceTitle || "Context Viewer"}
                             </span>
                         </h3>
                     </div>
