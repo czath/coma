@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORE.AI - File Manager Redesign</title>
+    <!-- 1. PREMIUM TYPOGRAPHY: Font 'Outfit' for headers, 'Inter' for UI -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            900: '#312e81',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 2. GLASSMORPHISM & DEPTH */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-sidebar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(229, 231, 235, 0.5);
+        }
+
+        .hero-pattern {
+            background-color: #ffffff;
+            background-image: radial-gradient(#6366f1 0.5px, transparent 0.5px), radial-gradient(#6366f1 0.5px, #ffffff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.05;
+        }
+
+        /* 3. UNIFORM STATIC ACTION BUTTONS */
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12);
+            border-color: #6366f1;
+            color: #4f46e5;
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-action i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Responsive Action Group: Hidden until record hover */
+        .actions-hover {
+            opacity: 0;
+            transform: translateX(5px);
+            transition: all 0.2s ease;
+        }
+
+        .group:hover .actions-hover {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Color Variants */
+        .btn-action-emerald:hover {
+            border-color: #10b981;
+            color: #059669;
+            background: #f0fdf4;
+        }
+
+        .btn-action-purple:hover {
+            border-color: #a855f7;
+            color: #7e22ce;
+            background: #faf5ff;
+        }
+
+        .btn-action-red:hover {
+            border-color: #ef4444;
+            color: #b91c1c;
+            background: #fef2f2;
+        }
+
+        .btn-action-orange:hover {
+            border-color: #f59e0b;
+            color: #d97706;
+            background: #fffbeb;
+        }
+
+        /* 4. STANDARDIZED STATUS & TYPE PILLS */
+        .status-marker {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 24px;
+            padding: 0 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            width: 100px;
+            text-align: center;
+        }
+
+        .type-label {
+            display: inline-flex;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 4px;
+        }
+
+        .dot-ping {
+            position: relative;
+            display: flex;
+            height: 8px;
+            width: 8px;
+        }
+
+        .dot-ping .ping {
+            animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+            position: absolute;
+            display: inline-flex;
+            height: 100%;
+            width: 100%;
+            border-radius: 9999px;
+            opacity: 0.75;
+        }
+
+        .dot-ping .dot {
+            position: relative;
+            display: inline-flex;
+            border-radius: 9999px;
+            height: 8px;
+            width: 8px;
+        }
+
+        @keyframes ping {
+
+            75%,
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#f8fafc] h-screen flex overflow-hidden font-sans text-gray-800">
+
+    <!-- SUGGESTION 1: UNIFIED "GLASS" SIDEBAR -->
+    <!-- Moves navigation and global status here to clean up the top header -->
+    <aside
+        class="w-20 lg:w-64 glass-sidebar h-full flex flex-col shrink-0 z-20 transition-all duration-300 group relative">
+        <div class="p-6 flex items-center gap-3">
+            <div class="bg-brand-600 p-2 rounded-xl text-white shadow-lg shadow-brand-500/30">
+                <i data-lucide="file-signature" class="w-6 h-6"></i>
+            </div>
+            <span class="font-display font-bold text-xl tracking-tight text-gray-900 hidden lg:block">CORE.AI</span>
+        </div>
+
+        <nav class="flex-1 px-4 space-y-2 mt-8">
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 bg-brand-50 text-brand-600 rounded-xl transition-all shadow-sm">
+                <i data-lucide="folder-open" class="w-5 h-5"></i>
+                <span class="font-medium hidden lg:block">Files</span>
+            </a>
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+                <i data-lucide="book-open" class="w-5 h-5"></i>
+                <span class="font-medium hidden lg:block">Taxonomy</span>
+            </a>
+        </nav>
+
+        <!-- Taxonomy Status in Sidebar -->
+        <div class="p-4 mt-auto border-t border-gray-100">
+            <div class="bg-gray-50 rounded-xl p-4 hidden lg:block border border-gray-100">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Taxonomy</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                </div>
+                <div class="font-medium text-sm text-gray-900 truncate">Global_FY24_v2</div>
+                <button class="text-xs text-brand-600 font-medium mt-1 hover:underline">View Details</button>
+            </div>
+            <div class="lg:hidden flex justify-center">
+                <span
+                    class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] bg-emerald-500"></span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col relative overflow-hidden">
+        <div class="absolute inset-0 hero-pattern z-0 pointer-events-none"></div>
+
+        <!-- Header -->
+        <header class="h-20 px-8 flex items-center justify-between z-10 shrink-0">
+            <!-- Breadcrumbs / Title -->
+            <div>
+                <h2 class="font-display font-bold text-2xl text-gray-900">Workspace</h2>
+            </div>
+
+            <!-- User Profile (Hidden/Clean) -->
+            <div class="flex items-center gap-4">
+                <!-- Clean Header as requested -->
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 pt-2 z-10">
+
+            <!-- TOP AREA: DROP ZONE & PROCESSING WIDGET -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- 1. Premium Drop Zone (Replaces Greeting/Upload Button) -->
+                <div class="md:col-span-2 glass-panel rounded-2xl p-0 relative group border-2 border-dashed border-brand-200 hover:border-brand-500 transition-colors overflow-hidden cursor-pointer"
+                    id="drop-zone">
+                    <div class="absolute inset-0 bg-brand-50/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="h-full flex flex-col items-center justify-center p-8 text-center relative z-10">
+                        <div
+                            class="w-12 h-12 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform">
+                            <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-gray-900">Drop files to upload</h3>
+                        <p class="text-sm text-gray-500 mt-1">or click to browse local files</p>
+                    </div>
+                    <input type="file" class="hidden">
+                </div>
+
+                <!-- 2. Processing Status (Simplified) -->
+                <div
+                    class="glass-panel rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-orange-50/50 animate-pulse-slow"></div>
+                    <div class="relative z-10 flex justify-between items-start">
+                        <div class="p-2 bg-orange-100 text-orange-600 rounded-lg">
+                            <i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>
+                        </div>
+                        <span class="text-xs font-bold text-orange-600 uppercase">Active Tasks</span>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="text-4xl font-display font-bold text-gray-900 mt-2">2</div>
+                        <div class="text-xs text-orange-600 font-medium mt-1">Processing documents...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toolbar & Filter -->
+            <div class="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 mb-6">
+                <div class="flex items-center bg-white p-1 rounded-xl border border-gray-200 shadow-sm">
+                    <button
+                        class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-900 shadow-sm transition-all">All
+                        Files</button>
+                    <button
+                        class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-all">Analyzed</button>
+                    <button
+                        class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-all">Drafts</button>
+                </div>
+
+                <!-- SUGGESTION 3: GRID/LIST TOGGLE CONTROLS -->
+                <div class="flex items-center gap-3">
+                    <div class="relative group">
+                        <i data-lucide="search"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                        <input type="text" placeholder="Search..."
+                            class="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none w-48 transition-all focus:w-64">
+                    </div>
+                    <div class="h-6 w-px bg-gray-300 mx-1"></div>
+                    <button id="btn-grid" onclick="setView('grid')"
+                        class="p-2 text-gray-400 hover:text-brand-600 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-all">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                    </button>
+                    <button id="btn-list" onclick="setView('list')"
+                        class="p-2 text-brand-600 bg-brand-50 border border-brand-200 rounded-lg shadow-sm">
+                        <i data-lucide="list" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUGGESTION 7: INTERACTIVE DROP ZONE ART (Collapsed version) -->
+            <!-- The massive drop zone is only shown when dragging or empty. Here is the subtle efficient version. -->
+
+            <!-- SUGGESTION 8: COLOR CODED FILE DNA -->
+            <!-- List View Example -->
+            <!-- MAIN FILE CONTAINER: LIST VIEW -->
+            <div id="view-list"
+                class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden transition-all">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr
+                            class="border-b border-gray-100 bg-gray-50/50 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                            <th class="px-6 py-4 font-display">Document</th>
+                            <th class="px-6 py-4 font-display w-40">Status</th>
+                            <th class="px-6 py-4 font-display text-right w-48">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        <!-- Row 1: Master, REVIEWED -->
+                        <tr
+                            class="group hover:bg-brand-50/30 transition-colors cursor-pointer border-l-4 border-l-purple-500">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
+                                        <i data-lucide="file-stack" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div
+                                            class="font-bold text-lg text-gray-900 group-hover:text-brand-700 transition-colors line-clamp-1">
+                                            Final_Service_Agreement_Signed.pdf</div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="type-label">Master</span>
+                                            <span class="text-[10px] text-gray-400">• Reviewed 1h ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="status-marker bg-purple-50 text-purple-700 border border-purple-100">
+                                    <div class="dot-ping"><span class="dot bg-purple-500"></span></div>
+                                    <span>Reviewed</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex justify-end gap-2 items-center actions-hover">
+                                    <button class="btn-action" title="Edit Annotation"><i
+                                            data-lucide="wand-2"></i></button>
+                                    <button class="btn-action btn-action-emerald" title="View Analysis"><i
+                                            data-lucide="bar-chart-3"></i></button>
+                                    <button class="btn-action btn-action-purple" title="View Review"><i
+                                            data-lucide="eye"></i></button>
+                                    <button class="btn-action btn-action-red" title="Delete"><i
+                                            data-lucide="trash-2"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 2: Master, ANALYZED -->
+                        <tr
+                            class="group hover:bg-brand-50/30 transition-colors cursor-pointer border-l-4 border-l-emerald-500">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+                                        <i data-lucide="file-stack" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div
+                                            class="font-bold text-lg text-gray-900 group-hover:text-brand-700 transition-colors line-clamp-1">
+                                            MSA_Global_Services_2024.pdf</div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="type-label">Master</span>
+                                            <span class="text-[10px] text-gray-400">• Analyzed 2h ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="status-marker bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                    <div class="dot-ping"><span class="ping bg-emerald-400"></span><span
+                                            class="dot bg-emerald-500"></span></div>
+                                    <span>Analyzed</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex justify-end gap-2 items-center actions-hover">
+                                    <button class="btn-action" title="Edit Annotation"><i
+                                            data-lucide="wand-2"></i></button>
+                                    <button class="btn-action btn-action-emerald" title="View Analysis"><i
+                                            data-lucide="bar-chart-3"></i></button>
+                                    <button class="btn-action btn-action-purple" title="Run Review"><i
+                                            data-lucide="play-circle"></i></button>
+                                    <button class="btn-action btn-action-red" title="Delete"><i
+                                            data-lucide="trash-2"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 3: Reference, PROCESSING -->
+                        <tr class="group hover:bg-brand-50/30 transition-colors cursor-pointer bg-orange-50/10">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600 relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-teal-500"></div>
+                                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div
+                                            class="font-bold text-lg text-gray-900 group-hover:text-brand-700 transition-colors line-clamp-1">
+                                            GDPR_Compliance_Guide.pdf</div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="type-label">Reference</span>
+                                            <span class="text-[10px] text-gray-400">• Added just now</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="w-32">
+                                    <div class="flex items-center justify-between text-[10px] mb-1"><span
+                                            class="font-bold text-orange-600 uppercase tracking-tight">Analyzing
+                                            45%</span></div>
+                                    <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                        <div
+                                            class="h-full bg-gradient-to-r from-orange-400 to-red-400 rounded-full w-[45%] animate-pulse">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex justify-end gap-2 items-center actions-hover">
+                                    <button class="btn-action btn-action-orange" title="Pause"><i
+                                            data-lucide="pause-circle"></i></button>
+                                    <button class="btn-action btn-action-red" title="Stop"><i
+                                            data-lucide="x-circle"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 4: Subordinate, UPLOADED -->
+                        <tr class="group hover:bg-brand-50/30 transition-colors cursor-pointer">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-orange-500"></div>
+                                        <i data-lucide="file-digit" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div
+                                            class="font-bold text-lg text-gray-900 group-hover:text-brand-700 transition-colors line-clamp-1">
+                                            Amendment_No1_Fees.docx</div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="type-label">Subordinate</span>
+                                            <span class="text-[10px] text-gray-400">• Updated yesterday</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="status-marker bg-gray-50 text-gray-600 border border-gray-100">
+                                    <div class="dot-ping"><span class="dot bg-gray-400"></span></div>
+                                    <span>Uploaded</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex justify-end gap-2 items-center actions-hover">
+                                    <button class="btn-action" title="Annotate"><i data-lucide="wand-2"></i></button>
+                                    <button class="btn-action opacity-30 cursor-not-allowed" title="Analyze" disabled><i
+                                            data-lucide="sparkles"></i></button>
+                                    <button class="btn-action btn-action-red" title="Delete"><i
+                                            data-lucide="trash-2"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- MAIN FILE CONTAINER: GRID VIEW (Hidden by default) -->
+            <div id="view-grid" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all">
+                <!-- Card 1: REVIEWED -->
+                <div
+                    class="bg-white rounded-2xl border border-purple-200 shadow-sm p-6 hover:shadow-md transition-all group flex flex-col justify-between h-72 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-purple-500"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                                <i data-lucide="file-stack" class="w-6 h-6"></i>
+                            </div>
+                            <span class="type-label">Master</span>
+                        </div>
+                        <h3
+                            class="font-bold text-lg text-gray-900 leading-tight mb-1 group-hover:text-brand-600 transition-colors line-clamp-2">
+                            Final_Service_Agreement_Signed.pdf</h3>
+                        <p class="text-xs text-gray-400">Reviewed 1h ago • 2.4 MB</p>
+                    </div>
+
+                    <div>
+                        <div
+                            class="status-marker bg-purple-50 text-purple-700 border border-purple-100 mb-4 self-start">
+                            <div class="dot-ping"><span class="dot bg-purple-500"></span></div>
+                            <span>Reviewed</span>
+                        </div>
+                        <div class="flex w-full gap-2 border-t border-gray-50 pt-4 justify-between actions-hover">
+                            <div class="flex gap-2">
+                                <button class="btn-action" title="Edit Annotation"><i data-lucide="wand-2"></i></button>
+                                <button class="btn-action btn-action-emerald" title="View Analysis"><i
+                                        data-lucide="bar-chart-3"></i></button>
+                                <button class="btn-action btn-action-purple" title="View Review"><i
+                                        data-lucide="eye"></i></button>
+                            </div>
+                            <button class="btn-action btn-action-red" title="Delete"><i
+                                    data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: ANALYZED -->
+                <div
+                    class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all group flex flex-col justify-between h-72 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <i data-lucide="file-stack" class="w-6 h-6"></i>
+                            </div>
+                            <span class="type-label">Master</span>
+                        </div>
+                        <h3
+                            class="font-bold text-lg text-gray-900 leading-tight mb-1 group-hover:text-brand-600 transition-colors line-clamp-2">
+                            MSA_Global_Services_2024.pdf</h3>
+                        <p class="text-xs text-gray-400">Dec 30 • 2.4 MB</p>
+                    </div>
+
+                    <div>
+                        <div
+                            class="status-marker bg-emerald-50 text-emerald-700 border border-emerald-100 mb-4 self-start">
+                            <div class="dot-ping"><span class="ping bg-emerald-400"></span><span
+                                    class="dot bg-emerald-500"></span></div>
+                            <span>Analyzed</span>
+                        </div>
+                        <div class="flex w-full gap-2 border-t border-gray-50 pt-4 justify-between actions-hover">
+                            <div class="flex gap-2">
+                                <button class="btn-action" title="Edit Annotation"><i data-lucide="wand-2"></i></button>
+                                <button class="btn-action btn-action-emerald" title="View Analysis"><i
+                                        data-lucide="bar-chart-3"></i></button>
+                                <button class="btn-action btn-action-purple" title="Run Review"><i
+                                        data-lucide="play-circle"></i></button>
+                            </div>
+                            <button class="btn-action btn-action-red" title="Delete"><i
+                                    data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: PROCESSING -->
+                <div
+                    class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all group flex flex-col justify-between h-72 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-orange-400 animate-pulse"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                                <i data-lucide="book-open" class="w-6 h-6"></i>
+                            </div>
+                            <span class="type-label">Reference</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-gray-900 leading-tight mb-1 line-clamp-2">
+                            GDPR_Compliance_Guide.pdf</h3>
+                        <p class="text-xs text-gray-400">Just now • 5.1 MB</p>
+                    </div>
+
+                    <div>
+                        <div class="w-full mb-4">
+                            <div class="flex justify-between text-xs mb-1 font-bold text-orange-600">
+                                <span class="uppercase tracking-tighter">Analyzing 45%</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-orange-400 to-red-400 w-[45%] animate-pulse">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex w-full gap-2 border-t border-gray-50 pt-4 justify-start actions-hover">
+                            <button class="btn-action btn-action-orange" title="Pause"><i
+                                    data-lucide="pause-circle"></i></button>
+                            <button class="btn-action btn-action-red" title="Stop"><i
+                                    data-lucide="x-circle"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: UPLOADED -->
+                <div
+                    class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all group flex flex-col justify-between h-72 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gray-200"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                                <i data-lucide="file-digit" class="w-6 h-6"></i>
+                            </div>
+                            <span class="type-label">Subordinate</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-gray-900 leading-tight mb-1 line-clamp-2">
+                            Amendment_No1_Fees.docx</h3>
+                        <p class="text-xs text-gray-400">Yesterday • 1.2 MB</p>
+                    </div>
+
+                    <div>
+                        <div class="status-marker bg-gray-50 text-gray-600 border border-gray-100 mb-4 self-start">
+                            <div class="dot-ping"><span class="dot bg-gray-400"></span></div>
+                            <span>Uploaded</span>
+                        </div>
+                        <div class="flex w-full gap-2 border-t border-gray-50 pt-4 justify-between actions-hover">
+                            <div class="flex gap-2">
+                                <button class="btn-action" title="Annotate"><i data-lucide="wand-2"></i></button>
+                                <button class="btn-action opacity-30 cursor-not-allowed" title="Analyze" disabled><i
+                                        data-lucide="sparkles"></i></button>
+                            </div>
+                            <button class="btn-action btn-action-red" title="Delete"><i
+                                    data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function setView(mode) {
+            const viewList = document.getElementById('view-list');
+            const viewGrid = document.getElementById('view-grid');
+            const btnList = document.getElementById('btn-list');
+            const btnGrid = document.getElementById('btn-grid');
+
+            if (mode === 'grid') {
+                viewList.classList.add('hidden');
+                viewGrid.classList.remove('hidden');
+                viewGrid.classList.add('grid');
+
+                btnGrid.className = "p-2 text-brand-600 bg-brand-50 border border-brand-200 rounded-lg shadow-sm";
+                btnList.className = "p-2 text-gray-400 hover:text-brand-600 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-all";
+            } else {
+                viewGrid.classList.add('hidden');
+                viewGrid.classList.remove('grid');
+                viewList.classList.remove('hidden');
+
+                btnList.className = "p-2 text-brand-600 bg-brand-50 border border-brand-200 rounded-lg shadow-sm";
+                btnGrid.className = "p-2 text-gray-400 hover:text-brand-600 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-all";
+            }
+        }
+    </script>
+</body>
+
+</html>

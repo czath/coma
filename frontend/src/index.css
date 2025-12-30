@@ -3,18 +3,186 @@
 @tailwind utilities;
 
 @layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-  }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 
-  .outfit {
-    font-family: 'Outfit', sans-serif;
-  }
+    .outfit,
+    .font-display {
+        font-family: 'Outfit', sans-serif;
+    }
+
+    /* 2. GLASSMORPHISM & DEPTH */
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .glass-sidebar {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(229, 231, 235, 0.5);
+    }
+
+    /* 3. UNIFORM STATIC ACTION BUTTONS */
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        color: #64748b;
+        cursor: pointer;
+    }
+
+    .btn-action:hover {
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12);
+        border-color: #6366f1;
+        color: #4f46e5;
+        background: white;
+        transform: translateY(-1px);
+    }
+
+    .btn-action i,
+    .btn-action svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Responsive Action Group: Hidden until record hover */
+    .actions-hover {
+        opacity: 0;
+        transform: translateX(5px);
+        transition: all 0.2s ease;
+    }
+
+    /* Color Variants */
+    .btn-action-emerald:hover {
+        border-color: #10b981;
+        color: #059669;
+        background: #f0fdf4;
+    }
+
+    .btn-action-purple:hover {
+        border-color: #a855f7;
+        color: #7e22ce;
+        background: #faf5ff;
+    }
+
+    .btn-action-red:hover {
+        border-color: #ef4444;
+        color: #b91c1c;
+        background: #fef2f2;
+    }
+
+    .btn-action-orange:hover {
+        border-color: #f59e0b;
+        color: #d97706;
+        background: #fffbeb;
+    }
+
+    .hero-pattern {
+        background-color: #ffffff;
+        background-image: radial-gradient(#6366f1 0.5px, transparent 0.5px), radial-gradient(#6366f1 0.5px, #ffffff 0.5px);
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
+        opacity: 0.05;
+    }
+
+    /* 4. STANDARDIZED STATUS & TYPE PILLS */
+    .status-marker {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        height: 24px;
+        padding: 0 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        width: 100px;
+        text-align: center;
+    }
+
+    .type-label {
+        display: inline-flex;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #94a3b8;
+        background: #f8fafc;
+        border: 1px solid #f1f5f9;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-top: 4px;
+    }
+
+    .dot-ping {
+        position: relative;
+        display: flex;
+        height: 8px;
+        width: 8px;
+    }
+
+    .dot-ping .ping {
+        animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+        position: absolute;
+        display: inline-flex;
+        height: 100%;
+        width: 100%;
+        border-radius: 9999px;
+        opacity: 0.75;
+    }
+
+    .dot-ping .dot {
+        position: relative;
+        display: inline-flex;
+        border-radius: 9999px;
+        height: 8px;
+        width: 8px;
+    }
+
+    @keyframes ping {
+
+        75%,
+        100% {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+}
+
+.group:hover .actions-hover {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Animations from Demo */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0)
+    }
+
+    50% {
+        transform: translateY(-10px)
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
 }
