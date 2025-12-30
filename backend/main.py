@@ -364,14 +364,37 @@ async def run_taxonomy_generation(job_id: str, document_content: Union[List[Dict
             )
             
             try:
+                import re
+                PREFIX_PATTERN = re.compile(r"^(NEW_TAG_|NEW_CONCEPT_|NEW_|TAG_)", re.IGNORECASE)
+                
                 new_tags = json.loads(response.text)
                 if isinstance(new_tags, list):
-                    # Simple merge by tag_id
+                    # Smart Merge with Sanitization
                     existing_ids = {t["tag_id"] for t in current_taxonomy}
+                    
                     for nt in new_tags:
-                        if nt.get("tag_id") not in existing_ids:
-                            current_taxonomy.append(nt)
-                            existing_ids.add(nt["tag_id"])
+                        raw_id = nt.get("tag_id", "").strip().upper()
+                        
+                        # 1. SANITIZE
+                        clean_id = PREFIX_PATTERN.sub("", raw_id)
+                        
+                        if not clean_id: continue # Skip empty after clean
+                        
+                        # 2. DEDUPLICATE
+                        if clean_id in existing_ids:
+                            # Log conflict but skip adding (merging implicit)
+                            if raw_id != clean_id:
+                                print(f"  > Sanitized '{raw_id}' -> '{clean_id}' (Merged with existing)")
+                            continue
+                            
+                        # 3. ADD CLEAN TAG
+                        if raw_id != clean_id:
+                            print(f"  > Sanitized '{raw_id}' -> '{clean_id}'")
+                            nt["tag_id"] = clean_id
+                            
+                        current_taxonomy.append(nt)
+                        existing_ids.add(clean_id)
+                        
             except Exception as pe:
                 print(f"Failed to parse LLM response for section {i}: {pe}")
 
