@@ -64,6 +64,8 @@ class DocumentProcessor:
                  # Strict extraction of 'text' field from relevant blocks.
                  for i, block in enumerate(document_payload):
                      b_type = block.get("type", "").upper()
+                     # Strict filtering: Only process GUIDELINE sections for Reference/Playbooks
+                     # As per requirements, skip SKIP, INFO, and any other types
                      if b_type == "GUIDELINE":
                          content_text = block.get("text", "")
                          if content_text:

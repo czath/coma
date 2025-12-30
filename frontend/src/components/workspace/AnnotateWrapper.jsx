@@ -698,7 +698,7 @@ export default function AnnotateWrapper() {
                     </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                    {file?.header?.status === 'annotated' && (
+                    {(file?.header?.status === 'annotated' || file?.header?.status === 'analyzed') && (
                         <button
                             onClick={handleGenerateTaxonomy}
                             className="text-purple-600 hover:text-purple-900 transition-colors p-2 bg-purple-50 hover:bg-purple-100 rounded-full shrink-0"

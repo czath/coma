@@ -297,8 +297,8 @@ async def run_taxonomy_generation(job_id: str, document_content: List[Dict[str, 
         total_sections = len(document_content)
         
         for i, section in enumerate(document_content):
-            # Skip non-content blocks if any
-            if section.get("type") == "HEADER": continue
+            # Skip non-content blocks: HEADER, INFO, SKIP
+            if section.get("type") in ["HEADER", "INFO", "SKIP"]: continue
             
             section_text = section.get("text", "") or section.get("annotated_text", "")
             manual_tags = section.get("tags", [])
