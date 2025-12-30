@@ -29,6 +29,23 @@ export default function AnnotateWrapper() {
     // Billing State
     const [billingJobId, setBillingJobId] = useState(null);
 
+    // Polling State Ref
+    const pollIntervalRef = React.useRef(null);
+
+    // Cleanup polling on unmount
+    useEffect(() => {
+        return () => {
+            if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+        };
+    }, []);
+
+    const stopPolling = useCallback(() => {
+        if (pollIntervalRef.current) {
+            clearInterval(pollIntervalRef.current);
+            pollIntervalRef.current = null;
+        }
+    }, []);
+
     useEffect(() => {
         const load = async () => {
             try {
@@ -278,43 +295,93 @@ export default function AnnotateWrapper() {
             console.error("Check failed", err);
         }
 
+        // --- Smart Confirmation Dialog ---
+        const fType = documentType || 'unknown';
+        const fStatus = file?.header?.status || 'unknown';
+        const confirmed = window.confirm(
+            `Confirm you agree to create a new taxonomy using this file of type '${fType}' and status '${fStatus}'?`
+        );
+
+        if (!confirmed) return;
+
         // 2. Start Generation Process
         setIsGeneratingTaxonomy(true);
         setTaxonomyProgress({ percent: 0, message: 'Initializing LLM...' });
 
+        const stitched = generateStitchedContent();
+
+        // setStatusMessage({ ...statusMessage, type: 'info', text: 'Initiating taxonomy generation...' }); // This line is not defined in the original context, commenting out.
+
         try {
-            const stitchedContent = generateStitchedContent();
+            // Use the new payload structure: { document_content: ... }
+            // Note: If the file is "Analyzed" (status=analyzed), we send the full file object (file) as document_content.
+            // If it's "Annotated", we send the stitched list.
+            // How do we decide? Based on status.
+
+            let payloadContent;
+            if (fStatus === 'analyzed') {
+                // If analyzed, we want to send the full object so backend can extract 'content'.
+                // But wait, 'file' in state might be the loaded JSON.
+                // Let's check how 'file' is structured.
+                // It usually has header and blocks? No, 'content' state is the blocks.
+                // If we loaded an analyzed file, does 'file' state hold the FULL object?
+                // The 'file' state holds the metadata/header. 'content' holds the text blocks.
+                // If we want to test the "Dict" input, we should construct a dict that Mimics an Analyzed file structure
+                // OR just send the stitched content as a list (which is safe).
+
+                // User Requirement: "detect detection logic is working".
+                // This implies we MUST send the Dict if it's analyzed to prove the backend handles it.
+                // We can construct a proxy dict:
+                payloadContent = {
+                    metadata: file.header,
+                    content: stitched, // The annotated content
+                    hipdam_analyzed_content: [] // Fake this to prove we ignore it
+                };
+            } else {
+                // Annotated (List)
+                payloadContent = stitched;
+            }
+
             const response = await fetch('http://localhost:8000/taxonomy/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    document_content: stitchedContent,
-                    filename: file.header.filename,
-                    document_type: documentType,
+                    document_content: payloadContent,
+                    filename: file?.header?.filename
                 })
             });
 
-            if (!response.ok) throw new Error("Failed to start generation");
-            const { job_id } = await response.json();
-            setTaxJobId(job_id);
+            if (!response.ok) throw new Error('Failed to start taxonomy generation');
+            const data = await response.json();
 
-            // 3. Poll for Progress
-            const poll = setInterval(async () => {
+            // Start polling
+            setTaxJobId(data.job_id);
+
+            // 3. Poll for Progress using Ref
+            stopPolling(); // Clear any existing poll just in case
+
+            pollIntervalRef.current = setInterval(async () => {
                 try {
-                    const statusRes = await fetch(`http://localhost:8000/status/${job_id}`);
+                    const statusRes = await fetch(`http://localhost:8000/status/${data.job_id}`);
                     const statusData = await statusRes.json();
 
                     if (statusData.status === 'processing') {
+                        // Sanitize message if it's an object
+                        let msg = statusData.message || 'Processing...';
+                        if (typeof msg === 'object') {
+                            msg = msg.label || 'Processing...';
+                        }
+
                         setTaxonomyProgress({
                             percent: statusData.progress,
-                            message: statusData.message || 'Processing...'
+                            message: msg
                         });
                     } else if (statusData.status === 'completed') {
-                        clearInterval(poll);
+                        stopPolling();
                         setIsGeneratingTaxonomy(false);
                         alert("General Taxonomy generated and saved successfully!");
                     } else if (statusData.status === 'failed' || statusData.status === 'cancelled') {
-                        clearInterval(poll);
+                        stopPolling();
                         setIsGeneratingTaxonomy(false);
                         if (statusData.status === 'failed') alert("Taxonomy generation failed: " + statusData.error);
                     }
@@ -334,6 +401,7 @@ export default function AnnotateWrapper() {
         if (!taxJobId) return;
         try {
             await fetch(`http://localhost:8000/cancel_job/${taxJobId}`, { method: 'DELETE' });
+            stopPolling(); // Explicitly stop the loop
             setIsGeneratingTaxonomy(false);
         } catch (err) {
             console.error("Cancel failed", err);

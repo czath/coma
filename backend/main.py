@@ -200,10 +200,19 @@ async def upload_file(
 
 @app.get("/status/{job_id}")
 async def get_status(job_id: str):
-    print(f"DEBUG: Status request for {job_id}. Known jobs: {list(jobs.keys())}")
+    # print(f"DEBUG: Status request for {job_id}. Known jobs: {list(jobs.keys())}")
     if job_id not in jobs:
+        # Check specific status logic or simple 404
         raise HTTPException(status_code=404, detail="Job not found")
     return jobs[job_id]
+
+@app.delete("/cancel_job/{job_id}")
+async def cancel_job(job_id: str):
+    if job_id in jobs:
+        print(f"DEBUG: Marking job {job_id} as cancelled requested by user.")
+        jobs[job_id]["status"] = "cancelled"
+        return {"status": "cancelled", "job_id": job_id}
+    raise HTTPException(status_code=404, detail="Job not found")
 
 # Taxonomy Management ---------------------------------------------
 TAXONOMY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -270,7 +279,7 @@ async def save_taxonomy(tags: List[GeneralTaxonomyTag]):
     return {"status": "success", "filename": new_filename}
 
 @prevent_sleep_task
-async def run_taxonomy_generation(job_id: str, document_content: List[Dict[str, Any]]):
+async def run_taxonomy_generation(job_id: str, document_content: Union[List[Dict[str, Any]], Dict[str, Any]]):
     try:
         jobs[job_id]["status"] = "processing"
         jobs[job_id]["progress"] = 0
@@ -294,16 +303,50 @@ async def run_taxonomy_generation(job_id: str, document_content: List[Dict[str, 
             base_prompt = f.read()
 
         current_taxonomy: List[Dict] = []
-        total_sections = len(document_content)
         
-        for i, section in enumerate(document_content):
-            # Skip non-content blocks: HEADER, INFO, SKIP
-            if section.get("type") in ["HEADER", "INFO", "SKIP"]: continue
+        # --- ROBUST INPUT HANDLING ---
+        # 1. Normalize Input to List of Sections
+        sections_to_process = []
+        
+        if isinstance(document_content, dict):
+            # It's an Object (likely Analyzed File)
+            # STRICT RULE: Only use 'content' key (Original Annotations). Ignore everything else.
+            if "content" in document_content and isinstance(document_content["content"], list):
+                sections_to_process = document_content["content"]
+            else:
+                # Fallback: If no content key, maybe the dict itself is a section? Treat as single item.
+                sections_to_process = [document_content]
+        elif isinstance(document_content, list):
+             # It's a List (likely Annotated File / Flat List)
+             sections_to_process = document_content
+        else:
+            # Unknown type
+            print(f"Warning: Unknown input type for taxonomy generation: {type(document_content)}")
+            sections_to_process = []
+
+        total_sections = len(sections_to_process)
+        processed_count = 0
+        
+        for i, section in enumerate(sections_to_process):
+            # Check for Cancellation
+            if job_id not in jobs or jobs[job_id].get("status") == "cancelled":
+                print(f"Taxonomy Job {job_id} stopped (cancelled/deleted).")
+                return
+
+            # --- STRICT FILTERING ---
+            # Blacklist Strategy: Explicitly ignore specific types. Process everything else.
+            sec_type = section.get("type", "").upper()
             
+            if sec_type in ["HEADER", "INFO", "SKIP"]: 
+                continue # IGNORE
+
+            # Prepare Text
             section_text = section.get("text", "") or section.get("annotated_text", "")
             manual_tags = section.get("tags", [])
             
             if not section_text.strip(): continue
+            
+            processed_count += 1
             
             # Format Prompt
             import json
@@ -333,9 +376,19 @@ async def run_taxonomy_generation(job_id: str, document_content: List[Dict[str, 
                 print(f"Failed to parse LLM response for section {i}: {pe}")
 
             # Update Progress
-            percent = int(((i + 1) / total_sections) * 100)
-            jobs[job_id]["progress"] = percent
-            jobs[job_id]["message"] = f"Generating Taxonomy: {percent}% ({i+1}/{total_sections})"
+            percent = int(((i + 1) / total_sections) * 100) if total_sections > 0 else 0
+            # Ensure job still exists before updating
+            if job_id in jobs:
+                jobs[job_id]["progress"] = percent
+                jobs[job_id]["message"] = f"Generating Taxonomy: {percent}% ({i+1}/{total_sections})"
+            else:
+                 print(f"Job {job_id} not found during progress update. Stopping.")
+                 return
+
+        # Double Check for Cancellation before Saving (Race Condition Protection)
+        if job_id not in jobs or jobs[job_id].get("status") == "cancelled":
+             print(f"Taxonomy Job {job_id} cancelled at final stage. Aborting save.")
+             return
 
         # Finalize and Save
         # Reuse save_taxonomy logic for archiving
@@ -351,9 +404,14 @@ async def run_taxonomy_generation(job_id: str, document_content: List[Dict[str, 
         jobs[job_id]["status"] = "failed"
         jobs[job_id]["error"] = str(e)
 
+class TaxonomyGenerationPayload(BaseModel):
+    # Allow Dict (Analyzed) or List (Annotated)
+    document_content: Union[List[Dict[str, Any]], Dict[str, Any]]
+    filename: Optional[str] = None
+
 @app.post("/taxonomy/generate")
 async def generate_taxonomy(
-    payload: HipdamAnalysisPayload, # Reuse payload structure for content
+    payload: TaxonomyGenerationPayload, 
     background_tasks: BackgroundTasks
 ):
     job_id = f"tax_{str(uuid.uuid4())[:8]}"
