@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useWorkspace } from '../../hooks/useWorkspace';
-import { Upload, Plus, X, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle, FileSignature, Search, LayoutGrid } from 'lucide-react';
+import { Upload, Plus, X, Loader, FileText, Trash2, Edit, FileSearch, FileCheck, Eye, Play, BookOpen, FilePlus, Wand2, Wrench, CheckCircle, Braces, PenTool, FilePen, PauseCircle, StopCircle, FileSignature, Search, LayoutGrid, Save } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function FileManagerLegacy({ onSwitchUI }) {
@@ -13,8 +13,51 @@ export default function FileManagerLegacy({ onSwitchUI }) {
     const fileInputRef = useRef(null);
     const [isTaxModalOpen, setIsTaxModalOpen] = useState(false);
     const [taxData, setTaxData] = useState([]);
+
+    // NEW: Local State for Editing
+    const [localTaxData, setLocalTaxData] = useState([]);
+    const [isSaving, setIsSaving] = useState(false);
+
     const [taxSearch, setTaxSearch] = useState('');
     const [taxLoading, setTaxLoading] = useState(false);
+
+    // Sync local data when taxData changes
+    useEffect(() => {
+        if (taxData) setLocalTaxData(taxData);
+    }, [taxData]);
+
+    const handleTaxDelete = (tagId) => {
+        if (window.confirm("Delete this tag? Action applies on Save.")) {
+            setLocalTaxData(prev => prev.filter(t => t.tag_id !== tagId));
+        }
+    };
+
+    const handleTaxSave = async () => {
+        setIsSaving(true);
+        try {
+            const res = await fetch('http://localhost:8000/taxonomy/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(localTaxData)
+            });
+            if (res.ok) {
+                // Determine new filename from response or just refresh check
+                await checkTaxonomy(); // Update active taxonomy name
+
+                // Refresh data
+                setTaxData(localTaxData); // Optimistic update
+                alert("Changes saved successfully.");
+                setIsTaxModalOpen(false);
+            } else {
+                alert("Failed to save.");
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Error saving.");
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     // Cleanup on unmount
     useEffect(() => {
@@ -1105,16 +1148,26 @@ export default function FileManagerLegacy({ onSwitchUI }) {
                                         <div className="flex items-center gap-2 mt-0.5">
                                             <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">{activeTaxonomy}</span>
                                             <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                                            <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest">{taxData.length} Terms</span>
+                                            <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest">{localTaxData.length} Terms</span>
                                         </div>
                                     </div>
                                 </div>
-                                <button
-                                    onClick={() => setIsTaxModalOpen(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
-                                >
-                                    <X size={24} />
-                                </button>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={handleTaxSave}
+                                        disabled={isSaving}
+                                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-xs uppercase tracking-wide transition-all shadow-sm"
+                                    >
+                                        {isSaving ? <Loader size={14} className="animate-spin" /> : <Save size={14} />}
+                                        Save Changes
+                                    </button>
+                                    <button
+                                        onClick={() => setIsTaxModalOpen(false)}
+                                        className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+                                    >
+                                        <X size={24} />
+                                    </button>
+                                </div>
                             </div>
 
                             {/* Search Bar */}
@@ -1143,8 +1196,8 @@ export default function FileManagerLegacy({ onSwitchUI }) {
                             {/* Main Content Area (Split Pane) */}
                             <div className="flex flex-1 overflow-hidden relative bg-white">
                                 {(() => {
-                                    // 1. FILTER
-                                    const filteredData = taxData.filter(tag => {
+                                    // 1. FILTER - USE LOCAL DATA
+                                    const filteredData = localTaxData.filter(tag => {
                                         const s = taxSearch.toLowerCase();
                                         return tag.display_name.toLowerCase().includes(s) ||
                                             tag.tag_id.toLowerCase().includes(s) ||
@@ -1206,7 +1259,7 @@ export default function FileManagerLegacy({ onSwitchUI }) {
                                                             {/* Terms Grid */}
                                                             <div className="grid grid-cols-1 gap-6">
                                                                 {groups[letter].sort((a, b) => a.display_name.localeCompare(b.display_name)).map((tag) => (
-                                                                    <div key={tag.tag_id} className="group relative pl-4 border-l-2 border-transparent hover:border-indigo-500 transition-all">
+                                                                    <div key={tag.tag_id} className="group relative pl-4 border-l-2 border-transparent hover:border-indigo-500 transition-all pr-12">
                                                                         <div className="flex items-baseline justify-between mb-1.5 gap-4">
                                                                             <h3 className="text-base font-bold text-gray-900 group-hover:text-indigo-700 transition-colors">
                                                                                 {tag.display_name}
@@ -1219,6 +1272,15 @@ export default function FileManagerLegacy({ onSwitchUI }) {
                                                                         <p className="text-sm text-gray-600 leading-relaxed max-w-3xl">
                                                                             {tag.description}
                                                                         </p>
+
+                                                                        {/* DELETE ACTION */}
+                                                                        <button
+                                                                            onClick={(e) => { e.stopPropagation(); handleTaxDelete(tag.tag_id); }}
+                                                                            className="absolute right-0 top-0 p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"
+                                                                            title="Delete Tag"
+                                                                        >
+                                                                            <Trash2 size={16} />
+                                                                        </button>
                                                                     </div>
                                                                 ))}
                                                             </div>

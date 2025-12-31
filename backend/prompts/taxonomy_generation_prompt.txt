@@ -1,5 +1,6 @@
-You are an expert legal/compliance taxonomist. 
-Your task is to analyze the provided contract section and manual tags to either map them to an existing taxonomy or propose new, unique tags.
+You are an expert Legal Contract Manager.
+**Objective:** Your task is to organize the text into concise **Thematic Categories**.
+**CRITICAL:** Focus on key **Topics** and **Themes**. Avoid definitions, or minor details.
 
 ### CURRENT TAXONOMY (JSON)
 {current_taxonomy}
@@ -9,25 +10,29 @@ Text: "{section_text}"
 Manual Tags: {manual_tags}
 
 ### INSTRUCTIONS
-1. **Reuse First**: If the concepts in the section map clearly to existing tags in the CURRENT TAXONOMY, reuse their `tag_id`.
-2. **Define New**: If a concept is fundamentally new and not covered by existing tags, define a NEW tag.
-3. **Format**: Return a JSON list of tags used in this section. For new tags, provide:
-   - `tag_id`: A semantic, UPPER_CASE_SLUG (e.g., PAYMENT_TERMS). **DO NOT use prefixes like "TAG_" or "NEW_TAG_".**
-   - `display_name`: Human-readable name.
-   - `description`: A clear, concise definition.
-5. **Definition Style (CRITICAL)**:
-   - **DO NOT** start definitions with "Defines the...", "This tag represents...", or similar meta-phrasing.
-   - **DO** use direct, noun-phrase definitions.
-   - *Bad*: "Defines the specific agreement, including appendices."
-   - *Good*: "The specific agreement, including appendices and incorporated documents."
-   - *Bad*: "Defines the prohibition of offering bribes..."
-   - *Good*: "The prohibition of offering, authorizing, soliciting, accepting, or giving anything of value to improperly influence a party."
-6. **Uniqueness**: Ensure no duplicate definitions exist for the same concept.
 
-### OUTPUT FORMAT
-Return ONLY a JSON list of tag objects.
-Example:
-[
-  {{ "tag_id": "EXISTING_CONCEPT", "display_name": "...", "description": "..." }},
-  {{ "tag_id": "NEW_CONCEPT", "display_name": "...", "description": "..." }}
-]
+1.  **IDENTIFY THE KEY THEMES**:
+    *   **Goal:** read carefully the text and identify the key subject(s) addressed. if there is a section header, it is usually the main theme, but there might be multiple subjects covered in a single section.
+    *   **Scope:** Focus on identifying all key commercial topics. Use general contract expertise to guide your decisions.
+
+2.  **REUSE OR CREATE**:
+    *   **Check Existing First:** Check the `CURRENT TAXONOMY` first.
+    *   **Reuse:** If a key topic you identified maps to an existing tag (even if the wording is slightly different), **REUSE** the existing `tag_id`. Do NOT create a duplicate (e.g. do not create `PAYMENT_RIGHTS` if `PAYMENT_TERMS` exists).
+    *   **Create:** Only create a NEW tag if the subject is **sufficiently different** and **not covered** by any tag in the existing taxonomy.
+    *   **best practice for new tags:** A good Tag is generally 1-2 words (e.g. `FORCE_MAJEURE`) but never more than 3 words. Longer tags usually imply having too narrow scope or being definitions, neither of which is very useful for tagging.
+
+3.  **SANITY CHECK (NO DUPLICATES)**:
+    *   **Review your list:** Before outputting, check if any two tags are synonyms (e.g. `DISPUTE_RESOLUTION` and `DISPUTES`).
+    *   **Merge:** If synonyms/duplicates exist, keep only the **Existing** or **Best** one.
+    *   **Strict Rule:** Return a set of **UNIQUE** tags. Do not output the same tag twice.
+
+4.  **OUTPUT PROTOCOL**:
+    *   Return a **single JSON list** containing the applicable tags.
+    *   For each tag, provide:
+        *   `tag_id`: UPPER_CASE_SLUG (Unique).
+        *   `display_name`: Readable Name.
+        *   `description`: explain what the topic typically covers.
+    *   **Format:**
+        [
+          {{ "tag_id": "TAG_ID", "display_name": "...", "description": "..." }}
+        ]

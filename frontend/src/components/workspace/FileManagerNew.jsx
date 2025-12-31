@@ -3,7 +3,7 @@ import {
     FileSignature, FolderOpen, BookOpen, UploadCloud, Loader2,
     Search, LayoutGrid, List, FileStack, Wand2, BarChart3,
     Eye, Trash2, PlayCircle, PauseCircle, XCircle, FileDigit, X,
-    Bell, User, Settings, HelpCircle, FileCheck, FileSearch, Edit, StopCircle, Play, Wrench, FilePen, CheckCircle, ArrowUpRight, Tag, FileJson, FileText, File
+    Bell, User, Settings, HelpCircle, FileCheck, FileSearch, Edit, StopCircle, Play, Wrench, FilePen, CheckCircle, ArrowUpRight, Tag, FileJson, FileText, File, Save
 } from 'lucide-react';
 import { useFileManager } from '../../hooks/useFileManager';
 
@@ -22,6 +22,54 @@ export default function FileManagerNew({ onSwitchUI }) {
     const [activeTab, setActiveTab] = useState('files');
     const [taxonomySort, setTaxonomySort] = useState('alpha'); // 'alpha' or 'tag'
     const [currentTime, setCurrentTime] = useState(Date.now());
+
+    // NEW LOCAL STATE FOR TAXONOMY EDITING
+    const [localTaxData, setLocalTaxData] = useState([]);
+    const [isSaving, setIsSaving] = useState(false);
+
+    useEffect(() => {
+        if (taxData) setLocalTaxData(taxData);
+    }, [taxData]);
+
+    const handleTaxDelete = (tagId) => {
+        if (window.confirm("Are you sure you want to delete this tag? Changes will apply on Save.")) {
+            setLocalTaxData(prev => prev.filter(t => t.tag_id !== tagId));
+        }
+    };
+
+    const handleTaxSave = async () => {
+        setIsSaving(true);
+        try {
+            const res = await fetch('http://localhost:8000/taxonomy/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(localTaxData)
+            });
+            if (res.ok) {
+                const data = await res.json();
+                // Refresh content
+                fetchTaxonomyContent();
+                // Optimistic update if needed, but hook should handle it if re-fetching
+                setLocalTaxData(localTaxData);
+                alert("Taxonomy changes saved.");
+            } else {
+                alert("Failed to save taxonomy.");
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Error saving taxonomy.");
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    // Update timer every second for live processing duration
+
+
+    // ... (skipping to renderFileSizePill, renderActions, getStatusPill helpers - assume unchanged) ...
+    // Instead of skipping, I need to use replace_file_content properly, so I should target specific blocks or replace the whole top section if imports are needed. 
+    // Wait, I can't skip content in `ReplacementContent` or it will delete code.
+    // I will just modify the imports and the top of the component in one go, then modify the Taxonomy UI in another go.
 
     // Update timer every second for live processing duration
     useEffect(() => {
@@ -64,7 +112,7 @@ export default function FileManagerNew({ onSwitchUI }) {
     }, [files, statusFilter, searchQuery]);
 
     const groupedTaxonomy = useMemo(() => {
-        const filtered = taxData.filter(tag => {
+        const filtered = localTaxData.filter(tag => {
             const s = taxSearch.toLowerCase();
             return tag.display_name.toLowerCase().includes(s) ||
                 tag.tag_id.toLowerCase().includes(s) ||
@@ -92,7 +140,7 @@ export default function FileManagerNew({ onSwitchUI }) {
         });
 
         return { keys: sortedKeys, groups };
-    }, [taxData, taxSearch, taxonomySort]);
+    }, [localTaxData, taxSearch, taxonomySort]);
 
     // 1:1 Parity Action Mapping from Mockup
     const formatDuration = (ms) => {
@@ -601,6 +649,17 @@ export default function FileManagerNew({ onSwitchUI }) {
                                     </div>
 
                                     <div className="flex items-center gap-4">
+                                        {/* SAVE ACTION */}
+                                        <button
+                                            onClick={handleTaxSave}
+                                            disabled={isSaving}
+                                            className="flex items-center gap-2 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all shadow-sm"
+                                        >
+                                            {isSaving ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
+                                            Save Changes
+                                        </button>
+                                        <div className="h-6 w-px bg-gray-300"></div>
+
                                         <div className="flex bg-slate-100 rounded-lg p-1 border border-slate-200">
                                             <button
                                                 onClick={() => setTaxonomySort('alpha')}
@@ -616,7 +675,7 @@ export default function FileManagerNew({ onSwitchUI }) {
                                             </button>
                                         </div>
                                         <div className="h-6 w-px bg-gray-300"></div>
-                                        <div className="text-[10px] font-black text-indigo-500 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100 uppercase tracking-widest">{taxData.length} Terms</div>
+                                        <div className="text-[10px] font-black text-indigo-500 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100 uppercase tracking-widest">{localTaxData.length} Terms</div>
                                     </div>
                                 </div>
 
@@ -685,9 +744,18 @@ export default function FileManagerNew({ onSwitchUI }) {
                                                                         <h4 className="text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors outfit tracking-tight leading-none">
                                                                             {tag.display_name}
                                                                         </h4>
-                                                                        <span className="self-start text-[10px] font-black text-indigo-500 bg-indigo-50/50 px-2.5 py-1 rounded-md uppercase tracking-widest border border-indigo-100 shadow-sm opacity-60 group-hover:opacity-100 transition-opacity">
-                                                                            {tag.tag_id}
-                                                                        </span>
+                                                                        <div className="flex items-center gap-2">
+                                                                            <span className="self-start text-[10px] font-black text-indigo-500 bg-indigo-50/50 px-2.5 py-1 rounded-md uppercase tracking-widest border border-indigo-100 shadow-sm opacity-60 group-hover:opacity-100 transition-opacity">
+                                                                                {tag.tag_id}
+                                                                            </span>
+                                                                            <button
+                                                                                onClick={() => handleTaxDelete(tag.tag_id)}
+                                                                                className="p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                                                                                title="Delete Tag"
+                                                                            >
+                                                                                <Trash2 size={16} />
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                     <p className="text-gray-600 leading-relaxed max-w-3xl text-sm font-medium">
                                                                         {tag.description}

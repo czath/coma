@@ -282,24 +282,13 @@ export default function AnnotateWrapper() {
     };
 
     const handleGenerateTaxonomy = async () => {
-        // 1. Check for existing taxonomy for overwrite confirmation
-        try {
-            const checkRes = await fetch('http://localhost:8000/taxonomy/check');
-            const checkData = await checkRes.json();
-            if (checkData.exists) {
-                if (!window.confirm(`A General Taxonomy already exists [${checkData.filename}]. Generating a new one will archive the current list and set a new one. Proceed?`)) {
-                    return;
-                }
-            }
-        } catch (err) {
-            console.error("Check failed", err);
-        }
+
 
         // --- Smart Confirmation Dialog ---
         const fType = documentType || 'unknown';
         const fStatus = file?.header?.status || 'unknown';
         const confirmed = window.confirm(
-            `Confirm you agree to create a new taxonomy using this file of type '${fType}' and status '${fStatus}'?`
+            `Confirm you agree to update the taxonomy using this file of type '${fType}' and status '${fStatus}'?`
         );
 
         if (!confirmed) return;
@@ -851,9 +840,9 @@ export default function AnnotateWrapper() {
                         <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
                             <Loader className="text-purple-600 animate-spin" size={32} />
                         </div>
-                        <h2 className="text-xl font-bold text-gray-900 mb-2">Generating General Taxonomy</h2>
+                        <h2 className="text-xl font-bold text-gray-900 mb-2">Extracting General Taxonomy</h2>
                         <p className="text-gray-500 text-sm mb-6">
-                            LLM is iteratively analyzing the document to discover and define unique tags. This may take several minutes.
+                            Document is being scanned to discover and define any unique tags.
                         </p>
 
                         <div className="w-full bg-gray-100 rounded-full h-2.5 mb-2">

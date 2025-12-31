@@ -265,6 +265,10 @@ async def save_taxonomy(tags: List[GeneralTaxonomyTag]):
     if latest:
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
         archive_name = f"archive_{os.path.basename(latest).replace('.json', '')}_{ts}.json"
+        
+        # Ensure Archive Dir Exists
+        os.makedirs(ARCHIVE_DIR, exist_ok=True)
+        
         shutil.move(latest, os.path.join(ARCHIVE_DIR, archive_name))
     
     # Save new
@@ -302,7 +306,19 @@ async def run_taxonomy_generation(job_id: str, document_content: Union[List[Dict
         with open(prompt_path, "r", encoding="utf-8") as f:
             base_prompt = f.read()
 
+        # Initialize with EXISTING Taxonomy (Tag Survival)
         current_taxonomy: List[Dict] = []
+        latest_tax_file = get_latest_taxonomy_file()
+        if latest_tax_file:
+            try:
+                print(f"Loading existing taxonomy from {latest_tax_file}...")
+                with open(latest_tax_file, "r", encoding="utf-8") as f:
+                    import json
+                    current_taxonomy = json.load(f)
+                print(f"Loaded {len(current_taxonomy)} existing tags.")
+            except Exception as e:
+                print(f"Error loading existing taxonomy: {e}. Starting fresh.")
+                current_taxonomy = []
         
         # --- ROBUST INPUT HANDLING ---
         # 1. Normalize Input to List of Sections
