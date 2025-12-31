@@ -37,6 +37,7 @@ class ContractPipeline:
     async def run_analysis(self, document_payload: List[Dict[str, Any]], job_id: str, progress_callback=None) -> Dict[str, Any]:
         """
         Main entry point for Contract Analysis.
+        OPTIMIZED: Parallel execution of independent stages.
         """
         # Load Taxonomy Once for the whole job
         self.taxonomy_data = self._load_taxonomy()
@@ -44,7 +45,6 @@ class ContractPipeline:
         try:
             results = {
                 "term_sheet": {},
-                "glossary": [],
                 "glossary": [],
                 "clarificationFlags": [],
                 "sections": [],
@@ -57,78 +57,136 @@ class ContractPipeline:
                 "sections": {}
             }
             
-            print(f"[{datetime.now()}] DEBUG: Starting Profiler...")
+            print(f"[{datetime.now()}] DEBUG: Starting Parallel Analysis...")
             
-            # 1. PROFILE (Global Context)
-            if progress_callback: progress_callback(5, 100, "Extracting Term Sheet & Profiling...")
-            term_sheet, prof_flags, prof_trace = await self.run_profiler(document_payload, job_id)
+            # --- Progress Aggregator (Additive Strategy) ---
+            # 25% TermSheet + 25% Refs (via Profiler) = 50%
+            # 25% Dictionary
+            # 25% Labeling
+            progress_state = {"profiler": 0, "dictionary": 0, "labeling": 0}
             
-            # Ensure term_sheet is a dict for .get() calls
-            if not isinstance(term_sheet, dict):
-                logger.warning(f"Profiler returned non-dict data: {type(term_sheet)}. Normalizing to empty dict.")
-                term_sheet = {}
+            def update_progress(key, value_0_to_100):
+                progress_state[key] = value_0_to_100
+                # Weighted Sum: Profiler(50%) + Dictionary(25%) + Labeling(25%)
+                # Profiler covers TermSheet(25) + Refs(25)
+                w_prof = progress_state["profiler"] * 0.5
+                w_dict = progress_state["dictionary"] * 0.25
+                w_label = progress_state["labeling"] * 0.25
+                total = int(w_prof + w_dict + w_label)
                 
-            results["term_sheet"] = term_sheet.get("term_sheet", {})
-            results["reference_map"] = term_sheet.get("reference_map", []) # New Field
-            results["missing_appendices"] = term_sheet.get("missing_appendices", []) # Backwards compat or derived
-            results["clarificationFlags"].extend(prof_flags)
-            trace_data["profiler"] = prof_trace
-            
-            # 2. DICTIONARY (Global Glossary)
-            print(f"[{datetime.now()}] DEBUG: Starting Dictionary...")            
-            if progress_callback: progress_callback(20, 100, "Harvesting Definitions...")
-            glossary, dict_flags, dict_trace = await self.run_dictionary(document_payload, job_id)
-            results["glossary"] = glossary
-            results["clarificationFlags"].extend(dict_flags)
-            trace_data["dictionary"] = dict_trace
-            
-            # 3. LABELING (Per Section)
-            print(f"[{datetime.now()}] DEBUG: Processing Sections...")
-            sections_to_process = [b for b in document_payload if self._is_analyzable(b)]
-            total_secs = len(sections_to_process)
-            
-            analyzed_sections = []
-            
-            # Semaphore to limit concurrency
-            sem = asyncio.Semaphore(5)
-            
-            async def process_section_safe(idx, section):
-                async with sem:
-                    if progress_callback: 
-                        # Update roughly every 5% or simply log
-                        # Calculate progress: 30% to 90% allocated for sections
-                        prog = 30 + int((idx / total_secs) * 60)
-                        progress_callback(prog, 100, f"Analyzing Section {idx+1}/{total_secs}...")
-                        
-                    return await self.run_labeler(section, job_id)
+                if progress_callback:
+                    progress_callback(total, 100, "Parallel Analysis in Progress...")
 
-            tasks = [process_section_safe(i, s) for i, s in enumerate(sections_to_process)]
-            section_results = await asyncio.gather(*tasks)
+            # --- Task Defs ---
             
-            for res in section_results:
-                analyzed_sections.append(res["section_data"])
-                results["clarificationFlags"].extend(res["flags"])
-                # Store trace per section
-                sec_id = res["section_data"].get("id", "unknown")
-                trace_data["sections"][f"section_{sec_id}"] = res["trace"]
+            # 1. Profiler Wrapper (Term Sheet + Refs)
+            async def task_profiler():
+                # Fake progress: 0 -> 100
+                update_progress("profiler", 10)
+                res = await self.run_profiler(document_payload, job_id)
+                update_progress("profiler", 100)
+                return res
                 
-            results["sections"] = analyzed_sections
+            # 2. Dictionary Wrapper
+            async def task_dictionary():
+                update_progress("dictionary", 10)
+                res = await self.run_dictionary(document_payload, job_id)
+                update_progress("dictionary", 100)
+                return res
+            
+            # 3. Labeling Wrapper (Section Loop)
+            async def task_labeling():
+                sections_to_process = [b for b in document_payload if self._is_analyzable(b)]
+                total_secs = len(sections_to_process)
+                local_results = []
+                sem = asyncio.Semaphore(5)
+                
+                if total_secs == 0:
+                    update_progress("labeling", 100)
+                    return []
+                
+                # Use a mutable container for the counter to be shared in the closure
+                # Python 3 non-local handling or simple list wrapper work
+                progress_tracker = {"completed": 0}
+
+                async def process_section_safe(idx, section):
+                    async with sem:
+                        res = await self.run_labeler(section, job_id)
+                        
+                        # Update progress MONOTONICALLY
+                        # Previously used 'idx' which causes jitter if tasks finish out of order
+                        progress_tracker["completed"] += 1
+                        completed_count = progress_tracker["completed"]
+                        
+                        curr_pct = int((completed_count / total_secs) * 100)
+                        update_progress("labeling", curr_pct)
+                        return res
+
+                tasks = [process_section_safe(i, s) for i, s in enumerate(sections_to_process)]
+                return await asyncio.gather(*tasks)
+
+            # --- Execute Parallel ---
+            parallel_results = await asyncio.gather(
+                task_profiler(),
+                task_dictionary(),
+                task_labeling(),
+                return_exceptions=True
+            )
+            
+            prof_result, dict_result, label_result = parallel_results
+            
+            # --- Result Aggregation & Error Handling ---
+            
+            # 1. Profiler Results
+            if isinstance(prof_result, Exception):
+                logger.error(f"Profiler Task Failed: {prof_result}")
+                trace_data["profiler"].append({"error": str(prof_result)})
+            else:
+                term_sheet, prof_flags, prof_trace = prof_result
+                # Ensure properly structured dicts
+                term_sheet = term_sheet if isinstance(term_sheet, dict) else {}
+                
+                results["term_sheet"] = term_sheet.get("term_sheet", {})
+                results["reference_map"] = term_sheet.get("reference_map", [])
+                results["missing_appendices"] = term_sheet.get("missing_appendices", [])
+                results["clarificationFlags"].extend(prof_flags)
+                trace_data["profiler"] = prof_trace
+
+            # 2. Dictionary Results
+            if isinstance(dict_result, Exception):
+                logger.error(f"Dictionary Task Failed: {dict_result}")
+                trace_data["dictionary"].append({"error": str(dict_result)})
+            else:
+                glossary, dict_flags, dict_trace = dict_result
+                results["glossary"] = glossary
+                results["clarificationFlags"].extend(dict_flags)
+                trace_data["dictionary"] = dict_trace
+                
+            # 3. Labeling Results
+            if isinstance(label_result, Exception):
+                logger.error(f"Labeling Task Failed: {label_result}")
+            elif isinstance(label_result, list):
+                # Unpack list of section results
+                for res in label_result:
+                    if isinstance(res, dict):
+                        results["sections"].append(res.get("section_data", {}))
+                        results["clarificationFlags"].extend(res.get("flags", []))
+                        sec_id = res.get("section_data", {}).get("id", "unknown")
+                        trace_data["sections"][f"section_{sec_id}"] = res.get("trace", [])
             
             if progress_callback: progress_callback(100, 100, "Analysis Complete.")
             
             return results, trace_data
             
         except Exception as e:
-            logger.error(f"Contract Analysis Failed: {e}")
+            logger.error(f"Contract Analysis Failed (Critical): {e}")
             traceback.print_exc()
             raise e
 
     def _is_analyzable(self, block):
         # Logic to determine if a block is a "clause" worthy of labeling
-        # For now, master/contract docs usually have "CLAUSE", "SECTION_GROUP" or just text blocks.
-        # We process anything with substantial text.
-        text = block.get("text", "") or block.get("annotated_text", "")
-        return len(text) > 50 # Skip tiny fragments
+        # Filter: Exclude SKIP, HEADER, and INFO. Process everything else (even short texts).
+        return block.get("type") not in ["SKIP", "HEADER", "INFO"]
         
     # --- SUBMODULES ---
 
@@ -136,28 +194,44 @@ class ContractPipeline:
         """
         Extract cross-references from contract document using ReferenceProfiler.
         V6 Architecture: Delegates to separate reference_profiler module.
+        NOW PARALLELIZED: Term Sheet and References run concurrently.
         """
         # Initialize profilers
         profiler = ReferenceProfiler(self.client, self.config, self.billing)
         from hipdam.term_sheet_profiler import TermSheetProfiler
         ts_profiler = TermSheetProfiler(self.client, self.config, self.billing)
         
-        # Extract term sheet (Worker-Judge pipeline)
-        term_sheet_data = await ts_profiler.extract_term_sheet(doc_payload, job_id)
+        # Parallel Execution
+        task_ts = ts_profiler.extract_term_sheet(doc_payload, job_id)
+        task_refs = profiler.extract_references(doc_payload, job_id)
         
-        # Extract references
-        result = await profiler.extract_references(doc_payload, job_id)
+        results = await asyncio.gather(task_ts, task_refs, return_exceptions=True)
+        term_sheet_data_raw, ref_result_raw = results
+        
+        # Handle Term Sheet Result (Partial Success)
+        term_sheet_data = {}
+        if isinstance(term_sheet_data_raw, Exception):
+            logger.error(f"Term Sheet Extraction Failed: {term_sheet_data_raw}")
+        else:
+            term_sheet_data = term_sheet_data_raw
+
+        # Handle Reference Result (Partial Success)
+        ref_result = {"reference_map": [], "stats": {}, "warnings": [], "rejected_map": []}
+        if isinstance(ref_result_raw, Exception):
+            logger.error(f"Reference Profiling Failed: {ref_result_raw}")
+        else:
+            ref_result = ref_result_raw
         
         # Format output for compatibility with existing pipeline
         term_sheet = {
             "term_sheet": term_sheet_data,  # Now populated with validated data!
-            "reference_map": result["reference_map"],
+            "reference_map": ref_result.get("reference_map", []),
             "missing_appendices": []  # Deprecated field
         }
         
         flags = []
         # Convert warnings to flags if needed
-        for warning in result.get("warnings", []):
+        for warning in ref_result.get("warnings", []):
             flags.append({
                 "id": f"flag_profiler_{warning.get('type')}_{warning.get('source_id', '')}",
                 "target_element_id": warning.get("source_id", ""),
@@ -167,19 +241,22 @@ class ContractPipeline:
             })
         
         # Trace data for debugging - match expected structure
+        ts_count = len(term_sheet_data) if isinstance(term_sheet_data, dict) else 0
+        ref_count = ref_result.get("stats", {}).get("final_count", 0)
+        
         trace = [{
             "attempt": 1,
             "timestamp": datetime.now().isoformat(),
-            "verifier_decision": "ACCEPT" if result.get("stats", {}).get("final_count", 0) > 0 else "REJECT",
-            "verifier_feedback": f"Term Sheet: {len(term_sheet_data)} fields. References: Extracted {result.get('stats', {}).get('extracted', 0)} candidates, validated {result.get('stats', {}).get('final_count', 0)}",
+            "verifier_decision": "ACCEPT" if ref_count > 0 else "PARTIAL",
+            "verifier_feedback": f"Term Sheet: {ts_count} fields. References: {ref_count} valid.",
             "worker_output": {
-                "stats": result.get("stats", {}),
+                "stats": ref_result.get("stats", {}),
                 "term_sheet": term_sheet_data, # Include term sheet in trace
-                "reference_map": result.get("reference_map", []),
-                "rejected_map": result.get("rejected_map", [])  # Include rejected references
+                "reference_map": ref_result.get("reference_map", []),
+                "rejected_map": ref_result.get("rejected_map", [])  # Include rejected references
             },
-            "worker_raw": f"[V6 Architecture] Worker extracted {result.get('stats', {}).get('extracted', 0)} candidate references",
-            "judge_raw": f"[V6 Architecture] Judge validated {result.get('stats', {}).get('validated', 0)} references, warnings: {result.get('stats', {}).get('warnings', 0)}"
+            "worker_raw": f"[V6 Architecture] Parallel Execution. Extracted {ref_result.get('stats', {}).get('extracted', 0)} candidates",
+            "judge_raw": f"[V6 Architecture] Parallel Execution. Validated {ref_count} refs."
         }]
         
         return term_sheet, flags, trace
@@ -467,7 +544,8 @@ class ContractPipeline:
 
     async def run_dictionary(self, doc_payload, job_id):
         # V3 Strategy: Start with Full Text to catch inline definitions too.
-        valid_texts = [b.get("text", "") for b in doc_payload if b.get("text")]
+        # Filter exclusions: SKIP and HEADER
+        valid_texts = [b.get("text", "") for b in doc_payload if b.get("text") and b.get("type") not in ["SKIP", "HEADER"]]
         full_text = "\n".join(valid_texts)
             
         worker_cfg = self.config["DICTIONARY_WORKER"]

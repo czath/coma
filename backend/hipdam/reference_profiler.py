@@ -181,14 +181,16 @@ class ReferenceProfiler:
                 "text": block_text
             })
             
-            # Add to target document (ONLY substantive types, NOT INFO)
-            if block_type in ["CLAUSE", "APPENDIX", "SCHEDULE", "EXHIBIT", "ANNEX"]:
-                target_document.append({
-                    "id": block_id,
-                    "type": block_type,
-                    "header": block_header,
-                    "text": block_text
-                })
+            # Add to target document (Everything except INFO, SKIP, HEADER)
+            # SKIP and HEADER are already filtered at start of loop.
+            # INFO is filtered by 'continue' above.
+            # So everything reaching here is a valid target.
+            target_document.append({
+                "id": block_id,
+                "type": block_type,
+                "header": block_header,
+                "text": block_text
+            })
         
         inputs = {
             "source_document": source_document,

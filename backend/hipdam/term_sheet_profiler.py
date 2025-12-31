@@ -219,6 +219,10 @@ class TermSheetProfiler:
         """Format document sections as [SECTION] blocks for LLM"""
         formatted = []
         for section in document_payload:
+            # FILTERS: Ignore SKIP and HEADER universally
+            if section.get("type") in ["SKIP", "HEADER"]:
+                continue
+                
             section_block = f'[SECTION type="{section["type"]}" id="{section["id"]}"]\n'
             section_block += f'Header: {section["header"]}\n'
             section_block += f'{section["text"]}\n'
