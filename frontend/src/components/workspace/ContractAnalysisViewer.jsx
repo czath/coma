@@ -223,7 +223,11 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
         if (extraData?.evidence && Array.isArray(extraData.evidence) && extraData.evidence.length > 0) {
             // Transform evidence list into MATCHES for nav support
             const evidenceMatches = extraData.evidence.map(ev => {
-                const targetSection = result?.sections?.find(s => s.id === ev.section_id);
+                // Check analysis results first, then fallback to raw content (file.content)
+                // This supports finding INFO sections that are filtered out of analysis but present in the doc
+                const targetSection = result?.sections?.find(s => s.id === ev.section_id) ||
+                    file?.content?.find(s => s.id === ev.section_id);
+
                 return {
                     headerTitle: targetSection?.title || targetSection?.header || ev.section_id || "Section Evidence",
                     text: targetSection?.text || ev.verbatim, // Use section text if found

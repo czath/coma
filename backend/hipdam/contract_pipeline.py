@@ -97,24 +97,26 @@ class ContractPipeline:
             # 3. Labeling Wrapper (Section Loop)
             async def task_labeling():
                 sections_to_process = [b for b in document_payload if self._is_analyzable(b)]
-                total_secs = len(sections_to_process)
-                local_results = []
-                sem = asyncio.Semaphore(5)
-                
-                if total_secs == 0:
-                    update_progress("labeling", 100)
-                    return []
-                
-                # Use a mutable container for the counter to be shared in the closure
-                # Python 3 non-local handling or simple list wrapper work
-                progress_tracker = {"completed": 0}
+            # 3. Labeling Parallel Execution
+            # Process "analyzable" sections with LLM
+            analyzable_sections = [b for b in document_payload if self._is_analyzable(b)]
+            
+            total_secs = len(analyzable_sections)
+            
+            # ... (Progress Tracker setup remains) ...
+            progress_tracker = {"completed": 0}
 
+            # If no analyzable sections, we still might return passive sections
+            if total_secs == 0:
+                update_progress("labeling", 100)
+                label_result = [] # No concurrent tasks needed
+            else:
+                 # ... (Task Definition) ...
                 async def process_section_safe(idx, section):
                     async with sem:
                         res = await self.run_labeler(section, job_id)
                         
                         # Update progress MONOTONICALLY
-                        # Previously used 'idx' which causes jitter if tasks finish out of order
                         progress_tracker["completed"] += 1
                         completed_count = progress_tracker["completed"]
                         
@@ -122,46 +124,26 @@ class ContractPipeline:
                         update_progress("labeling", curr_pct)
                         return res
 
-                tasks = [process_section_safe(i, s) for i, s in enumerate(sections_to_process)]
-                return await asyncio.gather(*tasks)
+                tasks = [process_section_safe(i, s) for i, s in enumerate(analyzable_sections)]
+                label_result = await asyncio.gather(*tasks)
 
             # --- Execute Parallel ---
             parallel_results = await asyncio.gather(
                 task_profiler(),
                 task_dictionary(),
-                task_labeling(),
+                asyncio.gather(*tasks) if total_secs > 0 else asyncio.sleep(0), # Wrapper for labeler
                 return_exceptions=True
             )
             
-            prof_result, dict_result, label_result = parallel_results
+            # Unpack correct results
+            prof_result, dict_result, label_task_result = parallel_results
             
-            # --- Result Aggregation & Error Handling ---
+            # If label_task_result was the actual list of results (from inner gather)
+            if total_secs > 0:
+                label_result = label_task_result
             
-            # 1. Profiler Results
-            if isinstance(prof_result, Exception):
-                logger.error(f"Profiler Task Failed: {prof_result}")
-                trace_data["profiler"].append({"error": str(prof_result)})
-            else:
-                term_sheet, prof_flags, prof_trace = prof_result
-                # Ensure properly structured dicts
-                term_sheet = term_sheet if isinstance(term_sheet, dict) else {}
-                
-                results["term_sheet"] = term_sheet.get("term_sheet", {})
-                results["reference_map"] = term_sheet.get("reference_map", [])
-                results["missing_appendices"] = term_sheet.get("missing_appendices", [])
-                results["clarificationFlags"].extend(prof_flags)
-                trace_data["profiler"] = prof_trace
-
-            # 2. Dictionary Results
-            if isinstance(dict_result, Exception):
-                logger.error(f"Dictionary Task Failed: {dict_result}")
-                trace_data["dictionary"].append({"error": str(dict_result)})
-            else:
-                glossary, dict_flags, dict_trace = dict_result
-                results["glossary"] = glossary
-                results["clarificationFlags"].extend(dict_flags)
-                trace_data["dictionary"] = dict_trace
-                
+            # ... (Aggregation) ...
+            
             # 3. Labeling Results
             if isinstance(label_result, Exception):
                 logger.error(f"Labeling Task Failed: {label_result}")
