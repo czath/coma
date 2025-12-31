@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trace Viewer Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        .json-key {
+            color: #818cf8;
+        }
+
+        /* Indigo-400 */
+        .json-string {
+            color: #34d399;
+        }
+
+        /* Emerald-400 */
+        .json-number {
+            color: #f472b6;
+        }
+
+        /* Pink-400 */
+        .json-boolean {
+            color: #fbbf24;
+        }
+
+        /* Amber-400 */
+        .json-null {
+            color: #94a3b8;
+        }
+
+        /* Slate-400 */
+
+        .tree-line {
+            position: relative;
+            padding-left: 20px;
+            border-left: 1px solid #e2e8f0;
+        }
+
+        .tree-toggle {
+            position: absolute;
+            left: -5px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            line-height: 1;
+            color: #64748b;
+        }
+
+        .tree-toggle:hover {
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 pb-32">
+
+    <!-- Header -->
+    <div class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-4">
+        <h1 class="text-xl font-bold text-slate-900">Trace Viewer Concepts</h1>
+        <p class="text-xs text-slate-500">Explaining ideas for "User Friendly JSON Parser/Viewer"</p>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-8 py-12 space-y-24">
+
+        <!-- MOCK DATA -->
+        <script>
+            const TAB_DATA = {
+                "execution_id": "exe_123456789",
+                "timestamp": "2024-03-15T10:30:00Z",
+                "stages": {
+                    "stage_1_extraction": {
+                        "status": "SUCCESS",
+                        "items_found": 45,
+                        "duration_ms": 1200
+                    },
+                    "stage_2_analysis": {
+                        "status": "WARNING",
+                        "risk_score": 0.85,
+                        "flags": ["CONFIDENTIALITY_MISSING", "LIABILITY_UNCAPPED"]
+                    }
+                },
+                "reference_map": [
+                    { "source_id": "1.1", "target_id": "2.3", "score": 0.98, "is_valid": true },
+                    { "source_id": "1.4", "target_id": "N/A", "score": 0.12, "is_valid": false, "invalid_reason": "Low similarity" }
+                ],
+                "deeply_nested": {
+                    "config": {
+                        "thresholds": { "min": 0.5, "max": 0.9 },
+                        "features": { "enabled": true, "beta": false }
+                    },
+                    "raw_output": "Long string that might need wrapping usually..."
+                }
+            };
+        </script>
+
+        <!-- CONCEPT 1: The Interactive Tree -->
+        <section>
+            <div class="mb-6">
+                <h2 class="text-xl font-bold mb-2">01. Interactive Tree View</h2>
+                <p class="text-sm text-slate-500">Standard developer-friendly view. Collapsible nodes, type-based
+                    coloring, and clean indentation.</p>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl shadow-lg ring-1 ring-slate-900/5 overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-900/50">
+                    <span class="text-xs font-mono text-slate-400">trace_output.json</span>
+                    <div class="flex gap-2">
+                        <button
+                            class="text-[10px] font-bold text-indigo-400 hover:text-indigo-300 uppercase tracking-wider"
+                            onclick="collapseAll()">Collapse All</button>
+                        <button
+                            class="text-[10px] font-bold text-indigo-400 hover:text-indigo-300 uppercase tracking-wider"
+                            onclick="expandAll()">Expand All</button>
+                    </div>
+                </div>
+                <div class="p-6 font-mono text-xs overflow-auto max-h-[500px]" id="tree-container">
+                    <!-- JS Injected Tree -->
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCEPT 2: The "Searchable" Filter -->
+        <section>
+            <div class="mb-6">
+                <h2 class="text-xl font-bold mb-2">02. Search & Filter</h2>
+                <p class="text-sm text-slate-500">Type to instantly filter the JSON structure. Only matching keys/values
+                    (and their parents) remain visible.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-4 border-b border-slate-100 bg-slate-50 flex gap-4">
+                    <div class="relative flex-1">
+                        <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-slate-400"></i>
+                        <input type="text" id="json-search"
+                            placeholder="Type to filter keys or values (e.g. 'status', 'false')..."
+                            class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-mono"
+                            onkeyup="filterJson(this.value)">
+                    </div>
+                </div>
+                <div class="p-6 font-mono text-xs text-slate-700 bg-slate-50 h-[400px] overflow-auto"
+                    id="search-container">
+                    <!-- JS Injected Searchable View -->
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCEPT 3: The Semantic Dashboard -->
+        <section>
+            <div class="mb-6">
+                <h2 class="text-xl font-bold mb-2">03. Semantic Dashboard</h2>
+                <p class="text-sm text-slate-500">Move away from raw JSON for high-level data. Parse known keys
+                    (Execution, Stages, Maps) into UI cards.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Exec Summary -->
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-indigo-300 transition-all">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i data-lucide="activity" class="w-16 h-16 text-indigo-600"></i>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Execution</span>
+                    <div class="mt-2 text-2xl font-mono font-bold text-slate-900">exe_123...</div>
+                    <div class="mt-1 text-xs text-slate-500 font-medium">2024-03-15 10:30:00Z</div>
+                </div>
+
+                <!-- Stats -->
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-indigo-300 transition-all">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i data-lucide="layers" class="w-16 h-16 text-emerald-600"></i>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Analysis Stages</span>
+                    <div class="flex gap-4 mt-3">
+                        <div>
+                            <div class="text-xl font-bold text-slate-900">2</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase">Stages</div>
+                        </div>
+                        <div class="w-px bg-slate-100 h-8"></div>
+                        <div>
+                            <div class="text-xl font-bold text-emerald-600">45</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase">Items</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warnings -->
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-indigo-300 transition-all">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i data-lucide="alert-triangle" class="w-16 h-16 text-amber-500"></i>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Rejections</span>
+                    <div class="mt-2 text-2xl font-mono font-bold text-amber-500">1</div>
+                    <div class="mt-1 text-xs text-slate-500 font-medium">Invalid items found</div>
+                </div>
+            </div>
+
+            <!-- Detailed Map -->
+            <div class="mt-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                    <h3 class="font-bold text-sm text-slate-900">Reference Map</h3>
+                    <span class="text-xs px-2 py-0.5 bg-slate-200 rounded-full font-bold text-slate-600">2 Items</span>
+                </div>
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 text-slate-500 font-bold border-b border-slate-100">
+                        <tr>
+                            <th class="p-3">Source ID</th>
+                            <th class="p-3">Target ID</th>
+                            <th class="p-3">Score</th>
+                            <th class="p-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        <tr>
+                            <td class="p-3 font-mono font-bold text-indigo-600">1.1</td>
+                            <td class="p-3 font-mono">2.3</td>
+                            <td class="p-3">
+                                <div class="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-emerald-500" style="width: 98%"></div>
+                                </div>
+                            </td>
+                            <td class="p-3"><span class="text-emerald-600 font-bold">Valid</span></td>
+                        </tr>
+                        <tr class="bg-red-50/30">
+                            <td class="p-3 font-mono font-bold text-indigo-600">1.4</td>
+                            <td class="p-3 font-mono text-slate-400">N/A</td>
+                            <td class="p-3">
+                                <div class="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-red-500" style="width: 12%"></div>
+                                </div>
+                            </td>
+                            <td class="p-3"><span class="text-red-500 font-bold">Invalid</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- SIMPLE JS LOGIC FOR TREE -->
+    <script>
+        lucide.createIcons();
+
+        // 1. Recursive Tree Renderer
+        function renderTree(data, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = buildNode(data, true);
+        }
+
+        function buildNode(data, isLast) {
+            if (data === null) return `<span class="json-null">null</span>`;
+            if (typeof data === 'boolean') return `<span class="json-boolean">${data}</span>`;
+            if (typeof data === 'number') return `<span class="json-number">${data}</span>`;
+            if (typeof data === 'string') return `<span class="json-string">"${data}"</span>`;
+
+            if (Array.isArray(data)) {
+                if (data.length === 0) return '[]';
+                let html = '<span class="text-slate-500">[</span>';
+                html += '<div class="tree-line">';
+                data.forEach((item, i) => {
+                    html += `<div class="py-0.5">${buildNode(item)}${i < data.length - 1 ? ',' : ''}</div>`;
+                });
+                html += '</div><span class="text-slate-500">]</span>';
+                return html;
+            }
+
+            if (typeof data === 'object') {
+                const keys = Object.keys(data);
+                if (keys.length === 0) return '{}';
+
+                let html = '<span class="text-slate-500">{</span>';
+                html += '<div class="tree-line">';
+                keys.forEach((key, i) => {
+                    const value = data[key];
+                    // Collapsible Logic wrapper
+                    const isComplex = typeof value === 'object' && value !== null;
+
+                    html += `<div class="py-0.5 ${isComplex ? 'relative' : ''}">`;
+                    if (isComplex) {
+                        html += `<div class="tree-toggle" onclick="toggleNode(this)">-</div>`;
+                    }
+                    html += `<span class="json-key">"${key}"</span>: ${buildNode(value)}`;
+                    if (i < keys.length - 1) html += ',';
+                    html += `</div>`;
+                });
+                html += '</div><span class="text-slate-500">}</span>';
+                return html;
+            }
+        }
+
+        function toggleNode(btn) {
+            const content = btn.nextElementSibling.nextElementSibling; // key -> colon -> content (rough logic for demo)
+            // Actually, my manual structure above is a bit simplified. 
+            // Real implementation would target the '.tree-line' div.
+            const line = btn.parentElement.querySelector('.tree-line');
+            if (line) {
+                if (line.style.display === 'none') {
+                    line.style.display = 'block';
+                    btn.textContent = '-';
+                } else {
+                    line.style.display = 'none';
+                    btn.textContent = '+';
+                }
+            }
+        }
+
+        renderTree(TAB_DATA, 'tree-container');
+
+        // 2. Filter Logic (Simplistic)
+        // Just showing the raw text for search demo to avoid complexity
+        document.getElementById('search-container').innerHTML = `<pre>${JSON.stringify(TAB_DATA, null, 2)}</pre>`;
+
+        function filterJson(query) {
+            const pre = document.querySelector('#search-container pre');
+            if (!query) {
+                pre.innerHTML = JSON.stringify(TAB_DATA, null, 2);
+                return;
+            }
+            // Highlight match
+            const regex = new RegExp(`(${query})`, 'gi');
+            const json = JSON.stringify(TAB_DATA, null, 2);
+            const highlighted = json.replace(regex, '<mark class="bg-yellow-200 text-slate-900">$1</mark>');
+            pre.innerHTML = highlighted;
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark, Store, Building, MapPin, Maximize2, X, ChevronDown, ChevronUp, Check, ArrowRightLeft, ZoomIn, CheckCircle2, Link, ChevronRight, Filter } from 'lucide-react';
+import { FileSignature, Home, AlertTriangle, FileText, Book, List, Activity, Link2, Sparkles, CheckCircle, Scale, Gavel, ArrowLeft, Calendar, FileJson, XCircle, Tag, Palette, Users, Eye, Search, Bookmark, Store, Building, MapPin, Maximize2, X, ChevronDown, ChevronUp, Check, ArrowRightLeft, ZoomIn, CheckCircle2, Link, ChevronRight, Filter, ArrowUp, ArrowDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BillingCard from '../BillingCard';
 import ContextSidePane from '../workspace/ContextSidePane';
@@ -1382,13 +1382,17 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                     })()}
 
                                     {/* Raw Trace Data */}
-                                    <div className="flex-1 overflow-auto bg-gray-50">
-                                        <div className="p-4 border-b border-gray-200 bg-gray-100">
+                                    <div className="flex-1 overflow-hidden bg-gray-50 flex flex-col">
+                                        <div className="p-4 border-b border-gray-200 bg-gray-100 flex-shrink-0">
                                             <h4 className="text-xs font-bold text-gray-600 uppercase tracking-wider">Full Trace Data</h4>
                                         </div>
-                                        <pre className="p-6 text-xs text-gray-700 font-mono selection:bg-indigo-100">
-                                            {trace ? JSON.stringify(trace, null, 2) : "No trace execution data available."}
-                                        </pre>
+                                        <div className="flex-1 overflow-hidden relative">
+                                            {trace ? (
+                                                <JsonTreeViewer data={trace} />
+                                            ) : (
+                                                <div className="p-6 text-xs text-gray-500 italic">No trace execution data available.</div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -1402,6 +1406,257 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 };
 
 // --- SUB-COMPONENTS ---
+
+const JsonTreeViewer = ({ data }) => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [matches, setMatches] = useState([]);
+    const [currentMatchIndex, setCurrentMatchIndex] = useState(-1);
+    const [expandedPaths, setExpandedPaths] = useState(new Set(['root'])); // Default expand root
+
+    // Search Logic
+    useEffect(() => {
+        if (!searchQuery.trim()) {
+            setMatches([]);
+            setCurrentMatchIndex(-1);
+            return;
+        }
+
+        const newMatches = [];
+        const newExpanded = new Set(expandedPaths);
+
+        const traverse = (node, path) => {
+            const pathStr = path.join('.');
+
+            // Allow searching keys and values
+            if (typeof node === 'object' && node !== null) {
+                // Check if key matches (for simple traversal, keys are checked in parent loop, but root is object)
+                Object.entries(node).forEach(([key, value]) => {
+                    const currentPath = [...path, key];
+                    const currentPathStr = currentPath.join('.');
+
+                    // Check Key
+                    if (key.toLowerCase().includes(searchQuery.toLowerCase())) {
+                        newMatches.push({ path: currentPathStr, type: 'key' });
+                        // Expand parents
+                        let p = path;
+                        while (p.length > 0) {
+                            newExpanded.add(p.join('.'));
+                            p = p.slice(0, -1);
+                        }
+                        newExpanded.add('root');
+                    }
+
+                    // Recurse
+                    traverse(value, currentPath);
+                });
+            } else {
+                // Check Value (Leaf)
+                const strVal = String(node);
+                if (strVal.toLowerCase().includes(searchQuery.toLowerCase())) {
+                    newMatches.push({ path: pathStr, type: 'value' });
+                    // Expand parents
+                    let p = path.slice(0, -1);
+                    while (p.length > 0) {
+                        newExpanded.add(p.join('.'));
+                        p = p.slice(0, -1);
+                    }
+                    newExpanded.add('root');
+                }
+            }
+        };
+
+        traverse(data, ['root']);
+        setMatches(newMatches);
+        setCurrentMatchIndex(newMatches.length > 0 ? 0 : -1);
+        setExpandedPaths(newExpanded);
+    }, [searchQuery, data]);
+
+    const handleNext = () => {
+        if (matches.length === 0) return;
+        setCurrentMatchIndex(prev => (prev + 1) % matches.length);
+        scrollToMatch((currentMatchIndex + 1) % matches.length);
+    };
+
+    const handlePrev = () => {
+        if (matches.length === 0) return;
+        setCurrentMatchIndex(prev => (prev - 1 + matches.length) % matches.length);
+        scrollToMatch((currentMatchIndex - 1 + matches.length) % matches.length);
+    };
+
+    const scrollToMatch = (index) => {
+        const match = matches[index];
+        if (match) {
+            const el = document.getElementById(`json-node-${match.path}`);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    };
+
+    const toggleExpand = (pathStr) => {
+        const newSet = new Set(expandedPaths);
+        if (newSet.has(pathStr)) newSet.delete(pathStr);
+        else newSet.add(pathStr);
+        setExpandedPaths(newSet);
+    };
+
+    const handleExpandAll = () => {
+        const allPaths = new Set(['root']);
+        const traverse = (node, path) => {
+            const pathStr = path.join('.');
+            allPaths.add(pathStr);
+            if (typeof node === 'object' && node !== null) {
+                Object.entries(node).forEach(([key, value]) => {
+                    traverse(value, [...path, key]);
+                });
+            }
+        };
+        traverse(data, ['root']);
+        setExpandedPaths(allPaths);
+    };
+
+    const handleCollapseAll = () => {
+        setExpandedPaths(new Set(['root']));
+    };
+
+    // Recursive Node Renderer
+    const renderNode = (key, value, path, isLast) => {
+        const pathStr = path.join('.');
+        const isExpanded = expandedPaths.has(pathStr);
+        const isObject = typeof value === 'object' && value !== null;
+        const isArray = Array.isArray(value);
+
+        // Check if this node is the current match
+        const match = matches[currentMatchIndex];
+        const isCurrentMatch = match && match.path === pathStr;
+
+        // Check if this node has a match (key or value)
+        const isMatch = matches.some(m => m.path === pathStr);
+
+        // Highlight helpers
+        const highlightText = (text, isKey) => {
+            if (!searchQuery) return text;
+            const parts = String(text).split(new RegExp(`(${searchQuery})`, 'gi'));
+            return parts.map((part, i) =>
+                part.toLowerCase() === searchQuery.toLowerCase()
+                    ? <mark key={i} className={`px-0 rounded ${isCurrentMatch ? 'bg-indigo-300' : 'bg-yellow-200'}`}>{part}</mark>
+                    : part
+            );
+        };
+
+        if (isObject || isArray) {
+            const keys = Object.keys(value);
+            const isEmpty = keys.length === 0;
+            const openBracket = isArray ? '[' : '{';
+            const closeBracket = isArray ? ']' : '}';
+
+            return (
+                <div key={pathStr} id={`json-node-${pathStr}`} className="font-mono text-xs leading-5">
+                    <div className={`flex items-start hover:bg-slate-50 ${isCurrentMatch && matches[currentMatchIndex].type === 'key' ? 'bg-indigo-50 ring-1 ring-indigo-200 rounded' : ''}`}>
+                        {/* Toggle Button */}
+                        {!isEmpty && (
+                            <button
+                                onClick={(e) => { e.stopPropagation(); toggleExpand(pathStr); }}
+                                className="w-4 h-5 flex items-center justify-center text-slate-400 hover:text-indigo-600 mr-1"
+                            >
+                                {isExpanded ? <ChevronDown size={10} /> : <ChevronRight size={10} />}
+                            </button>
+                        )}
+                        {isEmpty && <span className="w-5 mr-1"></span>}
+
+                        <div className="flex-1 break-all">
+                            {key && (
+                                <span className="text-indigo-500 mr-1">
+                                    {isObject ? '"' : ''}{highlightText(key, true)}{isObject ? '"' : ''}:
+                                </span>
+                            )}
+                            <span className="text-slate-500">{openBracket}</span>
+
+                            {!isExpanded && !isEmpty && (
+                                <button
+                                    onClick={() => toggleExpand(pathStr)}
+                                    className="px-2 text-slate-400 hover:text-indigo-600 hover:underline bg-slate-100 rounded text-[10px] mx-1"
+                                >
+                                    {keys.length} items...
+                                </button>
+                            )}
+
+                            {(!isExpanded || isEmpty) && (
+                                <span className="text-slate-500">
+                                    {closeBracket}{!isLast && ','}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    {isExpanded && !isEmpty && (
+                        <div className="pl-4 border-l border-slate-100 ml-2">
+                            {keys.map((k, i) => renderNode(isArray ? null : k, value[k], [...path, k], i === keys.length - 1))}
+                        </div>
+                    )}
+
+                    {isExpanded && !isEmpty && (
+                        <div className="pl-6">
+                            <span className="text-slate-500">{closeBracket}{!isLast && ','}</span>
+                        </div>
+                    )}
+                </div>
+            );
+        } else {
+            // Leaf Node (String, Number, Boolean, Null)
+            const typeColor = typeof value === 'string' ? 'text-emerald-600' :
+                typeof value === 'number' ? 'text-pink-500' :
+                    typeof value === 'boolean' ? 'text-amber-600' : 'text-slate-400';
+
+            const displayValue = value === null ? 'null' : (typeof value === 'string' ? `"${value}"` : String(value));
+
+            return (
+                <div key={pathStr} id={`json-node-${pathStr}`} className={`flex items-start pl-6 hover:bg-slate-50 py-0.5 ${isCurrentMatch ? 'bg-indigo-50 ring-1 ring-indigo-200 rounded' : ''}`}>
+                    <div className="flex-1 break-all">
+                        {key && <span className="text-indigo-500 mr-1">"{highlightText(key, true)}":</span>}
+                        <span className={`${typeColor}`}>
+                            {typeof value === 'string' ? '"' : ''}{highlightText(String(value), false)}{typeof value === 'string' ? '"' : ''}
+                        </span>
+                        {!isLast && <span className="text-slate-400">,</span>}
+                    </div>
+                </div>
+            );
+        }
+    };
+
+    return (
+        <div className="flex flex-col h-full bg-slate-50">
+            {/* Search Bar */}
+            <div className="p-2 border-b border-slate-200 flex items-center gap-2 bg-white sticky top-0 z-10 shrink-0">
+                <div className="relative flex-1">
+                    <Search className="absolute left-2.5 top-2 w-4 h-4 text-slate-400" />
+                    <input
+                        type="text"
+                        placeholder="Search keys or values..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-9 pr-4 py-1.5 text-xs border border-slate-200 rounded md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                </div>
+                {matches.length > 0 && (
+                    <div className="flex items-center gap-1">
+                        <span className="text-[10px] font-bold text-slate-400 mr-2">
+                            {currentMatchIndex + 1}/{matches.length}
+                        </span>
+                        <button onClick={handlePrev} className="p-1 hover:bg-slate-100 rounded text-slate-600"><ArrowUp size={14} /></button>
+                        <button onClick={handleNext} className="p-1 hover:bg-slate-100 rounded text-slate-600"><ArrowDown size={14} /></button>
+                    </div>
+                )}
+                <div className="w-px h-6 bg-slate-200 mx-1"></div>
+                <button onClick={handleCollapseAll} className="p-1.5 hover:bg-slate-100 rounded text-slate-500 text-[10px] font-bold uppercase tracking-wider" title="Collapse All">Collapse</button>
+                <button onClick={handleExpandAll} className="p-1.5 hover:bg-slate-100 rounded text-slate-500 text-[10px] font-bold uppercase tracking-wider" title="Expand All">Expand</button>
+            </div>
+
+            {/* Tree Container */}
+            <div className="flex-1 overflow-auto p-4 bg-white">
+                {renderNode(null, data, ['root'], true)}
+            </div>
+        </div>
+    );
+};
 
 const HighlightText = ({ text, highlight }) => {
     if (!highlight || !text) return text;
