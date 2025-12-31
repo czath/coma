@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Reference Grid Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .grid-concept {
+            @apply p-6 bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden mb-12;
+        }
+    </style>
+</head>
+
+<body class="bg-white min-h-screen p-8 lg:p-12">
+
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-black text-slate-900 mb-2 tracking-tight">10 Styling Concepts</h1>
+        <p class="text-slate-500 mb-12">Applying visual treatments to the existing Twin Pillar layout.</p>
+
+        <!-- Mock Data Injector -->
+        <script>
+            const MOCK = {
+                source: "1. DEFINITIONS",
+                target: "4. GRANT OF LICENSES",
+                context: "Terms defined in Section 1 apply..."
+            };
+            const Layout = ({ id, name, containerClass, itemClass, activeClass, inactiveClass, wrapperClass = "" }) => `
+                <div class="mb-12">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-xs font-mono font-bold px-2 py-1 bg-slate-100 text-slate-500 rounded">${id}</span>
+                        <h2 class="font-bold text-slate-900">${name}</h2>
+                    </div>
+                    <div class="${containerClass} p-8 rounded-xl border border-slate-100 flex gap-8 h-48 ${wrapperClass}">
+                        <!-- Source Pillar -->
+                        <div class="flex-1 flex flex-col gap-3">
+                            <!-- Non-Active Item -->
+                            <div class="${itemClass} ${inactiveClass}">
+                                <div class="flex justify-between items-center"><span class="font-bold text-xs uppercase">2. PURPOSE</span></div>
+                            </div>
+                            <!-- Active Item -->
+                             <div class="${itemClass} ${activeClass} relative">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-xs uppercase">${MOCK.source}</span>
+                                    <span class="text-[9px] font-black uppercase opacity-50">Active</span>
+                                </div>
+                            </div>
+                             <!-- Non-Active Item -->
+                            <div class="${itemClass} ${inactiveClass}">
+                                <div class="flex justify-between items-center"><span class="font-bold text-xs uppercase">12. INDEMNITY</span></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Target Pillar -->
+                        <div class="flex-1 flex flex-col gap-3">
+                             <div class="${itemClass} ${activeClass}">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-xs uppercase">${MOCK.target}</span>
+                                    <span class="text-[9px] font-black uppercase opacity-50">Target</span>
+                                </div>
+                                <p class="text-[10px] mt-2 opacity-70 leading-relaxed">"${MOCK.context}"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        </script>
+
+        <!-- 1. Contextual Dimming (What we implemented) -->
+        <script>document.write(Layout({
+                id: "01", name: "Contextual Dimming",
+                containerClass: "bg-slate-50",
+                itemClass: "p-4 rounded-xl border transition-all cursor-pointer",
+                activeClass: "bg-white border-indigo-500 ring-2 ring-indigo-500/10 shadow-lg scale-[1.02] z-10",
+                inactiveClass: "bg-white border-slate-200 opacity-40 hover:opacity-100 scale-95 grayscale"
+            }))</script>
+
+        <!-- 2. Monochrome Bold (High Contrast) -->
+        <script>document.write(Layout({
+                id: "02", name: "Monochrome Focus",
+                containerClass: "bg-white",
+                itemClass: "p-4 border-l-4 transition-all cursor-pointer",
+                activeClass: "bg-slate-900 text-white border-black shadow-2xl scale-105",
+                inactiveClass: "bg-white text-slate-300 border-slate-100 hover:text-slate-500"
+            }))</script>
+
+        <!-- 3. Micro-Interactions (Scale) -->
+        <script>document.write(Layout({
+                id: "03", name: "Micro-Scale Pop",
+                containerClass: "bg-slate-100/50",
+                itemClass: "px-4 py-3 rounded-lg bg-white shadow-sm border border-slate-200 transition-all duration-300 cursor-pointer",
+                activeClass: "scale-110 shadow-xl border-indigo-200 z-10 my-2",
+                inactiveClass: "scale-90 opacity-70 blur-[0.5px] hover:blur-0 hover:scale-100"
+            }))</script>
+
+        <!-- 4. Glass Blur (Frosted) -->
+        <script>document.write(Layout({
+                id: "04", name: "Frosted Glass Focus",
+                containerClass: "bg-gradient-to-br from-indigo-500 to-purple-600",
+                itemClass: "p-4 rounded-xl border border-white/10 backdrop-blur-sm transition-all cursor-pointer",
+                activeClass: "bg-white/20 border-white/30 shadow-2xl text-white backdrop-blur-md",
+                inactiveClass: "bg-white/5 text-white/40 hover:bg-white/10"
+            }))</script>
+
+        <!-- 5. Neon / Dark Mode -->
+        <script>document.write(Layout({
+                id: "05", name: "Neon Glow (Dark)",
+                containerClass: "bg-slate-900",
+                itemClass: "p-4 rounded border transition-all cursor-pointer font-mono",
+                activeClass: "bg-slate-800 border-cyan-400 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]",
+                inactiveClass: "bg-transparent border-slate-800 text-slate-600 hover:text-slate-400 hover:border-slate-700"
+            }))</script>
+
+        <!-- 6. Ribbon Connection -->
+        <script>document.write(Layout({
+                id: "06", name: "Ribbon Indicators",
+                containerClass: "bg-white",
+                itemClass: "p-4 border-b border-slate-100 transition-all cursor-pointer relative overflow-hidden",
+                activeClass: "bg-indigo-50 text-indigo-900 font-bold pl-6 border-l-4 border-l-indigo-500",
+                inactiveClass: "bg-white text-slate-400 hover:bg-slate-50 pl-4 border-l-4 border-l-transparent"
+            }))</script>
+
+        <!-- 7. Minimalist (Text Only) -->
+        <script>document.write(Layout({
+                id: "07", name: "Swiss Minimalist",
+                containerClass: "bg-white",
+                itemClass: "py-2 transition-all cursor-pointer border-b border-transparent",
+                activeClass: "text-black font-black text-lg border-black",
+                inactiveClass: "text-slate-300 font-medium text-xs hover:text-slate-500"
+            }))</script>
+
+        <!-- 8. Card Elevation (Material) -->
+        <script>document.write(Layout({
+                id: "08", name: "Card Elevation",
+                containerClass: "bg-slate-100",
+                itemClass: "p-4 rounded bg-white transition-all cursor-pointer",
+                activeClass: "shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] -translate-y-1 border-t-2 border-indigo-500",
+                inactiveClass: "shadow-sm text-slate-400 hover:shadow-md hover:text-slate-600 border-t-2 border-transparent"
+            }))</script>
+
+        <!-- 9. Pill/Bubble -->
+        <script>document.write(Layout({
+                id: "09", name: "Soft Pills",
+                containerClass: "bg-white",
+                itemClass: "px-6 py-3 rounded-full transition-all cursor-pointer text-center",
+                activeClass: "bg-indigo-600 text-white shadow-lg shadow-indigo-200 transform scale-105",
+                inactiveClass: "bg-slate-50 text-slate-400 hover:bg-slate-100"
+            }))</script>
+
+        <!-- 10. Outline/Stroke -->
+        <script>document.write(Layout({
+                id: "10", name: "Technical Outline",
+                containerClass: "bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-slate-50",
+                itemClass: "p-3 border-2 transition-all cursor-pointer border-dashed",
+                activeClass: "border-solid border-slate-900 bg-white text-slate-900",
+                inactiveClass: "border-slate-300 text-slate-400 bg-transparent hover:border-slate-400"
+            }))</script>
+
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

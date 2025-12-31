@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Multi-Tag Filtering - 10 Proposals</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+                    colors: { brand: { 500: '#6366f1', 600: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="pb-32 bg-slate-50">
+
+    <!-- GLOBAL FILTER STORE (Simulating App State) -->
+    <!-- This sticky bar controls the "Active Filters" for ALL demos below to show how they react -->
+    <div class="sticky top-0 z-50 glass border-b border-slate-200 shadow-sm px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div>
+                <h1 class="font-display font-bold text-xl text-slate-900">10 Concrete List+Filter Proposals</h1>
+                <p class="text-xs text-slate-500">Global State: Multi-Tag Filtering (OR Logic)</p>
+            </div>
+
+            <!-- Global "Debug" Controls to manipulate state -->
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Filters:</span>
+                <div id="active-filters-display" class="flex gap-2">
+                    <!-- Pills injected here via JS -->
+                    <span class="text-xs text-slate-400 italic">None selected</span>
+                </div>
+                <button onclick="clearAllFilters()"
+                    class="text-xs text-red-500 hover:text-red-700 font-bold ml-4 hidden" id="clear-all-btn">CLEAR
+                    ALL</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6 space-y-32 mt-12">
+
+        <!-- PROPOSAL 1: The Classic Sidebar (Amazon Style) -->
+        <section class="demo-section">
+            <div class="mb-4">
+                <h2 class="font-bold text-slate-900 text-lg">01. The Faceted Sidebar</h2>
+                <p class="text-xs text-slate-500 mb-4">Traditional, robust. Best for deep filtering with many
+                    categories. Clear "checked" state.</p>
+            </div>
+
+            <div class="flex gap-6 bg-white p-6 rounded-xl border border-slate-200 shadow-sm h-[500px]">
+                <!-- Sidebar -->
+                <div class="w-64 shrink-0 flex flex-col gap-6 border-r border-slate-100 pr-6">
+                    <div>
+                        <h3 class="font-bold text-xs uppercase text-slate-900 mb-3">Filter by Tag</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="checkbox" value="INDEMNITY"
+                                    class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 filter-checkbox"
+                                    onchange="toggleFilter('INDEMNITY')">
+                                <span class="text-sm text-slate-600 group-hover:text-slate-900">Indemnification</span>
+                                <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-1.5 rounded-full">3</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="checkbox" value="CONFIDENTIALITY"
+                                    class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 filter-checkbox"
+                                    onchange="toggleFilter('CONFIDENTIALITY')">
+                                <span class="text-sm text-slate-600 group-hover:text-slate-900">Confidentiality</span>
+                                <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-1.5 rounded-full">2</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="checkbox" value="LIABILITY"
+                                    class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 filter-checkbox"
+                                    onchange="toggleFilter('LIABILITY')">
+                                <span class="text-sm text-slate-600 group-hover:text-slate-900">Limitation of
+                                    Liab.</span>
+                                <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-1.5 rounded-full">1</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List Content -->
+                <div class="flex-1 overflow-y-auto pr-2 space-y-3 filterable-list">
+                    <!-- Items will be injected by JS to ensure consistency across demos -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PROPOSAL 2: Horizontal Chip Stack (Chip Selection) -->
+        <section class="demo-section">
+            <div class="mb-4">
+                <h2 class="font-bold text-slate-900 text-lg">02. The Chip Toolbar</h2>
+                <p class="text-xs text-slate-500 mb-4">Modern, touch-friendly. Row of togglable chips at top. Selected
+                    state is distinct.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm min-h-[500px]">
+                <!-- Toolbar -->
+                <div class="flex flex-wrap gap-2 mb-6 border-b border-slate-100 pb-4">
+                    <button
+                        class="px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 hover:border-slate-300 transition-all filter-chip"
+                        data-value="INDEMNITY" onclick="toggleFilter('INDEMNITY')">
+                        Indemnification
+                    </button>
+                    <button
+                        class="px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 hover:border-slate-300 transition-all filter-chip"
+                        data-value="CONFIDENTIALITY" onclick="toggleFilter('CONFIDENTIALITY')">
+                        Confidentiality
+                    </button>
+                    <button
+                        class="px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 hover:border-slate-300 transition-all filter-chip"
+                        data-value="LIABILITY" onclick="toggleFilter('LIABILITY')">
+                        Liability
+                    </button>
+                    <button
+                        class="px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 hover:border-slate-300 transition-all filter-chip"
+                        data-value="TERMINATION" onclick="toggleFilter('TERMINATION')">
+                        Termination
+                    </button>
+                </div>
+
+                <!-- List Content -->
+                <div class="space-y-3 filterable-list">
+                    <!-- Items injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PROPOSAL 3: The "Combobox" Builder (Search + Tokens) -->
+        <section class="demo-section">
+            <div class="mb-4">
+                <h2 class="font-bold text-slate-900 text-lg">03. The Filter Builder</h2>
+                <p class="text-xs text-slate-500 mb-4">Power user style. Type to add filters. Selected filters appear as
+                    removable tokens.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm min-h-[500px]">
+                <!-- Filter Input -->
+                <div class="mb-6">
+                    <div
+                        class="flex flex-wrap items-center gap-2 p-2 bg-white border border-slate-300 rounded-lg focus-within:ring-2 ring-indigo-100 ring-offset-1">
+                        <i data-lucide="filter" class="w-4 h-4 text-slate-400 ml-2"></i>
+                        <!-- Active Token Container -->
+                        <div id="filter-tokens-container" class="flex gap-2"></div>
+                        <input type="text" placeholder="Filter by tag..." class="outline-none text-sm w-32 flex-1"
+                            onkeydown="if(event.key === 'Enter') { /* demo mostly */ }">
+                    </div>
+                    <div class="mt-2 flex gap-2 text-xs text-slate-400">
+                        <span>Suggested:</span>
+                        <button class="hover:text-indigo-600 underline decoration-indigo-200 filter-text-btn"
+                            onclick="toggleFilter('INDEMNITY')">Indemnity</button>
+                        <button class="hover:text-indigo-600 underline decoration-indigo-200 filter-text-btn"
+                            onclick="toggleFilter('LIABILITY')">Liability</button>
+                    </div>
+                </div>
+
+                <!-- List Content -->
+                <div class="space-y-3 filterable-list">
+                    <!-- Items injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PROPOSAL 4: The Table Column Filter -->
+        <section class="demo-section">
+            <div class="mb-4">
+                <h2 class="font-bold text-slate-900 text-lg">04. The Data Grid</h2>
+                <p class="text-xs text-slate-500 mb-4">Enterprise standard. Tags are just a column, but with a dropdown
+                    menu control in header.</p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm min-h-[500px] overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-50 text-xs font-bold text-slate-500 border-b border-slate-200">
+                        <tr>
+                            <th class="p-4 w-1/3">Section Name</th>
+                            <th class="p-4 w-24">ID</th>
+                            <th class="p-4 relative group cursor-pointer hover:bg-slate-100 transition-colors w-1/3">
+                                <div class="flex items-center gap-2">
+                                    <span>Tags</span>
+                                    <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+                                </div>
+                                <!-- Dropdown Mockup (Hover) -->
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white border border-slate-200 shadow-xl rounded-lg p-2 hidden group-hover:block z-20">
+                                    <div class="text-[10px] font-bold text-slate-400 uppercase mb-2 px-2">Select to
+                                        Filter</div>
+                                    <div class="space-y-1">
+                                        <label
+                                            class="flex items-center gap-2 px-2 py-1 hover:bg-slate-50 rounded cursor-pointer"><input
+                                                type="checkbox" onchange="toggleFilter('INDEMNITY')"
+                                                class="filter-checkbox-sm" value="INDEMNITY"><span
+                                                class="text-xs">Indemnity</span></label>
+                                        <label
+                                            class="flex items-center gap-2 px-2 py-1 hover:bg-slate-50 rounded cursor-pointer"><input
+                                                type="checkbox" onchange="toggleFilter('CONFIDENTIALITY')"
+                                                class="filter-checkbox-sm" value="CONFIDENTIALITY"><span
+                                                class="text-xs">Confidentiality</span></label>
+                                        <label
+                                            class="flex items-center gap-2 px-2 py-1 hover:bg-slate-50 rounded cursor-pointer"><input
+                                                type="checkbox" onchange="toggleFilter('LIABILITY')"
+                                                class="filter-checkbox-sm" value="LIABILITY"><span
+                                                class="text-xs">Liability</span></label>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="p-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 filterable-table-body">
+                        <!-- Table rows injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PROPOSAL 5: Inline "Pivot" Filtering -->
+        <section class="demo-section">
+            <div class="mb-4">
+                <h2 class="font-bold text-slate-900 text-lg">05. Inline Pivot</h2>
+                <p class="text-xs text-slate-500 mb-4">Contextual. List starts unfiltered. Click a tag ON a card to
+                    filter by that tag.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm min-h-[500px]">
+                <div class="mb-4 flex items-center justify-between">
+                    <div class="text-sm font-bold text-slate-400 uppercase tracking-wider">All Documents</div>
+                    <div class="text-xs text-indigo-600 bg-indigo-50 px-3 py-1 rounded hidden" id="pivot-indicator">
+                        Filtered View Active</div>
+                </div>
+
+                <!-- List Content -->
+                <!-- Note: We need special "Pivot" rendering logic for these tags -->
+                <div class="space-y-3 filterable-list pivot-mode">
+                    <!-- Items injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PROPOSAL 6: The "Mini Map" Visualizer -->
+        <section class="demo-section">
+            <div class="mb-4">
+                <h2 class="font-bold text-slate-900 text-lg">06. The Mini Map</h2>
+                <p class="text-xs text-slate-500 mb-4">Visual density. Sidebar shows colored dots representing items.
+                    Clicking filters list.</p>
+            </div>
+
+            <div class="flex gap-6 bg-white p-6 rounded-xl border border-slate-200 shadow-sm h-[500px]">
+                <!-- Mini Map Sidebar -->
+                <div class="w-48 shrink-0 flex flex-col gap-2 border-r border-slate-100 pr-6">
+                    <button
+                        class="flex items-center justify-between p-2 rounded hover:bg-slate-50 group transition-all filter-map-item"
+                        onclick="toggleFilter('INDEMNITY')" data-value="INDEMNITY">
+                        <span class="text-xs font-bold text-slate-600">Indemnity</span>
+                        <div class="flex gap-0.5">
+                            <div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                        </div>
+                    </button>
+                    <button
+                        class="flex items-center justify-between p-2 rounded hover:bg-slate-50 group transition-all filter-map-item"
+                        onclick="toggleFilter('CONFIDENTIALITY')" data-value="CONFIDENTIALITY">
+                        <span class="text-xs font-bold text-slate-600">Confidential</span>
+                        <div class="flex gap-0.5">
+                            <div class="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
+                        </div>
+                    </button>
+                    <button
+                        class="flex items-center justify-between p-2 rounded hover:bg-slate-50 group transition-all filter-map-item"
+                        onclick="toggleFilter('LIABILITY')" data-value="LIABILITY">
+                        <span class="text-xs font-bold text-slate-600">Liability</span>
+                        <div class="flex gap-0.5">
+                            <div class="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- List Content -->
+                <div class="flex-1 overflow-y-auto space-y-3 filterable-list">
+                    <!-- Items injected here -->
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MOCK DATA & LOGIC -->
+    <script>
+        if (window.lucide && window.lucide.createIcons) {
+            lucide.createIcons();
+        }
+
+        // 1. DATA
+        const SECTIONS = [
+            { id: "8.1", title: "Indemnification Procedures", tags: ["INDEMNITY", "LIABILITY", "PROCEDURE"], content: "The indemnified party shall provide prompt notice..." },
+            { id: "9.0", title: "Confidentiality Obligations", tags: ["CONFIDENTIALITY"], content: "Receiving party must protect all confidential info..." },
+            { id: "12.4", title: "Limitation of Liability", tags: ["LIABILITY", "RISK"], content: "Total liability shall not exceed fees paid..." },
+            { id: "15.2", title: "Termination for Cause", tags: ["TERMINATION", "INDEMNITY"], content: "Either party may terminate upon material breach..." },
+            { id: "2.1", title: "Definitions", tags: ["GOVERNANCE"], content: "For purposes of this agreement, the following terms..." },
+            { id: "11.1", title: "Intellectual Property Rights", tags: ["IP", "CONFIDENTIALITY"], content: "All IP remains property of provider..." },
+            { id: "19.0", title: "Force Majeure", tags: ["RISK", "TERMINATION"], content: "Acts of God, war, terrorism excusing performance..." },
+            { id: "4.3", title: "Payment Terms", tags: ["FINANCIAL"], content: "Invoices due net 30 days..." }
+        ];
+
+        // 2. STATE
+        let activeFilters = new Set();
+
+        // 3. RENDERERS
+        function renderAllLists() {
+            const containers = document.querySelectorAll('.filterable-list');
+            containers.forEach(container => {
+                // Determine if this container needs special rendering (pivot mode)
+                const isPivot = container.classList.contains('pivot-mode');
+
+                // Filter data
+                const filteredData = SECTIONS.filter(section => {
+                    if (activeFilters.size === 0) return true;
+                    // OR Logic: Document has ANY of the active filter tags
+                    // const hasMatch = section.tags.some(tag => activeFilters.has(tag));
+
+                    // Actually, for multi-select, usually users expect OR (show me Indemnity OR Liability stuff)
+                    // Let's stick with OR.
+                    return section.tags.some(tag => activeFilters.has(tag));
+                });
+
+                // Clear
+                container.innerHTML = '';
+
+                if (filteredData.length === 0) {
+                    container.innerHTML = `<div class="p-8 text-center text-slate-400 text-sm italic">No matching sections found.</div>`;
+                    return;
+                }
+
+                // Render Items
+                filteredData.forEach(item => {
+                    // Modern List Item Card
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-4 rounded-lg border border-slate-200 hover:border-indigo-300 transition-all shadow-sm group";
+
+                    // Tags HTML
+                    const tagsHtml = item.tags.map(tag => {
+                        // Tag styling
+                        let colorClass = "bg-slate-100 text-slate-600";
+                        if (tag === 'INDEMNITY') colorClass = "bg-blue-50 text-blue-700 border-blue-100";
+                        if (tag === 'CONFIDENTIALITY') colorClass = "bg-amber-50 text-amber-700 border-amber-100";
+                        if (tag === 'LIABILITY') colorClass = "bg-red-50 text-red-700 border-red-100";
+                        if (tag === 'TERMINATION') colorClass = "bg-orange-50 text-orange-700 border-orange-100";
+
+                        // Pivot Mode: Tags are buttons
+                        if (isPivot) {
+                            const isActive = activeFilters.has(tag);
+                            const activeClass = isActive ? "ring-2 ring-indigo-500 ring-offset-1" : "";
+                            return `<button onclick="event.stopPropagation(); toggleFilter('${tag}')" class="px-2 py-0.5 text-[10px] font-bold rounded border ${colorClass} uppercase hover:brightness-95 transition-all ${activeClass}">${tag}</button>`;
+                        }
+
+                        return `<span class="px-2 py-0.5 text-[10px] font-bold rounded border ${colorClass} uppercase">${tag}</span>`;
+                    }).join('');
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-mono text-xs text-slate-400 font-bold">${item.id}</span>
+                                    <h4 class="font-bold text-sm text-slate-900 group-hover:text-indigo-600 transition-colors">${item.title}</h4>
+                                </div>
+                                <p class="text-xs text-slate-500 line-clamp-1">${item.content}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1 flex-wrap mt-2">
+                            ${tagsHtml}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+
+            // Render Table (Proposal 4)
+            const tableBodies = document.querySelectorAll('.filterable-table-body');
+            tableBodies.forEach(tbody => {
+                const filteredData = SECTIONS.filter(section => {
+                    if (activeFilters.size === 0) return true;
+                    return section.tags.some(tag => activeFilters.has(tag));
+                });
+
+                tbody.innerHTML = '';
+                filteredData.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-slate-50 border-b border-slate-50";
+                    const tagsHtml = item.tags.map(tag => `<span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] rounded font-bold uppercase mr-1">${tag}</span>`).join('');
+
+                    row.innerHTML = `
+                        <td class="p-4 text-sm font-medium text-slate-900">${item.title}</td>
+                         <td class="p-4 text-xs font-mono text-slate-400">${item.id}</td>
+                          <td class="p-4">${tagsHtml}</td>
+                           <td class="p-4 text-right"><button class="text-xs font-bold text-slate-400 hover:text-indigo-600">View</button></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+        }
+
+        function updateUIControls() {
+            // 1. Sidebar Checkboxes
+            document.querySelectorAll('.filter-checkbox, .filter-checkbox-sm').forEach(cb => {
+                cb.checked = activeFilters.has(cb.value);
+            });
+
+            // 2. Chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                const val = chip.getAttribute('data-value');
+                if (activeFilters.has(val)) {
+                    chip.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
+                    chip.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
+                } else {
+                    chip.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
+                    chip.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
+                }
+            });
+
+            // 3. Mini Map items
+            document.querySelectorAll('.filter-map-item').forEach(item => {
+                const val = item.getAttribute('data-value');
+                if (activeFilters.has(val)) {
+                    item.classList.add('bg-slate-100', 'ring-1', 'ring-slate-200');
+                } else {
+                    item.classList.remove('bg-slate-100', 'ring-1', 'ring-slate-200');
+                }
+            });
+
+            // 4. Global Display
+            const display = document.getElementById('active-filters-display');
+            const clearBtn = document.getElementById('clear-all-btn');
+
+            if (activeFilters.size === 0) {
+                display.innerHTML = '<span class="text-xs text-slate-400 italic">None selected</span>';
+                clearBtn.classList.add('hidden');
+            } else {
+                display.innerHTML = Array.from(activeFilters).map(tag => `
+                    <span class="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] font-bold rounded flex items-center gap-1">
+                        ${tag}
+                        <button onclick="toggleFilter('${tag}')" class="hover:text-indigo-900"><i data-lucide="x" class="w-3 h-3"></i></button>
+                    </span>
+                `).join('');
+                clearBtn.classList.remove('hidden');
+            }
+
+            // 5. Tokens for Proposal 3
+            const tokenContainer = document.getElementById('filter-tokens-container');
+            tokenContainer.innerHTML = Array.from(activeFilters).map(tag => `
+                 <span class="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded flex items-center gap-1 font-medium ring-1 ring-slate-200">
+                    ${tag} <button onclick="toggleFilter('${tag}')"><i data-lucide="x" class="w-3 h-3"></i></button>
+                </span>
+            `).join('');
+        }
+
+        // 4. ACTIONS
+        function toggleFilter(tag) {
+            if (activeFilters.has(tag)) {
+                activeFilters.delete(tag);
+            } else {
+                activeFilters.add(tag);
+            }
+            renderAllLists();
+            updateUIControls();
+            if (window.lucide && window.lucide.createIcons) {
+                lucide.createIcons();
+            }
+        }
+
+        function clearAllFilters() {
+            activeFilters.clear();
+            renderAllLists();
+            updateUIControls();
+            if (window.lucide && window.lucide.createIcons) {
+                lucide.createIcons();
+            }
+        }
+
+        // INIT
+        renderAllLists();
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section Tags UI - 10 Fresh Concepts</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+                    colors: { brand: { 500: '#6366f1', 600: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .concept-card {
+            transition: all 0.3s ease;
+        }
+
+        /* Strict filtering class */
+        .hidden-item {
+            display: none !important;
+        }
+
+        .dimmed-item {
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+    </style>
+</head>
+
+<body class="pb-32">
+
+    <!-- STICKY FILTER BAR -->
+    <div class="sticky top-0 z-50 glass border-b border-white/50 shadow-sm px-6 py-4 flex items-center justify-between">
+        <div>
+            <h1 class="font-display font-bold text-xl text-slate-900">10 Layout Concepts</h1>
+            <p class="text-xs text-slate-500">Focus: Elegant Filterability</p>
+        </div>
+        <div class="flex gap-2 bg-white/80 p-1.5 rounded-lg border border-slate-200 shadow-sm">
+            <button onclick="setGlobalFilter('all')"
+                class="filter-btn active px-3 py-1.5 rounded text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors bg-slate-100 ring-1 ring-slate-200">ALL</button>
+            <button onclick="setGlobalFilter('INDEMNITY')"
+                class="filter-btn px-3 py-1.5 rounded text-xs font-bold text-blue-600 hover:bg-blue-50 transition-colors">INDEMNITY</button>
+            <button onclick="setGlobalFilter('CONFIDENTIALITY')"
+                class="filter-btn px-3 py-1.5 rounded text-xs font-bold text-amber-600 hover:bg-amber-50 transition-colors">CONFIDENTIALITY</button>
+            <button onclick="setGlobalFilter('FORCE_MAJEURE')"
+                class="filter-btn px-3 py-1.5 rounded text-xs font-bold text-red-600 hover:bg-red-50 transition-colors">FORCE
+                MAJEURE</button>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 space-y-24 mt-12">
+
+        <!-- 1. THE KANBAN (Status Oriented) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">1</span>
+                <h2 class="font-bold text-slate-900">The Tag Kanban</h2>
+                <span class="text-xs text-slate-400">— Groups sections by their primary status/tag columns</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4 bg-slate-100 p-4 rounded-xl overflow-x-auto">
+                <!-- Column 1 -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between px-2">
+                        <span class="text-xs font-bold text-blue-600 uppercase">Indemnity</span>
+                        <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 rounded">1</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm hover:shadow-md cursor-pointer group concept-item"
+                        data-tags="INDEMNITY">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-bold text-sm text-slate-800">8.0 Indemnification</span>
+                            <i data-lucide="more-horizontal" class="w-4 h-4 text-slate-300"></i>
+                        </div>
+                        <p class="text-[10px] text-slate-400 line-clamp-2 mb-2">Provider shall indemnify Customer
+                            against all claims...</p>
+                        <div class="flex gap-1">
+                            <span
+                                class="px-1.5 py-0.5 bg-blue-50 text-blue-700 text-[9px] font-bold uppercase rounded">INDEMNITY</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column 2 -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between px-2">
+                        <span class="text-xs font-bold text-amber-600 uppercase">Confidentiality</span>
+                        <span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-1.5 rounded">1</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm hover:shadow-md cursor-pointer group concept-item"
+                        data-tags="CONFIDENTIALITY">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-bold text-sm text-slate-800">9.1 Confidential Info</span>
+                            <i data-lucide="more-horizontal" class="w-4 h-4 text-slate-300"></i>
+                        </div>
+                        <p class="text-[10px] text-slate-400 line-clamp-2 mb-2">Strict confidence for all proprietary
+                            materials...</p>
+                        <div class="flex gap-1">
+                            <span
+                                class="px-1.5 py-0.5 bg-amber-50 text-amber-700 text-[9px] font-bold uppercase rounded">CONFIDENTIALITY</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column 3 -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between px-2">
+                        <span class="text-xs font-bold text-red-600 uppercase">Force Majeure</span>
+                        <span class="bg-red-100 text-red-700 text-[10px] font-bold px-1.5 rounded">2</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm hover:shadow-md cursor-pointer group concept-item"
+                        data-tags="FORCE_MAJEURE">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-bold text-sm text-slate-800">12.4 Force Majeure</span>
+                            <i data-lucide="more-horizontal" class="w-4 h-4 text-slate-300"></i>
+                        </div>
+                        <p class="text-[10px] text-slate-400 line-clamp-2 mb-2">Events beyond reasonable control...</p>
+                        <div class="flex gap-1">
+                            <span
+                                class="px-1.5 py-0.5 bg-red-50 text-red-700 text-[9px] font-bold uppercase rounded">FORCE_MAJEURE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. THE INTERACTIVE MATRIX (Data Density) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">2</span>
+                <h2 class="font-bold text-slate-900">The Dot Matrix</h2>
+                <span class="text-xs text-slate-400">— Visual grid showing tag intersections</span>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr
+                            class="bg-slate-50 text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-200">
+                            <th class="p-4 w-1/3">Section</th>
+                            <th class="p-4 text-center text-blue-600 bg-blue-50/30">Indemnity</th>
+                            <th class="p-4 text-center text-amber-600 bg-amber-50/30">Confidential</th>
+                            <th class="p-4 text-center text-red-600 bg-red-50/30">Force Maj.</th>
+                            <th class="p-4 text-center text-slate-600">Governance</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50 concept-item" data-tags="INDEMNITY">
+                            <td class="p-4">
+                                <div class="font-bold text-sm text-slate-900">8.0 Indemnification</div>
+                                <div class="text-xs text-slate-400">Verfied • 320 words</div>
+                            </td>
+                            <td class="p-4 text-center bg-blue-50/10">
+                                <div class="w-3 h-3 rounded-full bg-blue-500 mx-auto"></div>
+                            </td>
+                            <td class="p-4 text-center bg-amber-50/10">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                            <td class="p-4 text-center bg-red-50/10">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 concept-item" data-tags="CONFIDENTIALITY">
+                            <td class="p-4">
+                                <div class="font-bold text-sm text-slate-900">9.1 Confidentiality</div>
+                                <div class="text-xs text-slate-400">Verfied • 150 words</div>
+                            </td>
+                            <td class="p-4 text-center bg-blue-50/10">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                            <td class="p-4 text-center bg-amber-50/10">
+                                <div class="w-3 h-3 rounded-full bg-amber-500 mx-auto shadow-sm shadow-amber-200"></div>
+                            </td>
+                            <td class="p-4 text-center bg-red-50/10">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 concept-item" data-tags="FORCE_MAJEURE">
+                            <td class="p-4">
+                                <div class="font-bold text-sm text-slate-900">12.4 Force Majeure</div>
+                                <div class="text-xs text-slate-400">Review Needed</div>
+                            </td>
+                            <td class="p-4 text-center bg-blue-50/10">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                            <td class="p-4 text-center bg-amber-50/10">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                            <td class="p-4 text-center bg-red-50/10">
+                                <div class="w-3 h-3 rounded-full bg-red-500 mx-auto shadow-sm shadow-red-200"></div>
+                            </td>
+                            <td class="p-4 text-center">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-200 mx-auto opacity-30"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. THE SPLIT FINDER (Master-Detail) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">3</span>
+                <h2 class="font-bold text-slate-900">The Split Finder</h2>
+                <span class="text-xs text-slate-400">— List on left, dynamic details on right</span>
+            </div>
+            <div class="h-64 flex bg-white border border-slate-200 rounded-xl overflow-hidden">
+                <div class="w-1/3 border-r border-slate-200 bg-slate-50 overflow-y-auto">
+                    <div class="p-2 space-y-1">
+                        <!-- List Item 1 -->
+                        <div class="concept-item p-3 bg-white border border-slate-200 rounded-lg shadow-sm cursor-pointer hover:border-blue-400 transition-colors"
+                            data-tags="INDEMNITY">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                <span class="text-xs font-bold text-slate-700">8.0 Indemnity</span>
+                            </div>
+                        </div>
+                        <!-- List Item 2 -->
+                        <div class="concept-item p-3 bg-white border border-slate-200 rounded-lg shadow-sm cursor-pointer hover:border-amber-400 transition-colors"
+                            data-tags="CONFIDENTIALITY">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                <span class="text-xs font-bold text-slate-700">9.1 Confidentiality</span>
+                            </div>
+                        </div>
+                        <!-- List Item 3 -->
+                        <div class="concept-item p-3 bg-white border border-slate-200 rounded-lg shadow-sm cursor-pointer hover:border-red-400 transition-colors"
+                            data-tags="FORCE_MAJEURE">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                <span class="text-xs font-bold text-slate-700">12.4 Force Majeure</span>
+                            </div>
+                        </div>
+                        <!-- List Item 4 -->
+                        <div class="concept-item p-3 bg-white border border-slate-200 rounded-lg shadow-sm cursor-pointer hover:border-slate-400 transition-colors"
+                            data-tags="GOVERNANCE">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-slate-500 rounded-full"></span>
+                                <span class="text-xs font-bold text-slate-700">15.0 Governance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Detail View Placeholder -->
+                <div class="flex-1 p-6 flex items-center justify-center bg-white">
+                    <div class="text-center opacity-50">
+                        <i data-lucide="file-text" class="w-12 h-12 text-slate-300 mx-auto mb-2"></i>
+                        <p class="text-sm text-slate-400">Select a section to view details</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. HORIZONTAL LINEAR (Process Flow) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">4</span>
+                <h2 class="font-bold text-slate-900">The Horizontal Stream</h2>
+                <span class="text-xs text-slate-400">— View sections as a sequential stream</span>
+            </div>
+            <div class="flex items-center gap-4 overflow-x-auto pb-4 pt-2 px-1">
+                <!-- Card 1 -->
+                <div class="concept-item min-w-[200px] bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:-translate-y-1 transition-transform cursor-pointer relative"
+                    data-tags="INDEMNITY">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-blue-500 rounded-t-xl"></div>
+                    <span class="text-xs font-mono text-slate-400 mb-1 block">SEC 8.0</span>
+                    <h4 class="font-bold text-slate-900 mb-4">Indemnification</h4>
+                    <span
+                        class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-bold rounded uppercase">INDEMNITY</span>
+                </div>
+                <div class="w-8 h-[2px] bg-slate-200 shrink-0"></div>
+                <!-- Card 2 -->
+                <div class="concept-item min-w-[200px] bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:-translate-y-1 transition-transform cursor-pointer relative"
+                    data-tags="CONFIDENTIALITY">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-amber-500 rounded-t-xl"></div>
+                    <span class="text-xs font-mono text-slate-400 mb-1 block">SEC 9.1</span>
+                    <h4 class="font-bold text-slate-900 mb-4">Confidentiality</h4>
+                    <span
+                        class="px-2 py-0.5 bg-amber-50 text-amber-700 text-[10px] font-bold rounded uppercase">Confidential</span>
+                </div>
+                <div class="w-8 h-[2px] bg-slate-200 shrink-0"></div>
+                <!-- Card 3 -->
+                <div class="concept-item min-w-[200px] bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:-translate-y-1 transition-transform cursor-pointer relative"
+                    data-tags="FORCE_MAJEURE">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-red-500 rounded-t-xl"></div>
+                    <span class="text-xs font-mono text-slate-400 mb-1 block">SEC 12.4</span>
+                    <h4 class="font-bold text-slate-900 mb-4">Force Majeure</h4>
+                    <span class="px-2 py-0.5 bg-red-50 text-red-700 text-[10px] font-bold rounded uppercase">Force
+                        Maj.</span>
+                </div>
+                <div class="w-8 h-[2px] bg-slate-200 shrink-0"></div>
+                <!-- Card 4 -->
+                <div class="concept-item min-w-[200px] bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:-translate-y-1 transition-transform cursor-pointer relative"
+                    data-tags="GOVERNANCE">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-slate-500 rounded-t-xl"></div>
+                    <span class="text-xs font-mono text-slate-400 mb-1 block">SEC 15.0</span>
+                    <h4 class="font-bold text-slate-900 mb-4">Governance</h4>
+                    <span
+                        class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-bold rounded uppercase">Legal</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. THE MINIMALIST LIST (Notion Style) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">5</span>
+                <h2 class="font-bold text-slate-900">The Minimalist Table</h2>
+                <span class="text-xs text-slate-400">— Clean, line-separated list</span>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200">
+                <div class="concept-item flex items-center p-3 border-b border-slate-100 hover:bg-slate-50 cursor-pointer"
+                    data-tags="INDEMNITY">
+                    <div class="w-16 font-mono text-xs text-slate-400">8.0</div>
+                    <div class="flex-1 font-medium text-sm text-slate-800">Indemnification</div>
+                    <span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-medium">Indemnity</span>
+                </div>
+                <div class="concept-item flex items-center p-3 border-b border-slate-100 hover:bg-slate-50 cursor-pointer"
+                    data-tags="CONFIDENTIALITY">
+                    <div class="w-16 font-mono text-xs text-slate-400">9.1</div>
+                    <div class="flex-1 font-medium text-sm text-slate-800">Confidentiality</div>
+                    <span
+                        class="px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-xs font-medium">Confidential</span>
+                </div>
+                <div class="concept-item flex items-center p-3 border-b border-slate-100 hover:bg-slate-50 cursor-pointer"
+                    data-tags="FORCE_MAJEURE">
+                    <div class="w-16 font-mono text-xs text-slate-400">12.4</div>
+                    <div class="flex-1 font-medium text-sm text-slate-800">Force Majeure</div>
+                    <span class="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-medium">Force Majeure</span>
+                </div>
+                <div class="concept-item flex items-center p-3 border-b border-slate-100 hover:bg-slate-50 cursor-pointer"
+                    data-tags="GOVERNANCE">
+                    <div class="w-16 font-mono text-xs text-slate-400">15.0</div>
+                    <div class="flex-1 font-medium text-sm text-slate-800">Governing Law</div>
+                    <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs font-medium">Governance</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. THE MASONRY CARDS (Rich Visuals) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">6</span>
+                <h2 class="font-bold text-slate-900">Masonry Cards</h2>
+                <span class="text-xs text-slate-400">— Rich cards wrapping content</span>
+            </div>
+            <div class="columns-2 md:columns-3 gap-4">
+                <div class="concept-item break-inside-avoid mb-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer"
+                    data-tags="INDEMNITY">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="bg-blue-100 p-1.5 rounded-lg"><i data-lucide="shield"
+                                class="w-4 h-4 text-blue-600"></i></div>
+                        <h4 class="font-bold text-slate-900 text-sm">Indemnity</h4>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-3 leading-relaxed">Detailed layout of indemnification procedures
+                        regarding third party claims...</p>
+                    <div class="flex justify-between items-center border-t border-slate-100 pt-2">
+                        <span class="text-[10px] font-bold text-slate-400">SEC 8.0</span>
+                        <span class="text-[10px] font-bold text-blue-600">Verified</span>
+                    </div>
+                </div>
+
+                <div class="concept-item break-inside-avoid mb-4 bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-lg cursor-pointer transform hover:-translate-y-1 transition-transform"
+                    data-tags="FORCE_MAJEURE">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="bg-red-500/20 p-1.5 rounded-lg"><i data-lucide="zap"
+                                class="w-4 h-4 text-red-500"></i></div>
+                        <h4 class="font-bold text-white text-sm">Force Majeure</h4>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-3 leading-relaxed">Acts of God, war, terrorism, and other
+                        uncontrollable events.</p>
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-red-500 text-white text-[10px] font-bold rounded">Critical</span>
+                    </div>
+                </div>
+
+                <div class="concept-item break-inside-avoid mb-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer"
+                    data-tags="CONFIDENTIALITY">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="bg-amber-100 p-1.5 rounded-lg"><i data-lucide="eye-off"
+                                class="w-4 h-4 text-amber-600"></i></div>
+                        <h4 class="font-bold text-slate-900 text-sm">Confidentiality</h4>
+                    </div>
+                    <div class="flex justify-between items-center border-t border-slate-100 pt-2">
+                        <span class="text-[10px] font-bold text-slate-400">SEC 9.1</span>
+                        <span class="text-[10px] font-bold text-emerald-600">Verified</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. THE COMPACT ACCORDION -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">7</span>
+                <h2 class="font-bold text-slate-900">Tag Accordions</h2>
+                <span class="text-xs text-slate-400">— Grouped by Tag</span>
+            </div>
+            <div class="space-y-2">
+                <!-- Group 1 -->
+                <div class="concept-item border border-blue-200 rounded-lg overflow-hidden" data-tags="INDEMNITY">
+                    <div class="bg-blue-50 px-4 py-2 flex justify-between items-center cursor-pointer">
+                        <span class="font-bold text-xs text-blue-700 uppercase tracking-wide">Indemnity Group</span>
+                        <span class="bg-white text-blue-700 text-[10px] font-bold px-1.5 rounded-full">1 Section</span>
+                    </div>
+                    <div class="p-3 bg-white">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-slate-700">8.0 Indemnification</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Group 2 -->
+                <div class="concept-item border border-amber-200 rounded-lg overflow-hidden"
+                    data-tags="CONFIDENTIALITY">
+                    <div class="bg-amber-50 px-4 py-2 flex justify-between items-center cursor-pointer">
+                        <span class="font-bold text-xs text-amber-700 uppercase tracking-wide">Confidentiality
+                            Group</span>
+                        <span class="bg-white text-amber-700 text-[10px] font-bold px-1.5 rounded-full">1 Section</span>
+                    </div>
+                    <div class="p-3 bg-white">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-slate-700">9.1 Confidential Information</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Group 3 -->
+                <div class="concept-item border border-red-200 rounded-lg overflow-hidden" data-tags="FORCE_MAJEURE">
+                    <div class="bg-red-50 px-4 py-2 flex justify-between items-center cursor-pointer">
+                        <span class="font-bold text-xs text-red-700 uppercase tracking-wide">Risk Group</span>
+                        <span class="bg-white text-red-700 text-[10px] font-bold px-1.5 rounded-full">1 Section</span>
+                    </div>
+                    <div class="p-3 bg-white">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-slate-700">12.4 Force Majeure</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. THE "LENS" VIEW (Highlighted Text) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">8</span>
+                <h2 class="font-bold text-slate-900">The Context Lens</h2>
+                <span class="text-xs text-slate-400">— Sections as highlighted blocks in text</span>
+            </div>
+            <div
+                class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm font-serif text-slate-600 text-sm leading-relaxed">
+                <p class="mb-4">This Agreement is entered into on...</p>
+
+                <div class="concept-item my-4 p-4 rounded bg-blue-50 border-l-4 border-blue-500 relative group cursor-pointer"
+                    data-tags="INDEMNITY">
+                    <span class="absolute right-2 top-2 text-[10px] font-bold text-blue-500 uppercase">Indemnity</span>
+                    <p class="text-slate-800 font-sans font-medium">8.0 Indemnification</p>
+                    <p class="italic">The Provider shall indemnify the Customer against all losses...</p>
+                </div>
+
+                <div class="concept-item my-4 p-4 rounded bg-amber-50 border-l-4 border-amber-500 relative group cursor-pointer"
+                    data-tags="CONFIDENTIALITY">
+                    <span
+                        class="absolute right-2 top-2 text-[10px] font-bold text-amber-500 uppercase">Confidential</span>
+                    <p class="text-slate-800 font-sans font-medium">9.1 Confidentiality</p>
+                    <p class="italic">All information disclosed shall be treated as confidential...</p>
+                </div>
+
+                <div class="concept-item my-4 p-4 rounded bg-red-50 border-l-4 border-red-500 relative group cursor-pointer"
+                    data-tags="FORCE_MAJEURE">
+                    <span class="absolute right-2 top-2 text-[10px] font-bold text-red-500 uppercase">Force Maj.</span>
+                    <p class="text-slate-800 font-sans font-medium">12.4 Force Majeure</p>
+                    <p class="italic">Neither party shall be liable for failure to perform due to...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. THE FLOATING HUD (Modern Interface) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">9</span>
+                <h2 class="font-bold text-slate-900">Floating HUD</h2>
+                <span class="text-xs text-slate-400">— Clean list with floating controls</span>
+            </div>
+            <div class="relative bg-slate-100 rounded-xl h-64 overflow-hidden border border-slate-200">
+                <div class="p-4 space-y-2 overflow-y-auto h-full pb-16">
+                    <div class="concept-item bg-white p-3 rounded shadow-sm flex justify-between" data-tags="INDEMNITY">
+                        <span class="font-bold text-sm">8.0 Indemnity</span>
+                        <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                    </div>
+                    <div class="concept-item bg-white p-3 rounded shadow-sm flex justify-between"
+                        data-tags="CONFIDENTIALITY">
+                        <span class="font-bold text-sm">9.1 Confident.</span>
+                        <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                    </div>
+                    <div class="concept-item bg-white p-3 rounded shadow-sm flex justify-between"
+                        data-tags="FORCE_MAJEURE">
+                        <span class="font-bold text-sm">12.4 Force Maj.</span>
+                        <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                    </div>
+                </div>
+                <!-- HUD -->
+                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-1 bg-slate-900/90 backdrop-blur text-white px-2 py-1.5 rounded-full shadow-lg border border-slate-700"
+                    id="hud-nav">
+                    <button
+                        class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center hover:bg-slate-600"><i
+                            data-lucide="filter" class="w-3 h-3"></i></button>
+                    <span class="h-4 w-px bg-slate-700 mx-1"></span>
+                    <span class="text-[10px] font-bold px-2">3 Items</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. THE VISUAL DONUT (Chart Filtering) -->
+        <section>
+            <div class="mb-4 flex items-center gap-2">
+                <span
+                    class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">10</span>
+                <h2 class="font-bold text-slate-900">Chart Filter</h2>
+                <span class="text-xs text-slate-400">— Click the chart to filter</span>
+            </div>
+            <div class="grid grid-cols-12 gap-6 bg-white p-6 rounded-xl border border-slate-200">
+                <div class="col-span-4 flex flex-col items-center justify-center border-r border-slate-100">
+                    <!-- CSS Donut Substitute -->
+                    <div class="relative w-24 h-24 rounded-full border-[12px] border-slate-100 flex items-center justify-center"
+                        style="border-top-color: #3b82f6; border-right-color: #ef4444; border-bottom-color: #f59e0b;">
+                        <span class="font-bold text-xs text-slate-400">DIST</span>
+                    </div>
+                    <div class="mt-4 flex gap-2 text-[10px] font-bold uppercase">
+                        <span class="text-blue-500">Indem</span>
+                        <span class="text-amber-500">Conf</span>
+                        <span class="text-red-500">Risk</span>
+                    </div>
+                </div>
+                <div class="col-span-8 space-y-2">
+                    <div class="concept-item p-2 border-b border-slate-50 flex justify-between items-center"
+                        data-tags="INDEMNITY">
+                        <span class="text-sm font-medium">8.0 Indemnification</span>
+                        <span class="text-xs text-blue-500 font-bold">35%</span>
+                    </div>
+                    <div class="concept-item p-2 border-b border-slate-50 flex justify-between items-center"
+                        data-tags="CONFIDENTIALITY">
+                        <span class="text-sm font-medium">9.1 Confidentiality</span>
+                        <span class="text-xs text-amber-500 font-bold">20%</span>
+                    </div>
+                    <div class="concept-item p-2 border-b border-slate-50 flex justify-between items-center"
+                        data-tags="FORCE_MAJEURE">
+                        <span class="text-sm font-medium">12.4 Force Majeure</span>
+                        <span class="text-xs text-red-500 font-bold">45%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function setGlobalFilter(tag) {
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.innerText.includes(tag.toUpperCase()) || (tag === 'all' && btn.innerText === 'ALL')) {
+                    btn.classList.add('bg-slate-100', 'ring-1', 'ring-slate-200');
+                    if (tag !== 'all') { // add color tint logic here if needed 
+                        if (tag === 'INDEMNITY') btn.classList.add('bg-blue-50');
+                        if (tag === 'CONFIDENTIALITY') btn.classList.add('bg-amber-50');
+                        if (tag === 'FORCE_MAJEURE') btn.classList.add('bg-red-50');
+                    }
+                } else {
+                    btn.classList.remove('bg-slate-100', 'ring-1', 'ring-slate-200', 'bg-blue-50', 'bg-amber-50', 'bg-red-50');
+                }
+            });
+
+            // Filter items
+            const items = document.querySelectorAll('.concept-item');
+            items.forEach(item => {
+                const tags = item.getAttribute('data-tags');
+                if (tag === 'all') {
+                    item.classList.remove('hidden-item');
+                    item.classList.remove('dimmed-item');
+                } else {
+                    if (tags && tags.includes(tag)) {
+                        item.classList.remove('hidden-item');
+                        item.classList.remove('dimmed-item');
+                    } else {
+                        // For Layout 2 (Matrix) and 8 (Lens), we might just DIM them instead of HIDE
+                        // But finding them generically is hard. Let's strict hide for now, or check parent.
+                        const isMatrix = item.tagName === 'TR';
+                        const isLens = item.parentElement && item.parentElement.classList.contains('font-serif');
+
+                        if (isMatrix || isLens) {
+                            item.classList.add('dimmed-item'); // Dim only
+                            item.classList.remove('hidden-item');
+                        } else {
+                            item.classList.add('hidden-item'); // Strict hide
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
