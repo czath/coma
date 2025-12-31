@@ -57,9 +57,9 @@ For each TRUE cross-reference you find:
 3. **target_id**: Section ID being referenced (see below for missing targets)
 4. **target_verbatim**:  the first sentence from the targetted reference.
 
-**CRITICAL - target_verbatim LIMITS**: 
-- **DO NOT return the full section text!** This causes system failure.
-- return just one sentence. if sentence is too long, truncate at 200 chars.
+**CRITICAL - target_verbatim LIMITS (STRICT ENFORCEMENT)**: 
+- **DO NOT return the full section text!** This causes immediate system failure.
+- Return ONLY ONE SENTENCE. If that sentence exceeds 100 characters, you MUST truncate it at exactly 100 chars. No exceptions.
 - **If target cannot be found**: Still extract the reference! (see below)
 
 ### Handling Missing or Uncertain Targets

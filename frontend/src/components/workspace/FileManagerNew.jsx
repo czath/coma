@@ -420,10 +420,7 @@ export default function FileManagerNew({ onSwitchUI }) {
                             <BookOpen className="w-5 h-5" />
                             <span className="font-medium hidden lg:block">Taxonomy</span>
                         </div>
-                        <div className="hidden lg:block relative">
-                            <div className={`w-2 h-2 rounded-full ${activeTaxonomy ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]'}`}></div>
-                            {activeTaxonomy && <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-25"></span>}
-                        </div>
+
                     </button>
                     <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
                         <Settings className="w-5 h-5" />

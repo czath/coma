@@ -45,7 +45,7 @@ def parse_llm_json(response_text: str) -> Optional[Dict[str, Any]]:
     
     # STEP 2: Try direct JSON parse
     try:
-        result = json.loads(text)
+        result = json.loads(text, strict=False)
         logger.debug(f"✅ Direct JSON parse succeeded (length: {len(text)})")
         return result
     except json.JSONDecodeError as e:
@@ -62,7 +62,7 @@ def parse_llm_json(response_text: str) -> Optional[Dict[str, Any]]:
             if code_block_end != -1:
                 json_text = text[json_start:code_block_end].strip()
                 try:
-                    result = json.loads(json_text)
+                    result = json.loads(json_text, strict=False)
                     logger.debug(f"✅ Markdown block parse succeeded")
                     return result
                 except json.JSONDecodeError as e:
@@ -99,7 +99,7 @@ def parse_llm_json(response_text: str) -> Optional[Dict[str, Any]]:
                         # Found complete JSON object
                         potential_json = text[brace_start:i + 1]
                         try:
-                            result = json.loads(potential_json)
+                            result = json.loads(potential_json, strict=False)
                             logger.debug(f"✅ Brace counting succeeded (extracted {i - brace_start + 1} bytes)")
                             return result
                         except json.JSONDecodeError as e:

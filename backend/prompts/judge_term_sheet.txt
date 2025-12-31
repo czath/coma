@@ -45,8 +45,8 @@ For every field containing an `evidence` list:
 
 # OUTPUT CONSTRAINTS (STRICT)
 1. **NO ECHOING**: Do NOT repeat the input document sections in your response.
-2. **CONCISE REASONING**: Your `reasoning` field must be concise (max 30 words).
-3. **SNIPPETS ONLY**: `verbatim` evidence must be specific snippets (< 100 words), not entire pages.
-4. **JSON ONLY**: Return ONLY valid JSON.
+2. **CONCISE REASONING (STRICT)**: Your `reasoning` field must be concise (max 20 words).
+3. **SNIPPETS ONLY (STRICT)**: `verbatim` evidence MUST be short snippets (< 100 characters). Truncate if needed.
+4. **JSON ONLY**: Return ONLY valid JSON. No conversational filler.
 
-
+**CRITICAL**: If you start repeating characters or patterns (like tabs or spaces), STOP the response immediately. No exceptions.
