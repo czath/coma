@@ -602,15 +602,19 @@ class ReferenceProfiler:
                     is_valid = False
                     invalid_reason = f"Protocol violation: Cannot reference INFO/TOC section '{target_id}' as a target."
             
-            # CHECK 3: Deduplication (applies to all refs)
+            # CHECK 3: Deduplication (applies to all refs EXCEPT broken ones)
+            # We skip deduplication for "UNKNOWN" targets so that multiple broken references
+            # from the same source (e.g. "See App A" and "See App B") are NOT marked as duplicates.
             pair_key = (source_id, target_id)
-            if pair_key in seen_pairs:
+            if target_id != "UNKNOWN" and pair_key in seen_pairs:
                 stats["duplicates"] += 1
                 # KEEP instead of dropping - mark as invalid
                 is_valid = False
                 invalid_reason = f"Protocol violation: Duplicate reference (already extracted)."
                 # Don't skip - still add to output so user can see duplicates
-            seen_pairs.add(pair_key)
+            
+            if target_id != "UNKNOWN":
+                seen_pairs.add(pair_key)
             
             # CHECK 4: Self-reference (track in stats, visible in References tab with is_self_reference flag)
             if validation.get("is_self_reference", False):

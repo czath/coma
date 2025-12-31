@@ -112,6 +112,9 @@ class ContractPipeline:
                 label_result = [] # No concurrent tasks needed
             else:
                  # ... (Task Definition) ...
+                # Define Semaphore for concurrency control
+                sem = asyncio.Semaphore(5) 
+
                 async def process_section_safe(idx, section):
                     async with sem:
                         res = await self.run_labeler(section, job_id)
@@ -125,7 +128,7 @@ class ContractPipeline:
                         return res
 
                 tasks = [process_section_safe(i, s) for i, s in enumerate(analyzable_sections)]
-                label_result = await asyncio.gather(*tasks)
+                # label_result = await asyncio.gather(*tasks)  <-- REMOVED: Should await in parallel block below
 
             # --- Execute Parallel ---
             parallel_results = await asyncio.gather(
@@ -143,6 +146,43 @@ class ContractPipeline:
                 label_result = label_task_result
             
             # ... (Aggregation) ...
+
+            # 1. Profiler Results (Term Sheet + References)
+            if isinstance(prof_result, Exception):
+                logger.error(f"Profiler Task Failed: {prof_result}")
+            elif isinstance(prof_result, tuple): # Expecting (term_sheet, flags, trace)
+                p_data, p_flags, p_trace = prof_result
+                
+                # Merge Data
+                if isinstance(p_data, dict):
+                    results["term_sheet"] = p_data.get("term_sheet", {})
+                    if "reference_map" in p_data:
+                        # Add reference map to results (top level or nested?)
+                        # Legacy expected it inside term_sheet structure sometimes, or top level?
+                        # Let's put it top level for cleanliness, OR inside term_sheet wrapper as returned by profiler
+                        results["reference_map"] = p_data.get("reference_map", [])
+                
+                # Merge Flags
+                results["clarificationFlags"].extend(p_flags)
+                
+                # Merge Trace
+                trace_data["profiler"].extend(p_trace)
+
+            # 2. Dictionary Results
+            if isinstance(dict_result, Exception):
+                logger.error(f"Dictionary Task Failed: {dict_result}")
+            elif isinstance(dict_result, tuple): # Expecting (data, flags, trace)
+                d_data, d_flags, d_trace = dict_result
+                
+                # Merge Data
+                if isinstance(d_data, list):
+                    results["glossary"] = d_data
+                
+                # Merge Flags
+                results["clarificationFlags"].extend(d_flags)
+                
+                # Merge Trace
+                trace_data["dictionary"].extend(d_trace)
             
             # 3. Labeling Results
             if isinstance(label_result, Exception):
@@ -855,7 +895,7 @@ Evaluate the Extracted Data against the Source Text according to your System Ins
                 else:
                     clean_text = text.strip()
             
-            return json.loads(clean_text)
+            return json.loads(clean_text, strict=False)
         except Exception as e:
             logger.warning(f"JSON Parse Failure: {e}. Raw snippet: {text[:100]}...")
             return None
