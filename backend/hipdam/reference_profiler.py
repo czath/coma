@@ -9,6 +9,7 @@ import json
 import logging
 import os
 import re
+import asyncio
 from typing import List, Dict, Any, Set, Tuple, Optional
 from datetime import datetime
 
@@ -70,58 +71,93 @@ class ReferenceProfiler:
         # Also log summary to console
         self.logger.info(f"[{job_id}] DEBUG: {stage}")
     
-    async def extract_references(self, doc_payload: List[Dict[str, Any]], job_id: str) -> Dict[str, Any]:
+    async def extract_references(self, doc_payload: List[Dict[str, Any]], job_id: str, progress_callback=None) -> Dict[str, Any]:
         """
-        Main entry point - extracts and validates all cross-references.
+        Main entry point - V7 3-stage pipeline with Pydantic validation.
         
         Args:
             doc_payload: List of document sections
             job_id: Job identifier for billing and logging
+            progress_callback: Function(0-100) to update progress
         
         Returns:
             {
                 "reference_map": [...],
+                "agent_trace": [...],
                 "warnings": [...],
                 "stats": {...}
             }
         """
-        self.logger.info(f"[{job_id}] Starting reference extraction (V7)...")
+        self.logger.info(f"[{job_id}] Starting V7 reference extraction...")
+        if progress_callback: progress_callback(5)  # Start
+        trace = []
         
         try:
-            # Stage 1: Input Preparation
-            self.logger.info(f"[{job_id}] Stage 1: Input preparation...")
-            inputs = self._prepare_inputs(doc_payload, job_id)
+            # Stage 0: Prepare inputs
+            self.logger.info(f"[{job_id}] Stage 0: Input preparation...")
+            inputs = self._prepare_inputs_v7(doc_payload, job_id)
+            trace.append({
+                "stage": "preparation",
+                "source_docs": len(inputs["source_documents"]),
+                "lexicon_size": len(inputs["lexicon"])
+            })
+            if progress_callback: progress_callback(10) # Prep done
             
-            # Stage 2: Worker extraction
-            self.logger.info(f"[{job_id}] Stage 2: Worker extraction...")
-            candidate_refs = await self._call_worker_llm(inputs, job_id)
+            # Stage 1: Scanner (batched, parallel)
+            self.logger.info(f"[{job_id}] Stage 1: Scanner (batched extraction)...")
+            scanned_refs = await self._scan_batches(
+                inputs["source_documents"],
+                inputs["lexicon"],
+                job_id
+            )
+            trace.append({
+                "stage": "scanner",
+                "refs_found": len(scanned_refs)
+            })
+            if progress_callback: progress_callback(30) # Scanner done
             
-            # Stage 3: Validation & Enrichment
-            self.logger.info(f"[{job_id}] Stage 3: Validation & enrichment...")
-            enriched_refs, rejected_refs = self._validate_and_enrich(candidate_refs, inputs, job_id)
+            if not scanned_refs:
+                self.logger.warning(f"[{job_id}] No references found by scanner")
+                return self._empty_result(trace)
             
-            # Stage 4: Judge validation
-            self.logger.info(f"[{job_id}] Stage 4: Judge validation...")
-            validated_refs = await self._call_judge_llm(enriched_refs, inputs, job_id)
+            # Stage 2: Mapper (LLM resolution)
+            self.logger.info(f"[{job_id}] Stage 2: Mapper (target resolution)...")
+            mapped_refs = await self._map_targets(
+                scanned_refs,
+                inputs["section_index"],  # Pass full section data with text
+                inputs["info_section_ids"],
+                job_id,
+                trace=trace,  # Restored trace passing
+                progress_callback=progress_callback  # Pass down for granular updates
+            )
+            # Stage 3: Judge (independent validation)
+            # Returns Final Formatted Result (Dict)
+            self.logger.info(f"[{job_id}] Stage 3: Judge (validation)...")
+            result = await self._judge_references(
+                mapped_refs,  # Pass the FULL list (including mapper-rejected ones)
+                inputs,
+                job_id,
+                trace
+            )
             
-            # Stage 5: Protocol validation
-            self.logger.info(f"[{job_id}] Stage 5: Protocol validation...")
-            final_refs, warnings, protocol_stats = self._protocol_validate(validated_refs, inputs, job_id)
+            if progress_callback: progress_callback(100)
             
-            # Stage 6: Format output
-            result = self._format_output(final_refs, warnings, candidate_refs, rejected_refs, protocol_stats, inputs)
-            
-            
-            self.logger.info(f"[{job_id}] Reference extraction complete: {result['stats']['final_count']} references")
+            self.logger.info(
+                f"[{job_id}] V7 extraction complete: "
+                f"{result['stats']['total']} references"
+            )
             
             return result
             
         except Exception as e:
-            self.logger.error(f"[{job_id}] Reference extraction failed: {e}", exc_info=True)
-            # Return empty result on failure
+            self.logger.error(
+                f"[{job_id}] Reference extraction failed: {e}",
+                exc_info=True
+            )
             return {
                 "reference_map": [],
-                "warnings": [{"type": "error", "message": str(e)}],
+                "agent_trace": trace,
+                "warnings": [{"type": "ERROR", "msg": str(e)}],
                 "stats": {"error": str(e)}
             }
     
@@ -525,6 +561,32 @@ class ReferenceProfiler:
             "references": validated_refs
         })
         
+        # Flatten Judge's nested structure for downstream compatibility
+        for ref in validated_refs:
+            # Extract validation fields from nested structure
+            validation = ref.get("validation", {})
+            
+            # Map is_valid to judge_verdict
+            is_valid = validation.get("is_valid", True)
+            ref["judge_verdict"] = "ACCEPT" if is_valid else "REJECT"
+            
+            # Extract reason from validation object
+            ref["reasoning"] = validation.get("reason", "")
+            
+            # Extract source/target IDs for flat access
+            source = ref.get("source", {})
+            target = ref.get("target", {})
+            
+            ref["source_id"] = source.get("id", "")
+            ref["source_header"] = source.get("header", "")
+            ref["source_context"] = source.get("verbatim", "")
+            
+            ref["target_id"] = target.get("id", "UNKNOWN")
+            ref["target_header"] = target.get("header", "NOT FOUND")
+            
+            # Keep validation for any legacy references
+            # ref["validation"] stays as is
+        
         self.logger.info(f"[{job_id}] Judge validated {len(validated_refs)} references")
         
         return validated_refs
@@ -548,109 +610,49 @@ class ReferenceProfiler:
     
     def _protocol_validate(self, validated_refs: List[Dict[str, Any]], inputs: Dict[str, Any], job_id: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         """
-        Stage 5: Apply hard protocol checks, deduplication, and final validation
+        Stage 5: TEMPORARILY DISABLED - Pass-through for debugging
         
         Returns:
             (final_references, warnings)
         """
+        # TEMPORARY: Complete pass-through for debugging
         final_refs = []
-        warnings = []
-        
-        stats = {
-            "input_count": len(validated_refs),
-            "judge_rejected": 0,
-            "self_reference_warnings": 0,
-            "target_not_found": 0,
-            "info_target": 0,
-            "duplicates": 0,
-            "passed": 0
-        }
-        
-        seen_pairs = set()
         
         for ref in validated_refs:
-            # Extract IDs
-            source_id = ref.get("source", {}).get("id")
-            target_id = ref.get("target", {}).get("id")
+            # Just add system_verdict if not present
+            if "system_verdict" not in ref:
+                ref["system_verdict"] = "ACCEPT"
             
-            if not source_id or not target_id:
-                continue
-            
-            # Get validation status first
-            validation = ref.get("validation", {})
-            is_valid = validation.get("is_valid", False)  # Fail-safe default
-            invalid_reason = validation.get("reasoning", "") if not is_valid else None
-            
-            # CHECK: If BOTH is_valid=false AND target=UNKNOWN, skip target checks (broken reference)
-            is_broken_reference = (not is_valid and target_id == "UNKNOWN")
-            
-            # CHECK 1: Target exists in section_index (skip if broken reference)
-            if not is_broken_reference:
-                if target_id not in inputs["section_index"]:
-                    stats["target_not_found"] += 1
-                    self.logger.warning(f"[{job_id}] Target {target_id} not in section index")
-                    # KEEP instead of dropping - mark as invalid
-                    is_valid = False
-                    invalid_reason = f"Protocol violation: Target '{target_id}' not found in section index."
-            
-            # CHECK 2: INFO prohibition (skip if broken reference)
-            if not is_broken_reference and is_valid:  # Only check if still valid
-                if target_id in inputs["info_section_ids"]:
-                    stats["info_target"] += 1
-                    self.logger.warning(f"[{job_id}] Target {target_id} is INFO section")
-                    # KEEP instead of dropping - mark as invalid
-                    is_valid = False
-                    invalid_reason = f"Protocol violation: Cannot reference INFO/TOC section '{target_id}' as a target."
-            
-            # CHECK 3: Deduplication (applies to all refs EXCEPT broken ones)
-            # We skip deduplication for "UNKNOWN" targets so that multiple broken references
-            # from the same source (e.g. "See App A" and "See App B") are NOT marked as duplicates.
-            pair_key = (source_id, target_id)
-            if target_id != "UNKNOWN" and pair_key in seen_pairs:
-                stats["duplicates"] += 1
-                # KEEP instead of dropping - mark as invalid
-                is_valid = False
-                invalid_reason = f"Protocol violation: Duplicate reference (already extracted)."
-                # Don't skip - still add to output so user can see duplicates
-            
-            if target_id != "UNKNOWN":
-                seen_pairs.add(pair_key)
-            
-            # CHECK 4: Self-reference (track in stats, visible in References tab with is_self_reference flag)
-            if validation.get("is_self_reference", False):
-                stats["self_reference_warnings"] += 1
-            
-            # Count rejections for stats
-            if not is_valid:
-                stats["judge_rejected"] += 1
-            
-            # KEEP ALL: Add to final output (valid, invalid, and protocol violations)
-            # Structure for frontend
+            # Ensure all required fields exist
             final_ref = {
-                "source_id": source_id,
-                "source_header": ref.get("source", {}).get("header", ""),
-                "source_context": ref.get("source", {}).get("verbatim", ""),  # Full verbatim sentence
-                "target_id": target_id,
-                "target_header": ref.get("target", {}).get("header", ""),
-                "target_type": inputs["section_index"][target_id]["type"] if (not is_broken_reference and target_id in inputs["section_index"]) else "UNKNOWN",
-                "is_valid": is_valid,
-                "is_self_reference": validation.get("is_self_reference", False),
-                "invalid_reason": invalid_reason
+                "source_id": ref.get("source_id"),
+                "source_header": ref.get("source_header", ""),
+                "source_context": ref.get("source_verbatim", ""),
+                "target_id": ref.get("target_id"),
+                "target_header": "",
+                "target_type": "UNKNOWN",
+                "is_self_reference": ref.get("is_self_reference", False),
+                "mapper_verdict": ref.get("mapper_verdict", "UNKNOWN"),
+                "judge_verdict": ref.get("judge_verdict", "UNKNOWN"),
+                "system_verdict": ref.get("system_verdict", "ACCEPT"),
+                "reasoning": ref.get("reasoning", "")
             }
             
             final_refs.append(final_ref)
-            stats["passed"] += 1
         
-        # Debug log
-        self._debug_log(job_id, "STAGE5_PROTOCOL_VALIDATOR", {
-            "stats": stats,
-            "final_references": final_refs,
-            "warnings": warnings
-        })
+        stats = {
+            "input_count": len(validated_refs),
+            "passed": len(final_refs),
+            "duplicates": 0,
+            "info_target": 0,
+            "target_not_found": 0
+        }
         
-        self.logger.info(f"[{job_id}] Protocol validation: {stats['passed']}/{stats['input_count']} passed (keeping all for transparency)")
+        self.logger.info(f"[{job_id}] Protocol validation BYPASSED: {len(final_refs)} refs passed through")
         
-        return final_refs, warnings, stats
+        return final_refs, [], stats
+    
+
     
     def _format_output(self, final_refs: List[Dict[str, Any]], warnings: List[Dict[str, Any]], 
                       candidate_refs: List[Dict[str, Any]], rejected_refs: List[Dict[str, Any]], 
@@ -697,6 +699,581 @@ class ReferenceProfiler:
                 }
             }
         }
+    
+    # =============================================================================
+    # V7 PIPELINE METHODS
+    # =============================================================================
+    
+    def _prepare_inputs_v7(self, doc_payload: List[Dict[str, Any]], job_id: str) -> Dict[str, Any]:
+        """
+        Stage 0: Prepare inputs for V7 pipeline.
+        
+        Returns:
+            {
+                "source_documents": List[Dict],  # All sections for scanning
+                "lexicon": List[Dict],           # Section index for mapping
+                "section_index": Dict,           # Full section details
+                "info_section_ids": Set[str]     # INFO/SKIP sections
+            }
+        """
+        # Build section index
+        section_index = {}
+        lexicon = []
+        info_section_ids = set()
+        
+        for section in doc_payload:
+            sid = section.get("id", "")
+            stype = section.get("type", "")
+            header = section.get("header", "")
+            text = section.get("text", "")
+            
+            section_index[sid] = {
+                "id": sid,
+                "header": header,
+                "text": text,
+                "type": stype
+            }
+            
+            lexicon.append({
+                "id": sid,
+                "header": header,
+                "type": stype
+            })
+            
+            # Identify INFO/SKIP sections
+            if stype in ["INFO", "SKIP"]:
+                info_section_ids.add(sid)
+        
+        self.logger.info(
+            f"[{job_id}] Prepared {len(doc_payload)} sections, "
+            f"{len(info_section_ids)} INFO/SKIP filtered"
+        )
+        
+        return {
+            "source_documents": doc_payload,
+            "lexicon": lexicon,
+            "section_index": section_index,
+            "info_section_ids": info_section_ids
+        }
+    
+    async def _scan_batches(
+        self,
+        source_documents: List[Dict[str, Any]],
+        lexicon: List[Dict[str, Any]],
+        job_id: str
+    ):
+        """
+        Stage 1: Scan source documents in batches (PARALLEL).
+        Returns list of ScannedReference Pydantic objects.
+        """
+        from hipdam.schemas.reference_schemas import ScannedReference
+        from utils.llm_parser import parse_llm_json_as_list
+        import asyncio
+        
+        BATCH_SIZE = 5
+        
+        # Create batches
+        batches = [
+            source_documents[i:i + BATCH_SIZE]
+            for i in range(0, len(source_documents), BATCH_SIZE)
+        ]
+        
+        self.logger.info(
+            f"[{job_id}] Scanner: Processing {len(batches)} batches IN PARALLEL"
+        )
+        
+        async def process_batch(batch_idx: int, batch: List[Dict]):
+            # Prepare payload with lexicon
+            batch_payload = {
+                "sections": [
+                    {
+                        "id": section["id"],
+                        "header": section.get("header", ""),
+                        "text": section.get("text", "")
+                    }
+                    for section in batch
+                ],
+                "lexicon": lexicon
+            }
+            
+            # Call LLM
+            config = self.config.get("PROFILER_WORKER", {}).copy()
+            config["prompt_file"] = "prompts/reference_scanner.txt"
+            
+            try:
+                resp = await self._call_llm(
+                    config,
+                    json.dumps(batch_payload, indent=2),
+                    job_id,
+                    f"SCANNER_BATCH_{batch_idx}"
+                )
+                
+                # DEBUG: Write complete input/output to file
+                debug_file = f"scanner_debug_batch_{batch_idx}_{job_id[-8:]}.json"
+                try:
+                    with open(debug_file, "w", encoding="utf-8") as f:
+                        json.dump({
+                            "batch_idx": batch_idx,
+                            "input_sections": [
+                                {
+                                    "id": s["id"],
+                                    "header": s["header"],
+                                    "text_length": len(s["text"]),
+                                    "text": s["text"]
+                                }
+                                for s in batch_payload["sections"]
+                            ],
+                            "lexicon_size": len(batch_payload["lexicon"]),
+                            "lexicon": batch_payload["lexicon"],
+                            "llm_response_raw": resp,
+                            "llm_response_length": len(resp)
+                        }, f, indent=2)
+                    self.logger.info(f"[{job_id}] Debug file written: {debug_file}")
+                except Exception as debug_err:
+                    self.logger.error(f"Failed to write debug file: {debug_err}")
+                
+                # DEBUG: Manual validation tracking
+                try:
+                    # 1. Parse raw JSON list
+                    from utils.llm_parser import parse_llm_json, parse_llm_json_as_list
+                    raw_data = parse_llm_json(resp)
+                    raw_count = len(raw_data) if isinstance(raw_data, list) else 0
+                    
+                    # 2. Parse with Pydantic
+                    refs = parse_llm_json_as_list(resp, ScannedReference)
+                    valid_count = len(refs)
+                    
+                    self.logger.info(
+                        f"[{job_id}] Scanner batch {batch_idx}: Raw Input Items={raw_count}, Valid Pydantic Items={valid_count}"
+                    )
+                    
+                    # 3. If mismatch, log first error
+                    if raw_count > 0 and valid_count == 0:
+                        self.logger.error(f"[{job_id}] Batch {batch_idx} VALIDATION FAILURE! All {raw_count} items rejected.")
+                        # Try to validate first item manually to see error
+                        try:
+                            ScannedReference(**raw_data[0])
+                        except Exception as ve:
+                            self.logger.error(f"[{job_id}] First item Pydantic error: {ve}")
+                            
+                except Exception as e:
+                    self.logger.error(f"[{job_id}] Validation debugging failure: {e}")
+                    # Fallback
+                    refs = parse_llm_json_as_list(resp, ScannedReference)
+
+                self.logger.info(
+                    f"[{job_id}] Scanner batch {batch_idx}/{len(batches)}: "
+                    f"Found {len(refs)} references"
+                )
+                
+                return refs
+                
+            except Exception as e:
+                self.logger.error(
+                    f"[{job_id}] Scanner batch {batch_idx} failed: {e}",
+                    exc_info=True
+                )
+                return []  # Continue with other batches
+        
+        # Process batches in PARALLEL
+        tasks = [
+            process_batch(idx + 1, batch)
+            for idx, batch in enumerate(batches)
+        ]
+        results = await asyncio.gather(*tasks)
+        
+        # Flatten results
+        all_refs = []
+        for batch_refs in results:
+            all_refs.extend(batch_refs)
+        
+        self.logger.info(f"[{job_id}] Scanner: Total {len(all_refs)} references found")
+        return all_refs
+    
+    async def _map_targets(
+        self,
+        scanned_refs: List[ScannedReference],
+        section_index: Dict[str, Dict[str, Any]],  # Full section data
+        info_section_ids: Set[str],
+        job_id: str,
+        trace: List[Dict] = [],
+        progress_callback: Optional[Callable[[int], None]] = None
+    ) -> List[MappedReference]:
+        """
+        Stage 2: Map reference strings to section IDs.
+        CRITICAL: Mapper receives FULL section text to validate references exist.
+        Returns list of MappedReference Pydantic objects.
+        """
+        from hipdam.schemas.reference_schemas import MappedReference
+        from utils.llm_parser import parse_llm_json_as_list
+        from typing import List, Dict, Any, Set, Optional, Callable
+        from hipdam.schemas.reference_schemas import ScannedReference
+        
+        if not scanned_refs:
+            return []
+        
+        # Build target_sections with FULL TEXT (excluding INFO/SKIP)
+        target_sections = [
+            section_index[sid]
+            for sid in section_index
+            if sid not in info_section_ids
+        ]
+        
+        # Process in batches to avoid token limits/truncation
+        # Batch Size 20 balanced for cost/reliability (requested by user)
+        BATCH_SIZE = 20
+        
+        # Split references into chunks
+        chunks = [scanned_refs[i:i + BATCH_SIZE] for i in range(0, len(scanned_refs), BATCH_SIZE)]
+        
+        self.logger.info(
+            f"[{job_id}] Mapper: Processing {len(scanned_refs)} refs in {len(chunks)} parallel batches (Size={BATCH_SIZE})"
+        )
+        
+        base_config = self.config.get("PROFILER_WORKER", {}).copy()
+        base_config["prompt_file"] = "prompts/reference_mapper.txt"
+        
+        # Semaphore to limit concurrency (prevent Rate Limits / 429s)
+        sem = asyncio.Semaphore(5)
+        
+        # Progress tracking
+        total_chunks = len(chunks)
+        completed_chunks = 0
+        progress_lock = asyncio.Lock()
+
+        async def process_mapper_batch(batch_idx, batch_refs):
+            nonlocal completed_chunks
+            async with sem:
+                chunk_payload = {
+                    "references": [ref.dict() for ref in batch_refs],
+                    "target_sections": target_sections
+                }
+                
+                try:
+                    resp = await self._call_llm(
+                        base_config,
+                        json.dumps(chunk_payload, indent=2),
+                        job_id,
+                        f"MAPPER_BATCH_{batch_idx}"
+                    )
+                    
+                    # DEBUG for batch
+                    try:
+                        debug_file = f"mapper_debug_batch_{batch_idx}_{job_id[-8:]}.json"
+                        with open(debug_file, "w", encoding="utf-8") as f:
+                            json.dump({
+                                "batch_idx": batch_idx,
+                                "input_refs_count": len(batch_refs),
+                                "target_sections_count": len(target_sections),
+                                "llm_response_raw": resp,
+                                "llm_response_length": len(resp)
+                            }, f, indent=2)
+                    except Exception:
+                        pass
+                    
+                    # Parse LLM response into MappedReference objects
+                    all_results = parse_llm_json_as_list(resp, MappedReference)
+                    
+                    # Update Progress
+                    if progress_callback:
+                        async with progress_lock:
+                            completed_chunks += 1
+                            # Map to 30% -> 70% range
+                            current_val = 30 + int((completed_chunks / total_chunks) * 40)
+                            progress_callback(current_val)
+
+                    return all_results
+                    
+                except Exception as e:
+                    self.logger.error(f"[{job_id}] Mapper Batch {batch_idx} failed: {e}")
+                    # Update Progress even on failure
+                    if progress_callback:
+                        async with progress_lock:
+                            completed_chunks += 1
+                            current_val = 30 + int((completed_chunks / total_chunks) * 40)
+                            progress_callback(current_val)
+                            
+                    # Return invalid placeholders
+                    invalid_refs = []
+                    for ref in batch_refs:
+                        invalid_refs.append(MappedReference(
+                            source_id=ref.source_id,
+                            source_header=ref.source_header,
+                            source_verbatim=ref.source_verbatim,
+                            target_id=None,
+                            is_valid=False,
+                            justification=f"Mapper failed: {str(e)[:100]}"
+                        ))
+                    return invalid_refs
+
+        # Execute in PARALLEL
+        tasks = [
+            process_mapper_batch(idx + 1, chunk)
+            for idx, chunk in enumerate(chunks)
+        ]
+        results = await asyncio.gather(*tasks)
+        
+        # Flatten results
+        all_mapped_refs = []
+        for batch_result in results:
+            all_mapped_refs.extend(batch_result)
+
+        valid_count = len([r for r in all_mapped_refs if r.is_valid])
+        invalid_count = len([r for r in all_mapped_refs if not r.is_valid])
+        
+        # RESTORE TRACE
+        trace.append({
+            "stage": "mapper",
+            "refs_valid": valid_count,
+            "refs_invalid": invalid_count
+        })
+        
+        self.logger.info(
+            f"[{job_id}] Mapper: {valid_count} valid, {invalid_count} invalid "
+            f"(Total {len(all_mapped_refs)} processed)"
+        )
+        
+        return all_mapped_refs
+
+    
+    async def _judge_references(
+        self,
+        mapped_refs,
+        inputs: Dict[str, Any],
+        job_id: str,
+        trace: List[Dict] = []
+    ) -> List[Dict[str, Any]]:
+        """
+        Stage 3: Independent validation with full context.
+        Judge can modify flags from previous stages.
+        Returns list of dicts with judge verdicts.
+        """
+        import asyncio
+        
+        if not mapped_refs:
+            return []
+        
+        section_index = inputs.get("section_index", {})
+        
+        # ---------------------------------------------------------
+        # STAGE 3: JUDGE (ALL processed, even Mapper-invalid)
+        # ---------------------------------------------------------
+        valid_mapped = []
+        invalid_mapped = []
+        
+        # In restored V7 logic, we pass ALL mapper decisions to Judge
+        # but we track which ones were flagged as invalid by Mapper
+        
+        if not mapped_refs:
+            return []
+        
+        JUDGE_BATCH_SIZE = 3
+        # Split mapped_refs into batches
+        batches = [
+            mapped_refs[i:i + JUDGE_BATCH_SIZE]
+            for i in range(0, len(mapped_refs), JUDGE_BATCH_SIZE)
+        ]
+        
+        self.logger.info(f"[{job_id}] Judge: Processing {len(batches)} batches (Checking {len(mapped_refs)} refs)")
+        
+        async def judge_batch(batch_idx: int, batch):
+            # Hydrate with full sections and Mapper Info
+            pairs = []
+            for ref in batch:
+                source_section = section_index.get(ref.source_id, {})
+                target_section = section_index.get(ref.target_id, {}) if ref.target_id else {}
+                
+                pairs.append({
+                    "source": {
+                        "id": ref.source_id,
+                        "header": ref.source_header,
+                        "verbatim": ref.source_verbatim,
+                        "extract": source_section.get("text", "")
+                    },
+                    "target": {
+                        "id": ref.target_id or "UNKNOWN",
+                        "header": target_section.get("header", "NOT FOUND"),
+                        "verbatim": target_section.get("text", "")[:200] if ref.target_id else "",
+                        "extract": target_section.get("text", "")
+                    },
+                    "mapper_verdict": {
+                        "is_valid": ref.is_valid,
+                        "justification": ref.justification
+                    }
+                })
+            
+            judge_payload = {"references": pairs}
+            
+            config = self.config.get("PROFILER_JUDGE", {}).copy()
+            config["prompt_file"] = "prompts/reference_judge.txt"
+            
+            try:
+                resp = await self._call_llm(
+                    config,
+                    json.dumps(judge_payload, indent=2),
+                    job_id,
+                    f"JUDGE_BATCH_{batch_idx}"
+                )
+                
+                # Parse judge output (returns validated_references wrapper)
+                result = self._parse_json(resp)
+                validated_list = result.get("validated_references", [])
+                
+                # Merge with original refs
+                judged_batch = []
+                for ref, validated in zip(batch, validated_list):
+                    validation = validated.get("validation", {})
+                    # Final logic: Judge Verdict overwrites Mapper
+                    
+                    is_valid = validation.get("is_valid", False)
+                    judge_reason = validation.get("reason", "")
+                    
+                    judged_batch.append({
+                        "source_id": ref.source_id,
+                        "source_header": ref.source_header,
+                        "source_verbatim": ref.source_verbatim,
+                        "target_id": ref.target_id,
+                        
+                        # Verdicts (separate for tracking)
+                        "mapper_verdict": "ACCEPT" if ref.is_valid else "REJECT",
+                        "judge_verdict": "ACCEPT" if is_valid else "REJECT",
+                        
+                        # Unified reasoning field (judge overwrites mapper)
+                        "reasoning": judge_reason if judge_reason else ref.justification,
+                        
+                        "is_valid": is_valid,
+                        "is_self_reference": validation.get("is_self_reference", False)
+                    })
+                
+                self.logger.info(
+                    f"[{job_id}] Judge batch {batch_idx}: "
+                    f"{len([v for v in validated_list if v.get('validation', {}).get('is_valid')])} accepted"
+                )
+                
+                return judged_batch
+                
+            except Exception as e:
+                self.logger.error(f"[{job_id}] Judge batch {batch_idx} failed: {e}")
+                # Return with error status but keep data
+                return [
+                    {
+                        "source_id": ref.source_id,
+                        "source_header": ref.source_header,
+                        "source_verbatim": ref.source_verbatim,
+                        "target_id": ref.target_id,
+                        "mapper_verdict": "ACCEPT" if ref.is_valid else "REJECT",
+                        "judge_verdict": "ERROR",
+                        "reasoning": f"Judge failed: {str(e)[:50]}",
+                        "is_valid": False,
+                        "is_self_reference": False
+                    }
+                    for ref in batch
+                ]
+        
+        # Execute batches in parallel
+        tasks = [judge_batch(idx + 1, batch) for idx, batch in enumerate(batches)]
+        results = await asyncio.gather(*tasks)
+        
+        all_judged = []
+        for batch_result in results:
+            all_judged.extend(batch_result)
+        
+        self.logger.info(f"[{job_id}] Judge: Total {len(all_judged)} references judged")
+        
+        # ---------------------------------------------------------
+        # STAGE 4: VALIDATOR (Deterministic Protocol Checks)
+        # ---------------------------------------------------------
+        # Now pass judged refs to Protocol Validator
+        
+        # We need to reshape 'all_judged' slightly to match what _protocol_validate expects
+        # _protocol_validate expects raw dicts, which we have.
+        
+        final_refs, warnings, protocol_stats = self._protocol_validate(
+            all_judged,
+            inputs,
+            job_id
+        )
+        
+        # ---------------------------------------------------------
+        # STAGE 5: FORMAT OUTPUT
+        # ---------------------------------------------------------
+        
+        
+        # Add Judge Stats to Trace
+        trace.append({
+            "stage": "judge",
+            "refs_accepted": len([r for r in all_judged if r.get("is_valid", False)]),
+            "refs_rejected": len([r for r in all_judged if not r.get("is_valid", False)])
+        })
+        
+        # Add Validator Stats to Trace
+        trace.append({
+            "stage": "validator",
+            "redundant_duplicates": protocol_stats.get("duplicates", 0),
+            "info_targets_rejected": protocol_stats.get("info_target", 0),
+            "final_accepted": protocol_stats.get("passed", 0)
+        })
+        
+        return self._format_output_v7(final_refs, warnings, inputs, trace)
+    
+    def _empty_result(self, trace: List[Dict]) -> Dict[str, Any]:
+        """Return empty result with trace."""
+        return {
+            "reference_map": [],
+            "agent_trace": trace,
+            "warnings": [],
+            "stats": {"total": 0}
+        }
+    
+    def _format_output_v7(
+        self,
+        final_refs: List[Dict],
+        warnings: List[Dict],
+        inputs: Dict,
+        trace: List
+    ) -> Dict[str, Any]:
+        """Format final output for UI (preserves exact structure)."""
+        reference_map = []
+        section_index = inputs["section_index"]
+        
+        # Process final_refs (which came from _protocol_validate)
+        for ref in final_refs:
+            # Reconstruct full object for UI
+            target_meta = section_index.get(ref["target_id"], {})
+            
+            # TEMPORARY: Show ALL refs to debug filtering issue
+            # TODO: Re-add filtering for true protocol violations only
+
+            reference_map.append({
+                "source_id": ref["source_id"],
+                "source_header": ref["source_header"],
+                "source_context": ref["source_context"], 
+                "target_id": ref["target_id"],
+                "target_header": target_meta.get("header", ref.get("target_header", "")),
+                "target_type": target_meta.get("type", ref.get("target_type", "UNKNOWN")),
+                
+                # REJECTION REASONING (shown only for Judge rejects in UI)
+                "reasoning": ref.get("reasoning", ""), 
+                
+                # VERDICTS
+                "mapper_verdict": ref.get("mapper_verdict", "UNKNOWN"),
+                "judge_verdict": ref.get("judge_verdict", "UNKNOWN"),
+                "system_verdict": ref.get("system_verdict", "ACCEPT"),
+                
+                "is_self_reference": ref.get("is_self_reference", False)
+            })
+        
+        return {
+            "reference_map": reference_map,
+            "agent_trace": trace,
+            "warnings": [],
+            "stats": {
+                "total": len(reference_map),
+                "valid": len([r for r in reference_map if r.get("judge_verdict") == "ACCEPT"]),
+                "invalid": len([r for r in reference_map if r.get("judge_verdict") != "ACCEPT"])
+            }
+        }
+    
     
     async def _call_llm(self, config: Dict[str, Any], input_content: str, job_id: str, 
                        task_type: str, temp_override: Optional[float] = None) -> str:

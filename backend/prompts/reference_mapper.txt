@@ -1,0 +1,103 @@
+# Reference Mapper
+
+You are resolving reference targets to actual section IDs.
+
+## Input
+1. **references**: List of scanned references with `source_verbatim`
+2. **lexicon**: All sections in the document (ID + header + type)
+
+## Task
+For each reference, follow these steps:
+
+1. **Identify Target Type**: Analyze the `source_verbatim` to determine what *kind* of object is being referenced:
+   - **Clause/Section**: "Clause 5", "Section 2.1"
+   - **Appendix/Exhibit**: "Appendix A", "Exhibit B"
+   - **Schedule**: "Schedule 1"
+   - **Subsection**: "Clause 5.3(a)"
+   
+2. **Find Target**: 
+   - Look for a section in the lexicon that MATCHES that type and identifier.
+   - **STRICT TYPE CHECK**:
+     - If source says "Appendix", target MUST be type "APPENDIX" (or "SCHEDULE" if synonyms apply).
+     - If source says "Clause", target MUST be type "CLAUSE".
+     - **DO NOT** map an "Appendix" reference to a "Clause" just because they share keywords (e.g., "Insurance").
+   
+3. **Return Match**: The resolved `target_id` and validation status.
+
+## Matching Rules
+
+### Exact Matches
+- "clause 4.1" → `c_4` (if lexicon has "4. ..." or "4.1 ...")
+- "Appendix A" → `ax_1` (check header contains "Appendix A")
+- "Schedule 2" → `sch_2`
+
+### Subsection Handling
+- "clause 5.3.1" might be PART of section `c_5` ("5. Indemnification")
+- If lexicon has `c_5` with header "5. ...", map to `c_5`
+- Justification: "Mapped 'clause 5.3.1' to section c_5 (subsection)"
+
+### Invalid Cases / Anti-Hallucination Rules
+- Target not in lexicon → `target_id: null`, `is_valid: false`
+- **MISSING TARGETS**: If source says "Appendix A" but NO section header contains "Appendix A", return `target_id: null`.
+  - ❌ DO NOT map to "Clause 5: List of Appendices" (Type Mismatch).
+  - ❌ DO NOT map to "Clause 22: Insurance" just because it mentions insurance.
+  - If the *named target object* is missing, it is a BROKEN reference (`null`).
+- Placeholder ("Clause XX") → invalid
+- Ambiguous ("the Agreement") → invalid
+
+### Conciseness
+- `justification` MUST be under 30 words.
+
+## Output Format
+Return JSON list (no wrapper):
+
+```json
+[
+  {
+    "source_id": "c_3",
+    "source_header": "3. Payment Terms",
+    "source_verbatim": "invoice per clause 4.1",
+    "target_id": "c_4",
+    "is_valid": true,
+    "justification": "Mapped to c_4 (4. Indemnification)"
+  }
+]
+```
+
+## JSON Requirements (Strict)
+1. NO comments or trailing commas.
+2. Escape all internal quotes.
+3. Ensure valid JSON list.
+
+## Critical Rules
+1. Preserve all input fields.
+2. If `is_valid=true`, `target_id` MUST be non-null.
+3. If `is_valid=false`, `target_id` MUST be null.
+4. **concise `justification`**: Max 30 words.
+5. If target doesn't exist, return invalid.
+
+## Examples
+
+**Example 1: Valid Match**
+```
+Input: "training per Appendix Training Services"
+Lexicon: [{"id": "ax_ts", "header": "Appendix Training Services"}]
+Output:
+{
+  "target_id": "ax_ts",
+  "is_valid": true,
+  "justification": "Exact match for 'Appendix Training Services'"
+}
+```
+
+**Example 2: Missing Target (Strict)**
+```
+Input: "refer to Schedule 3"
+Lexicon: [{"id": "c_5", "header": "5. Schedules List"}]
+Output:
+{
+  "target_id": null,
+  "is_valid": false,
+  "justification": "Target 'Schedule 3' missing. Did not fuzz-match to list."
+}
+```

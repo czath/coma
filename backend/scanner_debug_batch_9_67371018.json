@@ -1,0 +1,290 @@
+{
+  "batch_idx": 9,
+  "input_sections": [
+    {
+      "id": "c_34",
+      "header": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY",
+      "text_length": 1511,
+      "text": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY\nWithout prejudice to Supplier\u2019s obligation to strictly comply with the security requirements set forth in the Product Security Requirements Appendix, Supplier shall make the Software easy to maintain. Any new version, maintenance release, and patch shall be designed to be incorporated into a Customer's systems without disruption of system or software service operations. Wherever possible, versions, maintenance releases, and patches shall be suitable for remote installation, malfunction indications, failure analysis and operations. Standard interfaces shall allow remote configuration and data access.\nIf applicable and technically feasible, Supplier shall support and enable to deliver the customized Software to Zebracorp and its Customers. The customization (i.e. modifications to the Software that are not made generally available to Suppliers customers) of Software, or components thereof, shall include but not be limited to changes or adaptation of the relevant parts of the Software, e.g. to integrate Customer logo in the graphical user interfaces, to adapt java skins, to select languages etc and shall provide to Zebracorp any of existing customization tools and any associated Documentation and/or training. If a request for customization is not a documented feature of the Software, Zebracorp can request Supplier to develop the customization feature under a statement of work based on the fee structure as specified in Annex PPT, Service Price List."
+    },
+    {
+      "id": "c_35",
+      "header": "11.\tTOOLS, INTERFACES AND FORMS TO BE USED",
+      "text_length": 120,
+      "text": "11.\tTOOLS, INTERFACES AND FORMS TO BE USED\nSupplier shall use the tools, interfaces and forms as stipulated in this MSA."
+    },
+    {
+      "id": "c_36",
+      "header": "12.\tREVIEW MEETING",
+      "text_length": 270,
+      "text": "12.\tREVIEW MEETING\nRegular review meetings shall be held between Zebracorp and Supplier to discuss the Services and any specific issues as they arise. If not otherwise agreed upon between the Parties, such meeting shall take place minimum once in a period of six months."
+    },
+    {
+      "id": "c_37",
+      "header": "13.\tMANAGEMENT ESCALATION",
+      "text_length": 1709,
+      "text": "13.\tMANAGEMENT ESCALATION\nThe purpose of the management escalation process identified in this Clause is to ensure that unresolved Errors are brought to the appropriate levels of Supplier\u2018s management for attention and action. This includes, but is not limited to Errors, which are not resolved in the applicable time frames as indicated in the respective Annex(es) and includes also Errors whose priorities cannot be agreed upon, Errors that turn into design change requests, undetermined Errors and sporadic Errors.\nThe Management Escalation Process provides for and requires parallel escalation within both Zebracorp and Supplier to ensure that both Parties are informed about unresolved issues.\nThe table below defines the timeframe for management escalation. For the purposes of the table below, \u201cManagement\u201d means the manager of the functional area, regardless of actual title of his or her position.\nThe contact names and phone numbers of the Supplier\u2019s management are defined in the Annex POC. Any changes to such contact names shall be promptly communicated by Supplier to Zebracorp.\nFor specific Customers, more expedient notification times may be mutually agreed to by the Parties on a case-by-case basis.\n| Error Priority | Management Level | Escalation notification Time |\n| --- | --- | --- |\n| Critical | 1st Level<br>Manager Product Support Account / Sales Manager | 6 hours |\n|  | 2nd Level<br>Director global Service / Operations Director R&D of Product | 24 hours |\n| Major | 1st Level<br>Manager Product Support<br>Account / Sales Manager | 3 cd |\n|  | 2nd Level<br>Director global Service / Operations<br>Director R&D of Product | 9 cd |\n| Minor | 1st Level and 2nd Level | Not applicable |"
+    },
+    {
+      "id": "c_38",
+      "header": "14.\tCOMPATIBILITY MATRIX FOR SOFTWARE",
+      "text_length": 165,
+      "text": "14.\tCOMPATIBILITY MATRIX FOR SOFTWARE\nSupplier shall provide Zebracorp with a Compatibility Matrix as part of the release documentation for each version of Software."
+    }
+  ],
+  "lexicon_size": 50,
+  "lexicon": [
+    {
+      "id": "skip_1767371015998_ml5ui",
+      "header": "Untagged Content",
+      "type": "SKIP"
+    },
+    {
+      "id": "h_1",
+      "header": "CONTENTS",
+      "type": "INFO"
+    },
+    {
+      "id": "h_2",
+      "header": "LIST OF APPENDICES",
+      "type": "INFO"
+    },
+    {
+      "id": "c_1",
+      "header": "1.\tDEFINITIONS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_2",
+      "header": "2.\tPURPOSE OF THIS AGREEMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_3",
+      "header": "3.\tSTATEMENTS OF WORK",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_4",
+      "header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_5",
+      "header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_6",
+      "header": "6.\tORDERING PROCEDURE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_7",
+      "header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_8",
+      "header": "8.\tDOCUMENTATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_9",
+      "header": "9.\tPAYMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_10",
+      "header": "10.\tWARRANTIES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_11",
+      "header": "11.\tOPEN SOURCE SOFTWARE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_12",
+      "header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_13",
+      "header": "13.\tPRODUCT LIABILITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_14",
+      "header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_15",
+      "header": "15.\tCOMPLIANCE AND ETHICS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_16",
+      "header": "16.\tMAINTENANCE AND SUPPORT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_17",
+      "header": "17.\tCONFIDENTIALITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_18",
+      "header": "18.\tTERM AND TERMINATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_19",
+      "header": "19.\tEFFECT OF TERMINATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_20",
+      "header": "20.\tFORCE MAJEURE AND DUTY TO INFORM",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_21",
+      "header": "21.\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_22",
+      "header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_23",
+      "header": "23.\tSUBCONTRACTORS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_24",
+      "header": "24.\tDATA PROTECTION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_25",
+      "header": "25.\tFINAL PROVISIONS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "h_3",
+      "header": "APPENDICES",
+      "type": "INFO"
+    },
+    {
+      "id": "a_1",
+      "header": "PRODUCT APPENDIX",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "a_2",
+      "header": "Quality appendix - to be removed",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "a_3",
+      "header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "c_26",
+      "header": "2.\tPROVISION OF SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_27",
+      "header": "3.\tCHANGES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_28",
+      "header": "4.\tSERVICE-ORDERS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_29",
+      "header": "5.\tINTENTIONALLY LEFT BLANK",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_30",
+      "header": "6.\tPRICES / INVOICING / PAYMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_31",
+      "header": "7.\tINTELLECTUAL PROPERTY RIGHTS AND INDEMNIFICATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_32",
+      "header": "8.\tCONSEQUENCES OF DELAY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_33",
+      "header": "9.\tWARRANTY FOR SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_34",
+      "header": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_35",
+      "header": "11.\tTOOLS, INTERFACES AND FORMS TO BE USED",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_36",
+      "header": "12.\tREVIEW MEETING",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_37",
+      "header": "13.\tMANAGEMENT ESCALATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_38",
+      "header": "14.\tCOMPATIBILITY MATRIX FOR SOFTWARE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_39",
+      "header": "15.\tQUALITY AND PROTECTION OF ENVIRONMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_40",
+      "header": "16.\tTERM OF MSA",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_41",
+      "header": "17.\tELECTRONIC DATA EXCHANGE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_42",
+      "header": "18.\tMISCELLANEOUS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "ax_1",
+      "header": "ANNEX SWSU \u2013 Maintenance and Support Agreement",
+      "type": "ANNEX"
+    }
+  ],
+  "llm_response_raw": "```json\n[\n  {\n    \"source_id\": \"c_34\",\n    \"source_header\": \"10.\\tSUPPORT OF VERSIONS AND SERVICEABILITY\",\n    \"source_verbatim\": \"Without prejudice to Supplier\u2019s obligation to strictly comply with the security requirements set forth in the Product Security Requirements Appendix\"\n  },\n  {\n    \"source_id\": \"c_34\",\n    \"source_header\": \"10.\\tSUPPORT OF VERSIONS AND SERVICEABILITY\",\n    \"source_verbatim\": \"Zebracorp can request Supplier to develop the customization feature under a statement of work based on the fee structure as specified in Annex PPT, Service Price List.\"\n  },\n  {\n    \"source_id\": \"c_37\",\n    \"source_header\": \"13.\\tMANAGEMENT ESCALATION\",\n    \"source_verbatim\": \"The contact names and phone numbers of the Supplier\u2019s management are defined in the Annex POC.\"\n  }\n]\n```",
+  "llm_response_length": 790
+}

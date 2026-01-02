@@ -1,0 +1,290 @@
+{
+  "batch_idx": 1,
+  "input_sections": [
+    {
+      "id": "skip_1767372328482_7zkng",
+      "header": "Untagged Content",
+      "text_length": 78,
+      "text": "SOFTWARE LICENSE AGREEMENT FOR APPLICATIONS\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    },
+    {
+      "id": "h_1",
+      "header": "CONTENTS",
+      "text_length": 775,
+      "text": "CONTENTS\n1.\tDEFINITIONS\t3\n2.\tPURPOSE OF THIS AGREEMENT\t6\n3.\tCUSTOMER PROJECTS AND STATEMENTS OF WORK\t6\n4.\tGRANT OF LICENSES AND OTHER RIGHTS\t7\n5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES\t8\n6.\tORDERING PROCEDURE\t9\n7.\tINITIAL TESTING AND ACCEPTANCE\t9\n8.\tDOCUMENTATION\t10\n9.\tPAYMENTS\t10\n10.\tWARRANTIES\t11\n11.\tOPEN SOURCE SOFTWARE\t12\n12.\tINTELLECTUAL PROPERTY RIGHTS\t12\n13.\tPRODUCT LIABILITY\t14\n14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS\t14\n15.\tCOMPLIANCE AND ETHICS\t15\n16.\tMAINTENANCE AND SUPPORT\t17\n17.\tCONFIDENTIALITY\t17\n18.\tTERM AND TERMINATION\t18\n19.\tEFFECT OF TERMINATION\t18\n20.\tFORCE MAJEURE\t18\n21.\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS\t19\n22.\tLIMITATION OF LIABILITY AND INSURANCE\t20\n23.\tSUBCONTRACTORS\t20\n24.\tDATA PROTECTION\t20\n25.\tFINAL PROVISIONS\t21"
+    },
+    {
+      "id": "h_2",
+      "header": "LIST OF APPENDICES",
+      "text_length": 1458,
+      "text": "LIST OF APPENDICES\nProduct Appendix (\u201cPA\u201d)\nMaintenance and Support Agreement (\u201cMSA\u201d)\nInsurance Requirements\nTemplate: Statement of Work (\u201cSOW\u201d)\nSecurity Requirements\nSOFTWARE AS A SERVICE \u201cSAAS\u201d\nUS Specific Provisions\nData Protection Appendix\nThis SOFTWARE LICENSE AGREEMENT FOR APPLICATIONS (\u201cAgreement\u201d) is made by and between:\nZebracorp inc., a corporation validly organized and existing under the laws of Austria, having its principal place of business at Heimkehrergasse 36, 1100 Wien, Austria, business identity code AB123456444, including its Affiliates (\u201cZebracorp\u201d); and\nAPRECOT, a company incorporated under the laws of France with its principal office at 133 Av. de la R\u00e9sistance, 92350 Le Plessis-Robinson, France registration number AABB2020202 (the \u201cSupplier\u201d).\nWHEREAS:\n(A)\tZebracorp is a leading developer, manufacturer and Supplier of sophisticated industrial equipment, software and services for the application in industrial systems and terminals, accessories and connectivity solutions; and\n(B)\tThe Supplier is a developer, owner, manufacturer, distributor and publisher of software products and a provider of related services; and\n(C)\tThe Supplier and Zebracorp desire that the Supplier provides certain software products and services to Zebracorp and its customers, including Software as a Service (\u201cSaaS\u201d), as further described in and pursuant to the Software as a Service Appendix to this Agreement.\nNOW THEREFORE IT IS HEREBY AGREED:"
+    },
+    {
+      "id": "c_1",
+      "header": "1.\tDEFINITIONS",
+      "text_length": 10541,
+      "text": "1.\tDEFINITIONS\nFor the purposes of this Agreement, the capitalized terms below shall have the following meanings:\n\u201cAffiliate\u201d of a Party shall mean an entity:\n(i) \twhich is directly or indirectly controlling such Party;\n(ii) \twhich is under the same direct or indirect ownership or control as such Party; or\n(iii)\twhich is directly or indirectly owned or controlled by such Party.\nFor these purposes, an entity shall be treated as being controlled by another if that other entity has fifty percent (50 %) or more of votes in such entity, is able to direct its affairs and/or to control the composition of its board of directors or equivalent body.\n\u201cAgreement\u201d shall mean this Software License Agreement for Applications including all Appendices and any other document specifically incorporated herein by reference.\n\u201cAppendix\u201d or \u201cAppendices\u201d shall mean any documents which the Parties by mutual agreement attach to this Agreement. All Appendices shall be subject to the terms and conditions of this Agreement.\n\u201cClause\u201d shall mean any numbered paragraph or section of this Agreement.\n\u201cConfidential Information\" or \u201cInformation\u201d shall mean any information that a Party deems confidential, secret and/or proprietary that is disclosed by one Party (\u201cDisclosing Party\u201d) to the other Party (\u201cReceiving Party\u201d) under this Agreement that (a) is clearly marked as proprietary and/or confidential when disclosed; (b) if not marked as confidential or proprietary, the confidentiality and proprietary nature can be reasonably interfered under the circumstances and/or (c) is not marked but is announced as confidential and proprietary when disclosed and followed up in writing as to its confidential status. Confidential Information can be written, oral or visual.  Without limiting the generality of the foregoing, the terms and conditions of this Agreement, including prices, are the Confidential Information of both Parties.\n\u201cContractor\u201d shall mean any Zebracorp subcontractor, supplier, licensor or other third party designated by Zebracorp with respect to Zebracorp Product(s) and the Licensed Product(s).\n\u201cCustomer\u201d shall mean any person, company, corporation or other entity, which obtains or intends to obtain any Licensed Products and/or services from Zebracorp or its Affiliates.\n\u201cDocumentation\u201d shall mean any and all technical documentation and other documents related to the Licensed Products and/or the Results of Services.\n\u201cError\u201d shall mean any mistake, problem, defect, malfunction or deficiency which causes an incorrect or inadequate functioning or non-functioning of any Licensed Products or any deviation from the Specifications, Documentation or other requirements set forth under this Agreement for a Licensed Products.\n\u201cEffective Date\u201d shall mean the date, on which this Agreement becomes effective as agreed in this Agreement or in the absence of such agreed date upon the date of last signature of this Agreement.\n\u201cForce Majeure\u201d shall mean the occurrence of an event or condition that is beyond a Party's reasonable control and which cannot reasonably be foreseen including natural disasters or catastrophic events such as epidemics, nuclear accidents, fire, flood, typhoons or earthquakes, acts or omissions by any government authorities, such as foreign currency restrictions, war, riots, sabotage or revolutions, and similar events.\n\u201cIntellectual Property Rights\u201d shall mean patents (including utility models), design patents, designs (whether or not capable of registration), chip topography rights, and other like protection, copyright, trademark and any other form of statutory protection of any kind and any applications for any of the foregoing as well as any trade secrets and know how.\n\u201cLicensed Product\u201d shall mean any and all software products including any software applications and components delivered under this Agreement including also the related Documentation as may be described in further detail in the Product Appendix and/or any Statement of Work, including any future modifications, Updates, Upgrades, bug fixes and Error corrections to any of the foregoing items.\n\u201cLegislative Requirements\u201d shall mean i) all laws, regulations, acts, orders, by-laws, decrees, or other such ordinances of the jurisdiction where any Licensed Products are being manufactured, transported and delivered to and where any Services under this Agreement are being carried out, and ii) all requirements, permits, approvals, licences, certificates and other directives made by any other authorities, public bodies, or other organizations having jurisdiction in connection with the performance of this Agreement.\n\u201cMaintenance Services\u201d shall mean the services described in Appendix \u201cMaintenance and Support Agreement\u201d of this Agreement.\n\u201cZebracorp Payments\u201d shall mean Zebracorp\u2019s centralized system for payments pursuant to which all invoices maturing on or before the predetermined payment day (the \u201cPayment Day\u201d), are consolidated and paid on the Payment Day. The Payment Day is the first working day of the first week of each Zebracorp\u2019s fiscal month, but the Payment Day may at any time and without prior notice be moved by Zebracorp to another day within that same week.\n\u201cZebracorp Product\u201d shall mean any hardware, software, software application or a combination thereof as well as any related material and documentation or any other item or solution commercialized, in any manner, by Zebracorp or for Zebracorp.\n\u201cZebracorp Supplier Requirements\u201d or \u201cZebracorp specs\u201d shall mean the requirements Zebracorp has defined for its supply chain which are also used as a framework for audits and continuous supplier development/improvement as may be modified from time to time by Zebracorp during the term of the Agreement.  The Zebracorp specs can be provided in paper, electronic or other format upon Supplier\u2019s written request.\n\u201cObject Code\u201d shall mean computer programming code, substantially or entirely in binary form, which is directly executable by a computer after suitable processing but without the intervening steps of compilation or assembly.\n\u201cOpen Source Software\u201d shall mean (i) software provided under a free and/or open source license including, but not limited to, one approved by the Open Source Initiative (OSI  http://www.opensource.org/) or (ii) proprietary software provided royalty-free, in binary code form, under an end user license agreement, which may be accepted without a signature, or (iii) shareware provided free of initial charge, such as on a trial basis, but where a fee may become due once the user decides to use the software beyond the trial period, or (iv) public domain software.\n\u201cOrder\u201c shall mean a document (i) which bears the title or identification  \u201cpurchase order\u201d or \u201corder\u201d on its face, (ii)  issued by Zebracorp in an electronic format using Zebracorp\u2019s internal order system tools, (iii) which contains the unique purchase order number, and (iv) in which Zebracorp requests Supplier to provide specific Licensed Product(s) and/or Services under the terms and conditions of this Agreement and such Licensed Products and Services are itemized with corresponding price, ordered quantity and item identification (either by line item code or by item description). Order may include, as applicable, also payment milestones, specifications, acceptance criteria, time schedule and delivery arrangements.\n\u201cParty\u201d or the \u201cParties\u201d shall mean Zebracorp and/or the Supplier.\n\u201cProfessional Services\u201d shall mean any professional services (including without limitation consulting and integration services), and/or any other such services provided by Supplier pursuant to this Agreement as may be specified in further detail in the Statement of Work or a professional services agreement.\n\u201cQuality Requirements\u201d shall mean the requirements that Zebracorp has defined in Clause XX (Quality to which all Products and Services shall strictly conform.\n\u201cResults of Services\u201d shall mean all of the output and/or results of any Professional Services, including but not limited to technical documents, tooling, data, software (in both Source Code and Object Code) and/or any and all materials or documentation in whatever form arising out of or relating to the Professional Services, which are written, developed, generated or otherwise provided by the Supplier or by both Parties jointly pursuant to this Agreement (including the Statement of Work).\n\u201cServices\u201d shall mean the Professional Services and the Maintenance Services.\n\u201cSource Code\u201d shall mean such source code level system documentation, comments and procedural code, in human readable and in machine readable forms, of a software computer program which will enable Zebracorp to understand, recreate, compile, maintain, support, edit, debug, correct and modify such software computer program and which shall include without limitation source codes and source listings, descriptions and logics, job control language, compilation and installation control scripts, diagrams, interface definition files, password building procedures and security systems enabling to maintain as well as create new keys, and other data or materials relevant or relating to such software computer program.\n\u201cSpecifications\u201d shall mean any data and information related to the design, function, performance, reliability and quality of the Licensed Products as set forth in this Agreement and any modifications or amendments and new specifications thereto.\n\u201cSOW\u201d or \u201cStatement of Work\u201d shall mean a Customer Project specific document as further described in Clause 3 of this Agreement.\n\u201cUpdates\u201d shall mean any Licensed Products and/or modification to any Licensed Product which primarily contains Error corrections and/or minor enhancements or improvements of the Licensed Products, but does not contain significant new features, including thereto applicable updated Documentation. The Updates are usually designated as a change in the version number to the right of the decimal point (from x.1 to x.2).\n\u201cUpgrade\u201d shall mean any Licensed Products which primarily contains major enhancements and new features including thereto applicable updated Documentation. The Upgrades are usually designated as a change in the version number to the left (from 1.yz to 2.yz) of the decimal point.\nDefined terms indicating the singular also include the plural and vice-versa, where the context so requires.\nOther capitalized terms used in this Agreement or any of its Appendices shall have the meanings as defined in the respective clauses of this Agreement or any the Appendices."
+    },
+    {
+      "id": "c_2",
+      "header": "2.\tPURPOSE OF THIS AGREEMENT",
+      "text_length": 920,
+      "text": "2.\tPURPOSE OF THIS AGREEMENT\n2.1\tThe purpose of this Agreement is to set out the terms and conditions under which Zebracorp may order Licensed Products, the SaaS and Services from the Supplier and under which the Supplier agrees to provide the same to Zebracorp.\n2.2\tThe Affiliates of Zebracorp may order Licensed Products, the SaaS and/or Services and agree SOWs in their own name and for their own account under the terms and conditions of this Agreement. Zebracorp (and/or its Affiliates) may also order Licensed Products , the SaaS and/or Services and agree SOWs with the Affiliates of the Supplier.\n2.3\tFor the avoidance of doubt, it is expressly stated that nothing contained in this Agreement or otherwise shall mean that Zebracorp has any obligation to agree SOWs, place any Orders, or to have any other purchase commitments for any Licensed Products, the SaaS or Services under or in relation to this Agreement."
+    }
+  ],
+  "lexicon_size": 50,
+  "lexicon": [
+    {
+      "id": "skip_1767372328482_7zkng",
+      "header": "Untagged Content",
+      "type": "SKIP"
+    },
+    {
+      "id": "h_1",
+      "header": "CONTENTS",
+      "type": "INFO"
+    },
+    {
+      "id": "h_2",
+      "header": "LIST OF APPENDICES",
+      "type": "INFO"
+    },
+    {
+      "id": "c_1",
+      "header": "1.\tDEFINITIONS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_2",
+      "header": "2.\tPURPOSE OF THIS AGREEMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_3",
+      "header": "3.\tSTATEMENTS OF WORK",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_4",
+      "header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_5",
+      "header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_6",
+      "header": "6.\tORDERING PROCEDURE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_7",
+      "header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_8",
+      "header": "8.\tDOCUMENTATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_9",
+      "header": "9.\tPAYMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_10",
+      "header": "10.\tWARRANTIES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_11",
+      "header": "11.\tOPEN SOURCE SOFTWARE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_12",
+      "header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_13",
+      "header": "13.\tPRODUCT LIABILITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_14",
+      "header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_15",
+      "header": "15.\tCOMPLIANCE AND ETHICS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_16",
+      "header": "16.\tMAINTENANCE AND SUPPORT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_17",
+      "header": "17.\tCONFIDENTIALITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_18",
+      "header": "18.\tTERM AND TERMINATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_19",
+      "header": "19.\tEFFECT OF TERMINATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_20",
+      "header": "20.\tFORCE MAJEURE AND DUTY TO INFORM",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_21",
+      "header": "21.\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_22",
+      "header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_23",
+      "header": "23.\tSUBCONTRACTORS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_24",
+      "header": "24.\tDATA PROTECTION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_25",
+      "header": "25.\tFINAL PROVISIONS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "h_3",
+      "header": "APPENDICES",
+      "type": "INFO"
+    },
+    {
+      "id": "a_1",
+      "header": "PRODUCT APPENDIX",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "a_2",
+      "header": "Quality appendix - to be removed",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "a_3",
+      "header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "c_26",
+      "header": "2.\tPROVISION OF SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_27",
+      "header": "3.\tCHANGES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_28",
+      "header": "4.\tSERVICE-ORDERS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_29",
+      "header": "5.\tINTENTIONALLY LEFT BLANK",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_30",
+      "header": "6.\tPRICES / INVOICING / PAYMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_31",
+      "header": "7.\tINTELLECTUAL PROPERTY RIGHTS AND INDEMNIFICATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_32",
+      "header": "8.\tCONSEQUENCES OF DELAY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_33",
+      "header": "9.\tWARRANTY FOR SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_34",
+      "header": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_35",
+      "header": "11.\tTOOLS, INTERFACES AND FORMS TO BE USED",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_36",
+      "header": "12.\tREVIEW MEETING",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_37",
+      "header": "13.\tMANAGEMENT ESCALATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_38",
+      "header": "14.\tCOMPATIBILITY MATRIX FOR SOFTWARE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_39",
+      "header": "15.\tQUALITY AND PROTECTION OF ENVIRONMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_40",
+      "header": "16.\tTERM OF MSA",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_41",
+      "header": "17.\tELECTRONIC DATA EXCHANGE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_42",
+      "header": "18.\tMISCELLANEOUS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "ax_1",
+      "header": "ANNEX SWSU \u2013 Maintenance and Support Agreement",
+      "type": "ANNEX"
+    }
+  ],
+  "llm_response_raw": "```json\n[\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"1.\\tDEFINITIONS\\t3\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"2.\\tPURPOSE OF THIS AGREEMENT\\t6\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"3.\\tCUSTOMER PROJECTS AND STATEMENTS OF WORK\\t6\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"4.\\tGRANT OF LICENSES AND OTHER RIGHTS\\t7\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"5.\\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES\\t8\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"6.\\tORDERING PROCEDURE\\t9\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"7.\\tINITIAL TESTING AND ACCEPTANCE\\t9\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"8.\\tDOCUMENTATION\\t10\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"9.\\tPAYMENTS\\t10\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"10.\\tWARRANTIES\\t11\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"11.\\tOPEN SOURCE SOFTWARE\\t12\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"12.\\tINTELLECTUAL PROPERTY RIGHTS\\t12\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"13.\\tPRODUCT LIABILITY\\t14\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"14.\\tQUALITY ASSURANCE; SECURITY REQUIREMENTS\\t14\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"15.\\tCOMPLIANCE AND ETHICS\\t15\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"16.\\tMAINTENANCE AND SUPPORT\\t17\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"17.\\tCONFIDENTIALITY\\t17\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"18.\\tTERM AND TERMINATION\\t18\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"19.\\tEFFECT OF TERMINATION\\t18\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"20.\\tFORCE MAJEURE\\t18\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"21.\\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS\\t19\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"22.\\tLIMITATION OF LIABILITY AND INSURANCE\\t20\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"23.\\tSUBCONTRACTORS\\t20\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"24.\\tDATA PROTECTION\\t20\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"25.\\tFINAL PROVISIONS\\t21\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"Product Appendix (\\u201cPA\\u201d)\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"Maintenance and Support Agreement (\\u201cMSA\\u201d)\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"Insurance Requirements\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"Template: Statement of Work (\\u201cSOW\\u201d)\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"Security Requirements\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"SOFTWARE AS A SERVICE \\u201cSAAS\\u201d\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"US Specific Provisions\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"Data Protection Appendix\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"as further described in and pursuant to the Software as a Service Appendix to this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"`Agreement` shall mean this Software License Agreement for Applications including all Appendices and any other document specifically incorporated herein by reference.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"`Appendix` or `Appendices` shall mean any documents which the Parties by mutual agreement attach to this Agreement. All Appendices shall be subject to the terms and conditions of this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"`Licensed Product` shall mean any and all software products including any software applications and components delivered under this Agreement including also the related Documentation as may be described in further detail in the Product Appendix and/or any Statement of Work, including any future modifications, Updates, Upgrades, bug fixes and Error corrections to any of the foregoing items.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"`Licensed Product` shall mean any and all software products including any software applications and components delivered under this Agreement including also the related Documentation as may be described in further detail in the Product Appendix and/or any Statement of Work, including any future modifications, Updates, Upgrades, bug fixes and Error corrections to any of the foregoing items.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"`Maintenance Services` shall mean the services described in Appendix `Maintenance and Support Agreement` of this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"`Quality Requirements` shall mean the requirements that Zebracorp has defined in Clause XX (Quality to which all Products and Services shall strictly conform.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"`Results of Services` shall mean all of the output and/or results of any Professional Services, including but not limited to technical documents, tooling, data, software (in both Source Code and Object Code) and/or any and all materials or documentation in whatever form arising out of or relating to the Professional Services, which are written, developed, generated or otherwise provided by the Supplier or by both Parties jointly pursuant to this Agreement (including the Statement of Work).\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"`SOW` or `Statement of Work` shall mean a Customer Project specific document as further described in Clause 3 of this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"Other capitalized terms used in this Agreement or any of its Appendices shall have the meanings as defined in the respective clauses of this Agreement or any the Appendices.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"Other capitalized terms used in this Agreement or any of its Appendices shall have the meanings as defined in the respective clauses of this Agreement or any the Appendices.\"\n  },\n  {\n    \"source_id\": \"c_1\",\n    \"source_header\": \"1.\\tDEFINITIONS\",\n    \"source_verbatim\": \"Other capitalized terms used in this Agreement or any of its Appendices shall have the meanings as defined in the respective clauses of this Agreement or any the Appendices.\"\n  },\n  {\n    \"source_id\": \"c_2\",\n    \"source_header\": \"2.\\tPURPOSE OF THIS AGREEMENT\",\n    \"source_verbatim\": \"The Affiliates of Zebracorp may order Licensed Products, the SaaS and/or Services and agree SOWs in their own name and for their own account under the terms and conditions of this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_2\",\n    \"source_header\": \"2.\\tPURPOSE OF THIS AGREEMENT\",\n    \"source_verbatim\": \"Zebracorp (and/or its Affiliates) may also order Licensed Products , the SaaS and/or Services and agree SOWs with the Affiliates of the Supplier.\"\n  },\n  {\n    \"source_id\": \"c_2\",\n    \"source_header\": \"2.\\tPURPOSE OF THIS AGREEMENT\",\n    \"source_verbatim\": \"For the avoidance of doubt, it is expressly stated that nothing contained in this Agreement or otherwise shall mean that Zebracorp has any obligation to agree SOWs, place any Orders, or to have any other purchase commitments for any Licensed Products, the SaaS or Services under or in relation to this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_2\",\n    \"source_header\": \"2.\\tPURPOSE OF THIS AGREEMENT\",\n    \"source_verbatim\": \"For the avoidance of doubt, it is expressly stated that nothing contained in this Agreement or otherwise shall mean that Zebracorp has any obligation to agree SOWs, place any Orders, or to have any other purchase commitments for any Licensed Products, the SaaS or Services under or in relation to this Agreement.\"\n  }\n]\n```",
+  "llm_response_length": 9439
+}

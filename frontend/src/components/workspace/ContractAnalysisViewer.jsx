@@ -37,10 +37,12 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     const getTargetHeader = (ref) => ref.target_header || ref.target_section_id || "Unknown Target";
 
     // Filter references based on global status filter (L3)
+    // Filter references based on global status filter (L3)
     const filteredRefsForPillars = (result?.reference_map || []).filter(ref => {
+        // NOTE: System rejections are already filtered by the backend for the reference_map.
         if (referenceFilter === 'all') return true;
-        if (referenceFilter === 'valid') return ref.is_valid !== false;
-        if (referenceFilter === 'invalid') return ref.is_valid === false;
+        if (referenceFilter === 'valid') return ref.judge_verdict === 'ACCEPT';
+        if (referenceFilter === 'invalid') return ref.judge_verdict === 'REJECT';
         if (referenceFilter === 'self-ref') return ref.is_self_reference;
         return true;
     });
@@ -125,22 +127,18 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                     source_header: "3. STATEMENTS OF WORK",
                     source_context: "Template is attached as Appendix SOW",
                     target_section_id: null,
-                    is_valid: false,
-                    invalid_reason: "Referenced appendix 'SOW' not found in document",
+                    reasoning: "Appendix SOW is not present in the available sections list",
                     judge_verdict: "REJECT",
-                    judge_reason: "Appendix SOW is not present in the available sections list",
-                    system_verdict: "N/A"
+                    system_verdict: "ACCEPT"
                 },
                 {
                     source_id: "c_5",
                     source_header: "5. DELIVERY",
                     source_context: "As defined in any applicable schedules or appendices",
                     target_section_id: null,
-                    is_valid: false,
-                    invalid_reason: "Abstract/plural reference - not specific enough",
+                    reasoning: "Reference to 'any applicable schedules' is abstract and plural",
                     judge_verdict: "REJECT",
-                    judge_reason: "Reference to 'any applicable schedules' is abstract and plural",
-                    system_verdict: "N/A"
+                    system_verdict: "ACCEPT"
                 },
                 {
                     source_id: "c_1",
@@ -222,12 +220,12 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
 
     // Reference Metrics (updated for dual verdict)
     const refTotal = result.reference_map?.length || 0;
-    const refValid = result.reference_map?.filter(r => r.is_valid !== false).length || 0;
-    const refInvalid = refTotal - refValid;
+    const refValid = result.reference_map?.filter(r => r.judge_verdict === 'ACCEPT').length || 0;
+    const refInvalid = result.reference_map?.filter(r => r.judge_verdict === 'REJECT').length || 0;
 
     // Verdict breakdown
     const judgeRejects = result.reference_map?.filter(r => r.judge_verdict === 'REJECT').length || 0;
-    const systemRejects = result.reference_map?.filter(r => r.system_verdict === 'REJECT').length || 0;
+    const systemRejects = (trace?.reference_map || []).filter(r => r.system_verdict === 'REJECT').length || 0;
 
     // Flag Metrics
     const flagTotal = result.clarificationFlags?.length || 0;
@@ -863,10 +861,10 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                     <div className="space-y-1">
                                                                         {refsForThisSelection.map((r, i) => (
                                                                             <div key={i} className="flex gap-2 p-2 bg-white/60 rounded border border-indigo-100/50 hover:bg-white hover:shadow-sm transition-all group/ref">
-                                                                                <div className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${r.is_valid !== false ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
+                                                                                <div className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${r.judge_verdict === 'ACCEPT' ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
                                                                                 <div className="flex-1 min-w-0">
                                                                                     <p className="text-[12px] text-slate-600 font-medium leading-tight line-clamp-2">"{r.source_context}"</p>
-                                                                                    {r.is_valid === false && <span className="text-[11px] text-red-500 block mt-0.5">{r.invalid_reason}</span>}
+                                                                                    {r.judge_verdict === 'REJECT' && <span className="text-[11px] text-red-500 block mt-0.5">{r.reasoning}</span>}
                                                                                 </div>
                                                                                 <button
                                                                                     onClick={(e) => { e.stopPropagation(); setVerbatimRef(r); }}
@@ -951,10 +949,10 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                     <div className="space-y-1">
                                                                         {refsForThisSelection.map((r, i) => (
                                                                             <div key={i} className="flex gap-2 p-2 bg-white/60 rounded border border-indigo-100/50 hover:bg-white hover:shadow-sm transition-all group/ref flex-row-reverse text-right">
-                                                                                <div className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${r.is_valid !== false ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
+                                                                                <div className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${r.judge_verdict === 'ACCEPT' ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
                                                                                 <div className="flex-1 min-w-0">
                                                                                     <p className="text-[12px] text-slate-600 font-medium leading-tight line-clamp-2">"{r.source_context}"</p>
-                                                                                    {r.is_valid === false && <span className="text-[11px] text-red-500 block mt-0.5">{r.invalid_reason}</span>}
+                                                                                    {r.judge_verdict === 'REJECT' && <span className="text-[11px] text-red-500 block mt-0.5">{r.reasoning}</span>}
                                                                                 </div>
                                                                                 <button
                                                                                     onClick={(e) => { e.stopPropagation(); setVerbatimRef(r); }}
@@ -1319,16 +1317,23 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                         // Combine both types of rejections
                                         const stage3Rejections = trace?.rejected_map || [];
                                         const judgeRejections = (trace?.reference_map || [])
-                                            .filter(ref => ref.is_valid === false)
-                                            .map(ref => ({
-                                                candidate: {
-                                                    source_id: ref.source_id,
-                                                    target_id: ref.target_id,
-                                                    source_verbatim: ref.source_context
-                                                },
-                                                reason: ref.invalid_reason,
-                                                code: 'JUDGE_REJECTED'
-                                            }));
+                                            .filter(ref => ref.judge_verdict === 'REJECT' || ref.system_verdict === 'REJECT')
+                                            .map(ref => {
+                                                // Determine Code based on granular verdicts
+                                                let code = 'JUDGE_REJECTED';
+                                                if (ref.system_verdict === 'REJECT') code = 'PROTOCOL_REJECTED';
+                                                else if (ref.judge_verdict === 'REJECT') code = 'JUDGE_REJECTED';
+
+                                                return {
+                                                    candidate: {
+                                                        source_id: ref.source_id,
+                                                        target_id: ref.target_id,
+                                                        source_verbatim: ref.source_context
+                                                    },
+                                                    reason: ref.reasoning,
+                                                    code: code
+                                                };
+                                            });
 
                                         const allRejections = [...stage3Rejections, ...judgeRejections];
 
@@ -1359,8 +1364,10 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                                         </span>
                                                                         <span className={`ml-auto px-2 py-0.5 rounded text-xs font-bold ${rej.code === 'TARGET_VERBATIM_MISMATCH' ? 'bg-red-100 text-red-700' :
                                                                             rej.code === 'SOURCE_VERBATIM_MISMATCH' ? 'bg-orange-100 text-orange-700' :
-                                                                                rej.code === 'JUDGE_REJECTED' ? 'bg-purple-100 text-purple-700' :
-                                                                                    'bg-gray-100 text-gray-700'
+                                                                                rej.code === 'MAPPER_REJECTED' ? 'bg-slate-100 text-slate-700' :
+                                                                                    rej.code === 'PROTOCOL_REJECTED' ? 'bg-blue-100 text-blue-700' :
+                                                                                        rej.code === 'JUDGE_REJECTED' ? 'bg-purple-100 text-purple-700' :
+                                                                                            'bg-gray-100 text-gray-700'
                                                                             }`}>
                                                                             {rej.code}
                                                                         </span>
@@ -1747,43 +1754,58 @@ const VerbatimLookupModal = ({ refData, sections, onClose }) => {
                     </button>
                 </div>
 
-                <div className="flex-1 p-8 grid grid-cols-2 gap-8 overflow-hidden bg-slate-50/30">
-                    {/* Source View */}
-                    <div className="flex flex-col h-full overflow-hidden bg-white rounded-3xl border border-slate-100 shadow-sm">
-                        <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between shrink-0 bg-slate-50/50">
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Source Section</span>
-                                <span className="text-[11px] font-black uppercase text-indigo-600 tracking-tight leading-none">{refData.source_header || refData.source_id}</span>
+                <div className="flex-1 p-8 overflow-hidden bg-slate-50/30 flex flex-col gap-6">
+                    {/* Justification Header (only for invalid references) */}
+                    {refData.judge_verdict === 'REJECT' && refData.reasoning && (
+                        <div className="px-6 py-3 bg-red-50 border border-red-200 rounded-2xl flex items-center gap-4 shrink-0 animate-in slide-in-from-top-2">
+                            <div className="p-2 bg-red-100 text-red-600 rounded-xl">
+                                <AlertTriangle size={20} />
+                            </div>
+                            <div>
+                                <div className="text-[10px] font-black uppercase tracking-widest text-red-400 leading-none mb-1">Rejection Justification</div>
+                                <div className="text-sm font-bold text-red-900 leading-tight">{refData.reasoning}</div>
                             </div>
                         </div>
-                        <div ref={sourceContainerRef} className="flex-1 p-8 overflow-y-auto leading-relaxed text-slate-700 text-sm font-medium">
-                            {sourceSection ? (
-                                <HighlightText text={sourceSection.text} highlight={refData.source_context} />
-                            ) : (
-                                <div className="p-4 bg-indigo-50/30 rounded-2xl border border-indigo-100/50 italic text-slate-600">
-                                    <HighlightText text={refData.source_context} highlight={refData.source_context} />
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    )}
 
-                    {/* Target View */}
-                    <div className="flex flex-col h-full overflow-hidden bg-white rounded-3xl border border-slate-100 shadow-sm">
-                        <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between shrink-0 bg-slate-50/50">
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Target Section</span>
-                                <span className="text-[11px] font-black uppercase text-purple-600 tracking-tight leading-none">{refData.target_header || refData.target_section_id}</span>
+                    <div className="flex-1 grid grid-cols-2 gap-8 overflow-hidden">
+                        {/* Source View */}
+                        <div className="flex flex-col h-full overflow-hidden bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between shrink-0 bg-slate-50/50">
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Source Section</span>
+                                    <span className="text-[11px] font-black uppercase text-indigo-600 tracking-tight leading-none">{refData.source_header || refData.source_id}</span>
+                                </div>
+                            </div>
+                            <div ref={sourceContainerRef} className="flex-1 p-8 overflow-y-auto leading-relaxed text-slate-700 text-sm font-medium">
+                                {sourceSection ? (
+                                    <HighlightText text={sourceSection.text} highlight={refData.source_context} />
+                                ) : (
+                                    <div className="p-4 bg-indigo-50/30 rounded-2xl border border-indigo-100/50 italic text-slate-600">
+                                        <HighlightText text={refData.source_context} highlight={refData.source_context} />
+                                    </div>
+                                )}
                             </div>
                         </div>
-                        <div ref={targetContainerRef} className="flex-1 p-8 overflow-y-auto leading-relaxed text-slate-700 text-sm font-medium">
-                            {targetSection ? (
-                                <HighlightText text={targetSection.text} highlight={refData.target_clause || refData.target_header} />
-                            ) : (
-                                <div className="p-12 text-center text-slate-300">
-                                    <AlertTriangle size={32} className="mx-auto mb-3 opacity-20" />
-                                    <p className="text-[10px] font-black uppercase tracking-widest">Target Context Missing</p>
+
+                        {/* Target View */}
+                        <div className="flex flex-col h-full overflow-hidden bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between shrink-0 bg-slate-50/50">
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Target Section</span>
+                                    <span className="text-[11px] font-black uppercase text-purple-600 tracking-tight leading-none">{refData.target_header || refData.target_section_id}</span>
                                 </div>
-                            )}
+                            </div>
+                            <div ref={targetContainerRef} className="flex-1 p-8 overflow-y-auto leading-relaxed text-slate-700 text-sm font-medium">
+                                {targetSection ? (
+                                    <HighlightText text={targetSection.text} highlight={refData.target_clause || refData.target_header} />
+                                ) : (
+                                    <div className="p-12 text-center text-slate-300">
+                                        <AlertTriangle size={32} className="mx-auto mb-3 opacity-20" />
+                                        <p className="text-[10px] font-black uppercase tracking-widest">Target Context Missing</p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

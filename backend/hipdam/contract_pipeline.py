@@ -81,10 +81,12 @@ class ContractPipeline:
             
             # 1. Profiler Wrapper (Term Sheet + Refs)
             async def task_profiler():
-                # Fake progress: 0 -> 100
-                update_progress("profiler", 10)
-                res = await self.run_profiler(document_payload, job_id)
-                update_progress("profiler", 100)
+                # Define granular progress callback for profiler
+                def profiler_progress(pct):
+                    # Map 0-100 of profiler to 0-100 of "profiler" slot in pipeline
+                    update_progress("profiler", pct)
+                
+                res = await self.run_profiler(document_payload, job_id, progress_callback=profiler_progress)
                 return res
                 
             # 2. Dictionary Wrapper
@@ -212,7 +214,7 @@ class ContractPipeline:
         
     # --- SUBMODULES ---
 
-    async def run_profiler(self, doc_payload, job_id):
+    async def run_profiler(self, doc_payload, job_id, progress_callback=None):
         """
         Extract cross-references from contract document using ReferenceProfiler.
         V6 Architecture: Delegates to separate reference_profiler module.
@@ -225,7 +227,7 @@ class ContractPipeline:
         
         # Parallel Execution
         task_ts = ts_profiler.extract_term_sheet(doc_payload, job_id)
-        task_refs = profiler.extract_references(doc_payload, job_id)
+        task_refs = profiler.extract_references(doc_payload, job_id, progress_callback)
         
         results = await asyncio.gather(task_ts, task_refs, return_exceptions=True)
         term_sheet_data_raw, ref_result_raw = results
@@ -275,10 +277,12 @@ class ContractPipeline:
                 "stats": ref_result.get("stats", {}),
                 "term_sheet": term_sheet_data, # Include term sheet in trace
                 "reference_map": ref_result.get("reference_map", []),
-                "rejected_map": ref_result.get("rejected_map", [])  # Include rejected references
+                "rejected_map": ref_result.get("rejected_map", []),  # Include rejected references
+                "agent_trace": ref_result.get("agent_trace", [])  # V7 trace
             },
-            "worker_raw": f"[V6 Architecture] Parallel Execution. Extracted {ref_result.get('stats', {}).get('extracted', 0)} candidates",
-            "judge_raw": f"[V6 Architecture] Parallel Execution. Validated {ref_count} refs."
+            # Use V7 trace if available, otherwise V6 format
+            "worker_raw": f"[V7] {len(ref_result.get('agent_trace', []))} stages" if ref_result.get("agent_trace") else f"[V6 Architecture] Parallel Execution. Extracted {ref_result.get('stats', {}).get('extracted', 0)} candidates",
+            "judge_raw": f"See agent_trace for details" if ref_result.get("agent_trace") else f"[V6 Architecture] Parallel Execution. Validated {ref_count} refs."
         }]
         
         return term_sheet, flags, trace
@@ -367,8 +371,11 @@ class ContractPipeline:
             source_context = ref.get("source_context", "").lower()
             
             # Preserve judge verdict (if present)
-            judge_verdict = "ACCEPT" if ref.get("is_valid", True) else "REJECT"
-            judge_reason = ref.get("invalid_reason", "")
+            judge_verdict = ref.get("judge_verdict")
+            if not judge_verdict:
+                judge_verdict = "ACCEPT" if ref.get("is_valid", True) else "REJECT"
+            
+            judge_reason = ref.get("reasoning", "")
             
             # CHECK: Self-reference (filter out - not useful for user)
             if "this clause" in source_context or "this section" in source_context or "herein" in source_context:
@@ -382,27 +389,17 @@ class ContractPipeline:
             
             # SYSTEM CHECK 0: Target ID must be present
             if not target_id:
-                system_verdict = "REJECT"
-                system_reason = "No target section ID provided"
-                
-                ref["system_verdict"] = system_verdict
-                ref["system_reason"] = system_reason
+                ref["system_verdict"] = "REJECT"
+                ref["reasoning"] = "No target section ID provided"
                 ref["judge_verdict"] = judge_verdict
-                ref["is_valid"] = False
-                ref["invalid_reason"] = system_reason
                 validated_refs.append(ref)
                 continue
             
             # SYSTEM CHECK 1: Target must exist
             if target_id not in section_index:
-                system_verdict = "REJECT"
-                system_reason = f"Section '{target_id}' does not exist in document"
-                
-                ref["system_verdict"] = system_verdict
-                ref["system_reason"] = system_reason
+                ref["system_verdict"] = "REJECT"
+                ref["reasoning"] = f"Section '{target_id}' does not exist in document"
                 ref["judge_verdict"] = judge_verdict
-                ref["is_valid"] = False
-                ref["invalid_reason"] = system_reason
                 validated_refs.append(ref)
                 continue
             
@@ -413,14 +410,9 @@ class ContractPipeline:
             # SYSTEM CHECK 2: Target cannot be TOC (type="INFO")
             # Strict architectural check - reliance on upstream parser typing
             if target_id and target_id in info_sections:
-                system_verdict = "REJECT"
-                system_reason = f"Target '{target_id}' is Table of Contents/Index, not substantive content"
-                
-                ref["system_verdict"] = system_verdict
-                ref["system_reason"] = system_reason
+                ref["system_verdict"] = "REJECT"
+                ref["reasoning"] = f"Target '{target_id}' is Table of Contents/Index, not substantive content"
                 ref["judge_verdict"] = judge_verdict
-                ref["is_valid"] = False
-                ref["invalid_reason"] = system_reason
                 validated_refs.append(ref)
                 continue
             
@@ -430,14 +422,9 @@ class ContractPipeline:
                 
                 # Check if clause number exists in target
                 if target_clause not in target_content:
-                    system_verdict = "REJECT"
-                    system_reason = f"Sub-clause '{target_clause}' not found in section '{target_id}'"
-                    
-                    ref["system_verdict"] = system_verdict
-                    ref["system_reason"] = system_reason
+                    ref["system_verdict"] = "REJECT"
+                    ref["reasoning"] = f"Sub-clause '{target_clause}' not found in section '{target_id}'"
                     ref["judge_verdict"] = judge_verdict
-                    ref["is_valid"] = False
-                    ref["invalid_reason"] = system_reason
                     validated_refs.append(ref)
                     continue
                 
@@ -453,14 +440,9 @@ class ContractPipeline:
                 content_match = re.search(pattern, target_content, re.MULTILINE)
                 
                 if not (header_match or content_match):
-                    system_verdict = "REJECT"
-                    system_reason = f"'{target_clause}' exists but not as section header in '{target_id}'"
-                    
-                    ref["system_verdict"] = system_verdict
-                    ref["system_reason"] = system_reason
+                    ref["system_verdict"] = "REJECT"
+                    ref["reasoning"] = f"'{target_clause}' exists but not as section header in '{target_id}'"
                     ref["judge_verdict"] = judge_verdict
-                    ref["is_valid"] = False
-                    ref["invalid_reason"] = system_reason
                     validated_refs.append(ref)
                     continue
             
@@ -469,14 +451,13 @@ class ContractPipeline:
             
             # Final validity: Judge verdict takes precedence if it rejected
             if judge_verdict == "REJECT":
-                ref["is_valid"] = False
-                ref["invalid_reason"] = judge_reason or "Rejected by judge"
+                ref["reasoning"] = judge_reason or "Rejected by judge"
             else:
-                ref["is_valid"] = True
-                ref["invalid_reason"] = None
+                ref["reasoning"] = ""
+            
+            ref["system_verdict"] = system_verdict
             
             ref["judge_verdict"] = judge_verdict
-            ref["system_verdict"] = system_verdict
             
             validated_refs.append(ref)
         

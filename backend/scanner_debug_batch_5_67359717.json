@@ -1,0 +1,290 @@
+{
+  "batch_idx": 5,
+  "input_sections": [
+    {
+      "id": "c_18",
+      "header": "18.\tTERM AND TERMINATION",
+      "text_length": 1338,
+      "text": "18.\tTERM AND TERMINATION\n18.1\tThis Agreement shall become effective as of July 1st, 2025 and shall remain in force for an initial period of five (5) years from the Effective Date, unless terminated earlier as provided herein. This Agreement shall thereafter be automatically renewed for successive periods of one (1) year unless terminated by either Party with nine (9) months' written notice prior to such automatic renewal or the end of the initial period.\n18.2\tThis Agreement, the Statements of Work and/or any Orders may by written notice of a Party to the other Party be terminated for cause if and when the other Party:\ni) \tvoluntarily files a petition in bankruptcy or has such a petition involuntarily filed against it or is subject to an insolvency proceeding or a proceeding giving protection against creditors, or if an order is issued appointing a receiver or trustee or a levy or attachment is made against a substantial portion of its assets which order shall not be vacated, or set aside within thirty (30) days from date of issuance, or if any assignment for the benefit of its creditors is made;\nii) \t.is in material breach of this Agreement and fails to remedy such breach within thirty (30) days after receipt of a written notice by the other Party specifying the nature of such breach and requiring remedy of the same."
+    },
+    {
+      "id": "c_19",
+      "header": "19.\tEFFECT OF TERMINATION",
+      "text_length": 1723,
+      "text": "19.\tEFFECT OF TERMINATION\nAfter the termination or expiration of this Agreement, Zebracorp may continue to use the Licensed Products and the SaaS in accordance with terms and conditions of this Agreement for a period of twenty four (24) months following the effective date of termination for the purpose of fulfilling any outstanding or incomplete orders, agreements and commitments which Zebracorp has entered into prior to the termination date of this Agreement (including for the purpose of fulfilling provision of access to the SaaS for the entire committed SaaS Subscription term with respect to each Customer) . \u201cTo the extent Zebracorp continues to use the Licensed Products and the SaaS we will be paid in accordance with this Agreement.\u201d\n19.1\tFor the avoidance of doubt, it is expressly stated that any termination or expiration of this Agreement (or any Statement of Work) shall not affect any rights of the Customers granted to them in accordance with the provisions of this Agreement during the validity hereof. For the avoidance of doubt, it is further expressly stated that any distribution rights and other rights and licenses granted by the Supplier to Zebracorp under this Agreement shall be extended for the time period required to complete the activities of Zebracorp contemplated in this Clause.\n19.2\tNotwithstanding anything to the contrary contained herein, any termination or expiry of this Agreement for whatever reason shall not affect the right of Zebracorp to provide support to such Customer.\n19.3\tUpon termination, Supplier shall delete or return personal data within 60 days, unless retention is required by law or for legitimate business records. Supplier shall certify deletion upon request."
+    },
+    {
+      "id": "c_20",
+      "header": "20.\tFORCE MAJEURE AND DUTY TO INFORM",
+      "text_length": 1366,
+      "text": "20.\tFORCE MAJEURE AND DUTY TO INFORM\n20.1\tNeither Party shall be held responsible for the non-performance of any obligations and duties under this Agreement, and/or any Order to the extent that such non-performance results from a Force Majeure event. If a Party claims that a Force Majeure event has occurred affecting its performance, it shall promptly notify the other Party.\n20.2\tIf the Force Majeure continues for a cumulative period of sixty (60) days or more, Zebracorp may terminate this Agreement and/or any Order which are not yet fully performed with immediate effect by giving Supplier written notice. Termination shall be effective upon receipt of the notice without incurring any liability or charges.\n20.3\tSupplier agrees to promptly inform Zebracorp in writing of event(s) that are about to occur or appear imminent and may reasonably affect Supplier's ability to meet any of its obligations under this Agreement and/or under an Order, including without limitation, a potential delay in Delivery, a material change in ownership of Supplier, infringement of third party Intellectual Property Rights, or any other action, omission or development which would be important for Zebracorp to be aware of in order to take precautions to prevent such from causing adverse effect to Zebracorp\u2019s  business, reputation, production schedule, or product liability."
+    },
+    {
+      "id": "c_21",
+      "header": "21.\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS",
+      "text_length": 4601,
+      "text": "21.\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS\n21.1\tProducts and Services provided under this Agreement may be subject to customs and export control regulations, including but not limited to the export control regulations of the European Union (EU), and/or the US. Such export control regulations apply to hardware, software, technology and know-how. The Parties shall comply with all import and export laws applicable to each Party's import, export, re-export or use of the Products and Services.\n21.2\tThe Supplier agrees that it shall provide Zebracorp the following data and information on the products: (i) US Export Control Classification Number (ECCN), if subject to the US Export Administration Regulations (EAR), (ii) EU ECCN, if listed in the Wassenaar List of Dual-Use Goods and Technologies, (iii) method of classification (self-classified or classified by the U.S. Bureau of Industry and Security (BIS)), (iv) CCATS number and CCATS document issued by the BIS (if available), (v) the French \u201cAutorisation d\u2019Exportation de Moyen de Cryptologie\u201d (if available), (vi) Schedule B and HS code and (vii) country of origin ((i) through (vii) hereinafter collectively referred to as the \u201cECC Data\u201d). Supplier agrees to provide the aforementioned ECC Data to Zebracorp for every Product without undue delay after Effective Date and at any time thereafter upon Zebracorp\u2019s request. Supplier agrees to provide Zebracorp with all information reasonably required to obtain any license or other authorization under the applicable customs and export control regulations. Supplier further agrees to inform Zebracorp of any change in the ECC Data provided to Supplier or a change to the applicability of US export control regulations on the Products as soon as practicable after the change is known to Supplier.\n21.3\tFor Products which are qualified for preferential treatment, Supplier shall provide with the delivery of such Products, on Zebracorp\u2019s request, a valid declaration of preferential origin or certificate of preferential origin in compliance with applicable preferential arrangement/agreement.\n21.4\tSupplier shall provide Zebracorp or on Zebracorp\u2019s request to a third party designated by Zebracorp, all information and documents required in global trade for global delivery and customs clearance, reselling and re-exportation. Supplier shall provide all information required to clearly identify and map the Products and related certificates or declarations of origin.\n21.5\tFor Products delivered to Zebracorp in or into the European Union, Supplier shall provide, on Zebracorp\u2019s request, a long-term declaration of non-preferential origin in compliance with article 60 of European Union Customs Code (UCC). For all Products which do not originate in the European Union, Supplier\u2019s long-term declaration shall be endorsed by Supplier\u2019s competent local chamber of commerce. Supplier shall provide Zebracorp a renewed long-term declaration of non-preferential origin as soon as origin of any included Product changes.\n21.6\tOn Zebracorp\u2019s request, Supplier shall provide with the deliveries of the Products certificates of origin in compliance with applicable international standards and regulations and endorsed by Supplier\u2019s competent chamber of commerce.\n21.7\tSupplier shall provide the country of origin of each delivered physical product to Zebracorp on the invoice and on shipment accompanying documents. Official English country name or ISO 3166 alpha-2 country code must be used.\n21.8\tSupplier warrants that any data and other information provided to Zebracorp under this Clause are in all respects complete and correct. Supplier shall be liable for wrong certificate of origin or wrong declaration of preferential or non-preferential origin and shall hold Zebracorp harmless for all financial consequences including but not limited to customs duties.\n21.9\tSupplier shall provide complete and correct shipping documentation, which comprehends an invoice and a packing list, containing following attributes to comply with customs requirements:\n21.10\tInvoice number and date, Zebracorp Order reference, Supplier's complete name, address, phone number, e-mail address and VAT number (EORI number if available), Consignee complete name, address, (importer of records), dispatch/export country (export from), delivery terms (e.g. FCA named place, (INCOTERMS\u00a9 2020), payment terms, net and gross weight, quantity of boxes/crates, Zebracorp item number, material quantity and unit, comprehensive item description, country of origin, prices and currency, tariff/commodity code, ECCN classification."
+    },
+    {
+      "id": "c_22",
+      "header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "text_length": 878,
+      "text": "22.\tLIMITATION OF LIABILITY AND INSURANCE\n22.1\tWith the exception of claims relating to Intellectual Property Rights indemnification under Clause 12, product liability under Clause 13, and/or breach of confidentiality under Clause 17 , neither Party shall be liable to the other Party for loss of business or goodwill, loss of revenue or loss of profits or any indirect, special, punitive or consequential damage incurred by the other Party under or in connection with this Agreement.\nThe foregoing provision shall not be construed to limit or exclude any of the Supplier\u2019s obligations arising from specific remedies provided under this Agreement, specifically, without limitation, any obligation regarding repair or replacement or any other such non-monetary remedies.\nSupplier shall procure and maintain the insurance coverage specified in the Insurance Requirements Appendix."
+    }
+  ],
+  "lexicon_size": 50,
+  "lexicon": [
+    {
+      "id": "skip_1767359508522_tfxww",
+      "header": "Untagged Content",
+      "type": "SKIP"
+    },
+    {
+      "id": "h_1",
+      "header": "CONTENTS",
+      "type": "INFO"
+    },
+    {
+      "id": "h_2",
+      "header": "LIST OF APPENDICES",
+      "type": "INFO"
+    },
+    {
+      "id": "c_1",
+      "header": "1.\tDEFINITIONS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_2",
+      "header": "2.\tPURPOSE OF THIS AGREEMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_3",
+      "header": "3.\tSTATEMENTS OF WORK",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_4",
+      "header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_5",
+      "header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_6",
+      "header": "6.\tORDERING PROCEDURE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_7",
+      "header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_8",
+      "header": "8.\tDOCUMENTATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_9",
+      "header": "9.\tPAYMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_10",
+      "header": "10.\tWARRANTIES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_11",
+      "header": "11.\tOPEN SOURCE SOFTWARE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_12",
+      "header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_13",
+      "header": "13.\tPRODUCT LIABILITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_14",
+      "header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_15",
+      "header": "15.\tCOMPLIANCE AND ETHICS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_16",
+      "header": "16.\tMAINTENANCE AND SUPPORT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_17",
+      "header": "17.\tCONFIDENTIALITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_18",
+      "header": "18.\tTERM AND TERMINATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_19",
+      "header": "19.\tEFFECT OF TERMINATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_20",
+      "header": "20.\tFORCE MAJEURE AND DUTY TO INFORM",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_21",
+      "header": "21.\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_22",
+      "header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_23",
+      "header": "23.\tSUBCONTRACTORS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_24",
+      "header": "24.\tDATA PROTECTION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_25",
+      "header": "25.\tFINAL PROVISIONS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "h_3",
+      "header": "APPENDICES",
+      "type": "INFO"
+    },
+    {
+      "id": "a_1",
+      "header": "PRODUCT APPENDIX",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "a_2",
+      "header": "Quality appendix - to be removed",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "a_3",
+      "header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "c_26",
+      "header": "2.\tPROVISION OF SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_27",
+      "header": "3.\tCHANGES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_28",
+      "header": "4.\tSERVICE-ORDERS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_29",
+      "header": "5.\tINTENTIONALLY LEFT BLANK",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_30",
+      "header": "6.\tPRICES / INVOICING / PAYMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_31",
+      "header": "7.\tINTELLECTUAL PROPERTY RIGHTS AND INDEMNIFICATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_32",
+      "header": "8.\tCONSEQUENCES OF DELAY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_33",
+      "header": "9.\tWARRANTY FOR SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_34",
+      "header": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_35",
+      "header": "11.\tTOOLS, INTERFACES AND FORMS TO BE USED",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_36",
+      "header": "12.\tREVIEW MEETING",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_37",
+      "header": "13.\tMANAGEMENT ESCALATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_38",
+      "header": "14.\tCOMPATIBILITY MATRIX FOR SOFTWARE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_39",
+      "header": "15.\tQUALITY AND PROTECTION OF ENVIRONMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_40",
+      "header": "16.\tTERM OF MSA",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_41",
+      "header": "17.\tELECTRONIC DATA EXCHANGE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_42",
+      "header": "18.\tMISCELLANEOUS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "ax_1",
+      "header": "ANNEX SWSU \u2013 Maintenance and Support Agreement",
+      "type": "ANNEX"
+    }
+  ],
+  "llm_response_raw": "```json\n[\n  {\n    \"source_id\": \"c_21\",\n    \"source_header\": \"21.\\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS\",\n    \"source_verbatim\": \"The Supplier agrees that it shall provide Zebracorp the following data and information on the products: (i) US Export Control Classification Number (ECCN), if subject to the US Export Administration Regulations (EAR), (ii) EU ECCN, if listed in the Wassenaar List of Dual-Use Goods and Technologies, (iii) method of classification (self-classified or classified by the U.S. Bureau of Industry and Security (BIS)), (iv) CCATS number and CCATS document issued by the BIS (if available), (v) the French \u201cAutorisation d\u2019Exportation de Moyen de Cryptologie\u201d (if available), (vi) Schedule B and HS code and (vii) country of origin ((i) through (vii) hereinafter collectively referred to as the \u201cECC Data\u201d).\"\n  },\n  {\n    \"source_id\": \"c_22\",\n    \"source_header\": \"22.\\tLIMITATION OF LIABILITY AND INSURANCE\",\n    \"source_verbatim\": \"With the exception of claims relating to Intellectual Property Rights indemnification under Clause 12, product liability under Clause 13, and/or breach of confidentiality under Clause 17 , neither Party shall be liable to the other Party for loss of business or goodwill, loss of revenue or loss of profits or any indirect, special, punitive or consequential damage incurred by the other Party under or in connection with this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_22\",\n    \"source_header\": \"22.\\tLIMITATION OF LIABILITY AND INSURANCE\",\n    \"source_verbatim\": \"With the exception of claims relating to Intellectual Property Rights indemnification under Clause 12, product liability under Clause 13, and/or breach of confidentiality under Clause 17 , neither Party shall be liable to the other Party for loss of business or goodwill, loss of revenue or loss of profits or any indirect, special, punitive or consequential damage incurred by the other Party under or in connection with this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_22\",\n    \"source_header\": \"22.\\tLIMITATION OF LIABILITY AND INSURANCE\",\n    \"source_verbatim\": \"With the exception of claims relating to Intellectual Property Rights indemnification under Clause 12, product liability under Clause 13, and/or breach of confidentiality under Clause 17 , neither Party shall be liable to the other Party for loss of business or goodwill, loss of revenue or loss of profits or any indirect, special, punitive or consequential damage incurred by the other Party under or in connection with this Agreement.\"\n  },\n  {\n    \"source_id\": \"c_22\",\n    \"source_header\": \"22.\\tLIMITATION OF LIABILITY AND INSURANCE\",\n    \"source_verbatim\": \"Supplier shall procure and maintain the insurance coverage specified in the Insurance Requirements Appendix.\"\n  }\n]\n```",
+  "llm_response_length": 2770
+}

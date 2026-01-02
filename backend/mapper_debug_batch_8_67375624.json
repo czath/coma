@@ -1,0 +1,7 @@
+{
+  "batch_idx": 8,
+  "input_refs_count": 2,
+  "target_sections_count": 46,
+  "llm_response_raw": "```json\n[\n  {\n    \"source_id\": \"ax_1\",\n    \"source_header\": \"ANNEX SWSU \\u2013 Maintenance and Support Agreement\",\n    \"source_verbatim\": \"This Software Services (Software Maintenance, Security Alert, Update & Upgrade) Annex is attached to and forms a part of the Maintenance and Support Agreement Appendix of the Software License Agreement (the \\u201cMSA\\u201d).\",\n    \"target_id\": \"a_3\",\n    \"is_valid\": true,\n    \"justification\": \"Refers to the 'Maintenance and Support Agreement Appendix' (a_3) as the parent document.\"\n  },\n  {\n    \"source_id\": \"ax_1\",\n    \"source_header\": \"ANNEX SWSU \\u2013 Maintenance and Support Agreement\",\n    \"source_verbatim\": \"Unless otherwise noted or evident from the context, the capitalized terms used herein shall have the meaning ascribed to them in the MSA.\",\n    \"target_id\": \"a_3\",\n    \"is_valid\": true,\n    \"justification\": \"Refers to 'the MSA', which is defined as the 'Maintenance and Support Agreement Appendix' (a_3).\"\n  }\n]\n```",
+  "llm_response_length": 973
+}

@@ -1,0 +1,58 @@
+{
+  "input_refs_count": 10,
+  "input_refs": [
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "1. DEFINITIONS 3"
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3. STATEMENTS OF WORK",
+      "source_verbatim": "Upon Zebracorp\u2019s request the Parties shall agree upon a Statement of Work, a template of which has been attached to this Agreement as Appendix \u201cStatement of Work (SoW)\u201d."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Any payments to be made for the Licensed Products, the Services and the rights and licenses granted hereunder are exclusively set out in the Products Appendix"
+    },
+    {
+      "source_id": "c_13",
+      "source_header": "13.\tPRODUCT LIABILITY",
+      "source_verbatim": "The Supplier shall not be liable for damages under this Clause Product Liability to the extent arising from the use of the Licensed Products or the SaaS outside the Documentation ."
+    },
+    {
+      "source_id": "c_21",
+      "source_header": "21.\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS",
+      "source_verbatim": "The Supplier agrees that it shall provide Zebracorp the following data and information on the products: (i) US Export Control Classification Number (ECCN), if subject to the US Export Administration Regulations (EAR), (ii) EU ECCN, if listed in the Wassenaar List of Dual-Use Goods and Technologies, (iii) method of classification (self-classified or classified by the U.S. Bureau of Industry and Security (BIS)), (iv) CCATS number and CCATS document issued by the BIS (if available), (v) the French \u201cAutorisation d\u2019Exportation de Moyen de Cryptologie\u201d (if available), (vi) Schedule B and HS code and (vii) country of origin ((i) through (vii) hereinafter collectively referred to as the \u201cECC Data\u201d)."
+    },
+    {
+      "source_id": "c_24",
+      "source_header": "24.\tDATA PROTECTION",
+      "source_verbatim": "Where, under this Agreement, Supplier provides Services to Zebracorp or Customers, and Supplier\u2019s access to personal data, in providing these Services, cannot be definitely excluded or is within the scope of the Agreement, the Parties shall execute and attach a Data Protection Appendix (\u201cDPA\u201d) to this Agreement, and Supplier shall process such personal data solely in accordance with the DPA, this Agreement and Zebracorp\u2019s instructions."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "This appendix is attached to and forms a part of the Agreement"
+    },
+    {
+      "source_id": "c_30",
+      "source_header": "6.\tPRICES / INVOICING / PAYMENT",
+      "source_verbatim": "The prices for the Services under this MSA are stated in Annex PPT hereto or in the Product Appendix of the Agreement."
+    },
+    {
+      "source_id": "c_34",
+      "source_header": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY",
+      "source_verbatim": "Without prejudice to Supplier\u2019s obligation to strictly comply with the security requirements set forth in the Product Security Requirements Appendix, Supplier shall make the Software easy to maintain."
+    },
+    {
+      "source_id": "c_39",
+      "source_header": "15.\tQUALITY AND PROTECTION OF ENVIRONMENT",
+      "source_verbatim": "The regulations of Quality Assurance Appendix to the Agreement shall apply to Supplier\u2019s performance of Services."
+    }
+  ],
+  "target_sections_count": 46,
+  "llm_response_raw": "```json\n[\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"1. DEFINITIONS 3\",\n    \"target_id\": \"c_1\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '1. DEFINITIONS' to section c_1 (1. DEFINITIONS)\"\n  },\n  {\n    \"source_id\": \"c_3\",\n    \"source_header\": \"3. STATEMENTS OF WORK\",\n    \"source_verbatim\": \"Upon Zebracorp\\u2019s request the Parties shall agree upon a Statement of Work, a template of which has been attached to this Agreement as Appendix \\u201cStatement of Work (SoW)\\u201d.\",\n    \"target_id\": null,\n    \"is_valid\": false,\n    \"justification\": \"Target 'Appendix \\u201cStatement of Work (SoW)\\u201d' does not exist in document as a distinct section.\"\n  },\n  {\n    \"source_id\": \"c_9\",\n    \"source_header\": \"9.\\tPAYMENTS\",\n    \"source_verbatim\": \"Any payments to be made for the Licensed Products, the Services and the rights and licenses granted hereunder are exclusively set out in the Products Appendix\",\n    \"target_id\": \"a_1\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped 'Products Appendix' to section a_1 (PRODUCT APPENDIX) (exact match, case-insensitive)\"\n  },\n  {\n    \"source_id\": \"c_13\",\n    \"source_header\": \"13.\\tPRODUCT LIABILITY\",\n    \"source_verbatim\": \"The Supplier shall not be liable for damages under this Clause Product Liability to the extent arising from the use of the Licensed Products or the SaaS outside the Documentation .\",\n    \"target_id\": \"c_13\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped 'Clause Product Liability' to section c_13 (13. PRODUCT LIABILITY) (exact match, ignoring clause number prefix)\"\n  },\n  {\n    \"source_id\": \"c_21\",\n    \"source_header\": \"21.\\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS\",\n    \"source_verbatim\": \"The Supplier agrees that it shall provide Zebracorp the following data and information on the products: (i) US Export Control Classification Number (ECCN), if subject to the US Export Administration Regulations (EAR), (ii) EU ECCN, if listed in the Wassenaar List of Dual-Use Goods and Technologies, (iii) method of classification (self-classified or classified by the U.S. Bureau of Industry and Security (BIS)), (iv) CCATS number and CCATS document issued by the BIS (if available), (v) the French \\u201cAutorisation d\\u2019Exportation de Moyen de Cryptologie\\u201d (if available), (vi) Schedule B and HS code and (vii) country of origin ((i) through (vii) hereinafter collectively referred to as the \\u201cECC Data\\u201d).\",\n    \"target_id\": null,\n    \"is_valid\": false,\n    \"justification\": \"Target '\\u201cECC Data\\u201d' is a definition within the current clause, not a reference to another section.\"\n  },\n  {\n    \"source_id\": \"c_24\",\n    \"source_header\": \"24.\\tDATA PROTECTION\",\n    \"source_verbatim\": \"Where, under this Agreement, Supplier provides Services to Zebracorp or Customers, and Supplier\\u2019s access to personal data, in providing these Services, cannot be definitely excluded or is within the scope of the Agreement, the Parties shall execute and attach a Data Protection Appendix (\\u201cDPA\\u201d) to this Agreement, and Supplier shall process such personal data solely in accordance with the DPA, this Agreement and Zebracorp\\u2019s instructions.\",\n    \"target_id\": null,\n    \"is_valid\": false,\n    \"justification\": \"Target 'Data Protection Appendix (\\u201cDPA\\u201d)' does not exist in document as a distinct section.\"\n  },\n  {\n    \"source_id\": \"a_3\",\n    \"source_header\": \"MAINTENANCE AND SUPPORT AGREEMENT\",\n    \"source_verbatim\": \"This appendix is attached to and forms a part of the Agreement\",\n    \"target_id\": null,\n    \"is_valid\": false,\n    \"justification\": \"Target 'the Agreement' is ambiguous and refers to the entire document, not a specific section.\"\n  },\n  {\n    \"source_id\": \"c_30\",\n    \"source_header\": \"6.\\tPRICES / INVOICING / PAYMENT\",\n    \"source_verbatim\": \"The prices for the Services under this MSA are stated in Annex PPT hereto or in the Product Appendix of the Agreement.\",\n    \"target_id\": \"a_3\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped 'Annex PPT' to section a_3 (MAINTENANCE AND SUPPORT AGREEMENT) (subsection, as Annex PPT is listed within a_3)\"\n  },\n  {\n    \"source_id\": \"c_34\",\n    \"source_header\": \"10.\\tSUPPORT OF VERSIONS AND SERVICEABILITY\",\n    \"source_verbatim\": \"Without prejudice to Supplier\\u2019s obligation to strictly comply with the security requirements set forth in the Product Security Requirements Appendix, Supplier shall make the Software easy to maintain.\",\n    \"target_id\": null,\n    \"is_valid\": false,\n    \"justification\": \"Target 'Product Security Requirements Appendix' does not exist in document.\"\n  },\n  {\n    \"source_id\": \"c_39\",\n    \"source_header\": \"15.\\tQUALITY AND PROTECTION OF ENVIRONMENT\",\n    \"source_verbatim\": \"The regulations of Quality Assurance Appendix to the Agreement shall apply to Supplier\\u2019s performance of Services.\",\n    \"target_id\": \"a_2\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped 'Quality Assurance Appendix' to section a_2 (Quality appendix - to be removed) (partial match)\"\n  }\n]\n```",
+  "llm_response_length": 5037
+}

@@ -1,0 +1,1283 @@
+{
+  "input_refs_count": 255,
+  "input_refs": [
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "1. DEFINITIONS 3"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "2. PURPOSE OF THIS AGREEMENT 6"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "3. CUSTOMER PROJECTS AND STATEMENTS OF WORK 6"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "4. GRANT OF LICENSES AND OTHER RIGHTS 7"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "5. DELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES 8"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "6. ORDERING PROCEDURE 9"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "7. INITIAL TESTING AND ACCEPTANCE 9"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "8. DOCUMENTATION 10"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "9. PAYMENTS 10"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "10. WARRANTIES 11"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "11. OPEN SOURCE SOFTWARE 12"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "12. INTELLECTUAL PROPERTY RIGHTS 12"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "13. PRODUCT LIABILITY 14"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "14. QUALITY ASSURANCE; SECURITY REQUIREMENTS 14"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "15. COMPLIANCE AND ETHICS 15"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "16. MAINTENANCE AND SUPPORT 17"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "17. CONFIDENTIALITY 17"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "18. TERM AND TERMINATION 18"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "19. EFFECT OF TERMINATION 18"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "20. FORCE MAJEURE 18"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "21. EXPORT CONTROL AND CUSTOMS REQUIREMENTS 19"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "22. LIMITATION OF LIABILITY AND INSURANCE 20"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "23. SUBCONTRACTORS 20"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "24. DATA PROTECTION 20"
+    },
+    {
+      "source_id": "h_1",
+      "source_header": "CONTENTS",
+      "source_verbatim": "25. FINAL PROVISIONS 21"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "Product Appendix (\u201cPA\u201d)"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "Maintenance and Support Agreement (\u201cMSA\u201d)"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "Insurance Requirements"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "Template: Statement of Work (\u201cSOW\u201d)"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "Security Requirements"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "SOFTWARE AS A SERVICE \u201cSAAS\u201d"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "US Specific Provisions"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "Data Protection Appendix"
+    },
+    {
+      "source_id": "h_2",
+      "source_header": "LIST OF APPENDICES",
+      "source_verbatim": "The Supplier and Zebracorp desire that the Supplier provides certain software products and services to Zebracorp and its customers, including Software as a Service (\u201cSaaS\u201d), as further described in and pursuant to the Software as a Service Appendix to this Agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Agreement` shall mean this Software License Agreement for Applications including all Appendices and any other document specifically incorporated herein by reference."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "All Appendices shall be subject to the terms and conditions of this Agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Clause` shall mean any numbered paragraph or section of this Agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "Without limiting the generality of the foregoing, the terms and conditions of this Agreement, including prices, are the Confidential Information of both Parties."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Licensed Product` shall mean any and all software products including any software applications and components delivered under this Agreement including also the related Documentation as may be described in further detail in the Product Appendix and/or any Statement of Work, including any future modifications, Updates, Upgrades, bug fixes and Error corrections to any of the foregoing items."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Licensed Product` shall mean any and all software products including any software applications and components delivered under this Agreement including also the related Documentation as may be described in further detail in the Product Appendix and/or any Statement of Work, including any future modifications, Updates, Upgrades, bug fixes and Error corrections to any of the foregoing items."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Licensed Product` shall mean any and all software products including any software applications and components delivered under this Agreement including also the related Documentation as may be described in further detail in the Product Appendix and/or any Statement of Work, including any future modifications, Updates, Upgrades, bug fixes and Error corrections to any of the foregoing items."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Legislative Requirements` shall mean i) all laws, regulations, acts, orders, by-laws, decrees, or other such ordinances of the jurisdiction where any Licensed Products are being manufactured, transported and delivered to and where any Services under this Agreement are being carried out, and ii) all requirements, permits, approvals, licences, certificates and other directives made by any other authorities, public bodies, or other organizations having jurisdiction in connection with the performance of this Agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Maintenance Services` shall mean the services described in Appendix `Maintenance and Support Agreement` of this Agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Maintenance Services` shall mean the services described in Appendix `Maintenance and Support Agreement` of this Agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Order` shall mean a document (i) which bears the title or identification `purchase order` or `order` on its face, (ii) issued by Zebracorp in an electronic format using Zebracorp\u2019s internal order system tools, (iii) which contains the unique purchase order number, and (iv) in which Zebracorp requests Supplier to provide specific Licensed Product(s) and/or Services under the terms and conditions of this Agreement and such Licensed Products and Services are itemized with corresponding price, ordered quantity and item identification (either by line item code or by item description). Order may include, as applicable, also payment milestones, specifications, acceptance criteria, time schedule and delivery arrangements."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Professional Services` shall mean any professional services (including without limitation consulting and integration services), and/or any other such services provided by Supplier pursuant to this Agreement as may be specified in further detail in the Statement of Work or a professional services agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Professional Services` shall mean any professional services (including without limitation consulting and integration services), and/or any other such services provided by Supplier pursuant to this Agreement as may be specified in further detail in the Statement of Work or a professional services agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Quality Requirements` shall mean the requirements that Zebracorp has defined in Clause XX (Quality to which all Products and Services shall strictly conform."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Results of Services` shall mean all of the output and/or results of any Professional Services, including but not limited to technical documents, tooling, data, software (in both Source Code and Object Code) and/or any and all materials or documentation in whatever form arising out of or relating to the Professional Services, which are written, developed, generated or otherwise provided by the Supplier or by both Parties jointly pursuant to this Agreement (including the Statement of Work)."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Results of Services` shall mean all of the output and/or results of any Professional Services, including but not limited to technical documents, tooling, data, software (in both Source Code and Object Code) and/or any and all materials or documentation in whatever form arising out of or relating to the Professional Services, which are written, developed, generated or otherwise provided by the Supplier or by both Parties jointly pursuant to this Agreement (including the Statement of Work)."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`Specifications` shall mean any data and information related to the design, function, performance, reliability and quality of the Licensed Products as set forth in this Agreement and any modifications or amendments and new specifications thereto."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`SOW` or `Statement of Work` shall mean a Customer Project specific document as further described in Clause 3 of this Agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "`SOW` or `Statement of Work` shall mean a Customer Project specific document as further described in Clause 3 of this Agreement."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "Other capitalized terms used in this Agreement or any of its Appendices shall have the meanings as defined in the respective clauses of this Agreement or any the Appendices."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "Other capitalized terms used in this Agreement or any of its Appendices shall have the meanings as defined in the respective clauses of this Agreement or any the Appendices."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "Other capitalized terms used in this Agreement or any of its Appendices shall have the meanings as defined in the respective clauses of this Agreement or any the Appendices."
+    },
+    {
+      "source_id": "c_1",
+      "source_header": "1.\tDEFINITIONS",
+      "source_verbatim": "Other capitalized terms used in this Agreement or any of its Appendices shall have the meanings as defined in the respective clauses of this Agreement or any the Appendices."
+    },
+    {
+      "source_id": "c_2",
+      "source_header": "2.\tPURPOSE OF THIS AGREEMENT",
+      "source_verbatim": "2.1 The purpose of this Agreement is to set out the terms and conditions under which Zebracorp may order Licensed Products, the SaaS and Services from the Supplier and under which the Supplier agrees to provide the same to Zebracorp."
+    },
+    {
+      "source_id": "c_2",
+      "source_header": "2.\tPURPOSE OF THIS AGREEMENT",
+      "source_verbatim": "2.2 The Affiliates of Zebracorp may order Licensed Products, the SaaS and/or Services and agree SOWs in their own name and for their own account under the terms and conditions of this Agreement."
+    },
+    {
+      "source_id": "c_2",
+      "source_header": "2.\tPURPOSE OF THIS AGREEMENT",
+      "source_verbatim": "2.3 For the avoidance of doubt, it is expressly stated that nothing contained in this Agreement or otherwise shall mean that Zebracorp has any obligation to agree SOWs, place any Orders, or to have any other purchase commitments for any Licensed Products, the SaaS or Services under or in relation to this Agreement."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "Upon Zebracorp\u2019s request the Parties shall agree upon a Statement of Work, a template of which has been attached to this Agreement as Appendix \u201cStatement of Work (SoW)\u201d."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "All Statements of Work shall reference this Agreement and shall form an integral part of this Agreement."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "All Statements of Work shall reference this Agreement and shall form an integral part of this Agreement."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "Subject to the execution of the Statement of Work both Parties agree to perform their respective obligations in accordance with the Statement of Work (and this Agreement)."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "Subject to the execution of the Statement of Work both Parties agree to perform their respective obligations in accordance with the Statement of Work (and this Agreement)."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "Zebracorp may request a change in the terms of the Statement of Work."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "The Parties undertake to negotiate and agree the effects of such change to scope and contents of the Statement of Work."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "The Supplier agrees to implement and execute any reasonable requested changes for a reasonable price substantially in accordance with the pricing principles and levels agreed in the Statement of Work and this Agreement."
+    },
+    {
+      "source_id": "c_3",
+      "source_header": "3.\tSTATEMENTS OF WORK",
+      "source_verbatim": "The Supplier agrees to implement and execute any reasonable requested changes for a reasonable price substantially in accordance with the pricing principles and levels agreed in the Statement of Work and this Agreement."
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "Subject to the terms and conditions of this Agreement, the Supplier hereby grants to Zebracorp under all Intellectual Property Rights necessary for such grant ."
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "the following non-transferable (except as otherwise permitted under this Agreement), non-revocable (except for uncured material breach of the Agreement by Zebracorp), worldwide, non-exclusive licenses for the term of this Agreement (and as permitted after the term under Clause Term and Termination and as needed for maintenance and support):"
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "the following non-transferable (except as otherwise permitted under this Agreement), non-revocable (except for uncured material breach of the Agreement by Zebracorp), worldwide, non-exclusive licenses for the term of this Agreement (and as permitted after the term under Clause Term and Termination and as needed for maintenance and support):"
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "the following non-transferable (except as otherwise permitted under this Agreement), non-revocable (except for uncured material breach of the Agreement by Zebracorp), worldwide, non-exclusive licenses for the term of this Agreement (and as permitted after the term under Clause Term and Termination and as needed for maintenance and support):"
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "the following non-transferable (except as otherwise permitted under this Agreement), non-revocable (except for uncured material breach of the Agreement by Zebracorp), worldwide, non-exclusive licenses for the term of this Agreement (and as permitted after the term under Clause Term and Termination and as needed for maintenance and support):"
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "the following non-transferable (except as otherwise permitted under this Agreement), non-revocable (except for uncured material breach of the Agreement by Zebracorp), worldwide, non-exclusive licenses for the term of this Agreement (and as permitted after the term under Clause Term and Termination and as needed for maintenance and support):"
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "Notwithstanding anything to the contrary in any of the clauses of this Agreement, the licenses granted under this Clause 4.1.4 shall be transferable free of charge within Zebracorp Affiliates."
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "Notwithstanding anything to the contrary in any of the clauses of this Agreement, the licenses granted under this Clause 4.1.4 shall be transferable free of charge within Zebracorp Affiliates."
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "Any licenses granted to Zebracorp under this Agreement shall include Affiliates of Zebracorp."
+    },
+    {
+      "source_id": "c_4",
+      "source_header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "source_verbatim": "Any licenses granted to Zebracorp under this Agreement shall also extend to the Contractors of Zebracorp but only to the extent required for the purpose of enabling such Contractors to perform work or provide services for Zebracorp and only while such Contractors are providing such services to Zebracorp."
+    },
+    {
+      "source_id": "c_5",
+      "source_header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "source_verbatim": "Supplier shall deliver the Licensed Products in a timely manner and perform the Professional Services to the highest standard of skill, care, quality and diligence of a professional and in a timely and cost effective manner in accordance with and in full compliance with this Agreement, the respective Statement of Work and the Legislative Requirements."
+    },
+    {
+      "source_id": "c_5",
+      "source_header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "source_verbatim": "Supplier shall deliver the Licensed Products in a timely manner and perform the Professional Services to the highest standard of skill, care, quality and diligence of a professional and in a timely and cost effective manner in accordance with and in full compliance with this Agreement, the respective Statement of Work and the Legislative Requirements."
+    },
+    {
+      "source_id": "c_5",
+      "source_header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "source_verbatim": "In case this delivery method is not available and unless otherwise agreed, the Supplier shall deliver any Licensed Products in tangible media according to DDP VAT unpaid (INCOTERMS\u00a9 2020) to a place designated by Zebracorp within 5 (five) days from the date of the Order unless a later delivery date has been defined in the Order."
+    },
+    {
+      "source_id": "c_5",
+      "source_header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "source_verbatim": "In the event that the Supplier fails to meet the agreed time schedule and/or any other milestones or such other fixed dates set forth in the SOW, then the Supplier shall be liable to pay Zebracorp liquidated damages in the amount of 0.5% per calendar day, capped at 10% of the affected Order value, and only applicable if the delay is not caused by force majeure or Zebracorp\u2019s own actions.."
+    },
+    {
+      "source_id": "c_5",
+      "source_header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "source_verbatim": "The payment of any of these amounts or parts thereof shall not discharge the Supplier of any of its obligations under this Agreement."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "Zebracorp may place Orders for the Licensed Products and Services by e-mail, by fax or in electronic form or in any other mutually agreed manner."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "The Supplier may reject an Order within three (3) business days from the receipt of the Order, otherwise the Order shall be deemed accepted."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "Supplier may however reject any Order only to the extent the Order is not in conformance with the terms and conditions of this Agreement."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "Any Order rejection has to specify in detail the non-conformance of the Order in order to be valid."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "In case Zebracorp\u2019s Order, the Supplier's confirmation of an Order or the Supplier's invoice contain terms and conditions, which are in conflict with this Agreement, such terms and conditions shall be regarded as null and void."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "Supplier shall not commence with provision of the Licensed Products and Services prior to receiving corresponding Order."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "Zebracorp shall have no payment obligation for Licensed Products and Services provided without an Order."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "Notwithstanding anything to the contrary contained elsewhere in this Agreement, Zebracorp may cancel any Order issued hereunder within seven (7) days from the date of the Order without any liability towards Supplier with the exception of the payment of any Services performed up and until the termination date of the Order."
+    },
+    {
+      "source_id": "c_6",
+      "source_header": "6.\tORDERING PROCEDURE",
+      "source_verbatim": "Notwithstanding anything to the contrary contained elsewhere in this Agreement, Zebracorp may cancel any Order issued hereunder within seven (7) days from the date of the Order without any liability towards Supplier with the exception of the payment of any Services performed up and until the termination date of the Order."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "The Supplier shall test the Licensed Products for Errors and for compliance with the Specification(s), Statements of Work and the Quality Requirements prior to delivery."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "The Supplier shall test the Licensed Products for Errors and for compliance with the Specification(s), Statements of Work and the Quality Requirements prior to delivery."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "The Supplier shall test the Licensed Products for Errors and for compliance with the Specification(s), Statements of Work and the Quality Requirements prior to delivery."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "Zebracorp may elect to test the Licensed Product(s) and/or the Results of the Services for compliance with the requirements of this Agreement as set forth in particular in the Specifications, Statement of Work(s), and the Quality Requirements."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "Zebracorp may elect to test the Licensed Product(s) and/or the Results of the Services for compliance with the requirements of this Agreement as set forth in particular in the Specifications, Statement of Work(s), and the Quality Requirements."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "Zebracorp may elect to test the Licensed Product(s) and/or the Results of the Services for compliance with the requirements of this Agreement as set forth in particular in the Specifications, Statement of Work(s), and the Quality Requirements."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "Zebracorp may elect to test the Licensed Product(s) and/or the Results of the Services for compliance with the requirements of this Agreement as set forth in particular in the Specifications, Statement of Work(s), and the Quality Requirements."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "If the Licensed Products and/or the Results of Services do not meet the requirements of this Agreement within thirty (30) days from the first delivery of the same to Zebracorp, and Supplier has been given a chance to cure any default., Zebracorp has the right to terminate this Agreement or the relevant Statement of Work and/or any Orders wholly or partially without any liability towards Supplier."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "If the Licensed Products and/or the Results of Services do not meet the requirements of this Agreement within thirty (30) days from the first delivery of the same to Zebracorp, and Supplier has been given a chance to cure any default., Zebracorp has the right to terminate this Agreement or the relevant Statement of Work and/or any Orders wholly or partially without any liability towards Supplier."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "If the Licensed Products and/or the Results of Services do not meet the requirements of this Agreement within thirty (30) days from the first delivery of the same to Zebracorp, and Supplier has been given a chance to cure any default., Zebracorp has the right to terminate this Agreement or the relevant Statement of Work and/or any Orders wholly or partially without any liability towards Supplier."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "The Customer acceptance procedure, including the test process and the Customer acceptance criteria shall be set forth in the Customer Project specific Statement of Work."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "However, unless otherwise agreed in a Statement of Work, if the Licensed Products and/or the Results of Services fail to pass the Customer acceptance, the Supplier shall correct any and all Errors in the Licensed Products and/or in the Results of Services and deliver the respective corrected Licensed Products and/or the Results of Services without undue delay."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "If the Licensed Products and/or the Results of Services fail to pass the Customer acceptance following such new delivery, Zebracorp has the right to terminate the relevant Statement of Work and/or any Orders wholly or partially without any liability towards Supplier."
+    },
+    {
+      "source_id": "c_7",
+      "source_header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "source_verbatim": "If the Licensed Products and/or the Results of Services fail to pass the Customer acceptance following such new delivery, Zebracorp has the right to terminate the relevant Statement of Work and/or any Orders wholly or partially without any liability towards Supplier."
+    },
+    {
+      "source_id": "c_8",
+      "source_header": "8.\tDOCUMENTATION",
+      "source_verbatim": "The Supplier shall deliver the agreed number of the Documentation free of charge in an appropriate electronic format or as otherwise agreed between the Parties."
+    },
+    {
+      "source_id": "c_8",
+      "source_header": "8.\tDOCUMENTATION",
+      "source_verbatim": "The Supplier shall ensure that the Documentation will correspond to the latest technical state of the Licensed Products and the Results of Services, and the Supplier agrees to update such Documentation accordingly."
+    },
+    {
+      "source_id": "c_8",
+      "source_header": "8.\tDOCUMENTATION",
+      "source_verbatim": "The Supplier shall provide the Documentation in English, unless agreed otherwise in writing."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Any payments to be made for the Licensed Products, the Services and the rights and licenses granted hereunder are exclusively set out in the Products Appendix, and such payments shall be the sole and exclusive payments to be made by Zebracorp for the Licensed Product and the Services."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Unless agreed otherwise in the SOW and subject always to the provisions of this Agreement, the Supplier may invoice the license fees for the Licensed Products from Zebracorp after the customer acceptance and subject always to the receipt of a valid Order."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Unless agreed otherwise in the SOW and subject always to the provisions of this Agreement, the Supplier may invoice the license fees for the Licensed Products from Zebracorp after the customer acceptance and subject always to the receipt of a valid Order."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Unless agreed otherwise in the SOW or the Maintenance and Support Agreement and subject always to the provisions of this Agreement, the Supplier may invoice any Services on a monthly basis subject always to the receipt of a valid Order for such Services from Zebracorp."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Unless agreed otherwise in the SOW or the Maintenance and Support Agreement and subject always to the provisions of this Agreement, the Supplier may invoice any Services on a monthly basis subject always to the receipt of a valid Order for such Services from Zebracorp."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Unless agreed otherwise in the SOW or the Maintenance and Support Agreement and subject always to the provisions of this Agreement, the Supplier may invoice any Services on a monthly basis subject always to the receipt of a valid Order for such Services from Zebracorp."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Each Supplier\u2019s invoice shall contain information prescribed by the applicable statutory law provisions and following information: (i) the Order number specified in the relevant Order, (ii) the name of the Zebracorp requestor/contact person, (iii) payment term in accordance with the Agreement, (iv) description and the line-item split of Licensed Products and Services corresponding to the line-item split set forth in the Order, (v) bill-to and ship-to entity name, code and address set forth in the Order, (vi) correct tax codes and applicable jurisdiction (where applicable), (vii) Supplier\u2019s relevant bank account identification."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Each Supplier\u2019s invoice shall contain information prescribed by the applicable statutory law provisions and following information: (i) the Order number specified in the relevant Order, (ii) the name of the Zebracorp requestor/contact person, (iii) payment term in accordance with the Agreement, (iv) description and the line-item split of Licensed Products and Services corresponding to the line-item split set forth in the Order, (v) bill-to and ship-to entity name, code and address set forth in the Order, (vi) correct tax codes and applicable jurisdiction (where applicable), (vii) Supplier\u2019s relevant bank account identification."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "Each Supplier\u2019s invoice shall contain information prescribed by the applicable statutory law provisions and following information: (i) the Order number specified in the relevant Order, (ii) the name of the Zebracorp requestor/contact person, (iii) payment term in accordance with the Agreement, (iv) description and the line-item split of Licensed Products and Services corresponding to the line-item split set forth in the Order, (v) bill-to and ship-to entity name, code and address set forth in the Order, (vi) correct tax codes and applicable jurisdiction (where applicable), (vii) Supplier\u2019s relevant bank account identification."
+    },
+    {
+      "source_id": "c_9",
+      "source_header": "9.\tPAYMENTS",
+      "source_verbatim": "If an Order under this Agreement is made by a US based Affiliate of Zebracorp, then notwithstanding the tax obligations as defined in Clause 9.6 above, for sales to US based Affiliate of Zebracorp, Supplier shall provide Zebracorp with a completed tax certification (e.g. Form W-9, applicable Form W-8 series form, or Form 8233, as appropriate) for federal income tax reporting purposes."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "If any Licensed Products fail to comply with the foregoing warranties, the Supplier shall at no cost to Zebracorp and without prejudice to any further rights of Zebracorp, without undue delay and no later than within the time periods agreed in Maintenance and Support Agreement, either deliver an Update, Upgrade or a complete new copy of the Licensed Product, which will not contain or which will remedy the Error or other deficiency."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "The Supplier further warrants that the Licensed Product shall for a period of 12 months from the date of customer acceptance (the \u201cWarranty Period\u201d) be free from Errors and strictly comply with the applicable Specifications and Quality Requirements and perform all functions described in the applicable Documentation."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "The Supplier further warrants that the Licensed Product shall for a period of 12 months from the date of customer acceptance (the \u201cWarranty Period\u201d) be free from Errors and strictly comply with the applicable Specifications and Quality Requirements and perform all functions described in the applicable Documentation."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "The Supplier further warrants that the Licensed Product shall for a period of 12 months from the date of customer acceptance (the \u201cWarranty Period\u201d) be free from Errors and strictly comply with the applicable Specifications and Quality Requirements and perform all functions described in the applicable Documentation."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "Unless otherwise agreed in the SOW, the Supplier warrants that any Results of Services shall for a period of 12 months from the date of customer acceptance (\u201cWarranty Period\u201d) be free from any Errors and fit for the purpose for which they are intended."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "The Supplier further warrants that any Results of Services provided to Zebracorp hereunder shall at all times comply with the Legislative Requirements and all other relevant requirements, specifications, standards and other criteria set forth in this Agreement (and the Statement of Work)."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "The Supplier further warrants that any Results of Services provided to Zebracorp hereunder shall at all times comply with the Legislative Requirements and all other relevant requirements, specifications, standards and other criteria set forth in this Agreement (and the Statement of Work)."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "Supplier warrants that the Documentation provided to Zebracorp hereunder is and always shall be up to date and complete, technically correct and can be used for the purposes set forth in this Agreement and that Supplier is entitled to grant the rights under the Documentation in accordance with the terms of this Agreement."
+    },
+    {
+      "source_id": "c_10",
+      "source_header": "10.\tWARRANTIES",
+      "source_verbatim": "If Documentation supplied by Supplier hereunder fails to conform to the foregoing warranty, Supplier shall correct the Documentation without undue delay."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier shall provide to Zebracorp, in electronic format designed by Zebracorp, a list of Open Source Software contained in the Products provided under this Agreement."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Such list shall contain, with respect to each Open Source Software and any dependent components contained as parts of such Open Source Software the following information:"
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "the component names of each Open Source Software,"
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "the version of each Open Source Software component,"
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "the name and version of all Open Source Software licenses governing each Open Source Software component,"
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "the usage and nature of the Open Source Software"
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier shall promptly provide an updated list to indicate any changes or additions to the Open Source Software, such as but not limited to updates to version numbers and newly added Open Source Software."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "In addition, Supplier shall provide Zebracorp with full and complete copyright and license notices applicable to any part of the Open Source Software included into the Products, in an appropriate format such that Zebracorp can, in turn, furnish the same copyright and license notices when distributing the Products."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that (a) the list provided pursuant to this Clause is a full and complete list, and (b) Supplier is in full compliance with the applicable license or licenses for the Open Source Software contained in the Products."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier shall license Open Source Software to Zebracorp under the same license grant terms as were applicable to the Open Source Software when obtained by Supplier."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Notwithstanding anything stated in such applicable Open Source Software license terms, Supplier is not relieved from Warranties, Intellectual Property Rights indemnification or any other obligations under this Agreement for the Products and any disclaimers contained in such applicable Open Source Software license terms shall not limit such Warranties, Intellectual Property Rights indemnification or other obligations under this Agreement."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that the Open Source Software undertakings in this Clause 13 will be and have been met and the distribution of Open Source Software in the Products is in full compliance with the applicable license terms for the Open Source Software."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that Open Source Software in the Products are not used in a manner which could cause Zebracorp product(s) or any other software linked or communicating with the Products to be subject to any requirements or obligations arising from the Open Source Software licenses."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Upon Zebracorp\u2019s request, Supplier shall provide to Zebracorp, within five (5) business days of such request, all source code including any scripts needed for compilation and/or execution of the Open Source Software included into the Products, including all software that becomes subject to Open Source Software licensing terms through linking or communicating with any other software."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that: (a) Open Source Software in the Products has been analyzed to ensure there are no incompatibilities between different Open Source Software licenses or between Open Source Software licenses and other licenses within the Product(s); and (b) Products include no Open Source Software licensed under General Public License version 3 or Lesser General Public License version 3 or Affero GPL v 3 or any derivatives thereof."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that: (a) Open Source Software in the Products has been analyzed to ensure there are no incompatibilities between different Open Source Software licenses or between Open Source Software licenses and other licenses within the Product(s); and (b) Products include no Open Source Software licensed under General Public License version 3 or Lesser General Public License version 3 or Affero GPL v 3 or any derivatives thereof."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that: (a) Open Source Software in the Products has been analyzed to ensure there are no incompatibilities between different Open Source Software licenses or between Open Source Software licenses and other licenses within the Product(s); and (b) Products include no Open Source Software licensed under General Public License version 3 or Lesser General Public License version 3 or Affero GPL v 3 or any derivatives thereof."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that: (a) Open Source Software in the Products has been analyzed to ensure there are no incompatibilities between different Open Source Software licenses or between Open Source Software licenses and other licenses within the Product(s); and (b) Products include no Open Source Software licensed under General Public License version 3 or Lesser General Public License version 3 or Affero GPL v 3 or any derivatives thereof."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that: (a) Open Source Software in the Products has been analyzed to ensure there are no incompatibilities between different Open Source Software licenses or between Open Source Software licenses and other licenses within the Product(s); and (b) Products include no Open Source Software licensed under General Public License version 3 or Lesser General Public License version 3 or Affero GPL v 3 or any derivatives thereof."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier represents and warrants that: (a) Open Source Software in the Products has been analyzed to ensure there are no incompatibilities between different Open Source Software licenses or between Open Source Software licenses and other licenses within the Product(s); and (b) Products include no Open Source Software licensed under General Public License version 3 or Lesser General Public License version 3 or Affero GPL v 3 or any derivatives thereof."
+    },
+    {
+      "source_id": "c_11",
+      "source_header": "11.\tOPEN SOURCE SOFTWARE",
+      "source_verbatim": "Supplier shall indemnify Zebracorp against all damages, losses, penalties, compensation and expenses caused by any failure by Supplier to comply with this Clause 11 and shall defend Zebracorp against all actions, claims, demands and proceedings arising out of such failure to comply."
+    },
+    {
+      "source_id": "c_12",
+      "source_header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "source_verbatim": "Ownership to any other customisation shall be agreed in the SOW on a case-by-case basis."
+    },
+    {
+      "source_id": "c_12",
+      "source_header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "source_verbatim": "If the SOW contains no provisions on ownership rights, the ownership of any such customisation shall at all times vest with Zebracorp."
+    },
+    {
+      "source_id": "c_12",
+      "source_header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "source_verbatim": "The Supplier shall indemnify, defend and hold harmless Zebracorp (and its Affiliates) at its own expense against any liabilities, claims, actions, damages, costs and expenses (including but not limited to attorney's fees and costs) incurred by Zebracorp, its Affiliates or their respective Customers or Contractors as a result of infringement or alleged infringement of any Intellectual Property Rights of any third parties by the Licensed Products, the SaaS, the Results of Services or the use of or sale of such Licensed Products, the SaaS and/or Results of Services and/or breach of Clause 11 (Open Source Software)."
+    },
+    {
+      "source_id": "c_12",
+      "source_header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "source_verbatim": "The Supplier shall indemnify, defend and hold harmless Zebracorp (and its Affiliates) at its own expense against any liabilities, claims, actions, damages, costs and expenses (including but not limited to attorney's fees and costs) incurred by Zebracorp, its Affiliates or their respective Customers or Contractors as a result of infringement or alleged infringement of any Intellectual Property Rights of any third parties by the Licensed Products, the SaaS, the Results of Services or the use of or sale of such Licensed Products, the SaaS and/or Results of Services and/or breach of Clause 11 (Open Source Software)."
+    },
+    {
+      "source_id": "c_12",
+      "source_header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "source_verbatim": "In addition to what is set forth above in Clause 12.5, if Zebracorp's continued use of the Licensed Product, the SaaS and/or the Results of Services is restricted or threatened to be restricted as a result of any such claim, demand, suit or action alleging infringement, the Supplier shall (without limiting its indemnity obligation above) at its expense and at Zebracorp's request either (1) modify the Licensed Product, the SaaS and/or the Results of Services to avoid the allegation of infringement, while at the same time maintaining compliance of the Licensed Products, the SaaS and/or the Results of Services with the Specifications and other requirements of this Agreement, or (2) obtain for Zebracorp at no cost to Zebracorp a license to continue using and exploiting the Licensed Products, the SaaS and/or the Results of Services in accordance with this Agreement free of any liability or restriction."
+    },
+    {
+      "source_id": "c_12",
+      "source_header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "source_verbatim": "In addition to what is set forth above in Clause 12.5, if Zebracorp's continued use of the Licensed Product, the SaaS and/or the Results of Services is restricted or threatened to be restricted as a result of any such claim, demand, suit or action alleging infringement, the Supplier shall (without limiting its indemnity obligation above) at its expense and at Zebracorp's request either (1) modify the Licensed Product, the SaaS and/or the Results of Services to avoid the allegation of infringement, while at the same time maintaining compliance of the Licensed Products, the SaaS and/or the Results of Services with the Specifications and other requirements of this Agreement, or (2) obtain for Zebracorp at no cost to Zebracorp a license to continue using and exploiting the Licensed Products, the SaaS and/or the Results of Services in accordance with this Agreement free of any liability or restriction."
+    },
+    {
+      "source_id": "c_13",
+      "source_header": "13.\tPRODUCT LIABILITY",
+      "source_verbatim": "The Supplier shall not be liable for damages under this Clause Product Liability to the extent arising from the use of the Licensed Products or the SaaS outside the Documentation ."
+    },
+    {
+      "source_id": "c_13",
+      "source_header": "13.\tPRODUCT LIABILITY",
+      "source_verbatim": "The Supplier shall not be liable for damages under this Clause Product Liability to the extent arising from the use of the Licensed Products or the SaaS outside the Documentation ."
+    },
+    {
+      "source_id": "c_14",
+      "source_header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "source_verbatim": "Supplier shall use reasonable efforts to maintain its processes and practices consistent with the requirement defined in the Zebracorp specs to the extent applicable to Supplier under this Agreement."
+    },
+    {
+      "source_id": "c_14",
+      "source_header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "source_verbatim": "Supplier shall have plans and arrangements covering critical business operations and processes to ensure continuity of Supplier\u2019s performance under the Agreement."
+    },
+    {
+      "source_id": "c_14",
+      "source_header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "source_verbatim": "Supplier shall have a supplier base strategy and supplier base management for its sub-suppliers under this Agreement, based on short- and long-term business needs."
+    },
+    {
+      "source_id": "c_14",
+      "source_header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "source_verbatim": "Supplier shall manage its sub-suppliers according to a documented procedure and the requirements under this Agreement."
+    },
+    {
+      "source_id": "c_14",
+      "source_header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "source_verbatim": "Zebracorp, its Customers and their respective Contractors shall have the right, at its cost, following reasonable notice to Supplier and during normal business hours, to audit (at Supplier\u2019s and/or Supplier sub-suppliers\u2019 premises) and inspect the deliverables, facilities and quality control as well as other processes of Supplier in the performance of this Agreement, in order to determine the level of Supplier\u2019s compliance with the Zebracorp specs and other standard industry practices and standards, where applicable, such as ISO 9001 and ISO 14001 (\u201cAudit\u201d)."
+    },
+    {
+      "source_id": "c_14",
+      "source_header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "source_verbatim": "The Supplier warrants that it shall at all times strictly comply with the IT-security related requirements set out in Appendix \u201cSecurity Requirements\u201d."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "For the avoidance of doubt, compliance with this sub-section includes, but is not limited to, compliance with the United States Foreign Corrupt Practices Act and any other applicable legislation enacted to enforce or implement any international convention prohibiting bribery and corruption and anti-money laundering laws and regulations."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Additionally, Supplier acknowledges that it has read and understands the Responsible Business Alliance Code of Conduct as updated from time to time (\u201cRBA Code of Conduct\u201d) (available at http://www.responsiblebusiness.org/standards/code-ofconduct/) and undertakes to apply the standards set out in the RBA Code of Conduct as well as the Zebracorp 3rd Party Code of Conduct with respect to the performance of this Agreement."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Supplier agrees to keep accurate and complete records relating to the provision of Products and Services under this Agreement, including records relating to obtaining any government issued permits or authorizations and related correspondence, and to retain all such records for 10 (ten) years following the expiration or earlier termination of this Agreement or for any legally required record retention period, whichever is longer."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Supplier agrees to keep accurate and complete records relating to the provision of Products and Services under this Agreement, including records relating to obtaining any government issued permits or authorizations and related correspondence, and to retain all such records for 10 (ten) years following the expiration or earlier termination of this Agreement or for any legally required record retention period, whichever is longer."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Supplier also agrees to report any non-routine contact by a government regulatory or law enforcement agency investigating or questioning Supplier\u2019s conduct relating to the performance of this Agreement."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Failure by the Supplier to comply with the provisions of this Clause 15 shall be deemed to be a material breach of this Agreement by Supplier entitling Zebracorp to terminate this Agreement without any liability to Zebracorp."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Failure by the Supplier to comply with the provisions of this Clause 15 shall be deemed to be a material breach of this Agreement by Supplier entitling Zebracorp to terminate this Agreement without any liability to Zebracorp."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Failure by the Supplier to comply with the provisions of this Clause 15 shall be deemed to be a material breach of this Agreement by Supplier entitling Zebracorp to terminate this Agreement without any liability to Zebracorp."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Supplier shall fully cooperate in any Zebracorp investigation or audit regarding its compliance with this Clause 15."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "Supplier shall indemnify and hold Zebracorp, Zebracorp Affiliates, Customers, employees, officers, directors, shareholders, subcontractors or other representatives harmless from and against any claims, losses, damages, liabilities and costs arising out of, related to, or connected with Supplier\u2019s or Supplier\u2019s subcontractors\u2019 failure to comply with any of the obligations set forth in this Agreement."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "In addition to the terms and conditions of this Agreement, the terms and conditions set out in Appendix \u201cUS Specific Provisions\u201d shall apply to any purchases made by Zebracorp Affiliates located in the United States of America or, as applicable, to the extent any purchases made under this Agreement are made for the benefit of Zebracorp\u2019s US based customers."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "In addition to the terms and conditions of this Agreement, the terms and conditions set out in Appendix \u201cUS Specific Provisions\u201d shall apply to any purchases made by Zebracorp Affiliates located in the United States of America or, as applicable, to the extent any purchases made under this Agreement are made for the benefit of Zebracorp\u2019s US based customers."
+    },
+    {
+      "source_id": "c_15",
+      "source_header": "15.\tCOMPLIANCE AND ETHICS",
+      "source_verbatim": "In addition to the terms and conditions of this Agreement, the terms and conditions set out in Appendix \u201cUS Specific Provisions\u201d shall apply to any purchases made by Zebracorp Affiliates located in the United States of America or, as applicable, to the extent any purchases made under this Agreement are made for the benefit of Zebracorp\u2019s US based customers."
+    },
+    {
+      "source_id": "c_16",
+      "source_header": "16.\tMAINTENANCE AND SUPPORT",
+      "source_verbatim": "The Supplier shall provide Maintenance Services as set forth in this Clause and Appendix \u201cMaintenance and Support Agreement (MSA)\u201d."
+    },
+    {
+      "source_id": "c_16",
+      "source_header": "16.\tMAINTENANCE AND SUPPORT",
+      "source_verbatim": "The Supplier warrants that \u00b4the Maintenance Services, including but not limited to Error correction of Licensed Products and software support in general shall be available to Zebracorp (and its Affiliates) subject to and in accordance with the terms and conditions set forth in Appendix \u201cMaintenance and Support Agreement\u201d for a period of ten (10) consecutive years from the last delivery of a Licensed Product under this Agreement"
+    },
+    {
+      "source_id": "c_16",
+      "source_header": "16.\tMAINTENANCE AND SUPPORT",
+      "source_verbatim": "The Supplier warrants that \u00b4the Maintenance Services, including but not limited to Error correction of Licensed Products and software support in general shall be available to Zebracorp (and its Affiliates) subject to and in accordance with the terms and conditions set forth in Appendix \u201cMaintenance and Support Agreement\u201d for a period of ten (10) consecutive years from the last delivery of a Licensed Product under this Agreement"
+    },
+    {
+      "source_id": "c_17",
+      "source_header": "17.\tCONFIDENTIALITY",
+      "source_verbatim": "Each Party (\"Receiving Party\") shall not disclose to third parties nor use for any purpose other than for the proper fulfilment of this Agreement any technical or commercial information (\"Information\") received from the other Party (\"Disclosing Party\") in whatever form under or in connection with this Agreement without the prior written permission of the Disclosing Party except information which:"
+    },
+    {
+      "source_id": "c_17",
+      "source_header": "17.\tCONFIDENTIALITY",
+      "source_verbatim": "Each Party (\"Receiving Party\") shall not disclose to third parties nor use for any purpose other than for the proper fulfilment of this Agreement any technical or commercial information (\"Information\") received from the other Party (\"Disclosing Party\") in whatever form under or in connection with this Agreement without the prior written permission of the Disclosing Party except information which:"
+    },
+    {
+      "source_id": "c_17",
+      "source_header": "17.\tCONFIDENTIALITY",
+      "source_verbatim": "Any disclosure of Information to any third party under Clause 17.1 above shall further be subject to that third party having a need to know such Information for the Purpose and subject to that third party being prior to the disclosure of Information bound by written confidentiality undertakings no less stringent than the obligations imposed under this Agreement."
+    },
+    {
+      "source_id": "c_17",
+      "source_header": "17.\tCONFIDENTIALITY",
+      "source_verbatim": "Any disclosure of Information to any third party under Clause 17.1 above shall further be subject to that third party having a need to know such Information for the Purpose and subject to that third party being prior to the disclosure of Information bound by written confidentiality undertakings no less stringent than the obligations imposed under this Agreement."
+    },
+    {
+      "source_id": "c_17",
+      "source_header": "17.\tCONFIDENTIALITY",
+      "source_verbatim": "The Supplier shall not make any statements, announcements and/or press release of this Agreement or part thereof, or of the relationship of the Parties, without the express prior written consent of Zebracorp."
+    },
+    {
+      "source_id": "c_17",
+      "source_header": "17.\tCONFIDENTIALITY",
+      "source_verbatim": "Any Non-Disclosure Agreement(s) entered into between the Parties prior to the Effective Date of this Agreement shall remain to be valid, in accordance with its terms and conditions, in respect of the Information disclosed by either Party before the Effective Date of this Agreement, and in respect of the Information disclosed outside the scope of this Agreement."
+    },
+    {
+      "source_id": "c_17",
+      "source_header": "17.\tCONFIDENTIALITY",
+      "source_verbatim": "Any Non-Disclosure Agreement(s) entered into between the Parties prior to the Effective Date of this Agreement shall remain to be valid, in accordance with its terms and conditions, in respect of the Information disclosed by either Party before the Effective Date of this Agreement, and in respect of the Information disclosed outside the scope of this Agreement."
+    },
+    {
+      "source_id": "c_17",
+      "source_header": "17.\tCONFIDENTIALITY",
+      "source_verbatim": "Any Non-Disclosure Agreement(s) entered into between the Parties prior to the Effective Date of this Agreement shall remain to be valid, in accordance with its terms and conditions, in respect of the Information disclosed by either Party before the Effective Date of this Agreement, and in respect of the Information disclosed outside the scope of this Agreement."
+    },
+    {
+      "source_id": "c_18",
+      "source_header": "18.\tTERM AND TERMINATION",
+      "source_verbatim": "This Agreement, the Statements of Work and/or any Orders may by written notice of a Party to the other Party be terminated for cause if and when the other Party:"
+    },
+    {
+      "source_id": "c_19",
+      "source_header": "19.\tEFFECT OF TERMINATION",
+      "source_verbatim": "it is expressly stated that any termination or expiration of this Agreement (or any Statement of Work) shall not affect any rights of the Customers granted to them in accordance with the provisions of this Agreement during the validity hereof."
+    },
+    {
+      "source_id": "c_20",
+      "source_header": "20.\tFORCE MAJEURE AND DUTY TO INFORM",
+      "source_verbatim": "Neither Party shall be held responsible for the non-performance of any obligations and duties under this Agreement, and/or any Order to the extent that such non-performance results from a Force Majeure event."
+    },
+    {
+      "source_id": "c_20",
+      "source_header": "20.\tFORCE MAJEURE AND DUTY TO INFORM",
+      "source_verbatim": "If the Force Majeure continues for a cumulative period of sixty (60) days or more, Zebracorp may terminate this Agreement and/or any Order which are not yet fully performed with immediate effect by giving Supplier written notice."
+    },
+    {
+      "source_id": "c_20",
+      "source_header": "20.\tFORCE MAJEURE AND DUTY TO INFORM",
+      "source_verbatim": "Supplier agrees to promptly inform Zebracorp in writing of event(s) that are about to occur or appear imminent and may reasonably affect Supplier's ability to meet any of its obligations under this Agreement and/or under an Order, including without limitation, a potential delay in Delivery, a material change in ownership of Supplier, infringement of third party Intellectual Property Rights, or any other action, omission or development which would be important for Zebracorp to be aware of in order to take precautions to prevent such from causing adverse effect to Zebracorp\u2019s business, reputation, production schedule, or product liability."
+    },
+    {
+      "source_id": "c_22",
+      "source_header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "source_verbatim": "With the exception of claims relating to Intellectual Property Rights indemnification under Clause 12"
+    },
+    {
+      "source_id": "c_22",
+      "source_header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "source_verbatim": "product liability under Clause 13"
+    },
+    {
+      "source_id": "c_22",
+      "source_header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "source_verbatim": "breach of confidentiality under Clause 17"
+    },
+    {
+      "source_id": "c_22",
+      "source_header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "source_verbatim": "Supplier shall procure and maintain the insurance coverage specified in the Insurance Requirements Appendix."
+    },
+    {
+      "source_id": "c_24",
+      "source_header": "24.\tDATA PROTECTION",
+      "source_verbatim": "Where, under this Agreement, Supplier provides Services to Zebracorp or Customers, and Supplier\u2019s access to personal data, in providing these Services, cannot be definitely excluded or is within the scope of the Agreement, the Parties shall execute and attach a Data Protection Appendix (\u201cDPA\u201d) to this Agreement, and Supplier shall process such personal data solely in accordance with the DPA, this Agreement and Zebracorp\u2019s instructions."
+    },
+    {
+      "source_id": "c_24",
+      "source_header": "24.\tDATA PROTECTION",
+      "source_verbatim": "the Parties shall execute and attach a Data Protection Appendix (\u201cDPA\u201d) to this Agreement, and Supplier shall process such personal data solely in accordance with the DPA, this Agreement and Zebracorp\u2019s instructions."
+    },
+    {
+      "source_id": "c_24",
+      "source_header": "24.\tDATA PROTECTION",
+      "source_verbatim": "Notwithstanding the aforementioned, if, during the Term of this Agreement, Supplier or Zebracorp become aware that such access to personal data can no longer be definitely excluded, the Parties shall discuss such requirements and amend the Agreement by executing and attaching a DPA without undue delay."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "This Agreement (including its Appendices) state the entire agreement between the Parties relating to the subject matter hereof and supersede all prior communications, whether written or oral, between the Parties."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "However, the Parties acknowledge that some of the Appendices of this Agreement further include appendices that are intended to be revised periodically by Zebracorp (such as but not limited to Zebracorp specs) and to the extent that such revisions do not conflict with the terms and conditions of the Agreement or the respective Appendix, updated versions of such appendices may be issued by Zebracorp without requiring a formal amendment either to this Agreement or to the respective Appendix."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "to the extent that such revisions do not conflict with the terms and conditions of the Agreement or the respective Appendix, updated versions of such appendices may be issued by Zebracorp without requiring a formal amendment either to this Agreement or to the respective Appendix."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "updated versions of such appendices may be issued by Zebracorp without requiring a formal amendment either to this Agreement or to the respective Appendix."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "The Agreement and the Appendices form one integral agreement."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "In the event of any conflict between any terms and conditions of this Agreement and its Appendices, the terms and conditions of this Agreement shall prevail over those of any Appendix hereto unless otherwise explicitly stated in the Appendix whereby the respective Appendix shall prevail with respect to the subject matter stipulated therein."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "the terms and conditions of this Agreement shall prevail over those of any Appendix hereto unless otherwise explicitly stated in the Appendix whereby the respective Appendix shall prevail with respect to the subject matter stipulated therein."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "unless otherwise explicitly stated in the Appendix whereby the respective Appendix shall prevail with respect to the subject matter stipulated therein."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "whereby the respective Appendix shall prevail with respect to the subject matter stipulated therein."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "provided that any proceedings and decisions as to the merits of the dispute are exclusively governed and resolved by arbitration in accordance with this arbitration Clause."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "Such terms and conditions include but are not limited to Clauses: 4 (Grant of Licenses and other rights), 10 (Warranty), 12 (Intellectual Property Rights), 17 (Confidentiality), 19 (Effect of Termination), 22 (Limitation of Liability), 25 (Arbitration and Applicable Law)."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "Such terms and conditions include but are not limited to Clauses: 4 (Grant of Licenses and other rights), 10 (Warranty), 12 (Intellectual Property Rights), 17 (Confidentiality), 19 (Effect of Termination), 22 (Limitation of Liability), 25 (Arbitration and Applicable Law)."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "Such terms and conditions include but are not limited to Clauses: 4 (Grant of Licenses and other rights), 10 (Warranty), 12 (Intellectual Property Rights), 17 (Confidentiality), 19 (Effect of Termination), 22 (Limitation of Liability), 25 (Arbitration and Applicable Law)."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "Such terms and conditions include but are not limited to Clauses: 4 (Grant of Licenses and other rights), 10 (Warranty), 12 (Intellectual Property Rights), 17 (Confidentiality), 19 (Effect of Termination), 22 (Limitation of Liability), 25 (Arbitration and Applicable Law)."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "Such terms and conditions include but are not limited to Clauses: 4 (Grant of Licenses and other rights), 10 (Warranty), 12 (Intellectual Property Rights), 17 (Confidentiality), 19 (Effect of Termination), 22 (Limitation of Liability), 25 (Arbitration and Applicable Law)."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "Such terms and conditions include but are not limited to Clauses: 4 (Grant of Licenses and other rights), 10 (Warranty), 12 (Intellectual Property Rights), 17 (Confidentiality), 19 (Effect of Termination), 22 (Limitation of Liability), 25 (Arbitration and Applicable Law)."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "Such terms and conditions include but are not limited to Clauses: 4 (Grant of Licenses and other rights), 10 (Warranty), 12 (Intellectual Property Rights), 17 (Confidentiality), 19 (Effect of Termination), 22 (Limitation of Liability), 25 (Arbitration and Applicable Law)."
+    },
+    {
+      "source_id": "c_25",
+      "source_header": "25.\tFINAL PROVISIONS",
+      "source_verbatim": "The Maintenance and Support Agreement Appendix shall at all times survive the termination or expiration or expiry of this Agreement."
+    },
+    {
+      "source_id": "a_1",
+      "source_header": "PRODUCT APPENDIX",
+      "source_verbatim": "The product roadmaps as described in the Agreement for the products under this appendix are attached hereto in Exhibit 3, if applicable."
+    },
+    {
+      "source_id": "a_1",
+      "source_header": "PRODUCT APPENDIX",
+      "source_verbatim": "The product roadmaps as described in the Agreement for the products under this appendix are attached hereto in Exhibit 3, if applicable."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "This appendix is attached to and forms a part of the Agreement (contract number: [\u2026]) (the \u201cAgreement\u201d)."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "Unless otherwise noted or evident from the context, the capitalized terms used herein shall have the meaning ascribed to them in the Agreement."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "Annex SWSU Software Services (Software Maintenance, Security Alert, Update & Upgrade Service)"
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "Annex TrE Training/Enabling"
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "Annex PPT Pricing and Payment Terms"
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "Annex PoC Points of Contact"
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "The Annexes to this MSA shall form integral parts of this MSA."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "This MSA and its Annexes shall take precedence over the terms and conditions of the Agreement with regard to the subject matter described herein to the extent there is a conflict between the Agreement and this MSA."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "In case there is a conflict between the Annexes and this MSA, the Annexes will prevail with regard to the subject matter described thereof to the extent there is a conflict between the MSA and the Annex."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "As used in this MSA, the capitalized terms set forth in this section 1 shall have the meanings set forth below."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "\u201cOn Site Service\u201d shall mean services provided by Supplier upon Zebracorp\u2019s request according to Annex OSS."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "\u201cResponse Time\u201d shall mean the time between Zebracorp\u2019s notification in accordance with the mutual agreed interface description of an Error/Technical Query to the Supplier and the receipt of Supplier\u2019s Initial Response, Workaround or Final Solution as defined in the Annex SWSU, as applicable."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "\u201cService(s)\u201d shall mean all those service(s) to be provided by Supplier under this MSA as more specifically defined in the Annexes hereto."
+    },
+    {
+      "source_id": "a_3",
+      "source_header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "source_verbatim": "Further terms may be defined in the Annexes hereto or the Agreement."
+    },
+    {
+      "source_id": "c_26",
+      "source_header": "2.\tPROVISION OF SERVICES",
+      "source_verbatim": "During the term of this MSA, Supplier shall provide to Zebracorp Services agreed herein based on a Service-Order or as part of Supplier\u2019s warranty obligations for Products as stipulated in Clause xx of the Agreement."
+    },
+    {
+      "source_id": "c_28",
+      "source_header": "4.\tSERVICE-ORDERS",
+      "source_verbatim": "Upon receipt of a Service-Order, the Supplier shall supply Services in accordance with the terms and conditions of this MSA and its Annexes."
+    },
+    {
+      "source_id": "c_28",
+      "source_header": "4.\tSERVICE-ORDERS",
+      "source_verbatim": "The Supplier shall notify Zebracorp in writing and reasonably (not less than 3 months) in advance about any relevant Service-Order which is subject to annual renewal in accordance with Annex PPT (Pricing and Payment Terms)."
+    },
+    {
+      "source_id": "c_30",
+      "source_header": "6.\tPRICES / INVOICING / PAYMENT",
+      "source_verbatim": "The prices for the Services under this MSA are stated in Annex PPT hereto"
+    },
+    {
+      "source_id": "c_30",
+      "source_header": "6.\tPRICES / INVOICING / PAYMENT",
+      "source_verbatim": "or in the Product Appendix of the Agreement."
+    },
+    {
+      "source_id": "c_30",
+      "source_header": "6.\tPRICES / INVOICING / PAYMENT",
+      "source_verbatim": "In the event the prices for the Services are stated in the Product Appendix"
+    },
+    {
+      "source_id": "c_30",
+      "source_header": "6.\tPRICES / INVOICING / PAYMENT",
+      "source_verbatim": "and not in the Annex PPT"
+    },
+    {
+      "source_id": "c_30",
+      "source_header": "6.\tPRICES / INVOICING / PAYMENT",
+      "source_verbatim": "unless otherwise stated in Annex PPT hereto."
+    },
+    {
+      "source_id": "c_30",
+      "source_header": "6.\tPRICES / INVOICING / PAYMENT",
+      "source_verbatim": "Invoices shall be sent to the address stated in the Service-Order."
+    },
+    {
+      "source_id": "c_30",
+      "source_header": "6.\tPRICES / INVOICING / PAYMENT",
+      "source_verbatim": "as defined in Annex PoC to this MSA."
+    },
+    {
+      "source_id": "c_32",
+      "source_header": "8.\tCONSEQUENCES OF DELAY",
+      "source_verbatim": "Notwithstanding the regulations in Clause xx of the Agreement"
+    },
+    {
+      "source_id": "c_32",
+      "source_header": "8.\tCONSEQUENCES OF DELAY",
+      "source_verbatim": "the respective stipulations in Annexes SWSU shall apply for delay in the provision of Services."
+    },
+    {
+      "source_id": "c_33",
+      "source_header": "9.\tWARRANTY FOR SERVICES",
+      "source_verbatim": "or in the respective Annex(es) hereto"
+    },
+    {
+      "source_id": "c_33",
+      "source_header": "9.\tWARRANTY FOR SERVICES",
+      "source_verbatim": "With respect to warranty period for Software Services stipulated in Annex SWSU"
+    },
+    {
+      "source_id": "c_34",
+      "source_header": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY",
+      "source_verbatim": "Without prejudice to Supplier\u2019s obligation to strictly comply with the security requirements set forth in the Product Security Requirements Appendix, Supplier shall make the Software easy to maintain."
+    },
+    {
+      "source_id": "c_34",
+      "source_header": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY",
+      "source_verbatim": "Zebracorp can request Supplier to develop the customization feature under a statement of work based on the fee structure as specified in Annex PPT, Service Price List."
+    },
+    {
+      "source_id": "c_37",
+      "source_header": "13.\tMANAGEMENT ESCALATION",
+      "source_verbatim": "The contact names and phone numbers of the Supplier\u2019s management are defined in the Annex POC."
+    },
+    {
+      "source_id": "c_39",
+      "source_header": "15.\tQUALITY AND PROTECTION OF ENVIRONMENT",
+      "source_verbatim": "The regulations of Quality Assurance Appendix to the Agreement shall apply to Supplier\u2019s performance of Services."
+    },
+    {
+      "source_id": "c_42",
+      "source_header": "18.\tMISCELLANEOUS",
+      "source_verbatim": "The Annexes to this MSA contain written workflow descriptions which may be supplemented by diagrams/illustrations to describe such workflows."
+    },
+    {
+      "source_id": "ax_1",
+      "source_header": "ANNEX SWSU \u2013 Maintenance and Support Agreement",
+      "source_verbatim": "This Software Services (Software Maintenance, Security Alert, Update & Upgrade) Annex is attached to and forms a part of the Maintenance and Support Agreement Appendix of the Software License Agreement (the \u201cMSA\u201d)."
+    },
+    {
+      "source_id": "ax_1",
+      "source_header": "ANNEX SWSU \u2013 Maintenance and Support Agreement",
+      "source_verbatim": "Unless otherwise noted or evident from the context, the capitalized terms used herein shall have the meaning ascribed to them in the MSA."
+    }
+  ],
+  "target_sections_count": 46,
+  "llm_response_raw": "```json\n[\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"1. DEFINITIONS 3\",\n    \"target_id\": \"c_1\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '1. DEFINITIONS' to section c_1 (1. DEFINITIONS)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"2. PURPOSE OF THIS AGREEMENT 6\",\n    \"target_id\": \"c_2\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '2. PURPOSE OF THIS AGREEMENT' to section c_2 (2. PURPOSE OF THIS AGREEMENT)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"3. CUSTOMER PROJECTS AND STATEMENTS OF WORK 6\",\n    \"target_id\": \"c_3\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '3. CUSTOMER PROJECTS AND STATEMENTS OF WORK' to section c_3 (3. STATEMENTS OF WORK)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"4. GRANT OF LICENSES AND OTHER RIGHTS 7\",\n    \"target_id\": \"c_4\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '4. GRANT OF LICENSES AND OTHER RIGHTS' to section c_4 (4. GRANT OF LICENSES AND OTHER RIGHTS)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"5. DELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES 8\",\n    \"target_id\": \"c_5\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '5. DELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES' to section c_5 (5. DELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"6. ORDERING PROCEDURE 9\",\n    \"target_id\": \"c_6\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '6. ORDERING PROCEDURE' to section c_6 (6. ORDERING PROCEDURE)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"7. INITIAL TESTING AND ACCEPTANCE 9\",\n    \"target_id\": \"c_7\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '7. INITIAL TESTING AND ACCEPTANCE' to section c_7 (7. INITIAL TESTING AND ACCEPTANCE)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"8. DOCUMENTATION 10\",\n    \"target_id\": \"c_8\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '8. DOCUMENTATION' to section c_8 (8. DOCUMENTATION)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"9. PAYMENTS 10\",\n    \"target_id\": \"c_9\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '9. PAYMENTS' to section c_9 (9. PAYMENTS)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"10. WARRANTIES 11\",\n    \"target_id\": \"c_10\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '10. WARRANTIES' to section c_10 (10. WARRANTIES)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"11. OPEN SOURCE SOFTWARE 12\",\n    \"target_id\": \"c_11\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '11. OPEN SOURCE SOFTWARE' to section c_11 (11. OPEN SOURCE SOFTWARE)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"12. INTELLECTUAL PROPERTY RIGHTS 12\",\n    \"target_id\": \"c_12\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '12. INTELLECTUAL PROPERTY RIGHTS' to section c_12 (12. INTELLECTUAL PROPERTY RIGHTS)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"13. PRODUCT LIABILITY 14\",\n    \"target_id\": \"c_13\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '13. PRODUCT LIABILITY' to section c_13 (13. PRODUCT LIABILITY)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"14. QUALITY ASSURANCE; SECURITY REQUIREMENTS 14\",\n    \"target_id\": \"c_14\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '14. QUALITY ASSURANCE; SECURITY REQUIREMENTS' to section c_14 (14. QUALITY ASSURANCE; SECURITY REQUIREMENTS)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"15. COMPLIANCE AND ETHICS 15\",\n    \"target_id\": \"c_15\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '15. COMPLIANCE AND ETHICS' to section c_15 (15. COMPLIANCE AND ETHICS)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"16. MAINTENANCE AND SUPPORT 17\",\n    \"target_id\": \"c_16\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '16. MAINTENANCE AND SUPPORT' to section c_16 (16. MAINTENANCE AND SUPPORT)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"17. CONFIDENTIALITY 17\",\n    \"target_id\": \"c_17\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '17. CONFIDENTIALITY' to section c_17 (17. CONFIDENTIALITY)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"18. TERM AND TERMINATION 18\",\n    \"target_id\": \"c_18\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '18. TERM AND TERMINATION' to section c_18 (18. TERM AND TERMINATION)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"19. EFFECT OF TERMINATION 18\",\n    \"target_id\": \"c_19\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '19. EFFECT OF TERMINATION' to section c_19 (19. EFFECT OF TERMINATION)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"20. FORCE MAJEURE 18\",\n    \"target_id\": \"c_20\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '20. FORCE MAJEURE' to section c_20 (20. FORCE MAJEURE AND DUTY TO INFORM)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"21. EXPORT CONTROL AND CUSTOMS REQUIREMENTS 19\",\n    \"target_id\": \"c_21\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '21. EXPORT CONTROL AND CUSTOMS REQUIREMENTS' to section c_21 (21. EXPORT CONTROL AND CUSTOMS REQUIREMENTS)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"22. LIMITATION OF LIABILITY AND INSURANCE 20\",\n    \"target_id\": \"c_22\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '22. LIMITATION OF LIABILITY AND INSURANCE' to section c_22 (22. LIMITATION OF LIABILITY AND INSURANCE)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"23. SUBCONTRACTORS 20\",\n    \"target_id\": \"c_23\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '23. SUBCONTRACTORS' to section c_23 (23. SUBCONTRACTORS)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"24. DATA PROTECTION 20\",\n    \"target_id\": \"c_24\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '24. DATA PROTECTION' to section c_24 (24. DATA PROTECTION)\"\n  },\n  {\n    \"source_id\": \"h_1\",\n    \"source_header\": \"CONTENTS\",\n    \"source_verbatim\": \"25. FINAL PROVISIONS 21\",\n    \"target_id\": \"c_25\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped '25. FINAL PROVISIONS' to section c_25 (25. FINAL PROVISIONS)\"\n  },\n  {\n    \"source_id\": \"h_2\",\n    \"source_header\": \"LIST OF APPENDICES\",\n    \"source_verbatim\": \"Product Appendix (\\u201cPA\\u201d)\",\n    \"target_id\": \"a_1\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped 'Product Appendix' to section a_1 (PRODUCT APPENDIX",
+  "llm_response_length": 7136
+}

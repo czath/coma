@@ -1,0 +1,290 @@
+{
+  "batch_idx": 8,
+  "input_sections": [
+    {
+      "id": "c_29",
+      "header": "5.\tINTENTIONALLY LEFT BLANK",
+      "text_length": 27,
+      "text": "5.\tINTENTIONALLY LEFT BLANK"
+    },
+    {
+      "id": "c_30",
+      "header": "6.\tPRICES / INVOICING / PAYMENT",
+      "text_length": 731,
+      "text": "6.\tPRICES / INVOICING / PAYMENT\nThe prices for the Services under this MSA are stated in Annex PPT hereto or in the Product Appendix of the Agreement. In the event the prices for the Services are stated in the Product Appendix and not in the Annex PPT, all references to Annex PPT in this MSA shall be read as references to such Product Appendix.\nSuch prices shall be subject to the payment terms and other conditions set forth in the Agreement, unless otherwise stated in Annex PPT hereto.\nInvoices shall be sent to the address stated in the Service-Order. If no address is stated, a notification requesting such information will be sent by Supplier to the responsible Zebracorp contact person as defined in Annex PoC to this MSA."
+    },
+    {
+      "id": "c_31",
+      "header": "7.\tINTELLECTUAL PROPERTY RIGHTS AND INDEMNIFICATION",
+      "text_length": 311,
+      "text": "7.\tINTELLECTUAL PROPERTY RIGHTS AND INDEMNIFICATION\nFor the avoidance of doubt, the Parties hereby agree that Intellectual Property Rights in and to the Updates, Upgrades and other Services shall be subject to the Intellectual Property Rights and Indemnification terms and conditions set forth in the Agreement."
+    },
+    {
+      "id": "c_32",
+      "header": "8.\tCONSEQUENCES OF DELAY",
+      "text_length": 183,
+      "text": "8.\tCONSEQUENCES OF DELAY\nNotwithstanding the regulations in Clause xx of the Agreement, the respective stipulations in Annexes SWSU shall apply for delay in the provision of Services."
+    },
+    {
+      "id": "c_33",
+      "header": "9.\tWARRANTY FOR SERVICES",
+      "text_length": 977,
+      "text": "9.\tWARRANTY FOR SERVICES\nThe Supplier warrants that the Services are available to Zebracorp on the terms and conditions of this MSA and for the time period set forth in the Agreement or in the respective Annex(es) hereto, whichever time period is longer.\nThe Supplier warrants that it will perform Services under this MSA in a professional manner by and through competent and qualified personnel familiar with the Product and its operation, and the Services shall equal or exceed the standards generally observed in the industry for similar services. The Supplier further warrants that the performance of the Services by the Supplier shall not in any way constitute infringement or other violation of any third party's intellectual property rights and shall be in compliance with all applicable laws, rules and regulations.\nWith respect to warranty period for Software Services stipulated in Annex SWSU, the warranty period shall start from the provision of a Final Correction."
+    }
+  ],
+  "lexicon_size": 50,
+  "lexicon": [
+    {
+      "id": "skip_1767377439218_f55m5",
+      "header": "Untagged Content",
+      "type": "SKIP"
+    },
+    {
+      "id": "h_1",
+      "header": "CONTENTS",
+      "type": "INFO"
+    },
+    {
+      "id": "h_2",
+      "header": "LIST OF APPENDICES",
+      "type": "INFO"
+    },
+    {
+      "id": "c_1",
+      "header": "1.\tDEFINITIONS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_2",
+      "header": "2.\tPURPOSE OF THIS AGREEMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_3",
+      "header": "3.\tSTATEMENTS OF WORK",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_4",
+      "header": "4.\tGRANT OF LICENSES AND OTHER RIGHTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_5",
+      "header": "5.\tDELIVERY OF LICENSED PRODUCTS AND PROFESSIONAL SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_6",
+      "header": "6.\tORDERING PROCEDURE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_7",
+      "header": "7.\tINITIAL TESTING AND ACCEPTANCE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_8",
+      "header": "8.\tDOCUMENTATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_9",
+      "header": "9.\tPAYMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_10",
+      "header": "10.\tWARRANTIES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_11",
+      "header": "11.\tOPEN SOURCE SOFTWARE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_12",
+      "header": "12.\tINTELLECTUAL PROPERTY RIGHTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_13",
+      "header": "13.\tPRODUCT LIABILITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_14",
+      "header": "14.\tQUALITY ASSURANCE; SECURITY REQUIREMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_15",
+      "header": "15.\tCOMPLIANCE AND ETHICS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_16",
+      "header": "16.\tMAINTENANCE AND SUPPORT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_17",
+      "header": "17.\tCONFIDENTIALITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_18",
+      "header": "18.\tTERM AND TERMINATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_19",
+      "header": "19.\tEFFECT OF TERMINATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_20",
+      "header": "20.\tFORCE MAJEURE AND DUTY TO INFORM",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_21",
+      "header": "21.\tEXPORT CONTROL AND CUSTOMS REQUIREMENTS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_22",
+      "header": "22.\tLIMITATION OF LIABILITY AND INSURANCE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_23",
+      "header": "23.\tSUBCONTRACTORS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_24",
+      "header": "24.\tDATA PROTECTION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_25",
+      "header": "25.\tFINAL PROVISIONS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "h_3",
+      "header": "APPENDICES",
+      "type": "INFO"
+    },
+    {
+      "id": "a_1",
+      "header": "PRODUCT APPENDIX",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "a_2",
+      "header": "Quality appendix - to be removed",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "a_3",
+      "header": "MAINTENANCE AND SUPPORT AGREEMENT",
+      "type": "APPENDIX"
+    },
+    {
+      "id": "c_26",
+      "header": "2.\tPROVISION OF SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_27",
+      "header": "3.\tCHANGES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_28",
+      "header": "4.\tSERVICE-ORDERS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_29",
+      "header": "5.\tINTENTIONALLY LEFT BLANK",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_30",
+      "header": "6.\tPRICES / INVOICING / PAYMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_31",
+      "header": "7.\tINTELLECTUAL PROPERTY RIGHTS AND INDEMNIFICATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_32",
+      "header": "8.\tCONSEQUENCES OF DELAY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_33",
+      "header": "9.\tWARRANTY FOR SERVICES",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_34",
+      "header": "10.\tSUPPORT OF VERSIONS AND SERVICEABILITY",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_35",
+      "header": "11.\tTOOLS, INTERFACES AND FORMS TO BE USED",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_36",
+      "header": "12.\tREVIEW MEETING",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_37",
+      "header": "13.\tMANAGEMENT ESCALATION",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_38",
+      "header": "14.\tCOMPATIBILITY MATRIX FOR SOFTWARE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_39",
+      "header": "15.\tQUALITY AND PROTECTION OF ENVIRONMENT",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_40",
+      "header": "16.\tTERM OF MSA",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_41",
+      "header": "17.\tELECTRONIC DATA EXCHANGE",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "c_42",
+      "header": "18.\tMISCELLANEOUS",
+      "type": "CLAUSE"
+    },
+    {
+      "id": "ax_1",
+      "header": "ANNEX SWSU \u2013 Maintenance and Support Agreement",
+      "type": "ANNEX"
+    }
+  ],
+  "llm_response_raw": "```json\n[\n  {\n    \"source_id\": \"c_30\",\n    \"source_header\": \"6.\\tPRICES / INVOICING / PAYMENT\",\n    \"source_verbatim\": \"The prices for the Services under this MSA are stated in Annex PPT hereto or in the Product Appendix of the Agreement.\"\n  },\n  {\n    \"source_id\": \"c_30\",\n    \"source_header\": \"6.\\tPRICES / INVOICING / PAYMENT\",\n    \"source_verbatim\": \"The prices for the Services under this MSA are stated in Annex PPT hereto or in the Product Appendix of the Agreement.\"\n  },\n  {\n    \"source_id\": \"c_30\",\n    \"source_header\": \"6.\\tPRICES / INVOICING / PAYMENT\",\n    \"source_verbatim\": \"In the event the prices for the Services are stated in the Product Appendix and not in the Annex PPT, all references to Annex PPT in this MSA shall be read as references to such Product Appendix.\"\n  },\n  {\n    \"source_id\": \"c_30\",\n    \"source_header\": \"6.\\tPRICES / INVOICING / PAYMENT\",\n    \"source_verbatim\": \"In the event the prices for the Services are stated in the Product Appendix and not in the Annex PPT, all references to Annex PPT in this MSA shall be read as references to such Product Appendix.\"\n  },\n  {\n    \"source_id\": \"c_30\",\n    \"source_header\": \"6.\\tPRICES / INVOICING / PAYMENT\",\n    \"source_verbatim\": \"In the event the prices for the Services are stated in the Product Appendix and not in the Annex PPT, all references to Annex PPT in this MSA shall be read as references to such Product Appendix.\"\n  },\n  {\n    \"source_id\": \"c_30\",\n    \"source_header\": \"6.\\tPRICES / INVOICING / PAYMENT\",\n    \"source_verbatim\": \"Such prices shall be subject to the payment terms and other conditions set forth in the Agreement, unless otherwise stated in Annex PPT hereto.\"\n  },\n  {\n    \"source_id\": \"c_30\",\n    \"source_header\": \"6.\\tPRICES / INVOICING / PAYMENT\",\n    \"source_verbatim\": \"If no address is stated, a notification requesting such information will be sent by Supplier to the responsible Zebracorp contact person as defined in Annex PoC to this MSA.\"\n  },\n  {\n    \"source_id\": \"c_32\",\n    \"source_header\": \"8.\\tCONSEQUENCES OF DELAY\",\n    \"source_verbatim\": \"Notwithstanding the regulations in Clause xx of the Agreement, the respective stipulations in Annexes SWSU shall apply for delay in the provision of Services.\"\n  },\n  {\n    \"source_id\": \"c_32\",\n    \"source_header\": \"8.\\tCONSEQUENCES OF DELAY\",\n    \"source_verbatim\": \"Notwithstanding the regulations in Clause xx of the Agreement, the respective stipulations in Annexes SWSU shall apply for delay in the provision of Services.\"\n  },\n  {\n    \"source_id\": \"c_33\",\n    \"source_header\": \"9.\\tWARRANTY FOR SERVICES\",\n    \"source_verbatim\": \"The Supplier warrants that the Services are available to Zebracorp on the terms and conditions of this MSA and for the time period set forth in the Agreement or in the respective Annex(es) hereto, whichever time period is longer.\"\n  },\n  {\n    \"source_id\": \"c_33\",\n    \"source_header\": \"9.\\tWARRANTY FOR SERVICES\",\n    \"source_verbatim\": \"With respect to warranty period for Software Services stipulated in Annex SWSU, the warranty period shall start from the provision of a Final Correction.\"\n  }\n]\n```",
+  "llm_response_length": 3108
+}
