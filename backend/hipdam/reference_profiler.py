@@ -610,45 +610,118 @@ class ReferenceProfiler:
     
     def _protocol_validate(self, validated_refs: List[Dict[str, Any]], inputs: Dict[str, Any], job_id: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         """
-        Stage 5: TEMPORARILY DISABLED - Pass-through for debugging
+        Stage 5: Simplified protocol validation
+        
+        Performs only two checks:
+        1. Duplicate detection (source_id, target_id pairs) - marks duplicates as rejected
+        2. Self-reference detection - sets flag, keeps status accepted
         
         Returns:
-            (final_references, warnings)
+            (final_references, warnings, stats)
         """
-        # TEMPORARY: Complete pass-through for debugging
         final_refs = []
-        
-        for ref in validated_refs:
-            # Just add system_verdict if not present
-            if "system_verdict" not in ref:
-                ref["system_verdict"] = "ACCEPT"
-            
-            # Ensure all required fields exist
-            final_ref = {
-                "source_id": ref.get("source_id"),
-                "source_header": ref.get("source_header", ""),
-                "source_context": ref.get("source_verbatim", ""),
-                "target_id": ref.get("target_id"),
-                "target_header": "",
-                "target_type": "UNKNOWN",
-                "is_self_reference": ref.get("is_self_reference", False),
-                "mapper_verdict": ref.get("mapper_verdict", "UNKNOWN"),
-                "judge_verdict": ref.get("judge_verdict", "UNKNOWN"),
-                "system_verdict": ref.get("system_verdict", "ACCEPT"),
-                "reasoning": ref.get("reasoning", "")
-            }
-            
-            final_refs.append(final_ref)
+        seen_pairs = set()
         
         stats = {
             "input_count": len(validated_refs),
-            "passed": len(final_refs),
             "duplicates": 0,
-            "info_target": 0,
-            "target_not_found": 0
+            "self_references": 0,
+            "passed": 0,
+            "skipped_missing_ids": 0
         }
         
-        self.logger.info(f"[{job_id}] Protocol validation BYPASSED: {len(final_refs)} refs passed through")
+        for ref in validated_refs:
+            source_id = ref.get("source_id")
+            target_id = ref.get("target_id")
+            
+            if not source_id:
+                stats["skipped_missing_ids"] += 1
+                self.logger.warning(
+                    f"[{job_id}] Skipping ref with missing source_id"
+                )
+                continue
+                
+            # If target_id is missing, it's a broken reference (INVALID)
+            # Do NOT skip it. Mark it as rejected so user sees it.
+            if not target_id:
+                 target_id = "UNKNOWN"
+                 ref["judge_verdict"] = "REJECT"
+                 if not ref.get("reasoning"):
+                     ref["reasoning"] = "Reference target could not be identified."
+            
+            # Get judge verdict to preserve it
+            judge_verdict = ref.get("judge_verdict", "UNKNOWN")
+            reasoning = ref.get("reasoning", "")
+            
+            # CHECK 1: Self-reference detection
+            is_self_ref = (source_id == target_id)
+            if is_self_ref:
+                stats["self_references"] += 1
+            
+            # CHECK 2: Duplicate detection
+            # RULE: Never mark "UNKNOWN" targets as duplicates (each broken ref is unique)
+            # RULE: For valid targets, check verbatim text overlap to confirm true duplicate
+            is_duplicate_flag = False
+            
+            if target_id != "UNKNOWN":
+                pair_key = (source_id, target_id)
+                
+                # Check if this source-target pair has been seen before
+                if pair_key in seen_pairs:
+                    # Found a matching pair - now check verbatim overlap
+                    # Get the verbatim text for this reference
+                    current_verbatim = ref.get("source_verbatim", "").lower().strip()
+                    
+                    # Check against all previously seen references with same source-target
+                    for prev_ref in final_refs:
+                        if (prev_ref["source_id"] == source_id and 
+                            prev_ref["target_id"] == target_id):
+                            prev_verbatim = prev_ref.get("source_context", "").lower().strip()
+                            
+                            # Check for text overlap (common substring)
+                            # If there's significant overlap, it's a true duplicate
+                            if current_verbatim and prev_verbatim:
+                                # Simple overlap check: if one contains the other > 50% overlap
+                                if (current_verbatim in prev_verbatim or 
+                                    prev_verbatim in current_verbatim):
+                                    is_duplicate_flag = True
+                                    break
+                else:
+                    # First time seeing this pair
+                    seen_pairs.add(pair_key)
+            
+            if is_duplicate_flag:
+                stats["duplicates"] += 1
+            
+            # Always ACCEPT - validator never rejects, only flags
+            system_verdict = "ACCEPT"
+            
+            # Build final reference
+            final_ref = {
+                "source_id": source_id,
+                "source_header": ref.get("source_header", ""),
+                "source_context": ref.get("source_verbatim", ""),
+                "target_id": target_id,
+                "target_header": "",
+                "target_type": "UNKNOWN",
+                "is_self_reference": is_self_ref,
+                "is_duplicate": is_duplicate_flag,  # Flag instead of reject
+                "mapper_verdict": ref.get("mapper_verdict", "UNKNOWN"),
+                "judge_verdict": judge_verdict,
+                "system_verdict": system_verdict,
+                "reasoning": reasoning
+            }
+            
+            final_refs.append(final_ref)
+            stats["passed"] += 1
+        
+        self.logger.info(
+            f"[{job_id}] Protocol validation: {stats['input_count']} input, "
+            f"{stats['skipped_missing_ids']} skipped (missing IDs), "
+            f"{stats['passed']} passed, "
+            f"{stats['duplicates']} duplicates, "
+            f"{stats['self_references']} self-refs"
+        )
         
         return final_refs, [], stats
     
@@ -1083,18 +1156,25 @@ class ReferenceProfiler:
                 source_section = section_index.get(ref.source_id, {})
                 target_section = section_index.get(ref.target_id, {}) if ref.target_id else {}
                 
+                # Truncate extract to avoid massive payloads (max 500 chars) that confuse Judge
+                full_text = source_section.get("text", "")
+                truncated_text = full_text[:500] + "..." if len(full_text) > 500 else full_text
+                
+                target_full_text = target_section.get("text", "")
+                target_truncated_text = target_full_text[:500] + "..." if len(target_full_text) > 500 else target_full_text
+
                 pairs.append({
                     "source": {
                         "id": ref.source_id,
                         "header": ref.source_header,
                         "verbatim": ref.source_verbatim,
-                        "extract": source_section.get("text", "")
+                        "extract": truncated_text 
                     },
                     "target": {
                         "id": ref.target_id or "UNKNOWN",
                         "header": target_section.get("header", "NOT FOUND"),
                         "verbatim": target_section.get("text", "")[:200] if ref.target_id else "",
-                        "extract": target_section.get("text", "")
+                        "extract": target_truncated_text
                     },
                     "mapper_verdict": {
                         "is_valid": ref.is_valid,
@@ -1236,13 +1316,20 @@ class ReferenceProfiler:
         reference_map = []
         section_index = inputs["section_index"]
         
+        # DEBUG: Track filtering
+        total_input = len(final_refs)
+        system_rejected_count = 0
+        
         # Process final_refs (which came from _protocol_validate)
         for ref in final_refs:
             # Reconstruct full object for UI
             target_meta = section_index.get(ref["target_id"], {})
             
-            # TEMPORARY: Show ALL refs to debug filtering issue
-            # TODO: Re-add filtering for true protocol violations only
+            # Filter: Hide only system rejects (duplicates)
+            # Show ALL judge decisions (accepted with green dots, rejected with red dots)
+            if ref.get("system_verdict") == "REJECT":
+                system_rejected_count += 1
+                continue
 
             reference_map.append({
                 "source_id": ref["source_id"],
@@ -1260,8 +1347,16 @@ class ReferenceProfiler:
                 "judge_verdict": ref.get("judge_verdict", "UNKNOWN"),
                 "system_verdict": ref.get("system_verdict", "ACCEPT"),
                 
-                "is_self_reference": ref.get("is_self_reference", False)
+                # FLAGS
+                "is_self_reference": ref.get("is_self_reference", False),
+                "is_duplicate": ref.get("is_duplicate", False)
             })
+        
+        self.logger.info(
+            f"Output formatter: {total_input} input refs, "
+            f"{system_rejected_count} system rejects filtered, "
+            f"{len(reference_map)} shown in UI"
+        )
         
         return {
             "reference_map": reference_map,

@@ -55,7 +55,7 @@ A cross-reference is when text POINTS TO another section:
    - "per clause 12.1, 13.1, 15.7" → Extract 3 separate references
    - "Section 4 and Section 5" → Extract 2 separate references
 
-3. **Verbatim Context**: Extract the full sentence or paragraph containing the reference (approx. 50-100 words). Ensure there is enough context for the next stage to identify the target.
+3. **Verbatim Context**: Extract a CONCISE snippet containing the reference (MAX 20 WORDS). This text will be used for identification. Do NOT extract full paragraphs.
 
 ## Output Format
 

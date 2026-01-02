@@ -37,9 +37,17 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
     const getTargetHeader = (ref) => ref.target_header || ref.target_section_id || "Unknown Target";
 
     // Filter references based on global status filter (L3)
-    // Filter references based on global status filter (L3)
     const filteredRefsForPillars = (result?.reference_map || []).filter(ref => {
         // NOTE: System rejections are already filtered by the backend for the reference_map.
+
+        // Special Case: Duplicates filter shows ONLY duplicates
+        if (referenceFilter === 'duplicates') return ref.is_duplicate;
+
+        // For all other filters, HIDE duplicates by default unless they match the specific criteria?
+        // Actually, usually 'all' might hide duplicates if they strictly clutter. 
+        // Let's assume 'all' hides duplicates to keep view clean, and 'duplicates' explicitly shows them.
+        if (ref.is_duplicate) return false;
+
         if (referenceFilter === 'all') return true;
         if (referenceFilter === 'valid') return ref.judge_verdict === 'ACCEPT';
         if (referenceFilter === 'invalid') return ref.judge_verdict === 'REJECT';
@@ -781,7 +789,7 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                     {/* L3: Global Filter Bar */}
                                     <div className="p-3 bg-white border-b border-slate-200 shrink-0 flex items-center justify-between gap-4">
                                         <div className="flex gap-2">
-                                            {['all', 'valid', 'invalid', 'self-ref'].map(f => (
+                                            {['all', 'valid', 'invalid', 'self-ref', 'duplicates'].map(f => (
                                                 <button
                                                     key={f}
                                                     onClick={() => setReferenceFilter(f)}
@@ -794,9 +802,11 @@ const ContractAnalysisViewer = ({ file, onBack }) => {
                                                 </button>
                                             ))}
                                         </div>
-                                        <span className="text-[10px] font-bold text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
-                                            {filteredRefsForPillars.length} / {result?.reference_map?.length || 0} references
-                                        </span>
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-[10px] font-bold text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
+                                                {filteredRefsForPillars.length} / {result?.reference_map?.length || 0} references
+                                            </span>
+                                        </div>
                                     </div>
 
                                     {/* Pillar Layout */}

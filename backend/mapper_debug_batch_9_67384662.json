@@ -1,0 +1,7 @@
+{
+  "batch_idx": 9,
+  "input_refs_count": 1,
+  "target_sections_count": 46,
+  "llm_response_raw": "```json\n[\n  {\n    \"source_id\": \"ax_1\",\n    \"source_header\": \"ANNEX SWSU \\u2013 Maintenance and Support Agreement\",\n    \"source_verbatim\": \"This Software Services (Software Maintenance, Security Alert, Update & Upgrade) Annex is attached to and forms a part of the Maintenance and Support Agreement Appendix\",\n    \"target_id\": \"a_3\",\n    \"is_valid\": true,\n    \"justification\": \"Mapped to a_3 (MAINTENANCE AND SUPPORT AGREEMENT Appendix)\"\n  }\n]\n```",
+  "llm_response_length": 446
+}
