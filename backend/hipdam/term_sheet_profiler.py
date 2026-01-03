@@ -11,6 +11,7 @@ import logging
 import os
 from datetime import datetime
 from typing import Dict, Any, List, Tuple, Optional
+from pydantic import ValidationError
 from data_models import TermSheetResponse, ValidationResult
 
 logger = logging.getLogger(__name__)
@@ -104,14 +105,24 @@ class TermSheetProfiler:
             response_schema=TermSheetResponse
         )
         
-        # Parse Pydantic output (SDK might return JSON string or object depending on version, 
+        # Parse Pydantic output (SDK might return JSON string or object depending on version,
         # _parse_json handles extraction from text)
         worker_data = self._parse_json(response_text, job_id, "WORKER")
-        
+
         if not worker_data:
             self.logger.error(f"[{job_id}] Worker failed to produce valid data")
             return {}
-        
+
+        # Validate with Pydantic schema
+        try:
+            validated_worker = TermSheetResponse(**worker_data)
+            worker_data = validated_worker.model_dump()
+            self.logger.info(f"[{job_id}] Worker output validated successfully with Pydantic")
+        except ValidationError as e:
+            self.logger.error(f"[{job_id}] Worker output failed Pydantic validation: {e}")
+            self._debug_log(job_id, "WORKER_VALIDATION_ERROR", {"errors": e.errors(), "data": worker_data})
+            return {}
+
         self._debug_log(job_id, "WORKER_OUTPUT", worker_data)
         return worker_data
     
@@ -141,11 +152,21 @@ class TermSheetProfiler:
         
         # Parse Pydantic output
         validated_data = self._parse_json(response_text, job_id, "JUDGE")
-        
+
         if not validated_data:
             self.logger.error(f"[{job_id}] Judge failed to produce valid data")
             return worker_output  # Fallback to worker output
-        
+
+        # Validate with Pydantic schema
+        try:
+            validated_judge = TermSheetResponse(**validated_data)
+            validated_data = validated_judge.model_dump()
+            self.logger.info(f"[{job_id}] Judge output validated successfully with Pydantic")
+        except ValidationError as e:
+            self.logger.error(f"[{job_id}] Judge output failed Pydantic validation: {e}")
+            self._debug_log(job_id, "JUDGE_VALIDATION_ERROR", {"errors": e.errors(), "data": validated_data})
+            return worker_output  # Fallback to worker output
+
         self._debug_log(job_id, "JUDGE_OUTPUT", validated_data)
         return validated_data
     

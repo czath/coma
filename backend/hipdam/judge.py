@@ -1,5 +1,6 @@
 import json
 from typing import List, Dict, Any, Optional
+from pydantic import ValidationError
 from google import genai
 from google.genai import types
 from hipdam.models import ExpertRecommendation, Cluster, JudgeDecision
@@ -101,17 +102,24 @@ Return JSON format ONLY:
             except json.JSONDecodeError:
                 # Fallback: Try strict load if raw_decode fails (unlikely)
                 data = json.loads(json_str)
-            
-            decision = JudgeDecision(
-                is_valid=data.get("is_valid", False),
-                decision_content=data.get("decision_content", {}),
-                rationale=data.get("rationale", ""),
-                decision_confidence=float(data.get("decision_confidence", 0.0)),
-                source_cluster_id=cluster.id,
-                supporting_evidence=[r.id for r in evidence_recs]
-            )
-            
-            return decision
+
+            # Validate with Pydantic schema
+            try:
+                decision = JudgeDecision(
+                    is_valid=data.get("is_valid", False),
+                    decision_content=data.get("decision_content", {}),
+                    rationale=data.get("rationale", ""),
+                    decision_confidence=float(data.get("decision_confidence", 0.0)),
+                    source_cluster_id=cluster.id,
+                    supporting_evidence=[r.id for r in evidence_recs]
+                )
+                print(f"      [Judge] Cluster {cluster.id}: Decision validated successfully with Pydantic")
+                return decision
+
+            except ValidationError as e:
+                print(f"      [Judge] Cluster {cluster.id}: Decision failed Pydantic validation: {e}")
+                print(f"      [Judge] Invalid data: {data}")
+                return None
 
         except Exception as e:
             import traceback

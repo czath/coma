@@ -1,6 +1,7 @@
 import json
 import asyncio
 from typing import List, Dict, Any, Optional
+from pydantic import ValidationError
 from google import genai
 from google.genai import types
 from hipdam.models import ExpertRecommendation
@@ -87,34 +88,50 @@ Return ONLY a valid JSON List. Do not use markdown code blocks.
                 response_text = response_text[3:-3]
             
             data = json.loads(response_text)
-            
-            recommendations = []
-            if isinstance(data, list):
-                for item in data:
-                    # Normalize confidence to float 0-1
-                    conf_val = item.get("confidence") or item.get("confidence_score", 0)
-                    try:
-                        conf_score_float = float(conf_val)
-                    except:
-                        conf_score_float = 0.0
-                        
-                    if conf_score_float > 1: # Assuming 1-10 or 1-100 scale
-                        conf = conf_score_float / 10.0 # Heuristic normalization. If >1 it's likely 1-10.
-                        if conf > 1: conf = conf / 10.0 # If still >1 (was 0-100), divide again
-                    else:
-                        conf = conf_score_float
 
-                    if "verbatim_text" in item and "text" not in item:
-                         item["text"] = item["verbatim_text"] # Polyfill for legacy compatibility
-                    
-                    rec = ExpertRecommendation(
-                        content=item,
-                        source_agent=agent_id,
-                        confidence=conf,
-                        config_snapshot=agent_config
-                    )
-                    recommendations.append(rec)
-            
+            recommendations = []
+            validation_errors = []
+
+            if isinstance(data, list):
+                for idx, item in enumerate(data):
+                    try:
+                        # Normalize confidence to float 0-1
+                        conf_val = item.get("confidence") or item.get("confidence_score", 0)
+                        try:
+                            conf_score_float = float(conf_val)
+                        except:
+                            conf_score_float = 0.0
+
+                        if conf_score_float > 1: # Assuming 1-10 or 1-100 scale
+                            conf = conf_score_float / 10.0 # Heuristic normalization. If >1 it's likely 1-10.
+                            if conf > 1: conf = conf / 10.0 # If still >1 (was 0-100), divide again
+                        else:
+                            conf = conf_score_float
+
+                        if "verbatim_text" in item and "text" not in item:
+                             item["text"] = item["verbatim_text"] # Polyfill for legacy compatibility
+
+                        # Validate with Pydantic
+                        rec = ExpertRecommendation(
+                            content=item,
+                            source_agent=agent_id,
+                            confidence=conf,
+                            config_snapshot=agent_config
+                        )
+                        recommendations.append(rec)
+
+                    except ValidationError as e:
+                        error_msg = f"Item {idx} validation failed: {e.errors()}"
+                        validation_errors.append(error_msg)
+                        print(f"      [AgentRunner] {agent_id}: {error_msg}")
+                        continue
+
+            # Log validation summary
+            if validation_errors:
+                print(f"      [AgentRunner] {agent_id}: {len(validation_errors)} of {len(data)} items failed Pydantic validation")
+            else:
+                print(f"      [AgentRunner] {agent_id}: All {len(recommendations)} items validated successfully with Pydantic")
+
             return recommendations
 
         except Exception as e:

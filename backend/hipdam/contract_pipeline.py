@@ -556,15 +556,33 @@ class ContractPipeline:
         
         # Post-process hook for normalization
         def normalize_glossary(data):
-            # data is list of dicts {term, definition}
-            if not isinstance(data, list): return data
+            """Normalize glossary data with validation."""
+            if not isinstance(data, list):
+                logger.warning(f"Glossary data should be list, got {type(data).__name__}")
+                return data
+
             normalized = []
-            for item in data:
-                if not isinstance(item, dict): continue
+            validation_errors = []
+
+            for idx, item in enumerate(data):
+                if not isinstance(item, dict):
+                    validation_errors.append(f"Item {idx} is not a dict")
+                    continue
+
+                # Validate required fields
+                if "term" not in item:
+                    validation_errors.append(f"Item {idx} missing 'term' field")
+                    continue
+
                 term = item.get("term", "")
                 # Normalize: lowercase, strip
                 item["normalized_term"] = term.lower().strip()
                 normalized.append(item)
+
+            if validation_errors:
+                logger.warning(f"Glossary normalization: {len(validation_errors)} items failed validation: {validation_errors[:5]}")
+
+            logger.info(f"Glossary normalized: {len(normalized)} valid items out of {len(data)} total")
             return normalized
 
         data, flags, trace = await self._execute_task_with_retry(
@@ -648,14 +666,29 @@ class ContractPipeline:
             worker_data = self._parse_json(worker_response)
             if not worker_data:
                 # Failed to produce JSON. Logic error.
-                 flags.append({
+                logger.error(f"Worker JSON parsing failed for {task_type} {context_id}")
+                flags.append({
                     "id": f"flag_{context_id}_{attempt}",
                     "target_element_id": context_id,
                     "type": "WORKER_FAILURE",
                     "message": "Worker failed to produce valid JSON.",
                     "severity": "ERROR"
                 })
-                 return None, flags, []
+                return None, flags, []
+
+            # Validate worker data structure
+            if task_type == "DICTIONARY" and not isinstance(worker_data, list):
+                logger.error(f"Worker data for DICTIONARY should be list, got {type(worker_data).__name__}")
+                flags.append({
+                    "id": f"flag_{context_id}_{attempt}",
+                    "target_element_id": context_id,
+                    "type": "WORKER_VALIDATION_ERROR",
+                    "message": f"Worker returned invalid data type: expected list, got {type(worker_data).__name__}",
+                    "severity": "ERROR"
+                })
+                return None, flags, []
+
+            logger.info(f"Worker data parsed and validated for {task_type} {context_id}")
 
             # 2. RUN JUDGE
             print(f"[{datetime.now()}] DEBUG: Running Judge for {task_type} {context_id}...")
@@ -706,7 +739,19 @@ Evaluate the Extracted Data against the Source Text according to your System Ins
             )
             
             judge_data = self._parse_json(judge_response)
-            
+
+            if not judge_data:
+                logger.error(f"Judge JSON parsing failed for {task_type} {context_id}")
+                # Continue with REJECT verdict on parse failure
+
+            # Validate judge data structure
+            if judge_data and not isinstance(judge_data, dict):
+                logger.error(f"Judge data should be dict, got {type(judge_data).__name__}")
+                judge_data = None  # Treat as failure
+
+            if judge_data:
+                logger.info(f"Judge data parsed and validated for {task_type} {context_id}")
+
             # 3. ANALYZE VERDICT
             verifier_decision = "REJECT"  # Default fallback
             if isinstance(judge_data, dict):
@@ -861,24 +906,46 @@ Evaluate the Extracted Data against the Source Text according to your System Ins
             return "{}"
 
     def _parse_json(self, text):
-        if not text: return None
+        """
+        Parse JSON from LLM response with validation and error handling.
+        Returns parsed dict/list or None on failure.
+        """
+        if not text:
+            logger.warning("Empty text provided to _parse_json")
+            return None
+
         try:
             import re
             # Try to find JSON block with backticks
             match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", text)
             if match:
                 clean_text = match.group(1).strip()
+                logger.debug("Extracted JSON from markdown code block")
             else:
                 # Fallback: try to find anything between { } or [ ]
                 match = re.search(r"(\{[\s\S]*\}|\[[\s\S]*\])", text)
                 if match:
                     clean_text = match.group(1).strip()
+                    logger.debug("Extracted JSON from braces/brackets")
                 else:
                     clean_text = text.strip()
-            
-            return json.loads(clean_text, strict=False)
+                    logger.debug("Using raw text for JSON parsing")
+
+            parsed_data = json.loads(clean_text, strict=False)
+
+            # Validate parsed data type
+            if not isinstance(parsed_data, (dict, list)):
+                logger.error(f"Parsed JSON is not dict or list, got {type(parsed_data).__name__}")
+                return None
+
+            logger.debug(f"Successfully parsed JSON ({type(parsed_data).__name__} with {len(parsed_data)} items/keys)")
+            return parsed_data
+
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON Decode Error: {e}. Position: {e.pos}. Raw snippet: {text[:200]}...")
+            return None
         except Exception as e:
-            logger.warning(f"JSON Parse Failure: {e}. Raw snippet: {text[:100]}...")
+            logger.error(f"Unexpected error in JSON parsing: {e}. Raw snippet: {text[:100]}...")
             return None
 
     def _load_taxonomy(self):
