@@ -5,6 +5,7 @@ import logging
 import json
 import httpx
 from typing import List, Dict, Any, Tuple
+from pydantic import ValidationError
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -156,9 +157,67 @@ class LLMAutoTagger:
                      bm = get_billing_manager()
                      await bm.track_usage(job_id, self.model_name, response.usage_metadata)
 
-                if response.parsed and response.parsed.items:
-                    return response.parsed.items
-                else:
+                # Validate response structure
+                if not response.parsed:
+                    logger.error(f"LLM response has no parsed data (attempt {attempt+1})")
+                    if attempt < max_retries - 1:
+                        await asyncio.sleep(2)
+                        continue
+                    return []
+
+                # Validate parsed response is ClassificationResponse
+                try:
+                    if not isinstance(response.parsed, ClassificationResponse):
+                        logger.error(f"Parsed response is not ClassificationResponse, got {type(response.parsed).__name__}")
+                        if attempt < max_retries - 1:
+                            continue
+                        return []
+
+                    # Validate items exist and are valid
+                    if not response.parsed.items:
+                        logger.warning(f"Classification response has no items (attempt {attempt+1})")
+                        return []
+
+                    # Validate each item is ClassificationItem
+                    validated_items = []
+                    validation_errors = []
+
+                    for idx, item in enumerate(response.parsed.items):
+                        try:
+                            if not isinstance(item, ClassificationItem):
+                                logger.error(f"Item {idx} is not ClassificationItem, got {type(item).__name__}")
+                                validation_errors.append(f"Item {idx}: wrong type")
+                                continue
+
+                            # Validate required fields
+                            if not hasattr(item, 'index') or not hasattr(item, 'type'):
+                                logger.error(f"Item {idx} missing required fields")
+                                validation_errors.append(f"Item {idx}: missing fields")
+                                continue
+
+                            validated_items.append(item)
+
+                        except Exception as e:
+                            logger.error(f"Validation error for item {idx}: {e}")
+                            validation_errors.append(f"Item {idx}: {str(e)}")
+                            continue
+
+                    if validation_errors:
+                        logger.warning(f"Classification validation: {len(validation_errors)} of {len(response.parsed.items)} items failed")
+
+                    if not validated_items and attempt < max_retries - 1:
+                        logger.error(f"All items failed validation (attempt {attempt+1}), retrying...")
+                        await asyncio.sleep(2)
+                        continue
+
+                    logger.info(f"Classification validated: {len(validated_items)} items successful")
+                    return validated_items
+
+                except ValidationError as e:
+                    logger.error(f"Pydantic validation error (attempt {attempt+1}): {e}")
+                    if attempt < max_retries - 1:
+                        await asyncio.sleep(2)
+                        continue
                     return []
 
             except Exception as e:
